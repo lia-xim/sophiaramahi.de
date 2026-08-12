@@ -149,11 +149,11 @@ if (root && isMotion && !prefersReduced) {
           });
         });
       }
-      // Schnitt-Playhead wandert mit dem Scroll über den Streifen
-      const stripHead = root.querySelector(".lw-strip__head");
-      if (stripHead) {
-        gsap.fromTo(stripHead, { left: "16%" }, {
-          left: "72%",
+      // Schnitt-Playhead wandert mit dem Scroll über die Timeline
+      const timelineHead = root.querySelector(".lw-timeline__head");
+      if (timelineHead) {
+        gsap.fromTo(timelineHead, { left: "8%" }, {
+          left: "88%",
           ease: "none",
           scrollTrigger: { trigger: ".lw-chapter--postproduktion", start: "top bottom", end: "bottom top", scrub: true },
         });

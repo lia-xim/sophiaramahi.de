@@ -14,11 +14,12 @@ const serviceOrder = [
 ];
 const menuServices = serviceOrder.map((slug) => services.find((service) => service.slug === slug)!);
 
+/* Kein eigener Kontakt-Punkt: „Projekt besprechen" (Header-CTA und
+   Mobile-Menü) führt bereits auf /kontakt/. */
 const nav = [
   { label: "Projekte", href: "/arbeiten/", match: ["/arbeiten/", "/projekte/", "/showreel/"] },
   { label: "Leistungen", href: "/leistungen/", match: ["/leistungen/", "/videografie/", "/postproduktion/", "/vj-mapping/", "/standorte/"], hasMenu: true },
   { label: "Über Sophia", href: "/ueber-sophia/", match: ["/ueber-sophia/"] },
-  { label: "Kontakt", href: "/kontakt/", match: ["/kontakt/"] },
 ];
 const active = (item: (typeof nav)[number]) => item.match.some((prefix) => pathname.startsWith(prefix));
 ---
