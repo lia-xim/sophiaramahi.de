@@ -24,7 +24,7 @@ const allSchema = schema ? [...baseSchema, ...(Array.isArray(schema) ? schema : 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#050506" />
+    <meta name="theme-color" content="#05030a" />
     <meta name="color-scheme" content="dark" />
     <meta name="description" content={description} />
     <meta name="robots" content={noindex ? "noindex, follow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"} />
@@ -41,6 +41,17 @@ const allSchema = schema ? [...baseSchema, ...(Array.isArray(schema) ? schema : 
     <meta name="twitter:card" content="summary_large_image" />
     <title>{title}</title>
     <script type="application/ld+json" set:html={JSON.stringify(allSchema)} is:inline></script>
+    <!-- Vor dem ersten Paint: Motion-Gate. Ohne JS oder mit reduzierter
+         Bewegung bleibt jede Szene im offenen, vollständig lesbaren Zustand. -->
+    <script is:inline>
+      try {
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          document.documentElement.classList.add("motion");
+        }
+      } catch (error) {
+        /* Ohne matchMedia bleibt die Seite statisch. */
+      }
+    </script>
   </head>
   <body class="cine">
     <SiteHeader pathname={pathname} />

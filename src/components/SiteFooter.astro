@@ -3,21 +3,30 @@ import { site } from "../data/site";
 ---
 
 <footer class="cine-footer">
-  <div class="cine-wrap cine-center">
-    <a class="wordmark footer-wordmark" href="/">Sophia Ramahi</a>
-    <p class="cine-body footer-intro">Videografin, Kamerafrau und Mediengestalterin Bild und Ton.</p>
-    <div class="cine-footer__grid" aria-label="Navigation im Fußbereich">
-      <a href="/arbeiten/">Arbeiten</a>
-      <a href="/leistungen/">Leistungen</a>
-      <a href="/standorte/">Standorte</a>
-      <a href="/ueber-sophia/">Über Sophia</a>
-      <a href="/journal/">Journal</a>
-      <a href="/kontakt/">Kontakt</a>
-      <a href="/impressum/">Impressum</a>
-      <a href="/datenschutz/">Datenschutz</a>
-    </div>
-    <div class="social-links" aria-label="Social Media">
-      {site.social.map((item) => <a href={item.href} rel="me noopener noreferrer">{item.label}</a>)}
+  <div class="cine-footer__horizon" aria-hidden="true"></div>
+  <div class="cine-wrap">
+    <div class="cine-footer__grid">
+      <div class="cine-footer__brand">
+        <a class="wordmark footer-wordmark" href="/">Sophia Ramahi</a>
+        <p class="cine-body footer-intro">Videografin, Kamerafrau und Mediengestalterin Bild und Ton — Düsseldorf.</p>
+        <div class="social-links" aria-label="Social Media">
+          {site.social.map((item) => <a href={item.href} rel="me noopener noreferrer">{item.label}</a>)}
+        </div>
+      </div>
+      <nav class="cine-footer__col" aria-label="Seiten im Fußbereich">
+        <span class="u-meta">Seiten</span>
+        <a href="/arbeiten/">Arbeiten</a>
+        <a href="/leistungen/">Leistungen</a>
+        <a href="/ueber-sophia/">Über Sophia</a>
+        <a href="/kontakt/">Kontakt</a>
+      </nav>
+      <nav class="cine-footer__col" aria-label="Weitere Seiten im Fußbereich">
+        <span class="u-meta">Weiteres</span>
+        <a href="/standorte/">Standorte</a>
+        <a href="/journal/">Journal</a>
+        <a href="/impressum/">Impressum</a>
+        <a href="/datenschutz/">Datenschutz</a>
+      </nav>
     </div>
     <div class="cine-footer__bottom">
       <span class="u-meta">© {new Date().getFullYear()} Sophia Ramahi</span>

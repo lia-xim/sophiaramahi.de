@@ -80,7 +80,7 @@
 .player__btn:hover,
 .player__btn:focus-visible {
   background: var(--amber);
-  color: #1a0f06;
+  color: var(--on-accent);
 }
 
 .player__btn--ghost {

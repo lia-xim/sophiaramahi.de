@@ -84,7 +84,7 @@
   }
 
   /* Auf Mobile fuehrt der Menue-Button, nicht zwei konkurrierende Aktionen. */
-  .cine-header__inner > .cine-ghost {
+  .cine-header__inner > .cine-header__cta {
     display: none;
   }
 }
@@ -419,7 +419,7 @@
   max-width: 760px;
   margin-inline: auto;
   padding: 22px 24px;
-  border: 1px dashed rgba(143, 170, 255, 0.4);
+  border: 1px dashed rgba(143, 176, 255, 0.4);
   border-radius: 14px;
   background: rgba(117, 92, 255, 0.06);
   text-align: left;

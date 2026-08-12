@@ -1,0 +1,1866 @@
+/* sophiaramahi.de — Purple Frame v2, Startseite.
+   Dramaturgie: Ouvertüre → Manifest → Projektreise → Kinosaal → Bühne →
+   Porträt → Schnitt-Timeline → Region → Finale.
+
+   Kontrakt: Der Grundzustand jeder Szene ist OFFEN und vollständig lesbar.
+   Geschlossene Blenden, gedimmte Wörter und maskierte Flächen existieren nur
+   unter `html.motion` (Inline-Gate im <head>, respektiert
+   prefers-reduced-motion). GSAP animiert von genau diesen Startzuständen. */
+
+.home {
+  overflow-x: clip;
+}
+
+.home section {
+  position: relative;
+}
+
+/* ============ 1 · Ouvertüre ============================================= */
+
+.ouv {
+  min-height: 100svh;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  overflow: clip;
+  isolation: isolate;
+  padding: clamp(120px, 16vh, 190px) 0 clamp(90px, 12vh, 150px);
+}
+
+.ouv__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.ouv__media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ouv__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 86% at 50% 42%, rgba(5, 3, 10, 0.05) 0%, rgba(5, 3, 10, 0.5) 58%, rgba(5, 3, 10, 0.92) 100%),
+    linear-gradient(180deg, rgba(5, 3, 10, 0.8) 0%, rgba(5, 3, 10, 0.28) 30%, rgba(5, 3, 10, 0.34) 62%, var(--bg) 100%);
+}
+
+html.motion .ouv__media {
+  opacity: 0.5;
+}
+
+html.motion .ouv__media video {
+  transform: scale(1.12);
+}
+
+/* Blendenflügel: decken ohne Motion nichts ab */
+.ouv__shutter {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  width: calc(50% + 2px);
+  background: linear-gradient(180deg, #060310, var(--bg) 55%, #060310);
+  transform: translateX(var(--shutter-out, -103%));
+}
+
+.ouv__shutter--left {
+  left: 0;
+  --shutter-out: -103%;
+  border-right: 1px solid rgba(154, 92, 255, 0.18);
+}
+
+.ouv__shutter--right {
+  right: 0;
+  --shutter-out: 103%;
+  border-left: 1px solid rgba(154, 92, 255, 0.18);
+}
+
+html.motion .ouv__shutter {
+  transform: translateX(0);
+}
+
+/* Der Lichtspalt existiert nur im Motion-Modus */
+.ouv__slit {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 3;
+  width: 2px;
+  height: min(56vh, 540px);
+  transform: translate(-50%, -50%);
+  background: linear-gradient(180deg, transparent 0%, #b18cff 16%, #f6f0ff 50%, #b18cff 84%, transparent 100%);
+  box-shadow:
+    0 0 22px 5px rgba(154, 92, 255, 0.6),
+    0 0 90px 34px rgba(113, 55, 255, 0.32);
+  opacity: 0;
+  pointer-events: none;
+}
+
+html.motion .ouv__slit {
+  opacity: 1;
+}
+
+.ouv__content {
+  position: relative;
+  z-index: 4;
+  display: grid;
+  justify-items: center;
+  gap: clamp(22px, 3vh, 34px);
+  text-align: center;
+}
+
+.ouv__title {
+  display: grid;
+  gap: clamp(2px, 0.5vh, 10px);
+  font-family: var(--font-display);
+  font-size: clamp(3.4rem, 10.5vw, 9.5rem);
+  font-weight: 600;
+  font-stretch: 110%;
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+  margin: 0;
+}
+
+.ouv__line {
+  display: block;
+  background: linear-gradient(180deg, #ffffff 12%, #d6c6f4 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  will-change: transform;
+}
+
+.ouv__sub {
+  max-width: 44ch;
+  margin: 0;
+  font-size: clamp(1.0625rem, 1.3vw, 1.375rem);
+  line-height: 1.55;
+  color: #c3bccf;
+  text-wrap: balance;
+}
+
+.ouv__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 16px 24px;
+}
+
+.ouv__scroll {
+  position: absolute;
+  bottom: clamp(20px, 4vh, 44px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: #8d86a0;
+  font-size: var(--step-meta);
+  font-weight: 550;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ouv__scroll::after {
+  content: "";
+  width: 1px;
+  height: 34px;
+  background: linear-gradient(180deg, #9a5cff, transparent);
+}
+
+/* ============ 2 · Manifest: Licht macht den Satz sichtbar =============== */
+
+.manifest {
+  height: 190svh;
+}
+
+.manifest__sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: grid;
+  align-content: center;
+  gap: clamp(20px, 3vh, 32px);
+  overflow: clip;
+  isolation: isolate;
+  padding-inline: max(var(--gutter), calc((100vw - var(--page-max)) / 2 + var(--gutter)));
+}
+
+.manifest__cone {
+  position: absolute;
+  z-index: 0;
+  left: -12%;
+  top: -55%;
+  width: 74vw;
+  height: 165vh;
+  background: linear-gradient(205deg, rgba(154, 92, 255, 0.26) 0%, rgba(113, 55, 255, 0.09) 46%, transparent 72%);
+  clip-path: polygon(12% 0, 34% 0, 100% 100%, 0 100%);
+  filter: blur(10px);
+  transform: rotate(-4deg);
+  pointer-events: none;
+}
+
+/* Lebendiger Raum hinter der Aussage: wandernder Glow + Bühnenboden */
+.manifest__glow {
+  position: absolute;
+  z-index: 0;
+  right: -14%;
+  top: 16%;
+  width: min(54vw, 720px);
+  aspect-ratio: 1;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(113, 55, 255, 0.34) 0%, rgba(154, 92, 255, 0.12) 46%, transparent 70%);
+  filter: blur(58px);
+  pointer-events: none;
+}
+
+.manifest__floor {
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  bottom: 8%;
+  width: min(86vw, 1200px);
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, rgba(154, 92, 255, 0.55) 30%, rgba(215, 188, 255, 0.4) 55%, transparent);
+  box-shadow: 0 0 22px 2px rgba(113, 55, 255, 0.3);
+  pointer-events: none;
+}
+
+.manifest__sticky::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(120% 90% at 50% 50%, transparent 40%, rgba(5, 3, 10, 0.6) 100%);
+  pointer-events: none;
+}
+
+.manifest__quote {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  max-width: 28ch;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.7vw, 4.4rem);
+  font-weight: 600;
+  font-stretch: 110%;
+  line-height: 1.14;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+
+.manifest__word {
+  display: inline-block;
+  color: #f2eefc;
+  transition: none;
+}
+
+html.motion .manifest__word {
+  color: #322b40;
+}
+
+.manifest__word--accent {
+  background: linear-gradient(92deg, var(--magenta), var(--amber));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+html.motion .manifest__word--accent {
+  background: none;
+  color: #322b40;
+}
+
+html.motion .manifest__word--accent.is-lit {
+  background: linear-gradient(92deg, var(--magenta), var(--amber));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ============ 3 · Projektreise ========================================== */
+
+.reise__stage {
+  display: grid;
+  align-content: center;
+  gap: clamp(20px, 3.4vh, 40px);
+  min-height: 100svh;
+  padding-block: clamp(80px, 10vh, 120px) clamp(28px, 4vh, 48px);
+  overflow: clip;
+}
+
+.reise__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.reise__counter {
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.reise__counter-sep {
+  margin-inline: 6px;
+  color: #8d86a0;
+}
+
+.reise__viewport {
+  overflow: hidden;
+}
+
+.reise__track {
+  display: flex;
+  align-items: stretch;
+  gap: clamp(24px, 3.4vw, 56px);
+  width: max-content;
+  padding-inline: max(var(--gutter), calc((100vw - var(--page-max)) / 2 + var(--gutter)));
+  will-change: transform;
+}
+
+/* Alle Frames im selben Kinoformat */
+.reise__frame {
+  position: relative;
+  flex: none;
+  display: block;
+  width: min(58vw, 940px);
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--frame);
+  color: var(--text);
+  isolation: isolate;
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+}
+
+/* Fokus-Vignette: das zentrierte Projekt ist hell, die Nachbarn dunkeln ab.
+   --dim setzt die Choreografie pro Frame (0 = im Fokus). */
+.reise__frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--bg);
+  opacity: var(--dim, 0);
+  pointer-events: none;
+  transition: opacity 0.2s linear;
+}
+
+@media (min-width: 861px) {
+  .reise__frame:hover,
+  .reise__frame:focus-visible {
+    transform: scale(1.016);
+    box-shadow: 0 30px 90px rgba(24, 8, 58, 0.55), 0 0 0 1px rgba(215, 188, 255, 0.22);
+  }
+
+  .reise__frame:hover::before,
+  .reise__frame:focus-visible::before {
+    opacity: 0 !important;
+  }
+
+  .reise__frame:hover .reise__title {
+    background: linear-gradient(92deg, #ffffff 30%, var(--amber));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+.reise__frame img {
+  position: absolute;
+  left: -6%;
+  top: -6%;
+  width: 112%;
+  height: 112%;
+  object-fit: cover;
+  will-change: transform;
+}
+
+.reise__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(5, 3, 10, 0.06) 34%, rgba(5, 3, 10, 0.94) 100%);
+}
+
+/* Electric Lights: eng beschnitten, damit der eingebrannte Bildtitel
+   unter dem HTML-Titel nicht doppelt erscheint. */
+.reise__frame--electric img {
+  top: 0;
+  height: 176%;
+  object-position: center top;
+}
+
+.reise__index {
+  position: absolute;
+  z-index: 2;
+  top: clamp(14px, 2vw, 26px);
+  right: clamp(18px, 2.4vw, 32px);
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.4vw, 1.3rem);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  color: rgba(248, 245, 255, 0.55);
+}
+
+.reise__meta {
+  position: absolute;
+  z-index: 2;
+  left: clamp(18px, 2.4vw, 36px);
+  right: clamp(18px, 2.4vw, 36px);
+  bottom: clamp(16px, 2.2vw, 30px);
+  display: grid;
+  gap: 6px;
+}
+
+.reise__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.2vw, 3.4rem);
+  font-weight: 600;
+  font-stretch: 108%;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  width: fit-content;
+}
+
+.reise__role {
+  color: #c3bccf;
+  font-size: 0.9375rem;
+}
+
+.reise__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text);
+  opacity: 0.8;
+  transition: opacity var(--dur) var(--ease), gap var(--dur) var(--ease);
+}
+
+.reise__frame:hover .reise__go,
+.reise__frame:focus-visible .reise__go {
+  opacity: 1;
+  gap: 12px;
+}
+
+.reise__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.reise__progress {
+  position: relative;
+  flex: 1 1 auto;
+  max-width: 520px;
+  height: 1px;
+  background: var(--line);
+}
+
+.reise__progress i {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--violet), var(--magenta));
+  transform-origin: left center;
+  transform: scaleX(1);
+}
+
+html.motion .reise__progress i {
+  transform: scaleX(0);
+}
+
+/* ============ 4 · Kinosaal ============================================== */
+
+.reel {
+  height: 300svh;
+}
+
+.reel__sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  align-items: center;
+  overflow: clip;
+  isolation: isolate;
+  padding-block: clamp(90px, 12vh, 130px) clamp(24px, 4vh, 44px);
+}
+
+.reel__beam {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  z-index: 0;
+  width: min(96vw, 1400px);
+  height: 64vh;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, rgba(154, 92, 255, 0.36) 0%, rgba(113, 55, 255, 0.1) 55%, transparent 100%);
+  clip-path: polygon(47.5% 0, 52.5% 0, 100% 100%, 0 100%);
+  filter: blur(8px);
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+html.motion .reel__beam {
+  opacity: 0;
+}
+
+.reel__head {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.reel__body {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 14px;
+}
+
+.reel__frame {
+  position: relative;
+  width: min(100%, 1120px);
+  aspect-ratio: 16 / 9;
+  max-height: 68vh;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #000;
+  box-shadow:
+    0 0 0 1px rgba(215, 188, 255, 0.12),
+    0 44px 140px rgba(24, 8, 58, 0.6);
+  isolation: isolate;
+  will-change: transform;
+}
+
+.reel__frame video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.reel__bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  height: 50.5%;
+  background: var(--bg);
+  pointer-events: none;
+  transform: scaleY(0);
+}
+
+.reel__bar--top {
+  top: 0;
+  transform-origin: center top;
+}
+
+.reel__bar--bottom {
+  bottom: 0;
+  transform-origin: center bottom;
+}
+
+html.motion .reel__bar {
+  transform: scaleY(1);
+}
+
+.reel__play {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 14px;
+  border: 0;
+  cursor: pointer;
+  background: linear-gradient(180deg, rgba(5, 3, 10, 0.12), rgba(5, 3, 10, 0.46));
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.reel__play-ring {
+  display: grid;
+  place-items: center;
+  width: 84px;
+  height: 84px;
+  border-radius: 999px;
+  background: rgba(248, 245, 255, 0.94);
+  color: var(--on-accent);
+  box-shadow: 0 0 0 1px rgba(215, 188, 255, 0.4), 0 0 44px 8px rgba(113, 55, 255, 0.4);
+  transition: transform var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+
+.reel__play:hover .reel__play-ring,
+.reel__play:focus-visible .reel__play-ring {
+  transform: scale(1.06);
+  background: var(--amber);
+}
+
+/* Eigener minimaler Player: Play/Pause, Scrubber, Zeit, Vollbild */
+.reel__ui {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1.6vw, 20px);
+  padding: 14px clamp(14px, 2vw, 24px);
+  background: linear-gradient(180deg, transparent, rgba(5, 3, 10, 0.82));
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+}
+
+.reel__ui[hidden] {
+  display: none;
+}
+
+.reel__frame:hover .reel__ui,
+.reel__frame:focus-within .reel__ui,
+.reel__ui.is-visible {
+  opacity: 1;
+}
+
+.reel__ui-btn {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(248, 245, 255, 0.14);
+  color: var(--text);
+  cursor: pointer;
+  transition: background var(--dur) var(--ease);
+}
+
+.reel__ui-btn:hover,
+.reel__ui-btn:focus-visible {
+  background: rgba(248, 245, 255, 0.28);
+}
+
+.reel__ui[data-state="paused"] .reel__icon-pause,
+.reel__ui:not([data-state="paused"]) .reel__icon-play {
+  display: none;
+}
+
+.reel__scrub {
+  position: relative;
+  flex: 1 1 auto;
+  height: 22px;
+  cursor: pointer;
+}
+
+.reel__scrub::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 3px;
+  transform: translateY(-50%);
+  border-radius: 2px;
+  background: rgba(248, 245, 255, 0.18);
+}
+
+.reel__scrub-fill {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 3px;
+  width: 100%;
+  transform: translateY(-50%) scaleX(0);
+  transform-origin: left center;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--violet), var(--magenta));
+}
+
+.reel__scrub-knob {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  background: var(--text);
+  box-shadow: 0 0 10px 2px rgba(154, 92, 255, 0.5);
+}
+
+.reel__time {
+  flex: none;
+  font-size: var(--step-caption);
+  color: #cfc9dc;
+  font-variant-numeric: tabular-nums;
+}
+
+.reel__silent {
+  flex: none;
+  color: #8d86a0;
+}
+
+@media (max-width: 560px) {
+  .reel__silent {
+    display: none;
+  }
+}
+
+/* ============ 5 · Leistungsbühne ======================================== */
+
+.buehne {
+  padding-block: clamp(90px, 12vh, 180px) 0;
+}
+
+.buehne__head {
+  display: grid;
+  gap: 14px;
+  margin-bottom: clamp(40px, 7vh, 88px);
+  max-width: 880px;
+}
+
+.buehne__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: clamp(28px, 4.5vw, 88px);
+  width: 100%;
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  align-items: start;
+}
+
+.buehne__stage {
+  position: sticky;
+  top: max(11vh, 84px);
+  height: min(76vh, 740px);
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--frame);
+  isolation: isolate;
+}
+
+.buehne__medium {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.75s var(--ease), opacity 0.45s var(--ease);
+}
+
+.buehne__medium.is-active {
+  opacity: 1;
+  clip-path: inset(0 0 0 0);
+}
+
+.buehne__medium > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.05);
+  transition: transform 8s linear;
+}
+
+.buehne__medium.is-active > img {
+  transform: scale(1);
+}
+
+.buehne__medium::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(5, 3, 10, 0.2), rgba(5, 3, 10, 0.34) 70%, rgba(5, 3, 10, 0.66));
+  pointer-events: none;
+}
+
+/* Filmstreifen-Motiv für die Postproduktion */
+.buehne__strip {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  gap: 10px;
+  padding: clamp(18px, 3vh, 34px);
+  background:
+    repeating-linear-gradient(180deg, transparent 0 44px, rgba(215, 188, 255, 0.06) 44px 45px),
+    var(--frame);
+}
+
+.buehne__still {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.buehne__still img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.85;
+}
+
+.buehne__playhead {
+  position: absolute;
+  top: 4%;
+  bottom: 4%;
+  left: 38%;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--magenta) 18%, var(--magenta) 82%, transparent);
+  box-shadow: 0 0 14px 2px rgba(154, 92, 255, 0.5);
+}
+
+/* Mapping-Raster */
+.buehne__grid {
+  position: absolute;
+  inset: -6%;
+  background-image:
+    repeating-linear-gradient(90deg, rgba(215, 188, 255, 0.13) 0 1px, transparent 1px 64px),
+    repeating-linear-gradient(0deg, rgba(215, 188, 255, 0.13) 0 1px, transparent 1px 64px);
+  transform: perspective(720px) rotateY(-16deg) rotateX(4deg);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+/* Sucher-Overlay */
+.buehne__finder {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.buehne__tick {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border: 0 solid rgba(248, 245, 255, 0.7);
+}
+
+.buehne__tick--tl { top: 14px; left: 14px; border-top-width: 1px; border-left-width: 1px; }
+.buehne__tick--tr { top: 14px; right: 14px; border-top-width: 1px; border-right-width: 1px; }
+.buehne__tick--bl { bottom: 14px; left: 14px; border-bottom-width: 1px; border-left-width: 1px; }
+.buehne__tick--br { bottom: 14px; right: 14px; border-bottom-width: 1px; border-right-width: 1px; }
+
+.buehne__finder-meta {
+  position: absolute;
+  left: 24px;
+  top: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--step-meta);
+  font-weight: 550;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(248, 245, 255, 0.85);
+}
+
+.buehne__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--magenta);
+  box-shadow: 0 0 10px 2px rgba(154, 92, 255, 0.6);
+}
+
+html.motion .buehne__dot {
+  animation: buehne-dot 2.2s ease-in-out infinite;
+}
+
+@keyframes buehne-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+.buehne__finder-count {
+  position: absolute;
+  right: 24px;
+  bottom: 20px;
+  font-size: var(--step-meta);
+  font-weight: 550;
+  letter-spacing: 0.1em;
+  color: rgba(248, 245, 255, 0.7);
+  font-variant-numeric: tabular-nums;
+}
+
+.buehne__chapters {
+  display: grid;
+}
+
+.buehne__chapter {
+  position: relative;
+  display: grid;
+  align-content: center;
+  gap: 10px;
+  min-height: min(44vh, 420px);
+  padding-block: clamp(32px, 5vh, 56px);
+  border-bottom: 1px solid var(--line);
+  color: var(--text);
+  isolation: isolate;
+}
+
+.buehne__chapter:first-child {
+  border-top: 1px solid var(--line);
+}
+
+.buehne__ghost {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  z-index: 0;
+  transform: translateY(-50%);
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 10vw, 9rem);
+  font-weight: 600;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(154, 92, 255, 0.16);
+  pointer-events: none;
+  transition: -webkit-text-stroke-color var(--dur) var(--ease);
+}
+
+.buehne__chapter h3 {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.4vw, 3.3rem);
+  font-weight: 600;
+  font-stretch: 108%;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  background: linear-gradient(180deg, #ffffff 10%, #dbcdf6 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.buehne__chapter p {
+  position: relative;
+  z-index: 1;
+  max-width: 44ch;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Fokus-Dimmen: nur mit Motion, damit ohne JS alles voll lesbar bleibt */
+html.motion .buehne__chapter[data-dimmed] h3 {
+  opacity: 0.35;
+}
+
+html.motion .buehne__chapter[data-dimmed] p,
+html.motion .buehne__chapter[data-dimmed] .cine-label,
+html.motion .buehne__chapter[data-dimmed] .buehne__go {
+  opacity: 0.3;
+}
+
+html.motion .buehne__chapter[data-dimmed] .buehne__ghost {
+  -webkit-text-stroke-color: rgba(154, 92, 255, 0.07);
+}
+
+.buehne__chapter h3,
+.buehne__chapter p,
+.buehne__chapter .cine-label,
+.buehne__chapter .buehne__go,
+.buehne__ghost {
+  transition: opacity 0.45s var(--ease);
+}
+
+.buehne__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #c3bccf;
+}
+
+.buehne__go span:last-child {
+  transition: transform var(--dur) var(--ease);
+}
+
+.buehne__chapter:hover .buehne__go,
+.buehne__chapter:focus-visible .buehne__go {
+  color: var(--text);
+}
+
+.buehne__chapter:hover .buehne__go span:last-child {
+  transform: translateX(5px);
+}
+
+.buehne__band {
+  display: none;
+}
+
+.buehne__foot {
+  display: flex;
+  justify-content: flex-end;
+  padding-block: clamp(28px, 4vh, 44px);
+}
+
+/* ============ 6 · Porträt =============================================== */
+
+.portraet {
+  padding-block: clamp(110px, 15vh, 210px);
+  overflow: clip;
+  isolation: isolate;
+}
+
+.portraet__ghost {
+  position: absolute;
+  z-index: 0;
+  left: -2%;
+  top: 6%;
+  font-family: var(--font-display);
+  font-size: clamp(8rem, 26vw, 26rem);
+  font-weight: 600;
+  font-stretch: 110%;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(154, 92, 255, 0.14);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.portraet__glow {
+  position: absolute;
+  left: -10%;
+  top: 24%;
+  z-index: 0;
+  width: min(58vw, 760px);
+  aspect-ratio: 1;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(113, 55, 255, 0.2) 0%, transparent 70%);
+  filter: blur(52px);
+  pointer-events: none;
+}
+
+.portraet__grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(36px, 5vw, 84px);
+  align-items: center;
+}
+
+.portraet__frame {
+  position: relative;
+  margin: 0;
+  width: min(100%, 460px);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--frame);
+  box-shadow: 0 40px 120px rgba(10, 4, 26, 0.65);
+  transform: rotate(2.2deg);
+  justify-self: end;
+}
+
+/* Das helle Porträt wird in die dunkle Bühne eingebunden */
+.portraet__frame img {
+  filter: saturate(0.92) contrast(1.04) brightness(0.94);
+}
+
+.portraet__tint {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(200deg, rgba(113, 55, 255, 0.16) 0%, transparent 42%),
+    radial-gradient(120% 110% at 50% 40%, transparent 55%, rgba(5, 3, 10, 0.42) 100%);
+  pointer-events: none;
+}
+
+html.motion .portraet__frame {
+  clip-path: inset(0 0 100% 0);
+}
+
+.portraet__frame img {
+  position: relative;
+  top: -6%;
+  width: 100%;
+  height: 112%;
+  object-fit: cover;
+  will-change: transform;
+}
+
+.portraet__rail {
+  position: absolute;
+  right: -30px;
+  bottom: 0;
+  transform: rotate(-90deg);
+  transform-origin: right bottom;
+  white-space: nowrap;
+  color: #8d86a0;
+}
+
+.portraet__copy {
+  display: grid;
+  gap: 18px;
+  justify-items: start;
+}
+
+.portraet__title {
+  margin: 0;
+  max-width: 15ch;
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 4.4vw, 4rem);
+  font-weight: 600;
+  font-stretch: 108%;
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  background: linear-gradient(180deg, #ffffff 10%, #dbcdf6 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.portraet__title em {
+  font-style: normal;
+  background: linear-gradient(92deg, var(--magenta), var(--amber));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Abspann: Rolle — Lichtlinie — Name. Jede Zeile ein Credit. */
+.portraet__credits {
+  width: 100%;
+  max-width: 560px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: none;
+}
+
+.portraet__credit {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  padding-block: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.portraet__credit:first-child {
+  border-top: 1px solid var(--line);
+}
+
+.portraet__role {
+  flex: none;
+  min-width: 110px;
+  font-size: var(--step-meta);
+  font-weight: 550;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8d86a0;
+}
+
+.portraet__credit i {
+  flex: 1 1 auto;
+  height: 1px;
+  align-self: center;
+  background: linear-gradient(90deg, var(--line), color-mix(in oklab, var(--magenta) 55%, transparent));
+  transform-origin: left center;
+}
+
+.portraet__name {
+  flex: none;
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+  font-weight: 600;
+  font-stretch: 106%;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+
+.portraet__claim {
+  max-width: 52ch;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* ============ 7 · Schnitt-Timeline ====================================== */
+
+.cut {
+  height: 100svh;
+}
+
+html.motion .cut {
+  height: 240svh;
+}
+
+.cut__sticky {
+  display: grid;
+  align-content: center;
+  gap: clamp(30px, 5vh, 56px);
+  padding-block: clamp(80px, 11vh, 120px) clamp(36px, 6vh, 64px);
+}
+
+html.motion .cut__sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: clip;
+}
+
+.cut__head {
+  display: grid;
+  gap: 12px;
+}
+
+/* Grundzustand (ohne Motion): alle Schritte untereinander lesbar */
+.cut__screen {
+  display: grid;
+  gap: clamp(22px, 4vh, 40px);
+}
+
+.cut__step {
+  display: grid;
+  gap: 8px;
+  max-width: 620px;
+}
+
+/* Mit Motion: Schritte überlagern sich und blenden per Playhead um */
+html.motion .cut__screen {
+  position: relative;
+  min-height: clamp(200px, 30vh, 300px);
+}
+
+html.motion .cut__step {
+  position: absolute;
+  inset: 0;
+  padding-inline: var(--gutter);
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
+  pointer-events: none;
+}
+
+html.motion .cut__step.is-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cut__num {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 1.8vw, 1.8rem);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in oklab, var(--magenta) 80%, white);
+}
+
+.cut__step h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 3.6vw, 3.4rem);
+  font-weight: 600;
+  font-stretch: 108%;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  background: linear-gradient(180deg, #ffffff 10%, #dbcdf6 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.cut__step p {
+  max-width: 46ch;
+  color: var(--text-muted);
+  line-height: 1.65;
+  font-size: var(--step-body-lg);
+}
+
+/* Die Timeline selbst */
+.cut__timeline {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  padding-top: 18px;
+}
+
+.cut__playhead {
+  position: absolute;
+  top: 0;
+  bottom: -10px;
+  left: 0;
+  width: 1px;
+  z-index: 2;
+  pointer-events: none;
+  display: none;
+}
+
+html.motion .cut__playhead {
+  display: block;
+}
+
+.cut__playhead i {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, var(--amber), var(--magenta));
+  box-shadow: 0 0 14px 2px rgba(154, 92, 255, 0.55);
+}
+
+.cut__playhead::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -4px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid var(--amber);
+}
+
+.cut__clip {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  padding-top: 12px;
+}
+
+.cut__clip::before {
+  content: "";
+  display: block;
+  height: 34px;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+  background: rgba(25, 16, 42, 0.55);
+}
+
+.cut__fill {
+  position: absolute;
+  top: 13px;
+  left: 1px;
+  right: 1px;
+  height: 32px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, rgba(113, 55, 255, 0.4), rgba(154, 92, 255, 0.55));
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+
+html.motion .cut__clip.is-active .cut__fill,
+html.motion .cut__clip.is-done .cut__fill {
+  /* Füllstand steuert GSAP */
+}
+
+.cut__clip-label {
+  font-size: var(--step-meta);
+  font-weight: 550;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8d86a0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+html.motion .cut__clip.is-active .cut__clip-label {
+  color: var(--text);
+}
+
+/* ============ 8 · Region ================================================ */
+
+.region {
+  padding-block: clamp(90px, 12vh, 170px);
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 50%, var(--bg) 100%);
+}
+
+.region__head {
+  display: grid;
+  gap: 12px;
+  max-width: 820px;
+  margin-bottom: clamp(40px, 6vh, 72px);
+}
+
+.region__basis {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+  color: var(--text);
+}
+
+.region__basis-name {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8.6vw, 7.6rem);
+  font-weight: 600;
+  font-stretch: 110%;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  background: linear-gradient(180deg, #ffffff 8%, #d6c6f4 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: opacity var(--dur) var(--ease);
+}
+
+.region__basis:hover .region__basis-name,
+.region__basis:focus-visible .region__basis-name {
+  opacity: 0.85;
+}
+
+.region__groups {
+  display: grid;
+  gap: clamp(26px, 4vh, 44px);
+  margin-top: clamp(40px, 6vh, 64px);
+}
+
+.region__group {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(180px, 3fr) minmax(0, 9fr);
+  gap: 14px 44px;
+  padding-top: 22px;
+}
+
+.region__beam {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, color-mix(in oklab, var(--violet) 70%, transparent), color-mix(in oklab, var(--magenta) 45%, transparent) 40%, var(--line) 70%, transparent);
+  transform-origin: left center;
+}
+
+.region__group h3 {
+  color: #8d86a0;
+}
+
+.region__cities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 30px;
+  margin: 0;
+}
+
+.region__cities a {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.3vw, 2.15rem);
+  font-weight: 550;
+  font-stretch: 106%;
+  letter-spacing: -0.02em;
+  color: #cfc9dc;
+  transition: color var(--dur) var(--ease);
+}
+
+.region__cities a:hover,
+.region__cities a:focus-visible {
+  color: var(--text);
+}
+
+.region__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 32px;
+  margin-top: clamp(40px, 6vh, 64px);
+}
+
+.region__foot .u-caption {
+  max-width: 62ch;
+}
+
+/* ============ 9 · Finale ================================================ */
+
+.finale {
+  display: grid;
+  place-items: center;
+  min-height: 100svh;
+  overflow: clip;
+  isolation: isolate;
+  text-align: center;
+  padding: clamp(120px, 16vh, 220px) var(--gutter) clamp(140px, 18vh, 240px);
+}
+
+/* Bewegtes Licht als Grund: der stumme Loop aus der Ouvertüre kehrt zurück */
+.finale__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.finale__media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.38;
+}
+
+.finale__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 90% at 50% 46%, rgba(5, 3, 10, 0.12) 0%, rgba(5, 3, 10, 0.66) 62%, rgba(5, 3, 10, 0.96) 100%),
+    linear-gradient(180deg, var(--bg) 0%, rgba(5, 3, 10, 0.3) 26%, rgba(5, 3, 10, 0.44) 70%, var(--bg) 100%);
+}
+
+.finale__portal {
+  position: absolute;
+  left: 50%;
+  bottom: -16%;
+  z-index: 0;
+  width: min(140vw, 1600px);
+  aspect-ratio: 2.1 / 1;
+  transform: translateX(-50%);
+  transform-origin: center bottom;
+  background: radial-gradient(
+    50% 64% at 50% 100%,
+    rgba(246, 240, 255, 0.9) 0%,
+    rgba(154, 92, 255, 0.52) 24%,
+    rgba(113, 55, 255, 0.3) 48%,
+    transparent 72%
+  );
+  filter: blur(30px);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+html.motion .finale__portal {
+  transform: translateX(-50%) scaleY(0.1);
+  opacity: 0.15;
+}
+
+.finale__horizon {
+  position: absolute;
+  left: 50%;
+  bottom: 12%;
+  z-index: 0;
+  width: min(78vw, 980px);
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, rgba(215, 188, 255, 0.95) 30%, rgba(215, 188, 255, 0.95) 70%, transparent);
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+/* Der Lichtspalt aus der Ouvertüre kehrt liegend zurück */
+.finale__slit {
+  position: absolute;
+  left: 50%;
+  bottom: calc(12% - 1px);
+  z-index: 0;
+  width: min(30vw, 320px);
+  height: 3px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, #f6f0ff 50%, transparent);
+  box-shadow: 0 0 24px 6px rgba(154, 92, 255, 0.6);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.finale__content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: clamp(20px, 3vh, 30px);
+}
+
+/* Lesbarkeitsanker: dunkler Kern hinter Text und Aktion, auch über dem Glow */
+.finale__content::before {
+  content: "";
+  position: absolute;
+  inset: -14% -20%;
+  z-index: -1;
+  background: radial-gradient(58% 62% at 50% 50%, rgba(5, 3, 10, 0.78) 0%, rgba(5, 3, 10, 0.45) 56%, transparent 80%);
+  pointer-events: none;
+}
+
+.finale__content .cine-lead {
+  color: #d5cfe2;
+}
+
+.finale__title {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 6.4vw, 6rem);
+  font-weight: 600;
+  font-stretch: 110%;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+}
+
+.finale__title-line {
+  display: block;
+  background: linear-gradient(180deg, #ffffff 8%, #d6c6f4 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.finale__title em {
+  font-style: normal;
+  background: linear-gradient(92deg, var(--magenta), var(--amber));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.finale__content .cine-lead {
+  max-width: 46ch;
+}
+
+.finale__cta {
+  min-height: 62px;
+  padding: 0 40px;
+  font-size: 1.0625rem;
+  box-shadow: 0 0 0 1px rgba(215, 188, 255, 0.35), 0 0 56px 10px rgba(113, 55, 255, 0.35);
+  will-change: transform;
+}
+
+.finale__meta {
+  margin-top: 6px;
+  color: #8d86a0;
+}
+
+/* ============ Responsive ================================================ */
+
+@media (max-width: 1080px) {
+  .buehne__layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  }
+}
+
+@media (max-width: 860px) {
+  .ouv__title {
+    font-size: clamp(3.1rem, 17vw, 5.4rem);
+  }
+
+  .ouv__sub {
+    max-width: 30ch;
+  }
+
+  .manifest {
+    height: 160svh;
+  }
+
+  .manifest__quote {
+    max-width: 16ch;
+    font-size: clamp(1.9rem, 8.6vw, 3.1rem);
+  }
+
+  /* Projektreise: vertikale Dramaturgie, gleiche Kinoformate */
+  .reise__stage {
+    min-height: 0;
+    padding-block: clamp(70px, 10vh, 110px) 24px;
+  }
+
+  .reise__head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .reise__viewport {
+    overflow: visible;
+  }
+
+  .reise__track {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: clamp(20px, 4vh, 36px);
+    padding-inline: var(--gutter);
+  }
+
+  .reise__frame {
+    width: 100%;
+  }
+
+  .reise__foot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .reise__progress {
+    width: 100%;
+    max-width: none;
+  }
+
+  .reel {
+    height: auto;
+  }
+
+  .reel__sticky {
+    position: relative;
+    height: auto;
+    gap: clamp(28px, 5vh, 44px);
+    padding-block: clamp(80px, 12vh, 120px) clamp(40px, 6vh, 60px);
+  }
+
+  /* Bühne: Kapitelliste mit Medienband */
+  .buehne__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .buehne__stage {
+    display: none;
+  }
+
+  .buehne__chapter {
+    min-height: 0;
+    padding-block: clamp(30px, 6vh, 44px);
+  }
+
+  .buehne__ghost {
+    font-size: clamp(4rem, 18vw, 6rem);
+    top: auto;
+    bottom: 12px;
+    transform: none;
+  }
+
+  .buehne__band {
+    position: relative;
+    display: block;
+    aspect-ratio: 21 / 9;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+
+  .buehne__band img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .buehne__strip--band {
+    position: absolute;
+    inset: 0;
+    grid-template-rows: none;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    padding: 10px;
+  }
+
+  .buehne__foot {
+    justify-content: flex-start;
+  }
+
+  .portraet__ghost {
+    font-size: clamp(7rem, 34vw, 11rem);
+    top: 2%;
+  }
+
+  .portraet__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .portraet__frame {
+    width: min(100%, 420px);
+    justify-self: start;
+    transform: rotate(1.6deg);
+  }
+
+  .portraet__rail {
+    display: none;
+  }
+
+  .portraet__role {
+    min-width: 86px;
+  }
+
+  /* Schnitt-Timeline: statische Liste + Balken */
+  html.motion .cut {
+    height: 200svh;
+  }
+
+  .cut__clip-label {
+    font-size: 0.625rem;
+  }
+
+  .region__group {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .finale {
+    min-height: 88svh;
+  }
+}
+
+@media (max-width: 560px) {
+  .ouv__actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ouv__actions .cine-btn,
+  .ouv__actions .cine-ghost {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .reel__play-ring {
+    width: 68px;
+    height: 68px;
+  }
+
+  .cut__timeline {
+    gap: 5px;
+  }
+
+  .cut__clip-label {
+    display: none;
+  }
+}
+
+/* Doppelte Sicherheit: Reduced Motion neutralisiert jeden Startzustand,
+   selbst wenn die Motion-Klasse gesetzt sein sollte. */
+@media (prefers-reduced-motion: reduce) {
+  html.motion .ouv__media { opacity: 1; }
+  html.motion .ouv__media video { transform: none; }
+  html.motion .ouv__shutter { transform: translateX(var(--shutter-out, -103%)); }
+  html.motion .ouv__slit { opacity: 0; }
+  html.motion .manifest__word { color: #f2eefc; }
+  html.motion .manifest__word--accent {
+    background: linear-gradient(92deg, var(--magenta), var(--amber));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  html.motion .reise__progress i { transform: scaleX(1); }
+  html.motion .reel__bar { transform: scaleY(0); }
+  html.motion .reel__beam { opacity: 0.45; }
+  html.motion .buehne__dot { animation: none; }
+  html.motion .portraet__frame { clip-path: none; }
+  html.motion .cut { height: auto; }
+  html.motion .cut__sticky { position: relative; height: auto; }
+  html.motion .cut__screen { position: static; min-height: 0; }
+  html.motion .cut__step { position: static; opacity: 1; transform: none; pointer-events: auto; }
+  html.motion .cut__playhead { display: none; }
+  html.motion .finale__portal { transform: translateX(-50%); opacity: 0.85; }
+}

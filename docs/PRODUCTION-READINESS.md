@@ -1,6 +1,6 @@
 # Produktionsbereitschaft
 
-Stand: 12. August 2026
+Stand: 12. August 2026 (nach dem Purple-Frame-Redesign)
 
 ## Erreicht
 
@@ -26,16 +26,31 @@ Stand: 12. August 2026
 
 ## Messergebnis
 
-Lokales Lighthouse, mobile Standardemulation:
+Lokales Lighthouse (Produktions-Build über `astro preview`), mobile
+Standardemulation, nach dem Purple-Frame-Redesign:
 
 | Kategorie | Wert |
 | --- | ---: |
-| Performance | 95 |
+| Performance | 98 |
 | Accessibility | 100 |
 | Best Practices | 100 |
 | SEO | 100 |
 
-LCP im lokalen gedrosselten Test: 3,0 s. Das größte Element ist die Hero-Textgruppe; die Inhalte sind bewusst sofort sichtbar und nicht vom GSAP-Ladevorgang abhängig. Die echte Produktionsmessung muss nach dem Vercel-Preview mit CDN, Komprimierung und realer TTFB wiederholt werden.
+LCP im lokalen gedrosselten Test: 2,2 s, CLS 0, TBT 80 ms. Das größte Element
+ist die Hero-Textgruppe; die Inhalte sind sofort sichtbar und nicht vom
+GSAP-Ladevorgang abhängig. Medienstand: alle JPEGs auf maximal 1600 px neu
+komprimiert, Showreel als H.264 (18,9 MB, `preload="none"`), Hero-Loop 8 s
+H.264 (1,1 MB, stumm, spielt nur im Motion-Modus). Die echte
+Produktionsmessung muss nach dem Vercel-Preview mit CDN und realer TTFB
+wiederholt werden.
+
+Zusätzlich geprüft (12. August 2026, Playwright):
+
+- Reduced Motion: Blende offen, alle Wörter und Prozessschritte sofort
+  sichtbar, kein Autoplay.
+- Ohne JavaScript: vollständige Inhalte, natives Video mit Controls,
+  59 interne Links auf der Startseite.
+- Kein horizontaler Overflow auf 390/768/1440/1920 über neun Routen.
 
 ## Externe Freigaben vor der Domain-Umschaltung
 

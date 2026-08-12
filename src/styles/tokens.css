@@ -1,31 +1,37 @@
-/* sophiaramahi.de - Nocturnal Cinema: Tokens, Basis, Typografie, Raster.
-   Wird in Phase 2 zu src/styles/tokens.css. Werte bleiben unveraendert. */
+/* sophiaramahi.de - PURPLE FRAME: Tokens, Basis, Typografie, Raster.
+   Farbsystem: Lila, Schwarz und Weiss. Die alten Tokennamen (--magenta,
+   --amber, --ice) bleiben als Namen bestehen, tragen aber die neuen Werte,
+   damit alle Unterseiten ohne Umbau in das neue System fallen. */
 
 /* ---------- 1. Tokens ---------------------------------------------------- */
 
 :root {
   /* Flaechen */
-  --bg: #050506;
-  --surface: #0d0d10;
-  --surface-2: #14141a;
-  --frame: #08080b;
+  --bg: #05030a;
+  --bg-2: #090512;
+  --surface: #120a21;
+  --surface-2: #19102a;
+  --frame: #0a0614;
 
   /* Schrift */
-  --text: #f4f2f5;
-  --text-muted: #a7a3ad;
+  --text: #f8f5ff;
+  --text-muted: #aaa3b5;
 
   /* Linien */
-  --line: rgba(244, 242, 245, 0.09);
-  --line-strong: rgba(244, 242, 245, 0.2);
+  --line: rgba(220, 200, 255, 0.14);
+  --line-strong: rgba(220, 200, 255, 0.26);
 
   /* Licht (Akzente) */
-  --violet: #755cff;
-  --magenta: #d947b4;
-  --amber: #ef9a62;
-  --ice: #8faaff;
+  --violet: #7137ff; /* Electric Violet — Markenlicht */
+  --magenta: #9a5cff; /* Luminous Purple — zweiter Pol des Lichts */
+  --amber: #d7bcff; /* Soft Lilac — Hover der primaeren Aktion */
+  --ice: #367cff; /* Electric Blue — sekundaerer, seltener Kaltakzent */
 
-  /* Fokus */
-  --focus: var(--ice);
+  /* Text auf heller Lilac-Flaeche (Button-Hover) */
+  --on-accent: #150732;
+
+  /* Fokus: aufgehelltes Electric Blue, sichtbar auf dunkel und hell */
+  --focus: #8fb0ff;
 
   /* Typografie */
   --font-display: "Archivo", "Archivo Expanded", "Helvetica Neue", Arial,

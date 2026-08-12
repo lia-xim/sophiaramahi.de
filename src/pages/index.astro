@@ -1,35 +1,385 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ArrowLink from "../components/ArrowLink.astro";
-import ContactCta from "../components/ContactCta.astro";
-import ProjectGrid from "../components/ProjectGrid.astro";
-import { articles, locations, projects, services, servicePath } from "../data/site";
-const featuredServices = services.filter((service) => ["eventfilm", "musikvideo", "imagefilm", "live-visuals", "projection-mapping", "postproduktion"].includes(service.slug));
+import "../styles/home.css";
+import { locations, projects, services, servicePath } from "../data/site";
+
+// Purple Frame v2 — die Startseite als zusammenhängende Scroll-Erzählung.
+// Alle Inhalte sind echter HTML-Text; GSAP ist reines Progressive Enhancement.
+
+const reiseFrames = ["electric-lights", "dark-lights", "24h-to-take", "spektra-festival"].map(
+  (slug) => projects.find((item) => item.slug === slug)!
+);
+
+const stageMedia: Record<string, { src: string; alt: string }> = {
+  eventfilm: { src: "/media/spektra-buehne-03.jpg", alt: "" },
+  musikvideo: { src: "/media/spektra-buehne-02.jpg", alt: "" },
+  imagefilm: { src: "/media/journal-01.jpg", alt: "" },
+  "kamera-bildgestaltung": { src: "/media/spektra-set-hoch.jpg", alt: "" },
+  tonaufnahme: { src: "/media/set-hoch-02.jpg", alt: "" },
+  "live-visuals": { src: "/media/club-projektion-01.jpg", alt: "" },
+  "projection-mapping": { src: "/media/spektra-detail-03.jpg", alt: "" },
+};
+
+const buehneOrder = [
+  "eventfilm",
+  "musikvideo",
+  "imagefilm",
+  "kamera-bildgestaltung",
+  "tonaufnahme",
+  "postproduktion",
+  "live-visuals",
+  "projection-mapping",
+];
+const chapters = buehneOrder.map((slug) => services.find((service) => service.slug === slug)!);
+
+const filmstripStills = [
+  { src: "/media/spektra-detail-01.jpg" },
+  { src: "/media/club-projektion-03.jpg" },
+  { src: "/media/spektra-buehne-06.jpg" },
+];
+
+// Manifest: Wörter, die das Licht nacheinander sichtbar macht.
+// Trägt zugleich die Kernaussage fürs Ranking: Videografin Düsseldorf / NRW.
+const manifestWords: { word: string; accent: boolean; break: boolean }[] = [
+  { word: "Videografin", accent: false, break: false },
+  { word: "in", accent: false, break: false },
+  { word: "Düsseldorf.", accent: true, break: false },
+  { word: "Kamera,", accent: false, break: true },
+  { word: "Licht", accent: false, break: false },
+  { word: "und", accent: false, break: false },
+  { word: "Schnitt", accent: false, break: false },
+  { word: "—", accent: false, break: false },
+  { word: "für", accent: false, break: true },
+  { word: "Musik,", accent: false, break: false },
+  { word: "Kultur", accent: false, break: false },
+  { word: "und", accent: false, break: false },
+  { word: "Events", accent: false, break: false },
+  { word: "in", accent: false, break: true },
+  { word: "ganz", accent: false, break: false },
+  { word: "NRW.", accent: false, break: false },
+];
+
+const duesseldorf = locations.find((location) => location.slug === "duesseldorf")!;
+const regionGroups = [
+  { label: "Rheinland", slugs: ["koeln", "neuss", "meerbusch", "leverkusen", "bonn"] },
+  { label: "Niederrhein & Kreis Mettmann", slugs: ["krefeld", "moenchengladbach", "ratingen"] },
+  { label: "Bergisches Land", slugs: ["wuppertal", "solingen"] },
+  { label: "Ruhrgebiet", slugs: ["essen", "duisburg", "oberhausen", "bochum", "dortmund"] },
+].map((group) => ({
+  label: group.label,
+  items: group.slugs.map((slug) => locations.find((location) => location.slug === slug)!),
+}));
+
+const cutSteps = [
+  { key: "gespraech", title: "Gespräch", copy: "Ziel, Publikum, Ort und ein realistischer Rahmen — geklärt, bevor Technik eine Rolle spielt." },
+  { key: "konzeption", title: "Konzeption", copy: "Bildidee, Licht, Ton, Ablauf und Verantwortlichkeiten werden so konkret wie nötig geplant." },
+  { key: "dreh", title: "Dreh", copy: "Konzentriert drehen oder live gestalten, ohne den Raum unnötig zu blockieren." },
+  { key: "schnitt", title: "Schnitt & Ton", copy: "Material ordnen, den Rhythmus finden und Bild und Ton präzise verbinden." },
+  { key: "uebergabe", title: "Übergabe", copy: "Abgestimmte Formate für Website, Social Media und Archiv — sauber dokumentiert übergeben." },
+];
 ---
 
 <BaseLayout title="Sophia Ramahi | Videografin & Visual Artist in Düsseldorf" description="Videografie, Kamera, Ton, Postproduktion, VJ und Projection Mapping aus Düsseldorf – für Musik, Kultur, Events und ausgewählte Unternehmen.">
-  <section class="cine-hero">
-    <div class="cine-hero__media"><img src="/media/light-hero.jpg" alt="Violette Lichtinszenierung" width="1920" height="1080" loading="eager" fetchpriority="high" /><div class="cine-hero__scrim" aria-hidden="true"></div></div>
-    <div class="cine-wrap cine-hero__content" data-reveal>
-      <span class="cine-label">Videografie · Bild & Ton · Live Visuals</span>
-      <h1 class="cine-display">Bilder, die<br />im Raum bleiben.</h1>
-      <p class="cine-lead">Sophia Ramahi entwickelt Filme und visuelle Räume für Musik, Kultur, Veranstaltungen und Menschen mit einer konkreten Geschichte.</p>
-      <div class="button-row"><ArrowLink href="/arbeiten/" label="Arbeiten ansehen" class="cine-btn" /><ArrowLink href="/kontakt/" label="Projekt anfragen" /></div>
-    </div>
-  </section>
+  <div class="home" data-home>
+    <!-- 1 · Ouvertüre: Aus dem Lichtspalt öffnet sich das laufende Bild -->
+    <section class="ouv" aria-label="Einstieg">
+      <div class="ouv__media" aria-hidden="true">
+        <video muted loop playsinline preload="metadata" poster="/media/hero-poster.jpg" width="1280" height="720" data-hero-video>
+          <source src="/media/hero-loop.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div class="ouv__shutter ouv__shutter--left" aria-hidden="true"></div>
+      <div class="ouv__shutter ouv__shutter--right" aria-hidden="true"></div>
+      <div class="ouv__slit" aria-hidden="true"></div>
+      <div class="cine-wrap ouv__content">
+        <h1 class="ouv__title">
+          <span class="ouv__line ouv__line--1">Film.</span>
+          <span class="ouv__line ouv__line--2">Licht.</span>
+          <span class="ouv__line ouv__line--3">Bewegung.</span>
+        </h1>
+        <p class="ouv__sub">Videografie, Kamera und visuelle Räume von Sophia Ramahi in Düsseldorf.</p>
+        <div class="ouv__actions">
+          <a class="cine-btn" href="/arbeiten/">Arbeiten ansehen</a>
+          <a class="cine-ghost" href="/kontakt/">Projekt anfragen</a>
+        </div>
+      </div>
+      <p class="ouv__scroll" aria-hidden="true">Scrollen</p>
+    </section>
 
-  <section class="section cine-wrap"><div class="section-heading section-heading--row" data-reveal><div><span class="cine-label">Ausgewählte Arbeiten</span><h2 class="cine-h2">Vier Projekte. Vier eigene Bildwelten.</h2></div><ArrowLink href="/arbeiten/" label="Alle Projekte" /></div><ProjectGrid items={projects} headingLevel="h3" /></section>
+    <!-- 2 · Manifest: Licht macht den Satz sichtbar -->
+    <section class="manifest" aria-label="Positionierung">
+      <div class="manifest__sticky">
+        <div class="manifest__cone" aria-hidden="true"></div>
+        <div class="manifest__glow" aria-hidden="true"></div>
+        <div class="manifest__floor" aria-hidden="true"></div>
+        <h2 class="manifest__quote">
+          {manifestWords.map((item) => (
+            <>
+              {item.break && <br />}
+              <span class:list={["manifest__word", { "manifest__word--accent": item.accent }]}>{item.word}</span>{" "}
+            </>
+          ))}
+        </h2>
+      </div>
+    </section>
 
-  <section class="section section--surface"><div class="cine-wrap"><div class="section-heading" data-reveal><span class="cine-label">Leistungen</span><h2 class="cine-h2">Vom ersten Bild bis zur fertigen Ausspielung</h2><p class="cine-lead">Komplette Produktionen oder einzelne Gewerke – sauber abgegrenzt und passend zum Projekt.</p></div><div class="service-list">{featuredServices.map((service, index) => <a href={servicePath(service)} class="service-row" data-reveal><span>{String(index + 1).padStart(2, "0")}</span><div><h3>{service.title}</h3><p>{service.summary}</p></div><span aria-hidden="true">↗</span></a>)}</div><div class="section-action"><ArrowLink href="/leistungen/" label="Alle Leistungen im Überblick" class="cine-btn" /></div></div></section>
+    <!-- 3 · Projektreise -->
+    <section class="reise" id="projekte">
+      <div class="reise__stage">
+        <header class="cine-wrap reise__head">
+          <div>
+            <span class="cine-label">Ausgewählte Arbeiten</span>
+            <h2 class="cine-h2">Vier Projekte, vier Bildwelten.</h2>
+          </div>
+          <p class="reise__counter u-meta" aria-hidden="true"><span data-reise-current>01</span><span class="reise__counter-sep">/</span>04</p>
+        </header>
+        <div class="reise__viewport">
+          <div class="reise__track">
+            {reiseFrames.map((project, index) => (
+              <a class:list={["reise__frame", { "reise__frame--electric": project.slug === "electric-lights" }]} href={`/projekte/${project.slug}/`}>
+                <img src={project.image} alt={project.alt} width="1200" height="675" loading="lazy" decoding="async" />
+                <span class="reise__scrim" aria-hidden="true"></span>
+                <span class="reise__index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                <span class="reise__meta">
+                  <span class="cine-label">{project.category}{project.year ? ` · ${project.year}` : ""}</span>
+                  <span class="reise__title">{project.title}</span>
+                  <span class="reise__role">{project.roles.slice(0, 2).join(" · ")}</span>
+                  <span class="reise__go">Projekt ansehen <span aria-hidden="true">→</span></span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+        <div class="cine-wrap reise__foot">
+          <div class="reise__progress" aria-hidden="true"><i></i></div>
+          <a class="cine-link" href="/arbeiten/"><span>Alle Projekte</span><span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
 
-  <section class="section cine-wrap showreel-grid"><div data-reveal><span class="cine-label">Showreel</span><h2 class="cine-h2">Kamera, Licht, Rhythmus.</h2><p class="cine-lead">Ein kurzer Querschnitt durch dokumentarische, inszenierte und live entstandene Bilder.</p></div><div class="video-frame" data-reveal><video controls preload="none" poster="/media/electric-lights-cover.jpg"><source src="/media/showreel.mp4" type="video/mp4" />Ihr Browser kann das Video nicht wiedergeben.</video></div></section>
+    <!-- 4 · Showreel: Kinosaal -->
+    <section class="reel" id="showreel">
+      <div class="reel__sticky">
+        <div class="reel__beam" aria-hidden="true"></div>
+        <div class="cine-wrap reel__head">
+          <span class="cine-label">Showreel</span>
+          <h2 class="cine-h2">Kamera, Licht, Rhythmus.</h2>
+        </div>
+        <div class="cine-wrap reel__body">
+          <div class="reel__frame" data-reel>
+            <video controls preload="none" poster="/media/hero-poster.jpg" width="1920" height="1080">
+              <source src="/media/showreel.mp4" type="video/mp4" />
+              Ihr Browser kann das Video nicht wiedergeben.
+            </video>
+            <span class="reel__bar reel__bar--top" aria-hidden="true"></span>
+            <span class="reel__bar reel__bar--bottom" aria-hidden="true"></span>
+            <button class="reel__play" type="button" data-reel-play hidden>
+              <span class="reel__play-ring" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor" /></svg>
+              </span>
+              <span>Showreel abspielen</span>
+            </button>
+            <div class="reel__ui" data-reel-ui hidden>
+              <button class="reel__ui-btn" type="button" data-reel-toggle aria-label="Pause">
+                <svg class="reel__icon-pause" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M7 5h3.4v14H7zm6.6 0H17v14h-3.4z" fill="currentColor" /></svg>
+                <svg class="reel__icon-play" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor" /></svg>
+              </button>
+              <div class="reel__scrub" data-reel-scrub role="slider" aria-label="Position im Showreel" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+                <i class="reel__scrub-fill" data-reel-fill></i>
+                <i class="reel__scrub-knob" data-reel-knob></i>
+              </div>
+              <span class="reel__time u-num" data-reel-time>0:00 / 0:48</span>
+              <span class="reel__silent u-meta">Ohne Ton</span>
+              <button class="reel__ui-btn" type="button" data-reel-full aria-label="Vollbild">
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+              </button>
+            </div>
+          </div>
+          <p class="reel__note u-caption">Showreel · 48 Sekunden · bewusst ohne Ton</p>
+        </div>
+      </div>
+    </section>
 
-  <section class="section section--surface"><div class="cine-wrap"><div class="section-heading" data-reveal><span class="cine-label">Zusammenarbeit</span><h2 class="cine-h2">Klarer Prozess, ruhiges Set</h2></div><ol class="process-grid"><li data-reveal><span>01</span><h3>Einordnen</h3><p>Ziel, Publikum, Ort, Timing und realistischen Umfang gemeinsam klären.</p></li><li data-reveal><span>02</span><h3>Vorbereiten</h3><p>Bildidee, Technik, Ton, Ablauf und Verantwortlichkeiten so konkret wie nötig planen.</p></li><li data-reveal><span>03</span><h3>Produzieren</h3><p>Konzentriert drehen oder live gestalten, ohne den Raum unnötig zu blockieren.</p></li><li data-reveal><span>04</span><h3>Fertigstellen</h3><p>Material ordnen, präzise bearbeiten und in vereinbarten Formaten ausspielen.</p></li></ol></div></section>
+    <!-- 5 · Leistungen als Kapitel -->
+    <section class="buehne" id="leistungen">
+      <div class="cine-wrap buehne__head">
+        <span class="cine-label">Leistungen</span>
+        <h2 class="cine-h2">Vom ersten Bild bis zur fertigen Ausspielung</h2>
+        <p class="cine-lead">Acht Gewerke, einzeln buchbar — zusammen eine Produktion.</p>
+      </div>
+      <div class="buehne__layout">
+        <div class="buehne__stage" aria-hidden="true">
+          {chapters.map((service, index) => {
+            const media = stageMedia[service.slug];
+            return (
+              <div class:list={["buehne__medium", { "is-active": index === 0 }]} data-medium={service.slug}>
+                {service.slug === "postproduktion" ? (
+                  <span class="buehne__strip">
+                    {filmstripStills.map((still) => (
+                      <span class="buehne__still"><img src={still.src} alt="" width="480" height="320" loading="lazy" decoding="async" /></span>
+                    ))}
+                    <span class="buehne__playhead"></span>
+                  </span>
+                ) : (
+                  <img src={media.src} alt="" width="1200" height="800" loading="lazy" decoding="async" />
+                )}
+                {service.slug === "projection-mapping" && <span class="buehne__grid"></span>}
+              </div>
+            );
+          })}
+          <span class="buehne__finder" aria-hidden="true">
+            <i class="buehne__tick buehne__tick--tl"></i>
+            <i class="buehne__tick buehne__tick--tr"></i>
+            <i class="buehne__tick buehne__tick--bl"></i>
+            <i class="buehne__tick buehne__tick--br"></i>
+            <span class="buehne__finder-meta">
+              <i class="buehne__dot"></i>
+              <span data-stage-label>K 01 · Eventfilm</span>
+            </span>
+            <span class="buehne__finder-count" data-stage-count>01 / 08</span>
+          </span>
+        </div>
+        <div class="buehne__chapters">
+          {chapters.map((service, index) => {
+            const media = stageMedia[service.slug];
+            return (
+              <a class="buehne__chapter" href={servicePath(service)} data-chapter={service.slug} data-chapter-title={service.title} data-chapter-index={String(index + 1).padStart(2, "0")}>
+                <span class="buehne__ghost" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                <span class="buehne__band" aria-hidden="true">
+                  {service.slug === "postproduktion" ? (
+                    <span class="buehne__strip buehne__strip--band">
+                      {filmstripStills.map((still) => (
+                        <span class="buehne__still"><img src={still.src} alt="" width="480" height="320" loading="lazy" decoding="async" /></span>
+                      ))}
+                    </span>
+                  ) : (
+                    <img src={media.src} alt="" width="960" height="410" loading="lazy" decoding="async" />
+                  )}
+                </span>
+                <span class="cine-label">{service.eyebrow}</span>
+                <h3>{service.title}</h3>
+                <p>{service.summary}</p>
+                <span class="buehne__go">Zur Leistung <span aria-hidden="true">→</span></span>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+      <div class="cine-wrap buehne__foot">
+        <a class="cine-link" href="/leistungen/"><span>Alle Leistungen im Überblick</span><span aria-hidden="true">→</span></a>
+      </div>
+    </section>
 
-  <section class="section cine-wrap section--split"><div class="portrait-frame" data-reveal><img src="/media/sophia-portrait.jpg" alt="Sophia Ramahi, Videografin aus Düsseldorf" width="900" height="1100" loading="lazy" /></div><div data-reveal><span class="cine-label">Über Sophia</span><h2 class="cine-h2">Technisches Handwerk mit einem Blick für Atmosphäre</h2><div class="prose"><p>Als ausgebildete Mediengestalterin Bild und Ton verbindet Sophia Kamera, Licht, Ton und Postproduktion. Besonders gern arbeitet sie an Musik-, Kultur- und Eventformaten, bei denen eine eigene visuelle Sprache gefragt ist.</p></div><ArrowLink href="/ueber-sophia/" label="Mehr über die Zusammenarbeit" /></div></section>
+    <!-- 6 · Über Sophia: Abspann-Konzept — ein Set, eine Handschrift -->
+    <section class="portraet" id="ueber-sophia">
+      <span class="portraet__ghost" aria-hidden="true">Sophia</span>
+      <div class="portraet__glow" aria-hidden="true"></div>
+      <div class="cine-wrap portraet__grid">
+        <div class="portraet__copy">
+          <span class="cine-label">Über Sophia</span>
+          <h2 class="portraet__title">Technik schafft den Rahmen. <em>Atmosphäre</em> macht den Film.</h2>
+          <ol class="portraet__credits" aria-label="Gewerke, die Sophia selbst verantwortet">
+            <li class="portraet__credit"><span class="portraet__role">Kamera</span><i aria-hidden="true"></i><span class="portraet__name">Sophia Ramahi</span></li>
+            <li class="portraet__credit"><span class="portraet__role">Licht</span><i aria-hidden="true"></i><span class="portraet__name">Sophia Ramahi</span></li>
+            <li class="portraet__credit"><span class="portraet__role">Ton</span><i aria-hidden="true"></i><span class="portraet__name">Sophia Ramahi</span></li>
+            <li class="portraet__credit"><span class="portraet__role">Schnitt</span><i aria-hidden="true"></i><span class="portraet__name">Sophia Ramahi</span></li>
+            <li class="portraet__credit"><span class="portraet__role">Live Visuals</span><i aria-hidden="true"></i><span class="portraet__name">Sophia Ramahi</span></li>
+          </ol>
+          <p class="portraet__claim">Ausgebildete Mediengestalterin Bild und Ton — ein Set, eine Handschrift. Und wenn ein Projekt mehr braucht, holt sie das passende Team dazu.</p>
+          <a class="cine-link" href="/ueber-sophia/"><span>Mehr über die Zusammenarbeit</span><span aria-hidden="true">→</span></a>
+        </div>
+        <figure class="portraet__frame">
+          <img src="/media/sophia-portrait.jpg" alt="Sophia Ramahi, Videografin aus Düsseldorf" width="900" height="1100" loading="lazy" decoding="async" />
+          <span class="portraet__tint" aria-hidden="true"></span>
+          <span class="portraet__rail u-meta" aria-hidden="true">Sophia Ramahi · Mediengestalterin Bild & Ton</span>
+        </figure>
+      </div>
+    </section>
 
-  <section class="section section--surface"><div class="cine-wrap"><div class="section-heading section-heading--row" data-reveal><div><span class="cine-label">Düsseldorf & NRW</span><h2 class="cine-h2">Regional verankert, mobil produziert</h2></div><ArrowLink href="/standorte/" label="Alle Einsatzorte" /></div><div class="location-strip">{locations.slice(0, 8).map((location) => <a href={`/standorte/${location.slug}/`}>{location.city}<span>{location.region}</span></a>)}</div></div></section>
+    <!-- 7 · Prozess als Schnitt-Timeline -->
+    <section class="cut" id="prozess">
+      <div class="cut__sticky">
+        <div class="cine-wrap cut__head">
+          <span class="cine-label">Zusammenarbeit</span>
+          <h2 class="cine-h2">Vom ersten Gespräch zum fertigen Film</h2>
+        </div>
+        <div class="cine-wrap cut__screen">
+          {cutSteps.map((step, index) => (
+            <div class:list={["cut__step", { "is-active": index === 0 }]} data-step={index}>
+              <span class="cut__num" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+              <h3>{step.title}</h3>
+              <p>{step.copy}</p>
+            </div>
+          ))}
+        </div>
+        <div class="cine-wrap">
+          <div class="cut__timeline" aria-hidden="true">
+            <span class="cut__playhead"><i></i></span>
+            {cutSteps.map((step, index) => (
+              <span class:list={["cut__clip", { "is-active": index === 0 }]} data-clip={index}>
+                <i class="cut__fill"></i>
+                <span class="cut__clip-label">{String(index + 1).padStart(2, "0")} · {step.title}</span>
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <section class="section cine-wrap"><div class="section-heading section-heading--row" data-reveal><div><span class="cine-label">Journal</span><h2 class="cine-h2">Aus der Praxis</h2></div><ArrowLink href="/journal/" label="Alle Beiträge" /></div><div class="article-grid">{articles.map((article) => <a class="article-card" href={`/journal/${article.slug}/`} data-reveal><img src={article.image} alt="" width="900" height="600" loading="lazy" /><span>{article.readingTime}</span><h3>{article.title}</h3><p>{article.excerpt}</p></a>)}</div></section>
-  <ContactCta />
+    <!-- 8 · Düsseldorf & NRW -->
+    <section class="region" id="einsatzgebiet">
+      <div class="cine-wrap">
+        <div class="region__head">
+          <span class="cine-label">Düsseldorf & NRW</span>
+          <h2 class="cine-h2">Die Basis ist Düsseldorf. Produziert wird, wo das Projekt stattfindet.</h2>
+        </div>
+        <a class="region__basis" href={`/standorte/${duesseldorf.slug}/`}>
+          <span class="region__basis-name">Düsseldorf</span>
+          <span class="u-meta">Basis · Vorgespräche & Produktionen</span>
+        </a>
+        <div class="region__groups">
+          {regionGroups.map((group) => (
+            <div class="region__group">
+              <span class="region__beam" aria-hidden="true"></span>
+              <h3 class="u-meta">{group.label}</h3>
+              <p class="region__cities">
+                {group.items.map((location) => (
+                  <a href={`/standorte/${location.slug}/`}>{location.city}</a>
+                ))}
+              </p>
+            </div>
+          ))}
+        </div>
+        <div class="region__foot">
+          <p class="u-caption">Keine Niederlassungen — Produktionen werden von Düsseldorf aus geplant, Anfahrt transparent im Angebot.</p>
+          <a class="cine-link" href="/standorte/"><span>Alle Einsatzorte</span><span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9 · Finale: das Licht kehrt zurück -->
+    <section class="finale" id="kontakt">
+      <div class="finale__media" aria-hidden="true">
+        <video muted loop playsinline preload="none" poster="/media/hero-poster.jpg" width="1280" height="720" data-finale-video>
+          <source src="/media/hero-loop.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div class="finale__portal" aria-hidden="true"></div>
+      <div class="finale__horizon" aria-hidden="true"></div>
+      <div class="finale__slit" aria-hidden="true"></div>
+      <div class="cine-wrap finale__content">
+        <h2 class="finale__title">
+          <span class="finale__title-line">Der nächste Film beginnt</span>
+          <span class="finale__title-line">mit einem <em>Gespräch</em>.</span>
+        </h2>
+        <p class="cine-lead">Erzählen Sie Sophia, was entstehen soll — ein paar Sätze reichen für den Anfang.</p>
+        <a class="cine-btn finale__cta" href="/kontakt/" data-magnetic>Projekt besprechen</a>
+        <p class="finale__meta u-meta">Düsseldorf · Antwort meist innerhalb von zwei Werktagen</p>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    import "../scripts/home-motion.ts";
+  </script>
 </BaseLayout>

@@ -11,7 +11,13 @@ Das Repository ist öffentlich einsehbar, aber nicht Open Source. Code, Texte un
 ## Aktueller Stand
 
 - Astro 7 mit strengem TypeScript und statischem Vercel-Output
-- freigegebenes Designsystem `Nocturnal Cinema` in Pink, Schwarz und Weiß
+- Designsystem `Purple Frame` in Lila, Schwarz und Weiß
+  (Spezifikation: `docs/DESIGN-SPEC-PURPLE-FRAME.md`); Content-, A11y- und
+  Ehrlichkeitsregeln der früheren Spezifikation gelten unverändert
+- Startseite als zusammenhängende Scroll-Erzählung: Blenden-Ouvertüre mit
+  stummem Showreel-Loop, Licht-Manifest, horizontale Projektreise, Kinosaal
+  mit eigenem Player, Leistungsbühne mit Sucher-Overlay, Abspann-Porträt,
+  Schnitt-Timeline, Region und Licht-Finale
 - 43 erzeugte HTML-Seiten
 - vier vollständige Projektseiten
 - Leistungs-Hub, Videografie-Pillar, VJ/Mapping-Pillar und acht Leistungsdetails

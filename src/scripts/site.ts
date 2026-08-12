@@ -1,3 +1,10 @@
+const header = document.querySelector<HTMLElement>("[data-site-header]");
+if (header) {
+  const onScroll = () => header.toggleAttribute("data-scrolled", window.scrollY > 24);
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+}
+
 const toggle = document.querySelector<HTMLButtonElement>("[data-nav-toggle]");
 const nav = document.querySelector<HTMLElement>("[data-nav]");
 

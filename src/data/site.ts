@@ -170,8 +170,8 @@ export const services: Service[] = [
     summary: "Sauber geplanter Originalton für Interviews, dokumentarische Situationen und kleine Produktionen.",
     intro: "Ton ist nicht die Reparaturphase nach dem Dreh. Raum, Mikrofonierung, Umgebung und Bewegungsfreiheit müssen vorher zusammen gedacht werden. Als ausgebildete Mediengestalterin Bild und Ton kann Sophia beides in kleinen Setups verbinden.",
     outcome: "Je nach Produktion übernimmt sie den Ton selbst oder plant einen eigenen Tonposten ein, wenn Umfang und Verantwortung das erfordern.",
-    image: "/media/light-amber.jpg",
-    alt: "Warmes Licht in einer Produktionsumgebung",
+    image: "/media/light-void.jpg",
+    alt: "Fast schwarzer Raum mit schmalem kühlem Lichtspalt",
     deliverables: ["Mikrofonierung kleiner Setups", "Interview- und Atmoaufnahme", "Synchronisierte Übergabe", "Grundlegende Tonbearbeitung"],
     process: ["Raum und Motiv einschätzen", "Mikrofonierung festlegen", "Pegel und Störquellen kontrollieren", "Material sichern und dokumentieren"],
     suitableFor: ["Interviews", "Event-Statements", "Kleine Dokumentationen", "Kompakte One-Person-Produktionen"],
@@ -360,7 +360,7 @@ const locationSeed: Omit<Location, "services" | "faq" | "image" | "indexable">[]
 
 export const locations: Location[] = locationSeed.map((item, index) => ({
   ...item,
-  image: index % 3 === 0 ? "/media/light-hero.jpg" : index % 3 === 1 ? "/media/light-beams.jpg" : "/media/light-amber.jpg",
+  image: index % 3 === 0 ? "/media/light-hero.jpg" : index % 3 === 1 ? "/media/light-beams.jpg" : "/media/light-void.jpg",
   services: ["eventfilm", "imagefilm", "kamera-bildgestaltung", "live-visuals"],
   faq: [
     { question: `Kommt Sophia für einen Dreh nach ${item.city}?`, answer: `Ja. Produktionen in ${item.city} werden von Düsseldorf aus geplant. Anfahrt und gegebenenfalls zusätzliche Reisezeiten stehen transparent im Angebot.` },
