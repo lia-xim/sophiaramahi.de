@@ -1,48 +1,88 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Breadcrumbs from "../components/Breadcrumbs.astro";
 import "../styles/landing.css";
 import { projects } from "../data/site";
 
-// Projekte als eigene cinematische Landing: vier große Frames, jeder eine
-// eigene Bildwelt. URL bleibt /arbeiten/, das Label heißt „Projekte".
+// Projekte als Lichttisch: Das 2×2-Raster ist der Einstieg — vier dunkle
+// Kacheln, die sich beim Scrollen erhellen. Danach das Labor-Kapitel,
+// der Projektindex, das Showreel-Band und das Portal-Finale.
+const tiles = projects;
+const indexMeta: Record<string, string> = {
+  "electric-lights": "Konzept, Kamera & Licht, Klang-Komposition, Schnitt",
+  "dark-lights": "Bildidee, Lichtgestaltung, Fotografie",
+  "24h-to-take": "Teilnahme, Organisation, Technik, Jury",
+  "spektra-festival": "Live Visuals, Projektion, Aufbau, Dokumentation",
+};
 ---
 
-<BaseLayout title="Projekte | Filme, Visuals & Installationen von Sophia Ramahi" description="Ausgewählte Projekte von Sophia Ramahi: Electric Lights, Dark Lights, 24h to take und Spektra Festival.">
+<BaseLayout title="Projekte | Filme, Visuals & Installationen von Sophia Ramahi" description="Ausgewählte Projekte von Sophia Ramahi: Electric Lights, Dark Lights, 24h to take und Spektra Festival — Installationen, Lichtstudien, Wettbewerbe und Live Visuals.">
   <div data-landing>
-    <section class="ld-hero">
-      <div class="ld-hero__media" aria-hidden="true">
-        <img src="/media/spektra-buehne-04.jpg" alt="" width="1600" height="900" loading="eager" fetchpriority="high" decoding="async" />
-      </div>
-      <div class="ld-hero__beam" aria-hidden="true"></div>
-      <div class="cine-wrap ld-hero__content">
-        <Breadcrumbs items={[{ label: "Start", href: "/" }, { label: "Projekte" }]} />
-        <p class="ld-hero__kicker">Ausgewählte Arbeiten</p>
-        <h1 class="ld-hero__title">Vier Projekte, vier <em>Bildwelten</em>.</h1>
-        <p class="ld-hero__lead">Nicht ein Look für alles: Jedes Projekt beginnt bei seinem Material — Musik, Raum, Menschen, Licht oder einer konkreten Frage.</p>
-        <div class="ld-hero__actions">
-          <a class="cine-btn" href="/showreel/">Showreel ansehen</a>
-          <a class="cine-ghost" href="/kontakt/">Projekt anfragen</a>
+    <!-- 1 · Lichttisch: Headline über dem dunklen Raster, das aufleuchtet -->
+    <section class="pj-stage" data-projekt-grid aria-label="Ausgewählte Projekte">
+      <div class="pj-sticky">
+        <header class="pj-head cine-wrap">
+          <p class="pj-kicker">Ausgewählte Arbeiten</p>
+          <h1 class="pj-title">Vier Projekte, vier <em>Bildwelten</em>.</h1>
+          <p class="pj-sub">Installation, Lichtstudie, Wettbewerb, Festival — jedes Projekt beginnt bei seinem Material: Musik, Raum, Menschen, Licht.</p>
+          <p class="pj-scroll" aria-hidden="true">Scrollen</p>
+        </header>
+        <div class="pj-grid">
+          {tiles.map((project, index) => (
+            <a class:list={["pj-tile", { "pj-tile--electric": project.slug === "electric-lights" }]} href={`/projekte/${project.slug}/`}>
+              <img src={project.image} alt={project.alt} width="960" height="600" loading="eager" decoding="async" />
+              <span class="pj-tile__dim" aria-hidden="true"></span>
+              <span class="pj-tile__meta">
+                <span class="cine-label">{String(index + 1).padStart(2, "0")} · {project.category}{project.year ? ` · ${project.year}` : ""}</span>
+                <span class="pj-tile__title">{project.title}</span>
+                <span class="pj-tile__go">Projekt ansehen <span aria-hidden="true">→</span></span>
+              </span>
+            </a>
+          ))}
         </div>
-        <p class="ld-hero__meta"><span>Installation · Lichtstudie · Wettbewerb · Festival</span></p>
       </div>
     </section>
 
-    <section class="cine-wrap ld-frames" style="padding-top: clamp(60px, 9vh, 110px);" aria-label="Alle Projekte">
-      {projects.map((project, index) => (
-        <a class:list={["ld-frame", { "ld-frame--electric": project.slug === "electric-lights" }]} href={`/projekte/${project.slug}/`} data-fx="rise">
-          <img src={project.image} alt={project.alt} width="1200" height="675" loading={index === 0 ? "eager" : "lazy"} decoding="async" />
-          <span class="ld-frame__index" aria-hidden="true">{String(index + 1).padStart(2, "0")} / 04</span>
-          <span class="ld-frame__meta">
-            <span class="cine-label">{project.category}{project.year ? ` · ${project.year}` : ""}</span>
-            <span class="ld-frame__title">{project.title}</span>
-            <span class="ld-frame__sub">{project.summary}</span>
-            <span class="ld-frame__go">Projekt ansehen <span aria-hidden="true">→</span></span>
+    <!-- 2 · Worum es hier geht: das Labor hinter den Produktionen -->
+    <section class="cine-wrap ld-split">
+      <div class="ld-split__head" data-fx="rise">
+        <span class="cine-label">Warum freie Projekte</span>
+        <h2>Das Labor hinter den Produktionen</h2>
+      </div>
+      <div class="ld-split__prose" data-fx="rise">
+        <p>Ausstellungen, Wettbewerbe, Studentenfilme und eigene kreative Arbeiten: Hier probiert Sophia aus, was sich später im Auftrag bewähren muss — Lichtgestaltung, Klang, Erzählformen und der Mut zu eigenen Bildern.</p>
+        <p>Diese Projekte bereichern die Perspektive und bringen neue Ansätze in jede Produktion. Wer bei 24h to take in einem Tag plant, dreht und schneidet, bleibt auch dann ruhig, wenn am Set Zeit und Technik knapp werden.</p>
+        <p>Jedes der vier Projekte steht deshalb für mehr als sein Ergebnis: Es zeigt eine Arbeitsweise — vorbereitet, aufmerksam und nah am Material.</p>
+      </div>
+    </section>
+
+    <!-- 3 · Projektindex -->
+    <section class="cine-wrap pj-index" aria-label="Projektindex">
+      {tiles.map((project, index) => (
+        <a class="pj-index__row" href={`/projekte/${project.slug}/`} data-fx="rise">
+          <span class="pj-index__num">{String(index + 1).padStart(2, "0")}</span>
+          <span class="pj-index__title">{project.title}</span>
+          <span class="pj-index__meta">
+            {project.category}
+            {project.year ? ` · ${project.year}` : ""}
+            {project.location ? ` · ${project.location}` : ""}
+            <br />
+            {indexMeta[project.slug]}
           </span>
+          <span class="pj-index__go" aria-hidden="true">→</span>
         </a>
       ))}
     </section>
 
+    <!-- 4 · Showreel-Band -->
+    <section class="pj-reel">
+      <div class="pj-reel__beam" aria-hidden="true"></div>
+      <span class="cine-label" data-fx="rise">Showreel</span>
+      <h2 data-fx="rise">48 Sekunden Kamera, Licht und Rhythmus.</h2>
+      <p data-fx="rise">Der schnellste Weg, Sophias Bildsprache kennenzulernen — dokumentarisch, inszeniert und live entstanden.</p>
+      <div data-fx="rise"><a class="cine-btn" href="/showreel/">Showreel ansehen</a></div>
+    </section>
+
+    <!-- 5 · Finale -->
     <section class="ld-finale">
       <div class="ld-finale__portal" aria-hidden="true"></div>
       <div class="ld-finale__horizon" aria-hidden="true"></div>

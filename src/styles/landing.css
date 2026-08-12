@@ -671,12 +671,424 @@ html.motion .ld-finale__portal {
   color: #d5cfe2;
 }
 
+/* ============ Projektseite: Lichttisch-Grid ============================= */
+
+/* Ohne Motion/JS: Kopf statisch über dem Raster, alles voll sichtbar.
+   Mit Motion: Kopf liegt über dem dunklen Raster und hebt sich beim
+   Scrollen, während die vier Kacheln nacheinander aufleuchten. */
+
+.pj-stage {
+  position: relative;
+}
+
+html.motion .pj-stage {
+  height: 200svh;
+}
+
+.pj-sticky {
+  display: grid;
+  gap: 0;
+}
+
+html.motion .pj-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: clip;
+}
+
+.pj-head {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: clamp(14px, 2vh, 22px);
+  padding-block: clamp(120px, 16vh, 170px) clamp(28px, 4vh, 44px);
+}
+
+html.motion .pj-head {
+  position: absolute;
+  inset: 0;
+  padding-block: 0;
+  align-content: center;
+  pointer-events: none;
+}
+
+html.motion .pj-head::before {
+  content: "";
+  position: absolute;
+  inset: -10%;
+  z-index: -1;
+  background: radial-gradient(52% 56% at 50% 50%, rgba(5, 3, 10, 0.72) 0%, rgba(5, 3, 10, 0.4) 55%, transparent 78%);
+}
+
+.pj-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: var(--step-meta);
+  font-weight: 550;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #a79fb8;
+}
+
+.pj-kicker::before,
+.pj-kicker::after {
+  content: "";
+  width: 26px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--violet), var(--magenta));
+}
+
+.pj-title {
+  margin: 0;
+  max-width: 16ch;
+  font-family: var(--font-display);
+  font-size: clamp(2.7rem, 7.4vw, 6.6rem);
+  font-weight: 600;
+  font-stretch: 110%;
+  line-height: 1;
+  letter-spacing: -0.038em;
+  background: linear-gradient(180deg, #ffffff 8%, #d6c6f4 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.pj-title em {
+  font-style: normal;
+  background: linear-gradient(92deg, var(--magenta), var(--amber));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.pj-sub {
+  max-width: 46ch;
+  margin: 0;
+  font-size: clamp(1rem, 1.2vw, 1.25rem);
+  line-height: 1.55;
+  color: #c3bccf;
+  text-wrap: balance;
+}
+
+.pj-scroll {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0 0;
+  color: #8d86a0;
+  font-size: var(--step-meta);
+  font-weight: 550;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.pj-scroll::after {
+  content: "";
+  width: 1px;
+  height: 30px;
+  background: linear-gradient(180deg, #9a5cff, transparent);
+}
+
+.pj-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(10px, 1.2vw, 18px);
+  padding: 0 clamp(10px, 1.2vw, 18px) clamp(10px, 1.2vw, 18px);
+}
+
+html.motion .pj-grid {
+  height: 100%;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  padding-top: clamp(76px, 10vh, 96px);
+}
+
+.pj-tile {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--frame);
+  color: var(--text);
+  isolation: isolate;
+  aspect-ratio: 16 / 10;
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+}
+
+html.motion .pj-tile {
+  aspect-ratio: auto;
+  min-height: 0;
+}
+
+.pj-tile img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s var(--ease);
+}
+
+/* Eingebrannten Bildtitel aus dem Ausschnitt halten */
+.pj-tile--electric img {
+  height: 175%;
+  object-position: center top;
+}
+
+.pj-tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(5, 3, 10, 0.05) 42%, rgba(5, 3, 10, 0.88) 100%);
+}
+
+/* Der Lichttisch: dunkler Schleier, den die Choreografie hebt */
+.pj-tile__dim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--bg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+html.motion .pj-tile__dim {
+  opacity: 0.85;
+}
+
+.pj-tile__meta {
+  position: absolute;
+  z-index: 3;
+  left: clamp(16px, 1.8vw, 28px);
+  right: clamp(16px, 1.8vw, 28px);
+  bottom: clamp(14px, 1.6vw, 24px);
+  display: grid;
+  gap: 4px;
+  justify-items: start;
+}
+
+.pj-tile__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.6vw, 2.7rem);
+  font-weight: 600;
+  font-stretch: 108%;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+.pj-tile__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  opacity: 0.8;
+  transition: gap var(--dur) var(--ease), opacity var(--dur) var(--ease);
+}
+
+.pj-tile:hover,
+.pj-tile:focus-visible {
+  transform: scale(1.014);
+  box-shadow: 0 26px 80px rgba(24, 8, 58, 0.55), 0 0 0 1px rgba(215, 188, 255, 0.24);
+  z-index: 4;
+}
+
+.pj-tile:hover img {
+  transform: scale(1.04);
+}
+
+.pj-tile:hover .pj-tile__go,
+.pj-tile:focus-visible .pj-tile__go {
+  opacity: 1;
+  gap: 12px;
+}
+
+.pj-tile:hover .pj-tile__dim {
+  opacity: 0 !important;
+}
+
+/* Projektindex */
+.pj-index {
+  display: grid;
+  padding-block: 0 clamp(80px, 11vh, 150px);
+}
+
+.pj-index__row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 5fr) minmax(0, 4fr) auto;
+  align-items: baseline;
+  gap: 16px clamp(20px, 3vw, 48px);
+  padding-block: clamp(20px, 3vh, 30px);
+  border-bottom: 1px solid var(--line);
+  color: var(--text);
+  transition: background var(--dur) var(--ease), padding-inline var(--dur) var(--ease);
+}
+
+.pj-index__row:first-child {
+  border-top: 1px solid var(--line);
+}
+
+.pj-index__row:hover,
+.pj-index__row:focus-visible {
+  background: rgba(113, 55, 255, 0.07);
+  padding-inline: 14px;
+}
+
+.pj-index__num {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.3vw, 1.25rem);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in oklab, var(--magenta) 80%, white);
+}
+
+.pj-index__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.4vw, 2.3rem);
+  font-weight: 600;
+  font-stretch: 106%;
+  letter-spacing: -0.02em;
+}
+
+.pj-index__meta {
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.pj-index__go {
+  font-size: 1.2rem;
+  color: #8d86a0;
+  transition: color var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+
+.pj-index__row:hover .pj-index__go {
+  color: var(--text);
+  transform: translateX(4px);
+}
+
+/* Showreel-Band */
+.pj-reel {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: clamp(14px, 2vh, 20px);
+  text-align: center;
+  padding: clamp(70px, 10vh, 120px) var(--gutter);
+  overflow: clip;
+  isolation: isolate;
+  border-block: 1px solid var(--line);
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 55%, var(--bg) 100%);
+}
+
+.pj-reel__beam {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  z-index: 0;
+  width: min(80vw, 1000px);
+  height: 100%;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, rgba(154, 92, 255, 0.22) 0%, rgba(113, 55, 255, 0.06) 55%, transparent 100%);
+  clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
+  filter: blur(8px);
+  pointer-events: none;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 20%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 20%);
+}
+
+.pj-reel > * {
+  position: relative;
+  z-index: 1;
+}
+
+.pj-reel h2 {
+  margin: 0;
+  max-width: 18ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 4vw, 3.6rem);
+  font-weight: 600;
+  font-stretch: 108%;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  background: linear-gradient(180deg, #ffffff 10%, #dbcdf6 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.pj-reel p {
+  max-width: 48ch;
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
 /* ============ Responsive ================================================ */
 
 @media (max-width: 900px) {
   .ld-split,
   .ld-cards {
     grid-template-columns: 1fr;
+  }
+
+  /* Lichttisch mobil: eine Spalte, keine Sticky-Bühne */
+  html.motion .pj-stage {
+    height: auto;
+  }
+
+  html.motion .pj-sticky {
+    position: static;
+    height: auto;
+    overflow: visible;
+  }
+
+  html.motion .pj-head {
+    position: relative;
+    inset: auto;
+    padding-block: clamp(110px, 15vh, 150px) clamp(24px, 4vh, 36px);
+    align-content: start;
+    pointer-events: auto;
+  }
+
+  html.motion .pj-head::before {
+    content: none;
+  }
+
+  .pj-grid,
+  html.motion .pj-grid {
+    height: auto;
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    padding-top: 0;
+  }
+
+  .pj-tile,
+  html.motion .pj-tile {
+    aspect-ratio: 16 / 10;
+  }
+
+  html.motion .pj-tile__dim {
+    opacity: 0;
+  }
+
+  .pj-index__row {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .pj-index__meta {
+    grid-column: 2 / span 2;
+    grid-row: 2;
   }
 
   .ld-steps__rail {
@@ -755,4 +1167,11 @@ html.motion .ld-finale__portal {
 @media (prefers-reduced-motion: reduce) {
   html.motion .ld-steps__line i { transform: none; }
   html.motion .ld-finale__portal { transform: translateX(-50%); opacity: 0.8; }
+  html.motion .pj-stage { height: auto; }
+  html.motion .pj-sticky { position: static; height: auto; overflow: visible; }
+  html.motion .pj-head { position: relative; inset: auto; align-content: start; pointer-events: auto; padding-block: clamp(120px, 16vh, 170px) clamp(28px, 4vh, 44px); }
+  html.motion .pj-head::before { content: none; }
+  html.motion .pj-grid { height: auto; grid-template-rows: none; padding-top: 0; }
+  html.motion .pj-tile { aspect-ratio: 16 / 10; }
+  html.motion .pj-tile__dim { opacity: 0; }
 }

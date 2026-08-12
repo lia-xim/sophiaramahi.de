@@ -38,6 +38,52 @@ if (root && isMotion && !prefersReduced) {
         );
       }
 
+      /* Projektseite: Lichttisch — Kopf hebt sich, die vier Kacheln
+         leuchten nacheinander auf. Mobil ersetzen ruhige Auftritte die
+         Sticky-Bühne. */
+      const stage = root.querySelector<HTMLElement>("[data-projekt-grid]");
+      if (stage) {
+        const tiles = gsap.utils.toArray<HTMLElement>(".pj-tile", stage);
+        const desktopStage = window.matchMedia("(min-width: 901px)").matches;
+        if (desktopStage && tiles.length) {
+          const tl = gsap.timeline({
+            defaults: { ease: "none" },
+            scrollTrigger: {
+              trigger: stage,
+              start: "top top",
+              end: "bottom bottom",
+              scrub: 0.5,
+              invalidateOnRefresh: true,
+            },
+          });
+          tl.fromTo(".pj-grid", { scale: 0.965, y: 12 }, { scale: 1, y: 0, duration: 0.6, ease: "power1.out" }, 0)
+            .to(".pj-head", { autoAlpha: 0, y: -70, duration: 0.32 }, 0.08)
+            .to(".pj-scroll", { autoAlpha: 0, duration: 0.08 }, 0.02);
+          tiles.forEach((tile, index) => {
+            const dim = tile.querySelector(".pj-tile__dim");
+            const meta = tile.querySelector(".pj-tile__meta");
+            const at = 0.22 + index * 0.14;
+            if (dim) tl.fromTo(dim, { opacity: 0.85 }, { opacity: 0, duration: 0.26 }, at);
+            if (meta) tl.fromTo(meta, { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.22 }, at + 0.05);
+          });
+          tl.to({}, { duration: 0.12 });
+        } else {
+          tiles.forEach((tile) => {
+            gsap.fromTo(
+              tile,
+              { autoAlpha: 0.001, y: 32 },
+              {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.7,
+                ease: "power2.out",
+                scrollTrigger: { trigger: tile, start: "top 90%", once: true },
+              }
+            );
+          });
+        }
+      }
+
       /* Generische Auftritte */
       gsap.utils.toArray<HTMLElement>("[data-fx='rise']").forEach((element) => {
         gsap.fromTo(
