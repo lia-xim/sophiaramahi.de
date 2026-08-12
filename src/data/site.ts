@@ -366,7 +366,7 @@ export const locations: Location[] = locationSeed.map((item, index) => ({
     { question: `Kommt Sophia für einen Dreh nach ${item.city}?`, answer: `Ja. Produktionen in ${item.city} werden von Düsseldorf aus geplant. Anfahrt und gegebenenfalls zusätzliche Reisezeiten stehen transparent im Angebot.` },
     { question: "Was sollte in der ersten Anfrage stehen?", answer: "Projektart, Ort, ungefährer Termin und gewünschte Verwendung reichen für den ersten Schritt. Details werden anschließend gemeinsam geklärt." },
   ],
-  indexable: true,
+  indexable: ["duesseldorf", "koeln"].includes(item.slug),
 }));
 
 export const articles: Article[] = [

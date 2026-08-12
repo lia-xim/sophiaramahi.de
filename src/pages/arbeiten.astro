@@ -1,11 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import ArrowLink from "../components/ArrowLink.astro";
 import ContactCta from "../components/ContactCta.astro";
 import PageHero from "../components/PageHero.astro";
 import ProjectGrid from "../components/ProjectGrid.astro";
 ---
 <BaseLayout title="Arbeiten | Filme, Visuals & Installationen von Sophia Ramahi" description="Ausgewählte Arbeiten von Sophia Ramahi: Electric Lights, Dark Lights, 24h to take und Spektra Festival.">
   <PageHero title="Arbeiten" lead="Filme, Lichtstudien, Live Visuals und Projekte zwischen Bühne, Kamera und Raum." image="/media/spektra-buehne-04.jpg" alt="Bühne mit farbiger Projektion" crumbs={[{label:"Start",href:"/"},{label:"Arbeiten"}]} />
-  <section class="section cine-wrap"><div class="section-heading" data-reveal><span class="cine-label">Portfolio</span><h2 class="cine-h2">Nicht ein Look für alles</h2><p class="cine-lead">Jedes Projekt beginnt bei seinem Material: Musik, Raum, Menschen, Licht oder einer konkreten Frage.</p></div><ProjectGrid /></section>
+  <section class="section cine-wrap"><div class="section-heading" data-reveal><span class="cine-label">Portfolio</span><h2 class="cine-h2">Nicht ein Look für alles</h2><p class="cine-lead">Jedes Projekt beginnt bei seinem Material: Musik, Raum, Menschen, Licht oder einer konkreten Frage.</p></div><ProjectGrid /><div class="section-action"><ArrowLink href="/showreel/" label="Showreel ansehen" class="cine-btn" /></div></section>
   <ContactCta title="Ein ähnlicher Rahmen, aber eine eigene Idee?" />
 </BaseLayout>

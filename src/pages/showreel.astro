@@ -1,0 +1,43 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import ContactCta from "../components/ContactCta.astro";
+
+const title = "Showreel | Kamera, Licht & Live Visuals von Sophia Ramahi";
+const description = "Sophia Ramahis Showreel mit Arbeiten aus Videografie, Kamera, Lichtgestaltung, Events und Live Visuals.";
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "@id": "https://sophiaramahi.de/showreel/#video",
+  name: "Showreel von Sophia Ramahi",
+  description,
+  thumbnailUrl: "https://sophiaramahi.de/media/electric-lights-cover.jpg",
+  uploadDate: "2024-11-19T16:43:21+00:00",
+  duration: "PT48S",
+  contentUrl: "https://sophiaramahi.de/media/showreel.mp4",
+  embedUrl: "https://sophiaramahi.de/showreel/",
+  creator: { "@id": "https://sophiaramahi.de/#person" },
+};
+---
+
+<BaseLayout title={title} description={description} image="/media/electric-lights-cover.jpg" imageAlt="Showreel von Sophia Ramahi" schema={schema}>
+  <article class="section cine-wrap">
+    <Breadcrumbs items={[{ label: "Start", href: "/" }, { label: "Arbeiten", href: "/arbeiten/" }, { label: "Showreel" }]} />
+    <header class="section-heading" data-reveal>
+      <span class="cine-label">Showreel · 48 Sekunden</span>
+      <h1 class="cine-display">Kamera, Licht, Rhythmus.</h1>
+      <p class="cine-lead">Ein kompakter Querschnitt durch dokumentarische, inszenierte und live entstandene Bilder.</p>
+    </header>
+    <div class="video-frame" data-reveal>
+      <video controls playsinline preload="metadata" poster="/media/electric-lights-cover.jpg" aria-label="Showreel von Sophia Ramahi">
+        <source src="/media/showreel.mp4" type="video/mp4" />
+        Ihr Browser kann das Video nicht wiedergeben.
+      </video>
+    </div>
+    <section class="section section--split">
+      <div><span class="cine-label">Im Reel</span><h2 class="cine-h2">Bewegte Bilder zwischen Set und Bühne</h2></div>
+      <div class="prose"><p>Das Showreel bündelt Ausschnitte aus Kameraarbeit, Lichtgestaltung, Event- und Kulturproduktionen sowie Live Visuals. Die einzelnen Projekte und Sophias konkrete Aufgaben sind im Portfolio nachvollziehbar dokumentiert.</p><p>Für ein Angebot sind Anlass, Ort, Zeitraum und gewünschte Ausspielung die wichtigsten ersten Angaben.</p></div>
+    </section>
+  </article>
+  <ContactCta title="Ein eigenes Projekt besprechen" />
+</BaseLayout>

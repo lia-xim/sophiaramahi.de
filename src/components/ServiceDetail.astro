@@ -34,7 +34,7 @@ const schema = [
 ];
 ---
 
-<BaseLayout title={service.seoTitle} description={service.seoDescription} image={service.image} schema={schema}>
+<BaseLayout title={service.seoTitle} description={service.seoDescription} image={service.image} imageAlt={service.alt} schema={schema}>
   <PageHero title={service.title} lead={service.summary} image={service.image} alt={service.alt} crumbs={[{ label: "Start", href: "/" }, { label: parentLabel, href: parentHref }, { label: service.title }]} />
 
   <section class="section section--split cine-wrap">
