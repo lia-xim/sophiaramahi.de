@@ -206,6 +206,9 @@ html.motion .ouv__slit {
   filter: blur(10px);
   transform: rotate(-4deg);
   pointer-events: none;
+  /* Weiche Oberkante: kein Lichtsaum an der Sektionsgrenze zum Hero */
+  mask-image: linear-gradient(180deg, transparent 0%, #000 26%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 26%);
 }
 
 /* Lebendiger Raum hinter der Aussage: wandernder Glow + Bühnenboden */
@@ -588,7 +591,8 @@ html.motion .reel__bar {
 .reel__play {
   position: absolute;
   inset: 0;
-  z-index: 3;
+  /* Unter der Letterbox: solange die Blende zu ist, bleibt der Saal dunkel */
+  z-index: 1;
   display: grid;
   place-items: center;
   align-content: center;
@@ -627,7 +631,7 @@ html.motion .reel__bar {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 4;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: clamp(12px, 1.6vw, 20px);
@@ -918,8 +922,10 @@ html.motion .buehne__dot {
   display: grid;
   align-content: center;
   gap: 10px;
-  min-height: min(44vh, 420px);
-  padding-block: clamp(32px, 5vh, 56px);
+  /* Bewusst lang: jedes Kapitel bekommt Raum, damit der Bühnenwechsel
+     links klar als Scroll-Dramaturgie lesbar ist. */
+  min-height: min(62vh, 600px);
+  padding-block: clamp(36px, 6vh, 64px);
   border-bottom: 1px solid var(--line);
   color: var(--text);
   isolation: isolate;

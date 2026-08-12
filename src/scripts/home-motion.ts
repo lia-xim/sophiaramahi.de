@@ -40,6 +40,12 @@ if (reelFrame) {
       time.textContent = `${format(video.currentTime)} / ${format(duration)}`;
       scrub.setAttribute("aria-valuenow", String(Math.round(progress * 100)));
       ui.dataset.state = video.paused ? "paused" : "playing";
+      /* Zustands-Sync: sobald das Video läuft oder angespielt wurde, gehört
+         die Fläche dem Player — das Start-Overlay darf nie darüber liegen. */
+      if (!video.paused || video.currentTime > 0.05) {
+        play.hidden = true;
+        ui.hidden = false;
+      }
     };
 
     const start = () => {
@@ -56,7 +62,7 @@ if (reelFrame) {
       else video.pause();
     });
     video.addEventListener("click", () => {
-      if (ui.hidden) return;
+      if (!play.hidden) return;
       if (video.paused) void video.play();
       else video.pause();
     });
@@ -65,9 +71,10 @@ if (reelFrame) {
     video.addEventListener("timeupdate", render);
     video.addEventListener("loadedmetadata", render);
     video.addEventListener("ended", () => {
-      play.hidden = false;
-      ui.hidden = true;
       video.currentTime = 0;
+      video.pause();
+      ui.hidden = true;
+      play.hidden = false;
     });
 
     const seekFromEvent = (event: PointerEvent) => {
@@ -147,7 +154,7 @@ if (root && motionActive && !reduceMotion) {
           /* Weicher Übergang: das Bild löst sich zurück in die Dunkelheit,
              aus der das Manifest sein Licht aufbaut. */
           tl.to(".ouv__content", { autoAlpha: 0, y: -48, duration: 0.2 }, 0.78)
-            .to(".ouv__media", { opacity: 0.24, duration: 0.22 }, 0.78)
+            .to(".ouv__media", { opacity: 0.12, duration: 0.22 }, 0.78)
             .to(".ouv__media video", { scale: 1.05, duration: 0.22 }, 0.78);
         }
         return tl;
@@ -177,8 +184,10 @@ if (root && motionActive && !reduceMotion) {
           if (word === accent) return;
           tl.to(word, { color: "#f2eefc", duration: step * 1.6 }, 0.06 + index * step);
         });
-        tl.fromTo(".manifest__cone", { opacity: 0.35, rotate: -7, xPercent: -6 }, { opacity: 1, rotate: -2, xPercent: 4, duration: 1 }, 0)
-          .fromTo(".manifest__glow", { opacity: 0.15, scale: 0.7, yPercent: 18 }, { opacity: 1, scale: 1.1, yPercent: -10, duration: 1 }, 0)
+        /* Kegel und Glow entstehen erst, wenn die Szene wirklich steht —
+           kein Lichtsaum an der Grenze zum auslaufenden Hero. */
+        tl.fromTo(".manifest__cone", { opacity: 0, rotate: -7, xPercent: -6 }, { opacity: 1, rotate: -2, xPercent: 4, duration: 0.82 }, 0.18)
+          .fromTo(".manifest__glow", { opacity: 0, scale: 0.7, yPercent: 18 }, { opacity: 1, scale: 1.1, yPercent: -10, duration: 0.82 }, 0.18)
           .fromTo(".manifest__floor", { scaleX: 0.1, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.7 }, 0.15)
           .to({}, { duration: 0.14 });
       };
@@ -282,7 +291,9 @@ if (root && motionActive && !reduceMotion) {
       const kinosaalDesktop = () => {
         const tl = gsap.timeline({
           defaults: { ease: "none" },
-          scrollTrigger: { trigger: ".reel", start: "top top", end: "bottom bottom", scrub: 0.5 },
+          /* Direktes Scrub ohne Nachlauf: kein Auf- und Abpumpen der Leinwand
+             beim schnellen Hineinscrollen. */
+          scrollTrigger: { trigger: ".reel", start: "top top", end: "bottom bottom", scrub: true },
         });
         tl.fromTo(".reel__frame", { scale: 0.55, y: "9vh" }, { scale: 1, y: 0, duration: 0.45, ease: "power1.out" }, 0)
           .fromTo(".reel__beam", { opacity: 0 }, { opacity: 0.45, duration: 0.3 }, 0.04)
@@ -291,13 +302,14 @@ if (root && motionActive && !reduceMotion) {
           .fromTo(".reel__note", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.12 }, 0.56)
           /* Danach bleibt der Saal lange ruhig stehen: Raum zum Abspielen. */
           .to({}, { duration: 0.4 });
+        return tl;
       };
 
       /* ---------- 4 · Kinosaal (Mobil): Letterbox öffnet beim Eintreten ---------- */
       const kinosaalMobil = () => {
         const tl = gsap.timeline({
           defaults: { ease: "none" },
-          scrollTrigger: { trigger: ".reel__frame", start: "top 88%", end: "top 38%", scrub: 0.5 },
+          scrollTrigger: { trigger: ".reel__frame", start: "top 88%", end: "top 38%", scrub: true },
         });
         tl.fromTo(".reel__frame", { scale: 0.94 }, { scale: 1, duration: 1 }, 0)
           .fromTo(".reel__bar--top", { scaleY: 1 }, { scaleY: 0, duration: 0.6 }, 0.3)
@@ -380,7 +392,7 @@ if (root && motionActive && !reduceMotion) {
           );
         });
 
-        // 6 · Porträt: Masken-Reveal + Parallaxe + Konturwort
+        // 6 · Porträt: Masken-Reveal + durchgehende Bewegung beim Scrollen
         const frame = root.querySelector<HTMLElement>(".portraet__frame");
         if (frame) {
           gsap.to(frame, {
@@ -389,15 +401,29 @@ if (root && motionActive && !reduceMotion) {
             ease: "power3.out",
             scrollTrigger: { trigger: ".portraet", start: "top 68%", once: true },
           });
+          /* Der Rahmen bleibt in Bewegung: er wandert und richtet sich beim
+             Durchscrollen leicht auf, das Bild schiebt gegenläufig. */
+          gsap.fromTo(frame, { y: 70, rotation: 3.2 }, {
+            y: -70,
+            rotation: 0.6,
+            ease: "none",
+            scrollTrigger: { trigger: ".portraet", start: "top bottom", end: "bottom top", scrub: true },
+          });
           const image = frame.querySelector("img");
           if (image) {
-            gsap.fromTo(image, { yPercent: -4 }, {
-              yPercent: 4,
+            gsap.fromTo(image, { yPercent: -5 }, {
+              yPercent: 5,
               ease: "none",
               scrollTrigger: { trigger: ".portraet", start: "top bottom", end: "bottom top", scrub: true },
             });
           }
         }
+        /* Auch die Textseite lebt: Credits driften minimal gegenläufig. */
+        gsap.fromTo(".portraet__copy", { y: -14 }, {
+          y: 26,
+          ease: "none",
+          scrollTrigger: { trigger: ".portraet", start: "top bottom", end: "bottom top", scrub: true },
+        });
         gsap.fromTo(".portraet__ghost", { xPercent: -3 }, {
           xPercent: 3,
           ease: "none",
