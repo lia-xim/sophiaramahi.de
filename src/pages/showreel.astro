@@ -1,8 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
-import ContactCta from "../components/ContactCta.astro";
+import "../styles/landing.css";
+import "../styles/player.css";
+import { site } from "../data/site";
 
+// Showreel als eigener Kinosaal: großer Player, Einordnung und der direkte
+// Weg zu den Kanälen, auf denen mehr zu sehen ist.
 const title = "Showreel | Kamera, Licht & Live Visuals von Sophia Ramahi";
 const description = "Sophia Ramahis Showreel mit Arbeiten aus Videografie, Kamera, Lichtgestaltung, Events und Live Visuals.";
 const schema = {
@@ -18,26 +22,115 @@ const schema = {
   embedUrl: "https://sophiaramahi.de/showreel/",
   creator: { "@id": "https://sophiaramahi.de/#person" },
 };
+
+const youtube = site.social.find((item) => item.label === "YouTube")!;
+const instagram = site.social.find((item) => item.label === "Instagram")!;
+const linkedin = site.social.find((item) => item.label === "LinkedIn")!;
 ---
 
 <BaseLayout title={title} description={description} image="/media/electric-lights-cover.jpg" imageAlt="Showreel von Sophia Ramahi" schema={schema}>
-  <article class="section cine-wrap">
-    <Breadcrumbs items={[{ label: "Start", href: "/" }, { label: "Arbeiten", href: "/arbeiten/" }, { label: "Showreel" }]} />
-    <header class="section-heading" data-reveal>
-      <span class="cine-label">Showreel · 48 Sekunden</span>
-      <h1 class="cine-display">Kamera, Licht, Rhythmus.</h1>
-      <p class="cine-lead">Ein kompakter Querschnitt durch dokumentarische, inszenierte und live entstandene Bilder.</p>
-    </header>
-    <div class="video-frame" data-reveal>
-      <video controls playsinline preload="metadata" poster="/media/electric-lights-cover.jpg" aria-label="Showreel von Sophia Ramahi">
-        <source src="/media/showreel.mp4" type="video/mp4" />
-        Ihr Browser kann das Video nicht wiedergeben.
-      </video>
-    </div>
-    <section class="section section--split">
-      <div><span class="cine-label">Im Reel</span><h2 class="cine-h2">Bewegte Bilder zwischen Set und Bühne</h2></div>
-      <div class="prose"><p>Das Showreel bündelt Ausschnitte aus Kameraarbeit, Lichtgestaltung, Event- und Kulturproduktionen sowie Live Visuals. Die einzelnen Projekte und Sophias konkrete Aufgaben sind im Portfolio nachvollziehbar dokumentiert.</p><p>Für ein Angebot sind Anlass, Ort, Zeitraum und gewünschte Ausspielung die wichtigsten ersten Angaben.</p></div>
+  <div data-landing>
+    <!-- 1 · Kinosaal -->
+    <section class="sr-player">
+      <div class="sr-player__beam" aria-hidden="true"></div>
+      <div class="cine-wrap sr-player__head">
+        <Breadcrumbs items={[{ label: "Start", href: "/" }, { label: "Projekte", href: "/arbeiten/" }, { label: "Showreel" }]} />
+        <span class="cine-label">Showreel · 48 Sekunden</span>
+        <h1 class="ld-hero__title" style="max-width: 18ch; text-align: center;">Kamera, Licht, <em>Rhythmus</em>.</h1>
+        <p class="ld-hero__lead" style="text-align: center;">Ein kompakter Querschnitt durch dokumentarische, inszenierte und live entstandene Bilder.</p>
+      </div>
+      <div class="cine-wrap sr-player__body">
+        <div class="reel__frame" data-reel>
+          <video controls playsinline preload="metadata" poster="/media/hero-poster.jpg" width="1920" height="1080" aria-label="Showreel von Sophia Ramahi">
+            <source src="/media/showreel.mp4" type="video/mp4" />
+            Ihr Browser kann das Video nicht wiedergeben.
+          </video>
+          <button class="reel__play" type="button" data-reel-play hidden>
+            <span class="reel__play-ring" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor" /></svg>
+            </span>
+            <span>Showreel abspielen</span>
+          </button>
+          <div class="reel__ui" data-reel-ui hidden>
+            <button class="reel__ui-btn" type="button" data-reel-toggle aria-label="Pause">
+              <svg class="reel__icon-pause" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M7 5h3.4v14H7zm6.6 0H17v14h-3.4z" fill="currentColor" /></svg>
+              <svg class="reel__icon-play" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor" /></svg>
+            </button>
+            <div class="reel__scrub" data-reel-scrub role="slider" aria-label="Position im Showreel" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+              <i class="reel__scrub-fill" data-reel-fill></i>
+              <i class="reel__scrub-knob" data-reel-knob></i>
+            </div>
+            <span class="reel__time u-num" data-reel-time>0:00 / 0:48</span>
+            <span class="reel__silent u-meta">Ohne Ton</span>
+            <button class="reel__ui-btn" type="button" data-reel-full aria-label="Vollbild">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+            </button>
+          </div>
+        </div>
+        <p class="u-caption">Showreel · 48 Sekunden · bewusst ohne Ton · Stand: November 2024</p>
+      </div>
     </section>
-  </article>
-  <ContactCta title="Ein eigenes Projekt besprechen" />
+
+    <!-- 2 · Einordnung -->
+    <section class="cine-wrap ld-split">
+      <div class="ld-split__head" data-fx="rise">
+        <span class="cine-label">Im Reel</span>
+        <h2>Bewegte Bilder zwischen Set und Bühne</h2>
+      </div>
+      <div class="ld-split__prose" data-fx="rise">
+        <p>Das Showreel bündelt Ausschnitte aus Kameraarbeit, Lichtgestaltung, Event- und Kulturproduktionen sowie Live Visuals. Die einzelnen Projekte und Sophias konkrete Aufgaben sind im Portfolio nachvollziehbar dokumentiert.</p>
+        <p>Für ein Angebot sind Anlass, Ort, Zeitraum und gewünschte Ausspielung die wichtigsten ersten Angaben.</p>
+      </div>
+    </section>
+
+    <!-- 3 · Kanäle -->
+    <section class="cine-wrap">
+      <div class="ld-steps__head" data-fx="rise">
+        <span class="cine-label">Mehr sehen</span>
+        <h2 class="cine-h2">Ganze Filme, aktuelle Einblicke, direkter Draht</h2>
+      </div>
+      <div class="sr-social">
+        <a class="sr-social__card" href={youtube.href} rel="me noopener noreferrer" data-fx="rise">
+          <span class="sr-social__label">YouTube</span>
+          <span class="sr-social__name">@sorasfilm</span>
+          <p>Musikvideos, Kunstprojekte und Filme in voller Länge — inklusive Electric Lights.</p>
+          <span class="sr-social__go">Kanal öffnen <span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="sr-social__card" href={instagram.href} rel="me noopener noreferrer" data-fx="rise">
+          <span class="sr-social__label">Instagram</span>
+          <span class="sr-social__name">@sorasfilms</span>
+          <p>Aktuelle Produktionen, Behind the Scenes und Ausschnitte aus Live-Momenten.</p>
+          <span class="sr-social__go">Profil öffnen <span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="sr-social__card" href={linkedin.href} rel="me noopener noreferrer" data-fx="rise">
+          <span class="sr-social__label">LinkedIn</span>
+          <span class="sr-social__name">Sophia Ramahi</span>
+          <p>Beruflicher Werdegang, Stationen und der direkte Draht für Produktionsteams.</p>
+          <span class="sr-social__go">Profil öffnen <span aria-hidden="true">↗</span></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 4 · Finale -->
+    <section class="ld-finale ld-finale--media">
+      <div class="ld-finale__media" aria-hidden="true">
+        <video muted loop playsinline preload="none" poster="/media/hero-poster.jpg" width="1280" height="720" data-finale-video>
+          <source src="/media/hero-loop.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div class="ld-finale__portal" aria-hidden="true"></div>
+      <div class="ld-finale__horizon" aria-hidden="true"></div>
+      <div class="ld-finale__slit" aria-hidden="true"></div>
+      <div class="cine-wrap ld-finale__content">
+        <h2 class="ld-finale__title">48 Sekunden gesehen — Lust auf <em>mehr</em>?</h2>
+        <p class="cine-lead">Erzählen Sie Sophia von Ihrem Film, Event oder visuellen Projekt.</p>
+        <a class="cine-btn finale__cta" href="/kontakt/" data-magnetic>Projekt besprechen</a>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    import "../scripts/landing-motion.ts";
+    import "../scripts/reel-player.ts";
+  </script>
 </BaseLayout>

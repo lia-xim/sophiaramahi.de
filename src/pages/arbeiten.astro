@@ -82,14 +82,21 @@ const indexMeta: Record<string, string> = {
       <div data-fx="rise"><a class="cine-btn" href="/showreel/">Showreel ansehen</a></div>
     </section>
 
-    <!-- 5 · Finale -->
-    <section class="ld-finale">
+    <!-- 5 · Finale: das Licht kehrt zurück -->
+    <section class="ld-finale ld-finale--media">
+      <div class="ld-finale__media" aria-hidden="true">
+        <video muted loop playsinline preload="none" poster="/media/hero-poster.jpg" width="1280" height="720" data-finale-video>
+          <source src="/media/hero-loop.mp4" type="video/mp4" />
+        </video>
+      </div>
       <div class="ld-finale__portal" aria-hidden="true"></div>
       <div class="ld-finale__horizon" aria-hidden="true"></div>
+      <div class="ld-finale__slit" aria-hidden="true"></div>
       <div class="cine-wrap ld-finale__content">
-        <h2 class="ld-finale__title">Ein ähnlicher Rahmen, aber eine eigene Idee?</h2>
+        <h2 class="ld-finale__title">Ein ähnlicher Rahmen, aber eine <em>eigene</em> Idee?</h2>
         <p class="cine-lead">Erzählen Sie Sophia, was entstehen soll — ein paar Sätze reichen für den Anfang.</p>
-        <a class="cine-btn finale__cta" href="/kontakt/">Projekt besprechen</a>
+        <a class="cine-btn finale__cta" href="/kontakt/" data-magnetic>Projekt besprechen</a>
+        <p class="u-meta" style="color: #8d86a0;">Düsseldorf · Antwort meist innerhalb von zwei Werktagen</p>
       </div>
     </section>
   </div>

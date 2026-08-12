@@ -7,6 +7,8 @@
    unter `html.motion` (Inline-Gate im <head>, respektiert
    prefers-reduced-motion). GSAP animiert von genau diesen Startzuständen. */
 
+@import "./player.css";
+
 .home {
   overflow-x: clip;
 }
@@ -541,27 +543,7 @@ html.motion .reel__beam {
   gap: 14px;
 }
 
-.reel__frame {
-  position: relative;
-  width: min(100%, 1120px);
-  aspect-ratio: 16 / 9;
-  max-height: 68vh;
-  overflow: hidden;
-  border-radius: 12px;
-  background: #000;
-  box-shadow:
-    0 0 0 1px rgba(215, 188, 255, 0.12),
-    0 44px 140px rgba(24, 8, 58, 0.6);
-  isolation: isolate;
-  will-change: transform;
-}
-
-.reel__frame video {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+/* Frame, Start-Overlay und Player-Leiste: player.css (geteilt) */
 
 .reel__bar {
   position: absolute;
@@ -592,160 +574,6 @@ html.motion .reel__bar {
 @media (min-width: 861px) {
   html.motion .reel__frame {
     transform: translateY(9vh) scale(0.55);
-  }
-}
-
-/* WICHTIG: `display: grid` würde das hidden-Attribut aushebeln —
-   dieser Riegel garantiert, dass das Start-Overlay wirklich verschwindet. */
-.reel__play[hidden] {
-  display: none;
-}
-
-.reel__play {
-  position: absolute;
-  inset: 0;
-  /* Unter der Letterbox: solange die Blende zu ist, bleibt der Saal dunkel */
-  z-index: 1;
-  display: grid;
-  place-items: center;
-  align-content: center;
-  gap: 14px;
-  border: 0;
-  cursor: pointer;
-  background: linear-gradient(180deg, rgba(5, 3, 10, 0.12), rgba(5, 3, 10, 0.46));
-  color: var(--text);
-  font-family: var(--font-body);
-  font-size: 0.9375rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-
-.reel__play-ring {
-  display: grid;
-  place-items: center;
-  width: 84px;
-  height: 84px;
-  border-radius: 999px;
-  background: rgba(248, 245, 255, 0.94);
-  color: var(--on-accent);
-  box-shadow: 0 0 0 1px rgba(215, 188, 255, 0.4), 0 0 44px 8px rgba(113, 55, 255, 0.4);
-  transition: transform var(--dur) var(--ease), background var(--dur) var(--ease);
-}
-
-.reel__play:hover .reel__play-ring,
-.reel__play:focus-visible .reel__play-ring {
-  transform: scale(1.06);
-  background: var(--amber);
-}
-
-/* Eigener minimaler Player: Play/Pause, Scrubber, Zeit, Vollbild */
-.reel__ui {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  gap: clamp(12px, 1.6vw, 20px);
-  padding: 14px clamp(14px, 2vw, 24px);
-  background: linear-gradient(180deg, transparent, rgba(5, 3, 10, 0.82));
-  opacity: 0;
-  transition: opacity 0.3s var(--ease);
-}
-
-.reel__ui[hidden] {
-  display: none;
-}
-
-.reel__frame:hover .reel__ui,
-.reel__frame:focus-within .reel__ui,
-.reel__ui.is-visible {
-  opacity: 1;
-}
-
-.reel__ui-btn {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  flex: none;
-  border: 0;
-  border-radius: 999px;
-  background: rgba(248, 245, 255, 0.14);
-  color: var(--text);
-  cursor: pointer;
-  transition: background var(--dur) var(--ease);
-}
-
-.reel__ui-btn:hover,
-.reel__ui-btn:focus-visible {
-  background: rgba(248, 245, 255, 0.28);
-}
-
-.reel__ui[data-state="paused"] .reel__icon-pause,
-.reel__ui:not([data-state="paused"]) .reel__icon-play {
-  display: none;
-}
-
-.reel__scrub {
-  position: relative;
-  flex: 1 1 auto;
-  height: 22px;
-  cursor: pointer;
-}
-
-.reel__scrub::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  height: 3px;
-  transform: translateY(-50%);
-  border-radius: 2px;
-  background: rgba(248, 245, 255, 0.18);
-}
-
-.reel__scrub-fill {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  height: 3px;
-  width: 100%;
-  transform: translateY(-50%) scaleX(0);
-  transform-origin: left center;
-  border-radius: 2px;
-  background: linear-gradient(90deg, var(--violet), var(--magenta));
-}
-
-.reel__scrub-knob {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  width: 12px;
-  height: 12px;
-  transform: translate(-50%, -50%);
-  border-radius: 999px;
-  background: var(--text);
-  box-shadow: 0 0 10px 2px rgba(154, 92, 255, 0.5);
-}
-
-.reel__time {
-  flex: none;
-  font-size: var(--step-caption);
-  color: #cfc9dc;
-  font-variant-numeric: tabular-nums;
-}
-
-.reel__silent {
-  flex: none;
-  color: #8d86a0;
-}
-
-@media (max-width: 560px) {
-  .reel__silent {
-    display: none;
   }
 }
 
@@ -1843,10 +1671,7 @@ html.motion .finale__portal {
     width: 100%;
   }
 
-  .reel__play-ring {
-    width: 68px;
-    height: 68px;
-  }
+  /* Play-Ring-Größe mobil: player.css */
 
   .cut__timeline {
     gap: 5px;

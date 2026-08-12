@@ -595,6 +595,47 @@ html.motion .ld-steps__line i {
   padding: clamp(100px, 14vh, 180px) var(--gutter);
 }
 
+/* Variante mit bewegtem Licht: der stumme Loop kehrt als Grund zurück */
+.ld-finale--media {
+  min-height: 92svh;
+}
+
+.ld-finale__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.ld-finale__media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.38;
+}
+
+.ld-finale__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 90% at 50% 46%, rgba(5, 3, 10, 0.12) 0%, rgba(5, 3, 10, 0.66) 62%, rgba(5, 3, 10, 0.96) 100%),
+    linear-gradient(180deg, var(--bg) 0%, rgba(5, 3, 10, 0.3) 26%, rgba(5, 3, 10, 0.44) 70%, var(--bg) 100%);
+}
+
+.ld-finale__slit {
+  position: absolute;
+  left: 50%;
+  bottom: calc(11% - 1px);
+  z-index: 0;
+  width: min(30vw, 320px);
+  height: 3px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, #f6f0ff 50%, transparent);
+  box-shadow: 0 0 24px 6px rgba(154, 92, 255, 0.6);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
 .ld-finale__portal {
   position: absolute;
   left: 50%;
@@ -850,6 +891,38 @@ html.motion .pj-tile {
   background: linear-gradient(180deg, rgba(5, 3, 10, 0.05) 42%, rgba(5, 3, 10, 0.88) 100%);
 }
 
+/* Auf dem Lichttisch sitzen die Projektnamen in den vier Außenecken
+   des Rasters — dauerhaft sichtbar, per Scroll kräftiger werdend. */
+@media (min-width: 901px) {
+  .pj-grid .pj-tile:nth-child(1)::after,
+  .pj-grid .pj-tile:nth-child(2)::after {
+    background: linear-gradient(0deg, rgba(5, 3, 10, 0.05) 42%, rgba(5, 3, 10, 0.88) 100%);
+  }
+
+  .pj-grid .pj-tile:nth-child(1) .pj-tile__meta {
+    top: clamp(14px, 1.6vw, 24px);
+    bottom: auto;
+  }
+
+  .pj-grid .pj-tile:nth-child(2) .pj-tile__meta {
+    top: clamp(14px, 1.6vw, 24px);
+    bottom: auto;
+    left: auto;
+    justify-items: end;
+    text-align: right;
+  }
+
+  .pj-grid .pj-tile:nth-child(4) .pj-tile__meta {
+    left: auto;
+    justify-items: end;
+    text-align: right;
+  }
+}
+
+html.motion .pj-tile__meta {
+  opacity: 0.45;
+}
+
 /* Der Lichttisch: dunkler Schleier, den die Choreografie hebt */
 .pj-tile__dim {
   position: absolute;
@@ -1034,6 +1107,124 @@ html.motion .pj-tile__dim {
   line-height: 1.6;
 }
 
+/* ============ Showreel: Kanäle ========================================== */
+
+.sr-player {
+  position: relative;
+  padding-block: clamp(140px, 18vh, 200px) clamp(60px, 9vh, 100px);
+  isolation: isolate;
+  overflow: clip;
+}
+
+.sr-player__beam {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  z-index: 0;
+  width: min(96vw, 1400px);
+  height: 60%;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, rgba(154, 92, 255, 0.3) 0%, rgba(113, 55, 255, 0.08) 55%, transparent 100%);
+  clip-path: polygon(47.5% 0, 52.5% 0, 100% 100%, 0 100%);
+  filter: blur(8px);
+  pointer-events: none;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 16%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 16%);
+}
+
+.sr-player__head {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: clamp(12px, 2vh, 20px);
+  text-align: center;
+  margin-bottom: clamp(32px, 5vh, 52px);
+}
+
+.sr-player__body {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+}
+
+.sr-social {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 2vw, 28px);
+  padding-block: 0 clamp(80px, 11vh, 140px);
+}
+
+.sr-social__card {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding: clamp(24px, 3vw, 38px);
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(25, 16, 42, 0.55), rgba(18, 10, 33, 0.35));
+  color: var(--text);
+  overflow: hidden;
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), border-color 0.4s var(--ease);
+}
+
+.sr-social__card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, color-mix(in oklab, var(--violet) 75%, transparent), color-mix(in oklab, var(--magenta) 55%, transparent) 45%, transparent);
+}
+
+.sr-social__card:hover,
+.sr-social__card:focus-visible {
+  transform: translateY(-4px);
+  border-color: rgba(215, 188, 255, 0.35);
+  box-shadow: 0 24px 70px rgba(24, 8, 58, 0.5);
+}
+
+.sr-social__label {
+  font-size: var(--step-meta);
+  font-weight: 550;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8d86a0;
+}
+
+.sr-social__name {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.2vw, 2rem);
+  font-weight: 600;
+  font-stretch: 106%;
+  letter-spacing: -0.02em;
+}
+
+.sr-social__card p {
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.sr-social__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #c3bccf;
+  transition: color var(--dur) var(--ease), gap var(--dur) var(--ease);
+}
+
+.sr-social__card:hover .sr-social__go {
+  color: var(--text);
+  gap: 12px;
+}
+
 /* ============ Responsive ================================================ */
 
 @media (max-width: 900px) {
@@ -1089,6 +1280,10 @@ html.motion .pj-tile__dim {
   .pj-index__meta {
     grid-column: 2 / span 2;
     grid-row: 2;
+  }
+
+  .sr-social {
+    grid-template-columns: 1fr;
   }
 
   .ld-steps__rail {
@@ -1174,4 +1369,5 @@ html.motion .pj-tile__dim {
   html.motion .pj-grid { height: auto; grid-template-rows: none; padding-top: 0; }
   html.motion .pj-tile { aspect-ratio: 16 / 10; }
   html.motion .pj-tile__dim { opacity: 0; }
+  html.motion .pj-tile__meta { opacity: 1; }
 }

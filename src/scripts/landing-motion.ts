@@ -64,7 +64,9 @@ if (root && isMotion && !prefersReduced) {
             const meta = tile.querySelector(".pj-tile__meta");
             const at = 0.22 + index * 0.14;
             if (dim) tl.fromTo(dim, { opacity: 0.85 }, { opacity: 0, duration: 0.26 }, at);
-            if (meta) tl.fromTo(meta, { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.22 }, at + 0.05);
+            /* Die Ecktitel sind dauerhaft da — anfangs gedimmt, mit dem
+               Scroll werden sie kräftig. */
+            if (meta) tl.fromTo(meta, { autoAlpha: 0.45 }, { autoAlpha: 1, duration: 0.24 }, at + 0.04);
           });
           tl.to({}, { duration: 0.12 });
         } else {
@@ -119,17 +121,51 @@ if (root && isMotion && !prefersReduced) {
         });
       }
 
-      /* Finale: das Portal baut sich auf */
+      /* Finale: das Portal baut sich auf — optional über bewegtem Licht */
       const portal = root.querySelector(".ld-finale__portal");
       if (portal) {
+        const finaleVideo = root.querySelector<HTMLVideoElement>("[data-finale-video]");
+        if (finaleVideo) {
+          ScrollTrigger.create({
+            trigger: ".ld-finale",
+            start: "top bottom",
+            end: "bottom top",
+            onToggle: (self) => {
+              if (self.isActive) finaleVideo.play().catch(() => {});
+              else finaleVideo.pause();
+            },
+          });
+        }
         const finaleTl = gsap.timeline({
           defaults: { ease: "none" },
           scrollTrigger: { trigger: ".ld-finale", start: "top 82%", end: "center 50%", scrub: 0.5 },
         });
+        if (finaleVideo) {
+          finaleTl
+            .fromTo(".ld-finale__media", { opacity: 0 }, { opacity: 1, duration: 0.9 }, 0)
+            .fromTo(finaleVideo, { scale: 1.1 }, { scale: 1, duration: 1 }, 0)
+            .fromTo(".ld-finale__slit", { width: "8vw", opacity: 0.4 }, { width: "min(30vw, 320px)", opacity: 0.9, duration: 0.5 }, 0);
+        }
         finaleTl
           .fromTo(portal, { scaleY: 0.12, opacity: 0.15 }, { scaleY: 1, opacity: 0.8, duration: 1 }, 0)
           .fromTo(".ld-finale__horizon", { scaleX: 0.16, opacity: 0 }, { scaleX: 1, opacity: 0.7, duration: 1 }, 0.05)
           .fromTo(".ld-finale__content", { autoAlpha: 0.15, y: 34 }, { autoAlpha: 1, y: 0, duration: 0.8 }, 0.12);
+      }
+
+      /* Leicht magnetische Primäraktion (nur Zeiger-Geräte) */
+      const magneticCta = root.querySelector<HTMLElement>("[data-magnetic]");
+      if (magneticCta && window.matchMedia("(pointer: fine)").matches) {
+        const setX = gsap.quickTo(magneticCta, "x", { duration: 0.4, ease: "power3.out" });
+        const setY = gsap.quickTo(magneticCta, "y", { duration: 0.4, ease: "power3.out" });
+        magneticCta.addEventListener("mousemove", (event) => {
+          const rect = magneticCta.getBoundingClientRect();
+          setX((event.clientX - (rect.left + rect.width / 2)) * 0.18);
+          setY((event.clientY - (rect.top + rect.height / 2)) * 0.3);
+        });
+        magneticCta.addEventListener("mouseleave", () => {
+          setX(0);
+          setY(0);
+        });
       }
 
       window.addEventListener("load", () => ScrollTrigger.refresh(), { once: true });
