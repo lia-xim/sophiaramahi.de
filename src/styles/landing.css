@@ -1203,15 +1203,18 @@ html.motion .pj-tile__dim {
   text-shadow: 0 0 18px rgba(154, 92, 255, 0.55);
 }
 
-/* Kapitel-Grundform: jede Leistung eine Vollbild-Welt */
+/* Kapitel-Grundform: jede Leistung eine Vollbild-Welt.
+   Zwischen den Welten liegt bewusst Schwarz — keine harten Kanten,
+   sondern Atempausen wie zwischen zwei Szenen. */
 .lw-chapter {
   position: relative;
-  min-height: 96svh;
+  min-height: 100svh;
   display: grid;
   align-items: center;
   overflow: clip;
   isolation: isolate;
-  padding-block: clamp(80px, 11vh, 130px);
+  padding-block: clamp(90px, 13vh, 150px);
+  margin-block: clamp(50px, 12vh, 150px);
   scroll-margin-top: 70px;
 }
 
@@ -1229,28 +1232,29 @@ html.motion .pj-tile__dim {
   object-fit: cover;
 }
 
-/* Grund-Scrim: dunkel zur Inhaltsseite, oben und unten in Schwarz auslaufend */
+/* Grund-Scrim: dunkel zur Inhaltsseite, oben und unten LANG in Schwarz
+   auslaufend — die Szene taucht aus dem Dunkel auf und sinkt zurück. */
 .lw-chapter__stagebg::after {
   content: "";
   position: absolute;
   inset: 0;
   background:
     linear-gradient(90deg, rgba(5, 3, 10, 0.9) 0%, rgba(5, 3, 10, 0.46) 52%, rgba(5, 3, 10, 0.24) 100%),
-    linear-gradient(180deg, var(--bg) 0%, rgba(5, 3, 10, 0.2) 22%, rgba(5, 3, 10, 0.34) 74%, var(--bg) 100%);
+    linear-gradient(180deg, var(--bg) 0%, rgba(5, 3, 10, 0.6) 16%, rgba(5, 3, 10, 0.26) 34%, rgba(5, 3, 10, 0.26) 64%, rgba(5, 3, 10, 0.6) 84%, var(--bg) 100%);
 }
 
 /* Inhalt rechts: Scrim gespiegelt */
 .lw-chapter--flip .lw-chapter__stagebg::after {
   background:
     linear-gradient(270deg, rgba(5, 3, 10, 0.9) 0%, rgba(5, 3, 10, 0.46) 52%, rgba(5, 3, 10, 0.24) 100%),
-    linear-gradient(180deg, var(--bg) 0%, rgba(5, 3, 10, 0.2) 22%, rgba(5, 3, 10, 0.34) 74%, var(--bg) 100%);
+    linear-gradient(180deg, var(--bg) 0%, rgba(5, 3, 10, 0.6) 16%, rgba(5, 3, 10, 0.26) 34%, rgba(5, 3, 10, 0.26) 64%, rgba(5, 3, 10, 0.6) 84%, var(--bg) 100%);
 }
 
 /* Inhalt mittig: ruhige Vignette */
 .lw-chapter--center .lw-chapter__stagebg::after {
   background:
     radial-gradient(70% 74% at 50% 50%, rgba(5, 3, 10, 0.78) 0%, rgba(5, 3, 10, 0.5) 55%, rgba(5, 3, 10, 0.3) 100%),
-    linear-gradient(180deg, var(--bg) 0%, rgba(5, 3, 10, 0.14) 24%, rgba(5, 3, 10, 0.3) 76%, var(--bg) 100%);
+    linear-gradient(180deg, var(--bg) 0%, rgba(5, 3, 10, 0.55) 15%, rgba(5, 3, 10, 0.2) 32%, rgba(5, 3, 10, 0.2) 68%, rgba(5, 3, 10, 0.55) 85%, var(--bg) 100%);
 }
 
 /* Projektionsdopplung (Live Visuals): dasselbe Bild als versetztes Echo */
@@ -1408,7 +1412,8 @@ html.motion .pj-tile__dim {
 .lw-bars i:nth-child(6) { height: 74%; }
 .lw-bars i:nth-child(7) { height: 40%; }
 
-/* Musikvideo: violette Bühnenfärbung über dem Bild */
+/* Musikvideo: violette Bühnenfärbung über dem Bild — an den Rändern
+   maskiert, damit die Welt weich in Schwarz ausläuft */
 .lw-chapter--musikvideo .lw-chapter__stagebg::before {
   content: "";
   position: absolute;
@@ -1417,6 +1422,90 @@ html.motion .pj-tile__dim {
   background: linear-gradient(220deg, rgba(113, 55, 255, 0.28) 0%, transparent 46%, rgba(154, 92, 255, 0.18) 100%);
   mix-blend-mode: screen;
   pointer-events: none;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
+}
+
+/* Scroll-Vignette: am Szenenrand stark, öffnet sich zur Mitte des Kapitels */
+.lw-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(115% 96% at 50% 50%, transparent 28%, rgba(5, 3, 10, 0.66) 74%, rgba(5, 3, 10, 0.98) 100%);
+  opacity: 0.5;
+}
+
+html.motion .lw-vignette {
+  opacity: 1;
+}
+
+/* Filmkorn: feines, lebendiges Korn über jeder Welt */
+.lw-grain {
+  position: absolute;
+  inset: -70px;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.7'/%3E%3C/svg%3E");
+  background-size: 240px 240px;
+}
+
+html.motion .lw-grain {
+  animation: lw-grain 900ms steps(4) infinite;
+}
+
+@keyframes lw-grain {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-26px, 18px); }
+  50% { transform: translate(16px, -24px); }
+  75% { transform: translate(-12px, -14px); }
+  100% { transform: translate(22px, 12px); }
+}
+
+/* VHS-Scanlines (Live Visuals): feine Zeilen, die langsam rollen */
+.lw-scanlines {
+  position: absolute;
+  inset: -6px 0;
+  z-index: 1;
+  pointer-events: none;
+  background: repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.24) 0 1px, transparent 1px 3px);
+  opacity: 0.45;
+}
+
+html.motion .lw-scanlines {
+  animation: lw-scanroll 9s linear infinite;
+}
+
+@keyframes lw-scanroll {
+  to { transform: translateY(6px); }
+}
+
+/* Filmperforation (Postproduktion): rollende Lochreihen wie am Filmstreifen */
+.lw-perf {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 26px;
+  z-index: 1;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(215, 188, 255, 0.3) 3px, transparent 4px);
+  background-size: 26px 34px;
+  background-position: center 0;
+  opacity: 0.45;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 84%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 84%, transparent 100%);
+}
+
+.lw-perf--l { left: 12px; }
+.lw-perf--r { right: 12px; }
+
+html.motion .lw-perf {
+  animation: lw-perf-roll 1.6s linear infinite;
+}
+
+@keyframes lw-perf-roll {
+  to { background-position: center 34px; }
 }
 
 /* Weiches Glühen (Imagefilm) */
@@ -1591,6 +1680,58 @@ html.motion .lw-finder__rec::before {
   transform: perspective(900px) rotateY(-10deg) rotateX(3deg);
   mix-blend-mode: screen;
   pointer-events: none;
+}
+
+/* Scan-Linie (Mapping): ein Lichtstreifen tastet die Fläche ab */
+.lw-scan {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  top: 18%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(154, 92, 255, 0.55) 30%, rgba(215, 188, 255, 0.4) 55%, transparent);
+  box-shadow: 0 0 18px 3px rgba(113, 55, 255, 0.35);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  opacity: 0;
+}
+
+html.motion .lw-scan {
+  opacity: 1;
+}
+
+/* Lichtstaub: wenige schwebende Partikel mit Tiefe */
+.lw-dust {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.lw-dust i {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(215, 188, 255, 0.55);
+  box-shadow: 0 0 10px 2px rgba(154, 92, 255, 0.35);
+}
+
+html.motion .lw-dust i {
+  animation: lw-twinkle 4.2s ease-in-out infinite;
+}
+
+.lw-dust i:nth-child(1) { left: 12%; top: 30%; }
+.lw-dust i:nth-child(2) { left: 28%; top: 66%; width: 3px; height: 3px; animation-delay: 0.8s; }
+.lw-dust i:nth-child(3) { left: 55%; top: 22%; width: 2px; height: 2px; animation-delay: 1.6s; }
+.lw-dust i:nth-child(4) { left: 72%; top: 58%; animation-delay: 2.4s; }
+.lw-dust i:nth-child(5) { left: 86%; top: 34%; width: 3px; height: 3px; animation-delay: 3.1s; }
+.lw-dust i:nth-child(6) { left: 42%; top: 80%; width: 2px; height: 2px; animation-delay: 1.2s; }
+
+@keyframes lw-twinkle {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 0.9; }
 }
 
 /* ============ Showreel: Kanäle ========================================== */
@@ -1931,4 +2072,10 @@ html.motion .lw-finder__rec::before {
   html.motion .pj-tile__dim { opacity: 0; }
   html.motion .pj-tile__meta { opacity: 1; }
   html.motion .lw-finder__rec::before { animation: none; }
+  html.motion .lw-dust i { animation: none; }
+  html.motion .lw-scan { opacity: 0; }
+  html.motion .lw-vignette { opacity: 0.5; }
+  html.motion .lw-grain { animation: none; }
+  html.motion .lw-scanlines { animation: none; }
+  html.motion .lw-perf { animation: none; }
 }

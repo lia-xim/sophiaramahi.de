@@ -186,6 +186,122 @@ if (root && isMotion && !prefersReduced) {
         });
       });
 
+      /* Mikroeffekte der Welten */
+      const chapterVisible = (selector: string) => ({
+        trigger: selector,
+        start: "top bottom",
+        end: "bottom top",
+        toggleActions: "play pause resume pause",
+      });
+
+      // Scroll-Vignette: am Rand der Szene stark, in der Mitte offen
+      gsap.utils.toArray<HTMLElement>(".lw-vignette").forEach((vignette) => {
+        const section = vignette.closest("section") as Element;
+        gsap.timeline({
+          defaults: { ease: "none" },
+          scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: true },
+        })
+          .fromTo(vignette, { opacity: 1 }, { opacity: 0.28, duration: 0.5 })
+          .to(vignette, { opacity: 1, duration: 0.5 });
+      });
+
+      // Ghost-Nummern ziehen langsam gegen die Scrollrichtung
+      gsap.utils.toArray<HTMLElement>(".lw-chapter__ghost").forEach((ghost) => {
+        gsap.fromTo(ghost, { yPercent: 16 }, {
+          yPercent: -16,
+          ease: "none",
+          scrollTrigger: { trigger: ghost.closest("section") as Element, start: "top bottom", end: "bottom top", scrub: true },
+        });
+      });
+
+      // Lichtstaub: jedes Korn treibt in eigener Tiefe
+      gsap.utils.toArray<HTMLElement>(".lw-dust i").forEach((dot, index) => {
+        gsap.fromTo(dot, { y: 30 + (index % 3) * 22 }, {
+          y: -(30 + ((index + 1) % 3) * 26),
+          ease: "none",
+          scrollTrigger: { trigger: dot.closest("section") as Element, start: "top bottom", end: "bottom top", scrub: true },
+        });
+      });
+
+      // Eventfilm: der Lichtkegel schwenkt kaum merklich
+      const beam = root.querySelector(".lw-beam");
+      if (beam) {
+        gsap.to(beam, {
+          rotation: 2.4,
+          xPercent: 3,
+          transformOrigin: "top center",
+          duration: 5.5,
+          yoyo: true,
+          repeat: -1,
+          ease: "sine.inOut",
+          scrollTrigger: chapterVisible(".lw-chapter--eventfilm"),
+        });
+      }
+
+      // Imagefilm: das Glühen atmet
+      const glow = root.querySelector(".lw-glow");
+      if (glow) {
+        gsap.to(glow, {
+          scale: 1.12,
+          opacity: 0.75,
+          duration: 4,
+          yoyo: true,
+          repeat: -1,
+          ease: "sine.inOut",
+          scrollTrigger: chapterVisible(".lw-chapter--imagefilm"),
+        });
+      }
+
+      // Kamera: Fadenkreuz driftet wie aus der Hand geführt
+      const cross = root.querySelector(".lw-finder__cross");
+      if (cross) {
+        gsap.to(cross, {
+          x: 10,
+          y: -7,
+          duration: 3.6,
+          yoyo: true,
+          repeat: -1,
+          ease: "sine.inOut",
+          scrollTrigger: chapterVisible(".lw-chapter--kamera-bildgestaltung"),
+        });
+      }
+
+      // Live Visuals: das Projektions-Echo flackert leicht
+      const echo = root.querySelector(".lw-echo");
+      if (echo) {
+        gsap.to(echo, {
+          opacity: 0.22,
+          xPercent: 0.8,
+          duration: 1.6,
+          yoyo: true,
+          repeat: -1,
+          ease: "sine.inOut",
+          scrollTrigger: chapterVisible(".lw-chapter--live-visuals"),
+        });
+      }
+
+      // Postproduktion: die Clips setzen sich nacheinander in die Spur
+      const clips = gsap.utils.toArray<HTMLElement>(".lw-timeline i");
+      if (clips.length) {
+        gsap.fromTo(clips, { scaleX: 0, transformOrigin: "left center" }, {
+          scaleX: 1,
+          duration: 0.55,
+          stagger: 0.12,
+          ease: "power2.out",
+          scrollTrigger: { trigger: ".lw-timeline", start: "top 92%", once: true },
+        });
+      }
+
+      // Mapping: die Scan-Linie tastet die Fläche von oben nach unten ab
+      const scan = root.querySelector(".lw-scan");
+      if (scan) {
+        const scanTl = gsap.timeline({ repeat: -1, repeatDelay: 1.2, scrollTrigger: chapterVisible(".lw-chapter--projection-mapping") });
+        scanTl
+          .fromTo(scan, { top: "10%", opacity: 0 }, { opacity: 0.9, duration: 0.8, ease: "sine.out" }, 0)
+          .to(scan, { top: "88%", duration: 6, ease: "none" }, 0)
+          .to(scan, { opacity: 0, duration: 0.8, ease: "sine.in" }, 5.2);
+      }
+
       /* Prozess-Schiene zeichnet sich mit dem Scroll */
       const stepsLine = root.querySelector(".ld-steps__line i");
       if (stepsLine) {
