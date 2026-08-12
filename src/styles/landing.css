@@ -1,0 +1,758 @@
+/* sophiaramahi.de — Purple Frame, Landing-Szenen.
+   Gemeinsame cinematische Bausteine für den Leistungs-Hub, die acht
+   Leistungs-Landingpages, ihre lokalen Versionen und die Projektseite.
+
+   Kontrakt wie auf der Startseite: Grundzustand offen und lesbar;
+   Startzustände nur unter `html.motion` (siehe landing-motion.ts). */
+
+/* ============ Hero ====================================================== */
+
+.ld-hero {
+  position: relative;
+  min-height: min(92svh, 900px);
+  display: grid;
+  align-content: end;
+  overflow: clip;
+  isolation: isolate;
+  padding: clamp(150px, 22vh, 240px) 0 clamp(56px, 8vh, 96px);
+}
+
+.ld-hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.ld-hero__media img {
+  width: 100%;
+  height: 112%;
+  object-fit: cover;
+  will-change: transform;
+}
+
+.ld-hero__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(5, 3, 10, 0.82) 0%, rgba(5, 3, 10, 0.34) 30%, rgba(5, 3, 10, 0.5) 64%, var(--bg) 100%),
+    linear-gradient(90deg, rgba(5, 3, 10, 0.66) 0%, rgba(5, 3, 10, 0.14) 55%, rgba(5, 3, 10, 0.05) 100%);
+}
+
+.ld-hero__beam {
+  position: absolute;
+  left: 12%;
+  top: 0;
+  z-index: 1;
+  width: min(52vw, 720px);
+  height: 74%;
+  background: linear-gradient(195deg, rgba(154, 92, 255, 0.3) 0%, rgba(113, 55, 255, 0.08) 52%, transparent 78%);
+  clip-path: polygon(24% 0, 42% 0, 100% 100%, 0 100%);
+  filter: blur(9px);
+  pointer-events: none;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 18%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 18%);
+}
+
+.ld-hero__content {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: clamp(16px, 2.4vh, 26px);
+  justify-items: start;
+}
+
+.ld-hero__content .cine-crumbs {
+  justify-content: flex-start;
+}
+
+.ld-hero__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--step-meta);
+  font-weight: 550;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #a79fb8;
+}
+
+.ld-hero__kicker::before {
+  content: "";
+  width: 26px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--violet), var(--magenta));
+}
+
+.ld-hero__title {
+  margin: 0;
+  max-width: 14ch;
+  font-family: var(--font-display);
+  font-size: clamp(2.9rem, 8vw, 7.4rem);
+  font-weight: 600;
+  font-stretch: 110%;
+  line-height: 0.99;
+  letter-spacing: -0.038em;
+  background: linear-gradient(180deg, #ffffff 8%, #d6c6f4 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ld-hero__title em {
+  font-style: normal;
+  background: linear-gradient(92deg, var(--magenta), var(--amber));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ld-hero__lead {
+  max-width: 52ch;
+  margin: 0;
+  font-size: clamp(1.0625rem, 1.3vw, 1.375rem);
+  line-height: 1.55;
+  color: #d0cadd;
+}
+
+.ld-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 22px;
+  margin-top: 6px;
+}
+
+.ld-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin: 4px 0 0;
+  color: #8d86a0;
+  font-size: var(--step-meta);
+  font-weight: 550;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ============ Split-Intro =============================================== */
+
+.ld-split {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(28px, 5vw, 96px);
+  align-items: start;
+  padding-block: clamp(80px, 11vh, 150px);
+}
+
+.ld-split h2 {
+  max-width: 16ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 3.6vw, 3.4rem);
+  font-weight: 600;
+  font-stretch: 108%;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  background: linear-gradient(180deg, #ffffff 10%, #dbcdf6 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ld-split__head {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+
+.ld-split__prose {
+  display: grid;
+  gap: 1.1em;
+  max-width: 60ch;
+}
+
+.ld-split__prose p {
+  color: var(--text-muted);
+  line-height: 1.75;
+}
+
+.ld-split__prose p:first-child {
+  font-size: var(--step-body-lg);
+  line-height: 1.6;
+  color: #d0cadd;
+}
+
+/* ============ Karten (Leistungsumfang) ================================= */
+
+.ld-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(18px, 2.4vw, 32px);
+  padding-block: 0 clamp(80px, 11vh, 150px);
+}
+
+.ld-card {
+  position: relative;
+  padding: clamp(24px, 3vw, 40px);
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(25, 16, 42, 0.55), rgba(18, 10, 33, 0.35));
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.ld-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, color-mix(in oklab, var(--violet) 75%, transparent), color-mix(in oklab, var(--magenta) 55%, transparent) 45%, transparent);
+}
+
+.ld-card h3 {
+  margin-bottom: 18px;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+  font-stretch: 105%;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.ld-card ul {
+  display: grid;
+  gap: 12px;
+}
+
+.ld-card li {
+  position: relative;
+  padding-left: 24px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.ld-card li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.72em;
+  width: 10px;
+  height: 1px;
+  background: var(--magenta);
+  box-shadow: 0 0 8px 1px rgba(154, 92, 255, 0.4);
+}
+
+/* ============ Prozess-Schiene ========================================== */
+
+.ld-steps {
+  position: relative;
+  padding-block: clamp(70px, 10vh, 130px);
+}
+
+.ld-steps__head {
+  display: grid;
+  gap: 12px;
+  margin-bottom: clamp(36px, 6vh, 64px);
+  max-width: 720px;
+}
+
+.ld-steps__rail {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(20px, 2.6vw, 44px);
+  padding-top: 26px;
+  list-style: none;
+}
+
+.ld-steps__line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--line);
+}
+
+.ld-steps__line i {
+  position: absolute;
+  inset: 0;
+  display: block;
+  background: linear-gradient(90deg, var(--violet), var(--magenta));
+  box-shadow: 0 0 16px 1px rgba(113, 55, 255, 0.4);
+  transform-origin: left center;
+  transform: scaleX(1);
+}
+
+html.motion .ld-steps__line i {
+  transform: scaleX(0);
+}
+
+.ld-step {
+  position: relative;
+}
+
+.ld-step::before {
+  content: "";
+  position: absolute;
+  top: -30px;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--magenta);
+  box-shadow: 0 0 10px 2px rgba(154, 92, 255, 0.5);
+}
+
+.ld-step__num {
+  display: block;
+  margin-bottom: 10px;
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 1.9vw, 1.9rem);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in oklab, var(--magenta) 80%, white);
+}
+
+.ld-step p {
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 30ch;
+}
+
+/* ============ Projekt-/Kapitel-Frames =================================== */
+
+.ld-frames {
+  display: grid;
+  gap: clamp(28px, 5vh, 64px);
+  padding-block: 0 clamp(80px, 11vh, 150px);
+}
+
+.ld-frames__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: clamp(4px, 1vh, 12px);
+}
+
+.ld-frame {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--frame);
+  color: var(--text);
+  isolation: isolate;
+  aspect-ratio: 16 / 9;
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+}
+
+.ld-frame:nth-child(even) {
+  width: 88%;
+  justify-self: end;
+}
+
+.ld-frame img {
+  position: absolute;
+  left: -6%;
+  top: -6%;
+  width: 112%;
+  height: 112%;
+  object-fit: cover;
+  will-change: transform;
+}
+
+/* Electric Lights: eng beschnitten, damit der eingebrannte Bildtitel
+   unter dem HTML-Titel nicht doppelt erscheint. */
+.ld-frame--electric img {
+  top: 0;
+  height: 176%;
+  object-position: center top;
+}
+
+.ld-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(5, 3, 10, 0.06) 36%, rgba(5, 3, 10, 0.92) 100%);
+}
+
+.ld-frame:hover,
+.ld-frame:focus-visible {
+  transform: scale(1.012);
+  box-shadow: 0 30px 90px rgba(24, 8, 58, 0.55), 0 0 0 1px rgba(215, 188, 255, 0.22);
+}
+
+.ld-frame__index {
+  position: absolute;
+  z-index: 2;
+  top: clamp(14px, 2vw, 26px);
+  right: clamp(18px, 2.4vw, 32px);
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.4vw, 1.3rem);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: rgba(248, 245, 255, 0.55);
+}
+
+.ld-frame__meta {
+  position: absolute;
+  z-index: 2;
+  left: clamp(18px, 2.4vw, 36px);
+  right: clamp(18px, 2.4vw, 36px);
+  bottom: clamp(16px, 2.2vw, 30px);
+  display: grid;
+  gap: 6px;
+  justify-items: start;
+}
+
+.ld-frame__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.4vw, 3.6rem);
+  font-weight: 600;
+  font-stretch: 108%;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+.ld-frame__sub {
+  color: #c3bccf;
+  font-size: 0.9375rem;
+  max-width: 60ch;
+}
+
+.ld-frame__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text);
+  opacity: 0.85;
+  transition: gap var(--dur) var(--ease), opacity var(--dur) var(--ease);
+}
+
+.ld-frame:hover .ld-frame__go {
+  opacity: 1;
+  gap: 12px;
+}
+
+/* ============ Hub-Kapitel (Text + Medienrahmen im Wechsel) ============== */
+
+.ld-chapter {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+  gap: clamp(28px, 5vw, 90px);
+  align-items: center;
+  padding-block: clamp(48px, 8vh, 100px);
+  isolation: isolate;
+}
+
+.ld-chapter + .ld-chapter {
+  border-top: 1px solid var(--line);
+}
+
+.ld-chapter:nth-child(even) .ld-chapter__copy {
+  order: 2;
+}
+
+.ld-chapter__ghost {
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-display);
+  font-size: clamp(6rem, 13vw, 12rem);
+  font-weight: 600;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(154, 92, 255, 0.14);
+  pointer-events: none;
+}
+
+.ld-chapter:nth-child(odd) .ld-chapter__ghost { right: -1%; }
+.ld-chapter:nth-child(even) .ld-chapter__ghost { left: -1%; }
+
+.ld-chapter__copy {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+
+.ld-chapter__copy h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.8rem);
+  font-weight: 600;
+  font-stretch: 108%;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  background: linear-gradient(180deg, #ffffff 10%, #dbcdf6 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ld-chapter__copy p {
+  max-width: 46ch;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+.ld-chapter__media {
+  position: relative;
+  z-index: 1;
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--frame);
+  isolation: isolate;
+}
+
+.ld-chapter__media img {
+  position: absolute;
+  left: 0;
+  top: -6%;
+  width: 100%;
+  height: 112%;
+  object-fit: cover;
+  will-change: transform;
+}
+
+.ld-chapter__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(5, 3, 10, 0.08), rgba(5, 3, 10, 0.42));
+  pointer-events: none;
+}
+
+/* ============ Einsatzorte =============================================== */
+
+.ld-places {
+  padding-block: clamp(70px, 10vh, 130px);
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 50%, var(--bg) 100%);
+}
+
+.ld-places__head {
+  display: grid;
+  gap: 12px;
+  max-width: 780px;
+  margin-bottom: clamp(30px, 5vh, 52px);
+}
+
+.ld-places__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  margin: 0;
+}
+
+.ld-places__list a {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2vw, 1.9rem);
+  font-weight: 550;
+  font-stretch: 106%;
+  letter-spacing: -0.02em;
+  color: #cfc9dc;
+  transition: color var(--dur) var(--ease);
+}
+
+.ld-places__list a:hover,
+.ld-places__list a:focus-visible {
+  color: var(--text);
+}
+
+.ld-places__note {
+  margin-top: clamp(24px, 4vh, 40px);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px 32px;
+}
+
+.ld-places__note .u-caption {
+  max-width: 62ch;
+}
+
+/* ============ Finale (Portal-CTA) ======================================= */
+
+.ld-finale {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 78svh;
+  overflow: clip;
+  isolation: isolate;
+  text-align: center;
+  padding: clamp(100px, 14vh, 180px) var(--gutter);
+}
+
+.ld-finale__portal {
+  position: absolute;
+  left: 50%;
+  bottom: -18%;
+  z-index: 0;
+  width: min(130vw, 1500px);
+  aspect-ratio: 2.2 / 1;
+  transform: translateX(-50%);
+  transform-origin: center bottom;
+  background: radial-gradient(
+    50% 64% at 50% 100%,
+    rgba(246, 240, 255, 0.85) 0%,
+    rgba(154, 92, 255, 0.48) 24%,
+    rgba(113, 55, 255, 0.26) 48%,
+    transparent 72%
+  );
+  filter: blur(30px);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+html.motion .ld-finale__portal {
+  transform: translateX(-50%) scaleY(0.12);
+  opacity: 0.15;
+}
+
+.ld-finale__horizon {
+  position: absolute;
+  left: 50%;
+  bottom: 11%;
+  z-index: 0;
+  width: min(70vw, 880px);
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, rgba(215, 188, 255, 0.9) 30%, rgba(215, 188, 255, 0.9) 70%, transparent);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.ld-finale__content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: clamp(18px, 3vh, 28px);
+}
+
+.ld-finale__content::before {
+  content: "";
+  position: absolute;
+  inset: -16% -22%;
+  z-index: -1;
+  background: radial-gradient(58% 62% at 50% 50%, rgba(5, 3, 10, 0.75) 0%, rgba(5, 3, 10, 0.42) 56%, transparent 80%);
+  pointer-events: none;
+}
+
+.ld-finale__title {
+  margin: 0;
+  max-width: 18ch;
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 5.4vw, 4.8rem);
+  font-weight: 600;
+  font-stretch: 110%;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  background: linear-gradient(180deg, #ffffff 8%, #d6c6f4 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ld-finale__content .cine-lead {
+  max-width: 46ch;
+  color: #d5cfe2;
+}
+
+/* ============ Responsive ================================================ */
+
+@media (max-width: 900px) {
+  .ld-split,
+  .ld-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .ld-steps__rail {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding-top: 0;
+    padding-left: 26px;
+  }
+
+  .ld-steps__line {
+    top: 6px;
+    bottom: 6px;
+    left: 0;
+    right: auto;
+    width: 1px;
+    height: auto;
+  }
+
+  .ld-steps__line i {
+    transform-origin: center top;
+    transform: scaleY(1);
+  }
+
+  html.motion .ld-steps__line i {
+    transform: scaleY(0);
+  }
+
+  .ld-step::before {
+    top: 6px;
+    left: -30px;
+  }
+
+  .ld-frame:nth-child(even) {
+    width: 100%;
+  }
+
+  .ld-chapter {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .ld-chapter:nth-child(even) .ld-chapter__copy {
+    order: 0;
+  }
+
+  .ld-chapter__media {
+    aspect-ratio: 16 / 9;
+  }
+
+  .ld-chapter__ghost {
+    font-size: clamp(4.4rem, 20vw, 7rem);
+    top: 8px;
+    transform: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .ld-hero {
+    min-height: min(84svh, 720px);
+  }
+
+  .ld-hero__actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ld-hero__actions .cine-btn,
+  .ld-hero__actions .cine-ghost {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+/* Reduced Motion: alle Startzustände neutralisieren */
+@media (prefers-reduced-motion: reduce) {
+  html.motion .ld-steps__line i { transform: none; }
+  html.motion .ld-finale__portal { transform: translateX(-50%); opacity: 0.8; }
+}

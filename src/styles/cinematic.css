@@ -652,6 +652,83 @@
   box-shadow: 0 0 10px 1px rgba(154, 92, 255, 0.5);
 }
 
+/* Leistungs-Dropdown */
+.cine-nav__item {
+  position: relative;
+}
+
+.cine-nav__caret {
+  margin-left: 6px;
+  font-size: 0.6rem;
+  color: #756e87;
+  transition: transform var(--dur) var(--ease);
+}
+
+.cine-nav__item:hover .cine-nav__caret,
+.cine-nav__item:focus-within .cine-nav__caret {
+  transform: translateY(2px);
+  color: var(--amber);
+}
+
+.cine-drop {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  min-width: 250px;
+  padding: 10px;
+  display: grid;
+  gap: 2px;
+  background: rgba(9, 5, 18, 0.94);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(220, 200, 255, 0.14);
+  border-radius: 14px;
+  box-shadow: 0 30px 80px rgba(5, 3, 10, 0.6), 0 0 40px rgba(113, 55, 255, 0.12);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 10px);
+  transition: opacity 220ms var(--ease), transform 220ms var(--ease), visibility 0s linear 220ms;
+  z-index: 60;
+}
+
+.cine-nav__item:hover .cine-drop,
+.cine-nav__item:focus-within .cine-drop {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 4px);
+  transition-delay: 0s;
+}
+
+.cine-drop a {
+  display: block;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: #c3bccf;
+  min-height: 0;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.cine-drop a::after {
+  content: none;
+}
+
+.cine-drop a:hover,
+.cine-drop a:focus-visible {
+  background: rgba(113, 55, 255, 0.16);
+  color: var(--text);
+}
+
+.cine-drop__all {
+  margin-top: 4px;
+  border-top: 1px solid rgba(220, 200, 255, 0.12);
+  border-radius: 0 0 8px 8px;
+  color: var(--text) !important;
+  font-weight: 600 !important;
+}
+
 .cine-header__cta {
   display: inline-flex;
   align-items: center;

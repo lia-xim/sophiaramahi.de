@@ -72,6 +72,30 @@
   color: color-mix(in oklab, var(--violet) 60%, white);
 }
 
+/* Leistungs-Unterliste im mobilen Menü */
+.cine-menu__sub {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2px 18px;
+  padding: 10px 4px 16px;
+  border-bottom: 1px solid rgba(244, 242, 245, 0.1);
+}
+
+.cine-menu__sub a {
+  display: flex;
+  align-items: center;
+  min-height: 42px;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #b3abc4;
+}
+
+.cine-menu__sub a:hover,
+.cine-menu__sub a:focus-visible {
+  color: var(--text);
+}
+
 .cine-menu .cine-btn {
   width: 100%;
   max-width: 560px;

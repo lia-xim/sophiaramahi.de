@@ -588,6 +588,19 @@ html.motion .reel__bar {
   transform: scaleY(1);
 }
 
+/* Startzustand der Leinwand schon vor GSAP: nie „einfach groß" beim Ankommen */
+@media (min-width: 861px) {
+  html.motion .reel__frame {
+    transform: translateY(9vh) scale(0.55);
+  }
+}
+
+/* WICHTIG: `display: grid` würde das hidden-Attribut aushebeln —
+   dieser Riegel garantiert, dass das Start-Overlay wirklich verschwindet. */
+.reel__play[hidden] {
+  display: none;
+}
+
 .reel__play {
   position: absolute;
   inset: 0;
@@ -1860,6 +1873,7 @@ html.motion .finale__portal {
   }
   html.motion .reise__progress i { transform: scaleX(1); }
   html.motion .reel__bar { transform: scaleY(0); }
+  html.motion .reel__frame { transform: none; }
   html.motion .reel__beam { opacity: 0.45; }
   html.motion .buehne__dot { animation: none; }
   html.motion .portraet__frame { clip-path: none; }

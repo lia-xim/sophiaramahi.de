@@ -110,6 +110,9 @@ if (reelFrame) {
 }
 
 if (root && motionActive && !reduceMotion) {
+  /* Scroll-Restauration deaktivieren: Ein Reload mitten in der Erzählung
+     würde sonst Pins und Startzustände gegeneinander verschieben. */
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
   Promise.all([import("gsap"), import("gsap/ScrollTrigger")])
     .then(([gsapModule, triggerModule]) => {
       const gsap = gsapModule.default;

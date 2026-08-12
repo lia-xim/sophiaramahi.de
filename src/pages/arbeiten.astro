@@ -1,12 +1,60 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ArrowLink from "../components/ArrowLink.astro";
-import ContactCta from "../components/ContactCta.astro";
-import PageHero from "../components/PageHero.astro";
-import ProjectGrid from "../components/ProjectGrid.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import "../styles/landing.css";
+import { projects } from "../data/site";
+
+// Projekte als eigene cinematische Landing: vier große Frames, jeder eine
+// eigene Bildwelt. URL bleibt /arbeiten/, das Label heißt „Projekte".
 ---
-<BaseLayout title="Arbeiten | Filme, Visuals & Installationen von Sophia Ramahi" description="Ausgewählte Arbeiten von Sophia Ramahi: Electric Lights, Dark Lights, 24h to take und Spektra Festival.">
-  <PageHero title="Arbeiten" lead="Filme, Lichtstudien, Live Visuals und Projekte zwischen Bühne, Kamera und Raum." image="/media/spektra-buehne-04.jpg" alt="Bühne mit farbiger Projektion" crumbs={[{label:"Start",href:"/"},{label:"Arbeiten"}]} />
-  <section class="section cine-wrap"><div class="section-heading" data-reveal><span class="cine-label">Portfolio</span><h2 class="cine-h2">Nicht ein Look für alles</h2><p class="cine-lead">Jedes Projekt beginnt bei seinem Material: Musik, Raum, Menschen, Licht oder einer konkreten Frage.</p></div><ProjectGrid /><div class="section-action"><ArrowLink href="/showreel/" label="Showreel ansehen" class="cine-btn" /></div></section>
-  <ContactCta title="Ein ähnlicher Rahmen, aber eine eigene Idee?" />
+
+<BaseLayout title="Projekte | Filme, Visuals & Installationen von Sophia Ramahi" description="Ausgewählte Projekte von Sophia Ramahi: Electric Lights, Dark Lights, 24h to take und Spektra Festival.">
+  <div data-landing>
+    <section class="ld-hero">
+      <div class="ld-hero__media" aria-hidden="true">
+        <img src="/media/spektra-buehne-04.jpg" alt="" width="1600" height="900" loading="eager" fetchpriority="high" decoding="async" />
+      </div>
+      <div class="ld-hero__beam" aria-hidden="true"></div>
+      <div class="cine-wrap ld-hero__content">
+        <Breadcrumbs items={[{ label: "Start", href: "/" }, { label: "Projekte" }]} />
+        <p class="ld-hero__kicker">Ausgewählte Arbeiten</p>
+        <h1 class="ld-hero__title">Vier Projekte, vier <em>Bildwelten</em>.</h1>
+        <p class="ld-hero__lead">Nicht ein Look für alles: Jedes Projekt beginnt bei seinem Material — Musik, Raum, Menschen, Licht oder einer konkreten Frage.</p>
+        <div class="ld-hero__actions">
+          <a class="cine-btn" href="/showreel/">Showreel ansehen</a>
+          <a class="cine-ghost" href="/kontakt/">Projekt anfragen</a>
+        </div>
+        <p class="ld-hero__meta"><span>Installation · Lichtstudie · Wettbewerb · Festival</span></p>
+      </div>
+    </section>
+
+    <section class="cine-wrap ld-frames" style="padding-top: clamp(60px, 9vh, 110px);" aria-label="Alle Projekte">
+      {projects.map((project, index) => (
+        <a class:list={["ld-frame", { "ld-frame--electric": project.slug === "electric-lights" }]} href={`/projekte/${project.slug}/`} data-fx="rise">
+          <img src={project.image} alt={project.alt} width="1200" height="675" loading={index === 0 ? "eager" : "lazy"} decoding="async" />
+          <span class="ld-frame__index" aria-hidden="true">{String(index + 1).padStart(2, "0")} / 04</span>
+          <span class="ld-frame__meta">
+            <span class="cine-label">{project.category}{project.year ? ` · ${project.year}` : ""}</span>
+            <span class="ld-frame__title">{project.title}</span>
+            <span class="ld-frame__sub">{project.summary}</span>
+            <span class="ld-frame__go">Projekt ansehen <span aria-hidden="true">→</span></span>
+          </span>
+        </a>
+      ))}
+    </section>
+
+    <section class="ld-finale">
+      <div class="ld-finale__portal" aria-hidden="true"></div>
+      <div class="ld-finale__horizon" aria-hidden="true"></div>
+      <div class="cine-wrap ld-finale__content">
+        <h2 class="ld-finale__title">Ein ähnlicher Rahmen, aber eine eigene Idee?</h2>
+        <p class="cine-lead">Erzählen Sie Sophia, was entstehen soll — ein paar Sätze reichen für den Anfang.</p>
+        <a class="cine-btn finale__cta" href="/kontakt/">Projekt besprechen</a>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    import "../scripts/landing-motion.ts";
+  </script>
 </BaseLayout>

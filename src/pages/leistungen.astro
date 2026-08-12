@@ -1,14 +1,103 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ArrowLink from "../components/ArrowLink.astro";
-import ContactCta from "../components/ContactCta.astro";
-import PageHero from "../components/PageHero.astro";
-import { services, servicePath } from "../data/site";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import "../styles/landing.css";
+import { locations, services, servicePath } from "../data/site";
+
+// Leistungs-Hub als eigene Erlebnis-Seite: acht Kapitel, jedes führt auf
+// eine vollwertige Leistungs-Landingpage.
+const chapterOrder = [
+  "eventfilm",
+  "musikvideo",
+  "imagefilm",
+  "kamera-bildgestaltung",
+  "tonaufnahme",
+  "postproduktion",
+  "live-visuals",
+  "projection-mapping",
+];
+const chapterMedia: Record<string, string> = {
+  eventfilm: "/media/spektra-buehne-03.jpg",
+  musikvideo: "/media/spektra-buehne-02.jpg",
+  imagefilm: "/media/journal-01.jpg",
+  "kamera-bildgestaltung": "/media/spektra-set-hoch.jpg",
+  tonaufnahme: "/media/set-hoch-02.jpg",
+  postproduktion: "/media/journal-02.jpg",
+  "live-visuals": "/media/club-projektion-01.jpg",
+  "projection-mapping": "/media/spektra-detail-03.jpg",
+};
+const chapters = chapterOrder.map((slug) => services.find((service) => service.slug === slug)!);
 ---
+
 <BaseLayout title="Leistungen | Videografie, Postproduktion, VJ & Mapping" description="Leistungen von Sophia Ramahi: Videografie, Kamera, Ton, Postproduktion, Live Visuals und Projection Mapping in Düsseldorf und NRW.">
-  <PageHero title="Leistungen" lead="Komplette Produktionen und einzelne Gewerke – mit klaren Zuständigkeiten und einem visuellen Konzept, das zum Anlass passt." image="/media/set-quer-01.jpg" alt="Kamera bei einer Videoproduktion" crumbs={[{label:"Start",href:"/"},{label:"Leistungen"}]} />
-  <section class="section cine-wrap"><div class="section-heading" data-reveal><span class="cine-label">Film & Video</span><h2 class="cine-h2">Videografie</h2><p class="cine-lead">Von Event und Musik bis zum persönlichen Unternehmensporträt.</p></div><div class="service-list">{services.filter((s)=>s.parent==="videografie").map((s,i)=><a class="service-row" href={servicePath(s)} data-reveal><span>{String(i+1).padStart(2,"0")}</span><div><h3>{s.title}</h3><p>{s.summary}</p></div><span aria-hidden="true">↗</span></a>)}</div><div class="section-action"><ArrowLink href="/videografie/" label="Videografie im Überblick" /></div></section>
-  <section class="section section--surface"><div class="cine-wrap"><div class="section-heading" data-reveal><span class="cine-label">Bühne & Raum</span><h2 class="cine-h2">VJ & Projection Mapping</h2></div><div class="service-list">{services.filter((s)=>s.parent==="vj-mapping").map((s,i)=><a class="service-row" href={servicePath(s)} data-reveal><span>{String(i+1).padStart(2,"0")}</span><div><h3>{s.title}</h3><p>{s.summary}</p></div><span aria-hidden="true">↗</span></a>)}</div><div class="section-action"><ArrowLink href="/vj-mapping/" label="Live Visuals und Mapping" /></div></div></section>
-  <section class="section cine-wrap section--split"><div data-reveal><span class="cine-label">Nach dem Dreh</span><h2 class="cine-h2">Postproduktion</h2></div><div data-reveal><p class="cine-lead">Schnitt, Farbgestaltung, Tonbearbeitung, Untertitel und Ausspielungen für eigene Drehs und ausgewähltes Fremdmaterial.</p><ArrowLink href="/postproduktion/" label="Zur Postproduktion" class="cine-btn" /></div></section>
-  <ContactCta />
+  <div data-landing>
+    <section class="ld-hero">
+      <div class="ld-hero__media" aria-hidden="true">
+        <img src="/media/light-beams.jpg" alt="" width="1600" height="900" loading="eager" fetchpriority="high" decoding="async" />
+      </div>
+      <div class="ld-hero__beam" aria-hidden="true"></div>
+      <div class="cine-wrap ld-hero__content">
+        <Breadcrumbs items={[{ label: "Start", href: "/" }, { label: "Leistungen" }]} />
+        <p class="ld-hero__kicker">Acht Gewerke, eine Handschrift</p>
+        <h1 class="ld-hero__title">Vom ersten Bild bis zur fertigen <em>Ausspielung</em>.</h1>
+        <p class="ld-hero__lead">Komplette Produktionen oder einzelne Gewerke — sauber abgegrenzt, ehrlich kalkuliert und mit einem visuellen Konzept, das zum Anlass passt.</p>
+        <div class="ld-hero__actions">
+          <a class="cine-btn" href="/kontakt/">Projekt anfragen</a>
+          <a class="cine-ghost" href="/arbeiten/">Projekte ansehen</a>
+        </div>
+        <p class="ld-hero__meta"><span>Düsseldorf & NRW</span><span>Einzeln buchbar oder als Produktion</span></p>
+      </div>
+    </section>
+
+    <section class="cine-wrap" aria-label="Alle Leistungen">
+      {chapters.map((service, index) => (
+        <article class="ld-chapter">
+          <span class="ld-chapter__ghost" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+          <div class="ld-chapter__copy" data-fx="rise">
+            <span class="cine-label">{service.eyebrow}</span>
+            <h2>{service.title}</h2>
+            <p>{service.summary}</p>
+            <p>{service.intro}</p>
+            <a class="cine-link" href={servicePath(service)}><span>Zur {service.title}-Seite</span><span aria-hidden="true">→</span></a>
+          </div>
+          <a class="ld-chapter__media" href={servicePath(service)} aria-label={`${service.title} im Detail`} data-fx="rise">
+            <img src={chapterMedia[service.slug]} alt={service.alt} width="1200" height="900" loading="lazy" decoding="async" />
+          </a>
+        </article>
+      ))}
+    </section>
+
+    <section class="ld-places">
+      <div class="cine-wrap">
+        <div class="ld-places__head" data-fx="rise">
+          <span class="cine-label">Einsatzorte</span>
+          <h2 class="cine-h2">Jede Leistung — auch bei Ihnen vor Ort</h2>
+          <p class="cine-lead">Die Basis ist Düsseldorf. Für jede Stadt gibt es lokale Leistungsseiten mit Logistik, Anfahrt und passenden Referenzen.</p>
+        </div>
+        <p class="ld-places__list" data-fx="rise">
+          {locations.map((city) => (
+            <a href={`/standorte/${city.slug}/`}>{city.city}</a>
+          ))}
+        </p>
+        <div class="ld-places__note">
+          <p class="u-caption">Keine Niederlassungen — Produktionen werden von Düsseldorf aus geplant, Anfahrt transparent im Angebot.</p>
+          <a class="cine-link" href="/standorte/"><span>Alle Einsatzorte</span><span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="ld-finale">
+      <div class="ld-finale__portal" aria-hidden="true"></div>
+      <div class="ld-finale__horizon" aria-hidden="true"></div>
+      <div class="cine-wrap ld-finale__content">
+        <h2 class="ld-finale__title">Welche Leistung braucht Ihr Projekt?</h2>
+        <p class="cine-lead">Wenn das noch offen ist: kein Problem. Beschreiben Sie den Anlass — Sophia schlägt den passenden Rahmen vor.</p>
+        <a class="cine-btn finale__cta" href="/kontakt/">Projekt besprechen</a>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    import "../scripts/landing-motion.ts";
+  </script>
 </BaseLayout>

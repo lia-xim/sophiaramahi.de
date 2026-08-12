@@ -1,0 +1,13 @@
+---
+import ServiceDetail from "../../components/ServiceDetail.astro";
+import { locations, services, type Location } from "../../data/site";
+
+// Lokale Versionen der Postproduktion: /postproduktion/<stadt>/
+const service = services.find((item) => item.slug === "postproduktion")!;
+export function getStaticPaths() {
+  return locations.map((location) => ({ params: { stadt: location.slug }, props: { location } }));
+}
+const { location } = Astro.props as { location: Location };
+---
+
+<ServiceDetail service={service} parentLabel="Leistungen" parentHref="/leistungen/" location={location} />

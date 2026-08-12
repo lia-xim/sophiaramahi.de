@@ -1,0 +1,19 @@
+---
+import ServiceDetail from "../../../components/ServiceDetail.astro";
+import { locations, services, type Location, type Service } from "../../../data/site";
+
+// Lokale Versionen der Videografie-Leistungen: /videografie/<leistung>/<stadt>/
+export function getStaticPaths() {
+  return services
+    .filter((service) => service.parent === "videografie")
+    .flatMap((service) =>
+      locations.map((location) => ({
+        params: { slug: service.slug, stadt: location.slug },
+        props: { service, location },
+      }))
+    );
+}
+const { service, location } = Astro.props as { service: Service; location: Location };
+---
+
+<ServiceDetail service={service} parentLabel="Videografie" parentHref="/videografie/" location={location} />

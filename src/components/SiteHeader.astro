@@ -1,8 +1,22 @@
 ---
+import { services, servicePath } from "../data/site";
 const { pathname = "/" } = Astro.props;
+
+const serviceOrder = [
+  "eventfilm",
+  "musikvideo",
+  "imagefilm",
+  "kamera-bildgestaltung",
+  "tonaufnahme",
+  "postproduktion",
+  "live-visuals",
+  "projection-mapping",
+];
+const menuServices = serviceOrder.map((slug) => services.find((service) => service.slug === slug)!);
+
 const nav = [
-  { label: "Arbeiten", href: "/arbeiten/", match: ["/arbeiten/", "/projekte/"] },
-  { label: "Leistungen", href: "/leistungen/", match: ["/leistungen/", "/videografie/", "/postproduktion/", "/vj-mapping/", "/standorte/"] },
+  { label: "Projekte", href: "/arbeiten/", match: ["/arbeiten/", "/projekte/", "/showreel/"] },
+  { label: "Leistungen", href: "/leistungen/", match: ["/leistungen/", "/videografie/", "/postproduktion/", "/vj-mapping/", "/standorte/"], hasMenu: true },
   { label: "Über Sophia", href: "/ueber-sophia/", match: ["/ueber-sophia/"] },
   { label: "Kontakt", href: "/kontakt/", match: ["/kontakt/"] },
 ];
@@ -14,9 +28,21 @@ const active = (item: (typeof nav)[number]) => item.match.some((prefix) => pathn
   <div class="cine-wrap cine-header__inner">
     <a class="wordmark" href="/" aria-label="Sophia Ramahi – Startseite">Sophia Ramahi</a>
     <nav class="cine-nav" aria-label="Hauptnavigation">
-      {nav.map((item) => (
-        <a href={item.href} aria-current={active(item) ? "page" : undefined}>{item.label}</a>
-      ))}
+      {nav.map((item) =>
+        item.hasMenu ? (
+          <div class="cine-nav__item">
+            <a href={item.href} aria-current={active(item) ? "page" : undefined}>{item.label}<span class="cine-nav__caret" aria-hidden="true">▾</span></a>
+            <div class="cine-drop" aria-label="Alle Leistungen">
+              {menuServices.map((service) => (
+                <a href={servicePath(service)}>{service.title}</a>
+              ))}
+              <a class="cine-drop__all" href="/leistungen/">Alle Leistungen <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+        ) : (
+          <a href={item.href} aria-current={active(item) ? "page" : undefined}>{item.label}</a>
+        )
+      )}
     </nav>
     <a class="cine-header__cta" href="/kontakt/">Projekt besprechen</a>
     <button class="cine-burger" type="button" aria-expanded="false" aria-controls="mobile-menu" data-nav-toggle>
@@ -29,7 +55,16 @@ const active = (item: (typeof nav)[number]) => item.match.some((prefix) => pathn
 <div class="cine-menu" id="mobile-menu" data-nav hidden>
   <nav class="cine-menu__list" aria-label="Mobile Navigation">
     {nav.map((item) => (
-      <a href={item.href} aria-current={active(item) ? "page" : undefined}>{item.label}</a>
+      <>
+        <a href={item.href} aria-current={active(item) ? "page" : undefined}>{item.label}</a>
+        {item.hasMenu && (
+          <div class="cine-menu__sub">
+            {menuServices.map((service) => (
+              <a href={servicePath(service)}>{service.title}</a>
+            ))}
+          </div>
+        )}
+      </>
     ))}
   </nav>
   <a class="cine-btn" href="/kontakt/">Projekt besprechen</a>

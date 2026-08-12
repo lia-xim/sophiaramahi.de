@@ -1,74 +1,231 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ContactCta from "./ContactCta.astro";
+import Breadcrumbs from "./Breadcrumbs.astro";
 import FaqList from "./FaqList.astro";
-import PageHero from "./PageHero.astro";
-import ProjectGrid from "./ProjectGrid.astro";
-import { projects, servicePath, type Service } from "../data/site";
+import "../styles/landing.css";
+import { locations, projects, servicePath, type Location, type Service } from "../data/site";
 
-const { service, parentLabel, parentHref } = Astro.props as {
+// Leistungs-Landingpage — und in der lokalisierten Variante die Stadtseite
+// derselben Leistung (gleiche Struktur, eigener lokaler Kontext).
+const { service, parentLabel, parentHref, location } = Astro.props as {
   service: Service;
   parentLabel: string;
   parentHref: string;
+  location?: Location;
 };
+
 const related = projects.filter((project) => service.relatedProjects.includes(project.slug));
+const basePath = servicePath(service);
+const localPath = (city: Location) => `${basePath}${city.slug}/`;
+
+const title = location
+  ? `${service.title} in ${location.city} | Videografin Sophia Ramahi`
+  : service.seoTitle;
+const description = location
+  ? `${service.title} in ${location.city}: ${service.summary} Produktion aus Düsseldorf, Anfahrt transparent geplant.`
+  : service.seoDescription;
+
+const h1 = location ? `${service.title} in ${location.city}` : service.title;
+const faqs = location ? [...location.faq, ...service.faq] : service.faq;
+
+const crumbs = location
+  ? [{ label: "Start", href: "/" }, { label: parentLabel, href: parentHref }, { label: service.title, href: basePath }, { label: location.city }]
+  : [{ label: "Start", href: "/" }, { label: parentLabel, href: parentHref }, { label: service.title }];
+
 const schema = [
   {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: service.title,
-    description: service.seoDescription,
+    name: location ? `${service.title} in ${location.city}` : service.title,
+    description,
     provider: { "@id": "https://sophiaramahi.de/#business" },
-    areaServed: { "@type": "AdministrativeArea", name: "Nordrhein-Westfalen" },
-    url: `https://sophiaramahi.de${servicePath(service)}`,
+    areaServed: location
+      ? { "@type": "City", name: location.city }
+      : { "@type": "AdministrativeArea", name: "Nordrhein-Westfalen" },
+    url: `https://sophiaramahi.de${location ? localPath(location) : basePath}`,
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: service.faq.map((item) => ({
+    mainEntity: faqs.map((item) => ({
       "@type": "Question",
       name: item.question,
       acceptedAnswer: { "@type": "Answer", text: item.answer },
     })),
   },
 ];
+
+const introParagraphs = location
+  ? [location.localAngle, location.logistics, service.outcome]
+  : [service.intro, service.outcome];
+
+const otherCities = location ? locations.filter((item) => item.slug !== location.slug).slice(0, 8) : [];
 ---
 
-<BaseLayout title={service.seoTitle} description={service.seoDescription} image={service.image} imageAlt={service.alt} schema={schema}>
-  <PageHero title={service.title} lead={service.summary} image={service.image} alt={service.alt} crumbs={[{ label: "Start", href: "/" }, { label: parentLabel, href: parentHref }, { label: service.title }]} />
-
-  <section class="section section--split cine-wrap">
-    <div data-reveal>
-      <span class="cine-label">{service.eyebrow}</span>
-      <h2 class="cine-h2">Was die Produktion leisten soll</h2>
-    </div>
-    <div class="prose" data-reveal>
-      <p>{service.intro}</p>
-      <p>{service.outcome}</p>
-    </div>
-  </section>
-
-  <section class="section section--surface">
-    <div class="cine-wrap">
-      <div class="section-heading" data-reveal>
-        <span class="cine-label">Leistungsumfang</span>
-        <h2 class="cine-h2">Klar vereinbart, passend produziert</h2>
+<BaseLayout title={title} description={description} image={service.image} schema={schema}>
+  <div data-landing>
+    <!-- Hero -->
+    <section class="ld-hero">
+      <div class="ld-hero__media" aria-hidden="true">
+        <img src={service.image} alt="" width="1600" height="900" loading="eager" fetchpriority="high" decoding="async" />
       </div>
-      <div class="detail-columns">
-        <div data-reveal><h3>Typische Ergebnisse</h3><ul class="check-list">{service.deliverables.map((item) => <li>{item}</li>)}</ul></div>
-        <div data-reveal><h3>Geeignet für</h3><ul class="check-list">{service.suitableFor.map((item) => <li>{item}</li>)}</ul></div>
+      <div class="ld-hero__beam" aria-hidden="true"></div>
+      <div class="cine-wrap ld-hero__content">
+        <Breadcrumbs items={crumbs} />
+        <p class="ld-hero__kicker">{service.eyebrow}</p>
+        <h1 class="ld-hero__title">{h1}</h1>
+        <p class="ld-hero__lead">{service.summary}</p>
+        <div class="ld-hero__actions">
+          <a class="cine-btn" href="/kontakt/">Projekt anfragen</a>
+          {location ? (
+            <a class="cine-ghost" href={`/standorte/${location.slug}/`}>Standort {location.city}</a>
+          ) : (
+            <a class="cine-ghost" href="/arbeiten/">Projekte ansehen</a>
+          )}
+        </div>
+        <p class="ld-hero__meta">
+          {location ? (
+            <>
+              <span>{location.region}</span>
+              <span>{location.distance} von Düsseldorf</span>
+              <span>Basis: Düsseldorf</span>
+            </>
+          ) : (
+            <>
+              <span>Düsseldorf & NRW</span>
+              <span>Einzeln buchbar oder als Produktion</span>
+            </>
+          )}
+        </p>
+      </div>
+    </section>
+
+    <!-- Intro -->
+    <section class="cine-wrap ld-split">
+      <div class="ld-split__head" data-fx="rise">
+        <span class="cine-label">{location ? `${service.title} vor Ort` : "Worum es geht"}</span>
+        <h2>{location ? `Was in ${location.city} wichtig wird` : "Was die Produktion leisten soll"}</h2>
+      </div>
+      <div class="ld-split__prose" data-fx="rise">
+        {introParagraphs.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+    </section>
+
+    <!-- Leistungsumfang -->
+    <div class="cine-wrap ld-cards">
+      <div class="ld-card" data-fx="rise">
+        <h3>Typische Ergebnisse</h3>
+        <ul>{service.deliverables.map((item) => <li>{item}</li>)}</ul>
+      </div>
+      <div class="ld-card" data-fx="rise">
+        <h3>Geeignet für</h3>
+        <ul>{service.suitableFor.map((item) => <li>{item}</li>)}</ul>
       </div>
     </div>
-  </section>
 
-  <section class="section cine-wrap">
-    <div class="section-heading" data-reveal><span class="cine-label">Ablauf</span><h2 class="cine-h2">Vom Briefing bis zur Übergabe</h2></div>
-    <ol class="process-grid">
-      {service.process.map((step, index) => <li data-reveal><span>{String(index + 1).padStart(2, "0")}</span><p>{step}</p></li>)}
-    </ol>
-  </section>
+    <!-- Ablauf -->
+    <section class="cine-wrap ld-steps">
+      <div class="ld-steps__head" data-fx="rise">
+        <span class="cine-label">Ablauf</span>
+        <h2 class="cine-h2">{location ? `Vom Briefing bis zur Übergabe — geplant ab Düsseldorf` : "Vom Briefing bis zur Übergabe"}</h2>
+      </div>
+      <ol class="ld-steps__rail">
+        <span class="ld-steps__line" aria-hidden="true"><i></i></span>
+        {service.process.map((step, index) => (
+          <li class="ld-step" data-fx="rise">
+            <span class="ld-step__num">{String(index + 1).padStart(2, "0")}</span>
+            <p>{step}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
 
-  {related.length > 0 && <section class="section cine-wrap"><div class="section-heading" data-reveal><span class="cine-label">Ausgewählte Arbeiten</span><h2 class="cine-h2">Verwandte Projekte</h2></div><ProjectGrid items={related} /></section>}
-  <section class="section section--surface"><div class="cine-wrap"><div class="section-heading" data-reveal><span class="cine-label">Kurz geklärt</span><h2 class="cine-h2">Häufige Fragen</h2></div><FaqList items={service.faq} /></div></section>
-  <ContactCta title={`${service.title} anfragen`} copy="Schreiben Sie kurz, worum es geht, wo produziert werden soll und welcher Zeitraum realistisch ist." />
+    <!-- Referenzprojekte -->
+    {related.length > 0 && (
+      <section class="cine-wrap ld-frames">
+        <div class="ld-frames__head" data-fx="rise">
+          <div>
+            <span class="cine-label">{location ? "Referenzarbeiten aus Düsseldorf" : "Ausgewählte Arbeiten"}</span>
+            <h2 class="cine-h2">Projekte, in denen das zusammenkam</h2>
+          </div>
+          <a class="cine-link" href="/arbeiten/"><span>Alle Projekte</span><span aria-hidden="true">→</span></a>
+        </div>
+        {related.map((project, index) => (
+          <a class:list={["ld-frame", { "ld-frame--electric": project.slug === "electric-lights" }]} href={`/projekte/${project.slug}/`} data-fx="rise">
+            <img src={project.image} alt={project.alt} width="1200" height="675" loading="lazy" decoding="async" />
+            <span class="ld-frame__index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+            <span class="ld-frame__meta">
+              <span class="cine-label">{project.category}{project.year ? ` · ${project.year}` : ""}</span>
+              <span class="ld-frame__title">{project.title}</span>
+              <span class="ld-frame__go">Projekt ansehen <span aria-hidden="true">→</span></span>
+            </span>
+          </a>
+        ))}
+      </section>
+    )}
+
+    <!-- FAQ -->
+    <section class="cine-wrap ld-steps" style="padding-top: 0;">
+      <div class="ld-steps__head" data-fx="rise">
+        <span class="cine-label">Kurz geklärt</span>
+        <h2 class="cine-h2">{location ? `Häufige Fragen zu ${location.city}` : "Häufige Fragen"}</h2>
+      </div>
+      <div data-fx="rise"><FaqList items={faqs} /></div>
+    </section>
+
+    <!-- Einsatzorte -->
+    <section class="ld-places">
+      <div class="cine-wrap">
+        {location ? (
+          <>
+            <div class="ld-places__head" data-fx="rise">
+              <span class="cine-label">Auch in der Region</span>
+              <h2 class="cine-h2">{service.title} in weiteren Städten</h2>
+            </div>
+            <p class="ld-places__list" data-fx="rise">
+              {otherCities.map((city) => (
+                <a href={localPath(city)}>{city.city}</a>
+              ))}
+            </p>
+            <div class="ld-places__note">
+              <p class="u-caption">Alle Produktionen werden von Düsseldorf aus geplant — keine Niederlassungen, Anfahrt transparent im Angebot.</p>
+              <a class="cine-link" href={basePath}><span>{service.title} im Überblick</span><span aria-hidden="true">→</span></a>
+            </div>
+          </>
+        ) : (
+          <>
+            <div class="ld-places__head" data-fx="rise">
+              <span class="cine-label">Einsatzorte</span>
+              <h2 class="cine-h2">{service.title} in Düsseldorf und ganz NRW</h2>
+              <p class="cine-lead">Die Basis ist Düsseldorf — produziert wird dort, wo das Projekt stattfindet.</p>
+            </div>
+            <p class="ld-places__list" data-fx="rise">
+              {locations.map((city) => (
+                <a href={localPath(city)}>{city.city}</a>
+              ))}
+            </p>
+            <div class="ld-places__note">
+              <p class="u-caption">Jede Stadtseite beschreibt, was vor Ort wichtig wird — Zugang, Logistik und Planung ab Düsseldorf.</p>
+              <a class="cine-link" href="/standorte/"><span>Alle Einsatzorte</span><span aria-hidden="true">→</span></a>
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+
+    <!-- Finale -->
+    <section class="ld-finale">
+      <div class="ld-finale__portal" aria-hidden="true"></div>
+      <div class="ld-finale__horizon" aria-hidden="true"></div>
+      <div class="cine-wrap ld-finale__content">
+        <h2 class="ld-finale__title">{location ? `${service.title} in ${location.city} anfragen` : `${service.title} anfragen`}</h2>
+        <p class="cine-lead">Schreiben Sie kurz, worum es geht, wo produziert werden soll und welcher Zeitraum realistisch ist.</p>
+        <a class="cine-btn finale__cta" href="/kontakt/">Projekt besprechen</a>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    import "../scripts/landing-motion.ts";
+  </script>
 </BaseLayout>
