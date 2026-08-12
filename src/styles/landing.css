@@ -1107,6 +1107,545 @@ html.motion .pj-tile__dim {
   line-height: 1.6;
 }
 
+/* ============ Leistungs-Hub: acht Themenwelten ========================== */
+
+/* Hero mit bewegtem Licht und Sprung-Index in die Kapitel */
+.lw-hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  align-content: center;
+  overflow: clip;
+  isolation: isolate;
+  padding: clamp(130px, 18vh, 200px) 0 clamp(60px, 9vh, 110px);
+}
+
+.lw-hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.lw-hero__media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.32;
+}
+
+.lw-hero__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 90% at 30% 40%, rgba(5, 3, 10, 0.16) 0%, rgba(5, 3, 10, 0.7) 60%, rgba(5, 3, 10, 0.95) 100%),
+    linear-gradient(180deg, rgba(5, 3, 10, 0.82) 0%, rgba(5, 3, 10, 0.3) 30%, rgba(5, 3, 10, 0.44) 70%, var(--bg) 100%);
+}
+
+.lw-hero__grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+  gap: clamp(32px, 5vw, 90px);
+  align-items: center;
+}
+
+.lw-hero__content {
+  display: grid;
+  gap: clamp(16px, 2.4vh, 26px);
+  justify-items: start;
+}
+
+/* Sprung-Index: die acht Gewerke als leuchtende Liste */
+.lw-index {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.lw-index a {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding-block: 11px;
+  border-bottom: 1px solid var(--line);
+  color: #b3abc4;
+  transition: color var(--dur) var(--ease), padding-inline-start var(--dur) var(--ease);
+}
+
+.lw-index a:hover,
+.lw-index a:focus-visible {
+  color: var(--text);
+  padding-inline-start: 10px;
+}
+
+.lw-index__num {
+  flex: none;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in oklab, var(--magenta) 75%, white);
+}
+
+.lw-index__name {
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 1.4vw, 1.3rem);
+  font-weight: 550;
+  font-stretch: 106%;
+  letter-spacing: -0.015em;
+}
+
+.lw-index a:hover .lw-index__name {
+  text-shadow: 0 0 18px rgba(154, 92, 255, 0.55);
+}
+
+/* Kapitel-Grundform: jede Leistung eine eigene Welt */
+.lw-chapter {
+  position: relative;
+  min-height: 94svh;
+  display: grid;
+  align-items: center;
+  overflow: clip;
+  isolation: isolate;
+  padding-block: clamp(70px, 10vh, 120px);
+  scroll-margin-top: 70px;
+}
+
+.lw-chapter__inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+  gap: clamp(28px, 5vw, 90px);
+  align-items: center;
+  width: 100%;
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.lw-chapter__ghost {
+  position: absolute;
+  z-index: 0;
+  top: clamp(20px, 4vh, 48px);
+  right: 2%;
+  font-family: var(--font-display);
+  font-size: clamp(6rem, 14vw, 13rem);
+  font-weight: 600;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(154, 92, 255, 0.13);
+  pointer-events: none;
+}
+
+.lw-chapter__content {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+
+.lw-chapter__content h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 4.4vw, 4.2rem);
+  font-weight: 600;
+  font-stretch: 108%;
+  line-height: 1.02;
+  letter-spacing: -0.032em;
+  background: linear-gradient(180deg, #ffffff 10%, #dbcdf6 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.lw-chapter__content h2 a {
+  color: inherit;
+}
+
+.lw-chapter__lead {
+  max-width: 46ch;
+  font-size: var(--step-body-lg);
+  line-height: 1.55;
+  color: #d0cadd;
+}
+
+.lw-chapter__content > p:not(.lw-chapter__lead) {
+  max-width: 52ch;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.lw-chapter__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 26px;
+  margin-top: 8px;
+}
+
+.lw-chapter__local {
+  color: #8d86a0;
+  font-size: var(--step-caption);
+}
+
+.lw-chapter__local a {
+  color: #c3bccf;
+  border-bottom: 1px solid rgba(215, 188, 255, 0.3);
+}
+
+.lw-chapter__local a:hover {
+  color: var(--text);
+}
+
+/* Medienrahmen (Standard: rechts, 4:3) */
+.lw-chapter__media {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--frame);
+  isolation: isolate;
+  box-shadow: 0 34px 110px rgba(10, 4, 26, 0.55);
+}
+
+.lw-chapter__media img {
+  position: absolute;
+  left: 0;
+  top: -6%;
+  width: 100%;
+  height: 112%;
+  object-fit: cover;
+  will-change: transform;
+}
+
+.lw-chapter__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(5, 3, 10, 0.08), rgba(5, 3, 10, 0.4));
+  pointer-events: none;
+}
+
+/* — 01 Eventfilm: Vollbild-Bühne, Licht von oben — */
+.lw-chapter--eventfilm .lw-chapter__stagebg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.lw-chapter--eventfilm .lw-chapter__stagebg img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lw-chapter--eventfilm .lw-chapter__stagebg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(5, 3, 10, 0.88) 0%, rgba(5, 3, 10, 0.42) 55%, rgba(5, 3, 10, 0.25) 100%),
+    linear-gradient(180deg, var(--bg) 0%, rgba(5, 3, 10, 0.2) 24%, rgba(5, 3, 10, 0.35) 72%, var(--bg) 100%);
+}
+
+.lw-chapter--eventfilm .lw-chapter__inner {
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+}
+
+.lw-chapter--eventfilm .lw-beam {
+  position: absolute;
+  z-index: 1;
+  right: 8%;
+  top: 0;
+  width: min(40vw, 560px);
+  height: 80%;
+  background: linear-gradient(200deg, rgba(154, 92, 255, 0.3) 0%, rgba(113, 55, 255, 0.08) 55%, transparent 80%);
+  clip-path: polygon(30% 0, 48% 0, 100% 100%, 0 100%);
+  filter: blur(9px);
+  pointer-events: none;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 18%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 18%);
+}
+
+/* — 02 Musikvideo: hoher Frame rechts + Rhythmusbalken — */
+.lw-chapter--musikvideo .lw-chapter__media {
+  aspect-ratio: 4 / 5;
+  width: min(100%, 440px);
+  justify-self: end;
+}
+
+.lw-bars {
+  position: absolute;
+  z-index: 1;
+  left: clamp(8px, 1vw, 18px);
+  bottom: 12%;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: clamp(90px, 14vh, 150px);
+  pointer-events: none;
+}
+
+.lw-bars i {
+  width: 3px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--amber), var(--magenta));
+  box-shadow: 0 0 12px 1px rgba(154, 92, 255, 0.5);
+  opacity: 0.85;
+}
+
+.lw-bars i:nth-child(1) { height: 34%; }
+.lw-bars i:nth-child(2) { height: 62%; }
+.lw-bars i:nth-child(3) { height: 45%; }
+.lw-bars i:nth-child(4) { height: 88%; }
+.lw-bars i:nth-child(5) { height: 56%; }
+.lw-bars i:nth-child(6) { height: 74%; }
+.lw-bars i:nth-child(7) { height: 40%; }
+
+/* — 03 Imagefilm: ruhige Mitte, weiches Glühen — */
+.lw-chapter--imagefilm {
+  text-align: center;
+}
+
+.lw-chapter--imagefilm .lw-chapter__inner {
+  grid-template-columns: 1fr;
+  gap: clamp(28px, 4vh, 44px);
+  justify-items: center;
+}
+
+.lw-chapter--imagefilm .lw-chapter__content {
+  justify-items: center;
+}
+
+.lw-chapter--imagefilm .lw-chapter__media {
+  width: min(100%, 880px);
+  aspect-ratio: 16 / 9;
+}
+
+.lw-chapter--imagefilm .lw-glow {
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 40%;
+  width: min(70vw, 900px);
+  aspect-ratio: 1.6;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(50% 50% at 50% 50%, rgba(113, 55, 255, 0.2) 0%, transparent 70%);
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+/* — 04 Kamera & Bildgestaltung: Sucher-Rahmen links — */
+.lw-chapter--kamera-bildgestaltung .lw-chapter__media {
+  order: -1;
+  aspect-ratio: 3 / 4;
+  width: min(100%, 460px);
+  border-radius: 8px;
+  overflow: visible;
+}
+
+.lw-chapter--kamera-bildgestaltung .lw-chapter__media img {
+  border-radius: 8px;
+  clip-path: inset(0 round 8px);
+}
+
+.lw-finder {
+  position: absolute;
+  inset: -14px;
+  pointer-events: none;
+}
+
+.lw-finder i {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border: 0 solid rgba(215, 188, 255, 0.75);
+}
+
+.lw-finder i:nth-child(1) { top: 0; left: 0; border-top-width: 1px; border-left-width: 1px; }
+.lw-finder i:nth-child(2) { top: 0; right: 0; border-top-width: 1px; border-right-width: 1px; }
+.lw-finder i:nth-child(3) { bottom: 0; left: 0; border-bottom-width: 1px; border-left-width: 1px; }
+.lw-finder i:nth-child(4) { bottom: 0; right: 0; border-bottom-width: 1px; border-right-width: 1px; }
+
+.lw-finder__rec {
+  position: absolute;
+  top: -2px;
+  right: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--step-meta);
+  font-weight: 550;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(248, 245, 255, 0.8);
+}
+
+.lw-finder__rec::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--magenta);
+  box-shadow: 0 0 10px 2px rgba(154, 92, 255, 0.6);
+}
+
+html.motion .lw-finder__rec::before {
+  animation: buehne-dot 2.2s ease-in-out infinite;
+}
+
+/* — 05 Tonaufnahme: Schallringe im Dunkel — */
+.lw-chapter--tonaufnahme {
+  min-height: 78svh;
+}
+
+.lw-chapter--tonaufnahme .lw-chapter__media {
+  aspect-ratio: 1;
+  width: min(100%, 380px);
+  border-radius: 999px;
+  justify-self: end;
+}
+
+.lw-chapter--tonaufnahme .lw-chapter__media::after {
+  background: radial-gradient(60% 60% at 50% 50%, transparent 40%, rgba(5, 3, 10, 0.55) 100%);
+}
+
+.lw-rings {
+  position: absolute;
+  z-index: 0;
+  right: calc(var(--gutter) + min(19vw, 190px));
+  top: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.lw-rings i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 1px solid rgba(154, 92, 255, 0.22);
+  border-radius: 999px;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 24px rgba(113, 55, 255, 0.12) inset;
+}
+
+.lw-rings i:nth-child(1) { width: min(30vw, 480px); aspect-ratio: 1; }
+.lw-rings i:nth-child(2) { width: min(40vw, 640px); aspect-ratio: 1; border-color: rgba(154, 92, 255, 0.14); }
+.lw-rings i:nth-child(3) { width: min(52vw, 820px); aspect-ratio: 1; border-color: rgba(154, 92, 255, 0.08); }
+
+/* — 06 Postproduktion: Filmstreifen mit Playhead — */
+.lw-chapter--postproduktion .lw-strip {
+  position: relative;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  gap: 10px;
+  aspect-ratio: 4 / 3.4;
+  padding: clamp(14px, 1.6vw, 22px);
+  border-radius: 12px;
+  background:
+    repeating-linear-gradient(180deg, transparent 0 44px, rgba(215, 188, 255, 0.06) 44px 45px),
+    var(--frame);
+  border: 1px solid var(--line);
+  isolation: isolate;
+}
+
+.lw-strip__cell {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.lw-strip__cell img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.85;
+}
+
+.lw-strip__head {
+  position: absolute;
+  top: 3%;
+  bottom: 3%;
+  left: 38%;
+  width: 1px;
+  z-index: 2;
+  background: linear-gradient(180deg, transparent, var(--magenta) 18%, var(--magenta) 82%, transparent);
+  box-shadow: 0 0 14px 2px rgba(154, 92, 255, 0.5);
+  pointer-events: none;
+}
+
+/* — 07 Live Visuals: Vollbild mit Projektionsdopplung — */
+.lw-chapter--live-visuals .lw-chapter__stagebg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.lw-chapter--live-visuals .lw-chapter__stagebg img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Projektionsdopplung: dasselbe Bild als leicht versetztes Echo */
+.lw-chapter--live-visuals .lw-chapter__stagebg img.lw-echo {
+  opacity: 0.35;
+  mix-blend-mode: screen;
+  transform: translateX(1.6%) scale(1.02);
+  filter: hue-rotate(18deg);
+}
+
+.lw-chapter--live-visuals .lw-chapter__stagebg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(270deg, rgba(5, 3, 10, 0.9) 0%, rgba(5, 3, 10, 0.44) 52%, rgba(5, 3, 10, 0.22) 100%),
+    linear-gradient(180deg, var(--bg) 0%, rgba(5, 3, 10, 0.22) 26%, rgba(5, 3, 10, 0.4) 74%, var(--bg) 100%);
+}
+
+.lw-chapter--live-visuals .lw-chapter__inner {
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+}
+
+.lw-chapter--live-visuals .lw-chapter__content {
+  grid-column: 2;
+  justify-self: end;
+  text-align: right;
+  justify-items: end;
+}
+
+.lw-chapter--live-visuals .lw-chapter__ghost {
+  right: auto;
+  left: 2%;
+}
+
+/* — 08 Projection Mapping: Raster auf der Fläche — */
+.lw-chapter--projection-mapping .lw-chapter__media {
+  order: -1;
+}
+
+.lw-grid-overlay {
+  position: absolute;
+  inset: -6%;
+  z-index: 1;
+  background-image:
+    repeating-linear-gradient(90deg, rgba(215, 188, 255, 0.14) 0 1px, transparent 1px 56px),
+    repeating-linear-gradient(0deg, rgba(215, 188, 255, 0.14) 0 1px, transparent 1px 56px);
+  transform: perspective(720px) rotateY(-14deg) rotateX(4deg);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
 /* ============ Showreel: Kanäle ========================================== */
 
 .sr-player {
@@ -1286,6 +1825,67 @@ html.motion .pj-tile__dim {
     grid-template-columns: 1fr;
   }
 
+  /* Themenwelten mobil: eine Spalte, Medien oben, ruhige Motive */
+  .lw-hero__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lw-chapter {
+    min-height: 0;
+  }
+
+  .lw-chapter__inner,
+  .lw-chapter--eventfilm .lw-chapter__inner,
+  .lw-chapter--live-visuals .lw-chapter__inner {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .lw-chapter__media,
+  .lw-chapter--musikvideo .lw-chapter__media,
+  .lw-chapter--kamera-bildgestaltung .lw-chapter__media,
+  .lw-chapter--tonaufnahme .lw-chapter__media {
+    order: -1;
+    width: 100%;
+    justify-self: stretch;
+    aspect-ratio: 16 / 10;
+  }
+
+  .lw-chapter--tonaufnahme .lw-chapter__media {
+    border-radius: 12px;
+  }
+
+  .lw-chapter--kamera-bildgestaltung .lw-chapter__media {
+    aspect-ratio: 16 / 10;
+  }
+
+  .lw-chapter--live-visuals .lw-chapter__content {
+    grid-column: 1;
+    justify-self: start;
+    text-align: left;
+    justify-items: start;
+  }
+
+  .lw-chapter__ghost,
+  .lw-chapter--live-visuals .lw-chapter__ghost {
+    font-size: clamp(4.4rem, 20vw, 7rem);
+    top: 6px;
+    right: 2%;
+    left: auto;
+  }
+
+  .lw-rings {
+    display: none;
+  }
+
+  .lw-finder {
+    inset: -8px;
+  }
+
+  .lw-finder__rec {
+    right: 30px;
+  }
+
   .ld-steps__rail {
     grid-template-columns: 1fr;
     gap: 28px;
@@ -1370,4 +1970,5 @@ html.motion .pj-tile__dim {
   html.motion .pj-tile { aspect-ratio: 16 / 10; }
   html.motion .pj-tile__dim { opacity: 0; }
   html.motion .pj-tile__meta { opacity: 1; }
+  html.motion .lw-finder__rec::before { animation: none; }
 }

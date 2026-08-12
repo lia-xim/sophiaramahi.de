@@ -4,8 +4,10 @@ import Breadcrumbs from "../components/Breadcrumbs.astro";
 import "../styles/landing.css";
 import { locations, services, servicePath } from "../data/site";
 
-// Leistungs-Hub als eigene Erlebnis-Seite: acht Kapitel, jedes führt auf
-// eine vollwertige Leistungs-Landingpage.
+// Leistungs-Hub: acht Gewerke als eigene Themenwelten. Jedes Kapitel hat
+// sein eigenes Bühnenbild (Vollbild-Szene, Rhythmusbalken, Sucher-Rahmen,
+// Schallringe, Filmstreifen, Projektionsdopplung, Mapping-Raster) und
+// verlinkt auf die vollwertige Leistungs-Landingpage.
 const chapterOrder = [
   "eventfilm",
   "musikvideo",
@@ -22,52 +24,224 @@ const chapterMedia: Record<string, string> = {
   imagefilm: "/media/journal-01.jpg",
   "kamera-bildgestaltung": "/media/spektra-set-hoch.jpg",
   tonaufnahme: "/media/set-hoch-02.jpg",
-  postproduktion: "/media/journal-02.jpg",
   "live-visuals": "/media/club-projektion-01.jpg",
   "projection-mapping": "/media/spektra-detail-03.jpg",
 };
+const filmstripStills = ["/media/spektra-detail-01.jpg", "/media/club-projektion-03.jpg", "/media/spektra-buehne-06.jpg"];
 const chapters = chapterOrder.map((slug) => services.find((service) => service.slug === slug)!);
 ---
 
 <BaseLayout title="Leistungen | Videografie, Postproduktion, VJ & Mapping" description="Leistungen von Sophia Ramahi: Videografie, Kamera, Ton, Postproduktion, Live Visuals und Projection Mapping in Düsseldorf und NRW.">
   <div data-landing>
-    <section class="ld-hero">
-      <div class="ld-hero__media" aria-hidden="true">
-        <img src="/media/light-beams.jpg" alt="" width="1600" height="900" loading="eager" fetchpriority="high" decoding="async" />
+    <!-- Hero: bewegtes Licht + Sprung-Index -->
+    <section class="lw-hero">
+      <div class="lw-hero__media" aria-hidden="true">
+        <video muted loop playsinline preload="none" poster="/media/hero-poster.jpg" width="1280" height="720" data-ambient-video>
+          <source src="/media/hero-loop.mp4" type="video/mp4" />
+        </video>
       </div>
-      <div class="ld-hero__beam" aria-hidden="true"></div>
-      <div class="cine-wrap ld-hero__content">
-        <Breadcrumbs items={[{ label: "Start", href: "/" }, { label: "Leistungen" }]} />
-        <p class="ld-hero__kicker">Acht Gewerke, eine Handschrift</p>
-        <h1 class="ld-hero__title">Vom ersten Bild bis zur fertigen <em>Ausspielung</em>.</h1>
-        <p class="ld-hero__lead">Komplette Produktionen oder einzelne Gewerke — sauber abgegrenzt, ehrlich kalkuliert und mit einem visuellen Konzept, das zum Anlass passt.</p>
-        <div class="ld-hero__actions">
-          <a class="cine-btn" href="/kontakt/">Projekt anfragen</a>
-          <a class="cine-ghost" href="/arbeiten/">Projekte ansehen</a>
-        </div>
-        <p class="ld-hero__meta"><span>Düsseldorf & NRW</span><span>Einzeln buchbar oder als Produktion</span></p>
-      </div>
-    </section>
-
-    <section class="cine-wrap" aria-label="Alle Leistungen">
-      {chapters.map((service, index) => (
-        <article class="ld-chapter">
-          <span class="ld-chapter__ghost" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-          <div class="ld-chapter__copy" data-fx="rise">
-            <span class="cine-label">{service.eyebrow}</span>
-            <h2>{service.title}</h2>
-            <p>{service.summary}</p>
-            <p>{service.intro}</p>
-            <a class="cine-link" href={servicePath(service)}><span>Zur {service.title}-Seite</span><span aria-hidden="true">→</span></a>
+      <div class="cine-wrap lw-hero__grid">
+        <div class="lw-hero__content">
+          <Breadcrumbs items={[{ label: "Start", href: "/" }, { label: "Leistungen" }]} />
+          <p class="ld-hero__kicker">Leistungen · Düsseldorf & NRW</p>
+          <h1 class="ld-hero__title">Vom ersten Bild bis zur fertigen <em>Ausspielung</em>.</h1>
+          <p class="ld-hero__lead">Acht Gewerke, eine Handschrift: Videografie, Ton, Postproduktion und visuelle Räume — komplette Produktionen oder einzelne Gewerke, sauber abgegrenzt und ehrlich kalkuliert.</p>
+          <div class="ld-hero__actions">
+            <a class="cine-btn" href="/kontakt/">Projekt anfragen</a>
+            <a class="cine-ghost" href="/arbeiten/">Projekte ansehen</a>
           </div>
-          <a class="ld-chapter__media" href={servicePath(service)} aria-label={`${service.title} im Detail`} data-fx="rise">
-            <img src={chapterMedia[service.slug]} alt={service.alt} width="1200" height="900" loading="lazy" decoding="async" />
-          </a>
-        </article>
-      ))}
+        </div>
+        <nav aria-label="Direkt zu den Leistungen">
+          <ol class="lw-index">
+            {chapters.map((service, index) => (
+              <li>
+                <a href={`#${service.slug}`}>
+                  <span class="lw-index__num">{String(index + 1).padStart(2, "0")}</span>
+                  <span class="lw-index__name">{service.title}</span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      </div>
     </section>
 
-    <section class="ld-places">
+    <!-- SEO-Überblick -->
+    <section class="cine-wrap ld-split">
+      <div class="ld-split__head" data-fx="rise">
+        <span class="cine-label">Der Überblick</span>
+        <h2>Komplette Produktion oder einzelnes Gewerk</h2>
+      </div>
+      <div class="ld-split__prose" data-fx="rise">
+        <p>Sophia Ramahi produziert in Düsseldorf und ganz NRW: Eventfilme, Musikvideos und Imagefilme, Kamera und Bildgestaltung für Produktionsteams, Tonaufnahme am Set, Postproduktion sowie Live Visuals und Projection Mapping für Bühne und Raum.</p>
+        <p>Jedes Gewerk ist einzeln buchbar — mit klaren Zuständigkeiten, transparenter Kalkulation und einem visuellen Konzept, das zum Anlass passt. Wenn ein Projekt mehr braucht, wird das passende Team zusammengestellt statt improvisiert.</p>
+      </div>
+    </section>
+
+    <!-- 01 Eventfilm: Vollbild-Bühne -->
+    <section id="eventfilm" class="lw-chapter lw-chapter--eventfilm">
+      <div class="lw-chapter__stagebg" aria-hidden="true">
+        <img src={chapterMedia.eventfilm} alt="" width="1600" height="1000" loading="lazy" decoding="async" />
+      </div>
+      <div class="lw-beam" aria-hidden="true"></div>
+      <span class="lw-chapter__ghost" aria-hidden="true">01</span>
+      <div class="lw-chapter__inner">
+        <div class="lw-chapter__content" data-fx="rise">
+          <span class="cine-label">{chapters[0].eyebrow}</span>
+          <h2><a href={servicePath(chapters[0])}>{chapters[0].title}</a></h2>
+          <p class="lw-chapter__lead">{chapters[0].summary}</p>
+          <p>{chapters[0].intro}</p>
+          <div class="lw-chapter__links">
+            <a class="cine-link" href={servicePath(chapters[0])}><span>Zur Eventfilm-Seite</span><span aria-hidden="true">→</span></a>
+          </div>
+          <p class="lw-chapter__local">Auch vor Ort: <a href={`${servicePath(chapters[0])}koeln/`}>Köln</a>, <a href={`${servicePath(chapters[0])}essen/`}>Essen</a> und <a href="#einsatzorte">14 weitere Städte</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 Musikvideo: hoher Frame + Rhythmus -->
+    <section id="musikvideo" class="lw-chapter lw-chapter--musikvideo">
+      <span class="lw-chapter__ghost" aria-hidden="true">02</span>
+      <div class="lw-chapter__inner">
+        <div class="lw-chapter__content" data-fx="rise">
+          <span class="cine-label">{chapters[1].eyebrow}</span>
+          <h2><a href={servicePath(chapters[1])}>{chapters[1].title}</a></h2>
+          <p class="lw-chapter__lead">{chapters[1].summary}</p>
+          <p>{chapters[1].intro}</p>
+          <div class="lw-chapter__links">
+            <a class="cine-link" href={servicePath(chapters[1])}><span>Zur Musikvideo-Seite</span><span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+        <a class="lw-chapter__media" href={servicePath(chapters[1])} aria-label="Musikvideo im Detail" data-fx="rise">
+          <img src={chapterMedia.musikvideo} alt={chapters[1].alt} width="900" height="1125" loading="lazy" decoding="async" />
+          <span class="lw-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 03 Imagefilm: ruhige Mitte -->
+    <section id="imagefilm" class="lw-chapter lw-chapter--imagefilm">
+      <div class="lw-glow" aria-hidden="true"></div>
+      <span class="lw-chapter__ghost" aria-hidden="true">03</span>
+      <div class="lw-chapter__inner">
+        <div class="lw-chapter__content" data-fx="rise">
+          <span class="cine-label">{chapters[2].eyebrow}</span>
+          <h2><a href={servicePath(chapters[2])}>{chapters[2].title}</a></h2>
+          <p class="lw-chapter__lead">{chapters[2].summary}</p>
+          <div class="lw-chapter__links">
+            <a class="cine-link" href={servicePath(chapters[2])}><span>Zur Imagefilm-Seite</span><span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+        <a class="lw-chapter__media" href={servicePath(chapters[2])} aria-label="Imagefilm im Detail" data-fx="rise">
+          <img src={chapterMedia.imagefilm} alt={chapters[2].alt} width="1200" height="675" loading="lazy" decoding="async" />
+        </a>
+      </div>
+    </section>
+
+    <!-- 04 Kamera & Bildgestaltung: Sucher -->
+    <section id="kamera-bildgestaltung" class="lw-chapter lw-chapter--kamera-bildgestaltung">
+      <span class="lw-chapter__ghost" aria-hidden="true">04</span>
+      <div class="lw-chapter__inner">
+        <a class="lw-chapter__media" href={servicePath(chapters[3])} aria-label="Kamera und Bildgestaltung im Detail" data-fx="rise">
+          <img src={chapterMedia["kamera-bildgestaltung"]} alt={chapters[3].alt} width="900" height="1200" loading="lazy" decoding="async" />
+          <span class="lw-finder" aria-hidden="true"><i></i><i></i><i></i><i></i><span class="lw-finder__rec">Rec</span></span>
+        </a>
+        <div class="lw-chapter__content" data-fx="rise">
+          <span class="cine-label">{chapters[3].eyebrow}</span>
+          <h2><a href={servicePath(chapters[3])}>{chapters[3].title}</a></h2>
+          <p class="lw-chapter__lead">{chapters[3].summary}</p>
+          <p>{chapters[3].intro}</p>
+          <div class="lw-chapter__links">
+            <a class="cine-link" href={servicePath(chapters[3])}><span>Zur Kamera-Seite</span><span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 Tonaufnahme: Schallringe -->
+    <section id="tonaufnahme" class="lw-chapter lw-chapter--tonaufnahme">
+      <span class="lw-rings" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="lw-chapter__ghost" aria-hidden="true">05</span>
+      <div class="lw-chapter__inner">
+        <div class="lw-chapter__content" data-fx="rise">
+          <span class="cine-label">{chapters[4].eyebrow}</span>
+          <h2><a href={servicePath(chapters[4])}>{chapters[4].title}</a></h2>
+          <p class="lw-chapter__lead">{chapters[4].summary}</p>
+          <p>{chapters[4].intro}</p>
+          <div class="lw-chapter__links">
+            <a class="cine-link" href={servicePath(chapters[4])}><span>Zur Tonaufnahme-Seite</span><span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+        <a class="lw-chapter__media" href={servicePath(chapters[4])} aria-label="Tonaufnahme im Detail" data-fx="rise">
+          <img src={chapterMedia.tonaufnahme} alt={chapters[4].alt} width="900" height="900" loading="lazy" decoding="async" />
+        </a>
+      </div>
+    </section>
+
+    <!-- 06 Postproduktion: Filmstreifen -->
+    <section id="postproduktion" class="lw-chapter lw-chapter--postproduktion">
+      <span class="lw-chapter__ghost" aria-hidden="true">06</span>
+      <div class="lw-chapter__inner">
+        <div class="lw-chapter__content" data-fx="rise">
+          <span class="cine-label">{chapters[5].eyebrow}</span>
+          <h2><a href={servicePath(chapters[5])}>{chapters[5].title}</a></h2>
+          <p class="lw-chapter__lead">{chapters[5].summary}</p>
+          <p>{chapters[5].intro}</p>
+          <div class="lw-chapter__links">
+            <a class="cine-link" href={servicePath(chapters[5])}><span>Zur Postproduktions-Seite</span><span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+        <a class="lw-strip" href={servicePath(chapters[5])} aria-label="Postproduktion im Detail" data-fx="rise">
+          {filmstripStills.map((still) => (
+            <span class="lw-strip__cell"><img src={still} alt="" width="480" height="320" loading="lazy" decoding="async" /></span>
+          ))}
+          <span class="lw-strip__head" aria-hidden="true"></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 07 Live Visuals: Projektionsdopplung -->
+    <section id="live-visuals" class="lw-chapter lw-chapter--live-visuals">
+      <div class="lw-chapter__stagebg" aria-hidden="true">
+        <img src={chapterMedia["live-visuals"]} alt="" width="1600" height="1000" loading="lazy" decoding="async" />
+        <img class="lw-echo" src={chapterMedia["live-visuals"]} alt="" width="1600" height="1000" loading="lazy" decoding="async" />
+      </div>
+      <span class="lw-chapter__ghost" aria-hidden="true">07</span>
+      <div class="lw-chapter__inner">
+        <div class="lw-chapter__content" data-fx="rise">
+          <span class="cine-label">{chapters[6].eyebrow}</span>
+          <h2><a href={servicePath(chapters[6])}>{chapters[6].title}</a></h2>
+          <p class="lw-chapter__lead">{chapters[6].summary}</p>
+          <p>{chapters[6].intro}</p>
+          <div class="lw-chapter__links">
+            <a class="cine-link" href={servicePath(chapters[6])}><span>Zur Live-Visuals-Seite</span><span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 Projection Mapping: Raster -->
+    <section id="projection-mapping" class="lw-chapter lw-chapter--projection-mapping">
+      <span class="lw-chapter__ghost" aria-hidden="true">08</span>
+      <div class="lw-chapter__inner">
+        <a class="lw-chapter__media" href={servicePath(chapters[7])} aria-label="Projection Mapping im Detail" data-fx="rise">
+          <img src={chapterMedia["projection-mapping"]} alt={chapters[7].alt} width="1200" height="900" loading="lazy" decoding="async" />
+          <span class="lw-grid-overlay" aria-hidden="true"></span>
+        </a>
+        <div class="lw-chapter__content" data-fx="rise">
+          <span class="cine-label">{chapters[7].eyebrow}</span>
+          <h2><a href={servicePath(chapters[7])}>{chapters[7].title}</a></h2>
+          <p class="lw-chapter__lead">{chapters[7].summary}</p>
+          <p>{chapters[7].intro}</p>
+          <div class="lw-chapter__links">
+            <a class="cine-link" href={servicePath(chapters[7])}><span>Zur Mapping-Seite</span><span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Einsatzorte -->
+    <section class="ld-places" id="einsatzorte">
       <div class="cine-wrap">
         <div class="ld-places__head" data-fx="rise">
           <span class="cine-label">Einsatzorte</span>
@@ -86,13 +260,21 @@ const chapters = chapterOrder.map((slug) => services.find((service) => service.s
       </div>
     </section>
 
-    <section class="ld-finale">
+    <!-- Finale -->
+    <section class="ld-finale ld-finale--media">
+      <div class="ld-finale__media" aria-hidden="true">
+        <video muted loop playsinline preload="none" poster="/media/hero-poster.jpg" width="1280" height="720" data-finale-video>
+          <source src="/media/hero-loop.mp4" type="video/mp4" />
+        </video>
+      </div>
       <div class="ld-finale__portal" aria-hidden="true"></div>
       <div class="ld-finale__horizon" aria-hidden="true"></div>
+      <div class="ld-finale__slit" aria-hidden="true"></div>
       <div class="cine-wrap ld-finale__content">
-        <h2 class="ld-finale__title">Welche Leistung braucht Ihr Projekt?</h2>
+        <h2 class="ld-finale__title">Welche Leistung braucht Ihr <em>Projekt</em>?</h2>
         <p class="cine-lead">Wenn das noch offen ist: kein Problem. Beschreiben Sie den Anlass — Sophia schlägt den passenden Rahmen vor.</p>
-        <a class="cine-btn finale__cta" href="/kontakt/">Projekt besprechen</a>
+        <a class="cine-btn finale__cta" href="/kontakt/" data-magnetic>Projekt besprechen</a>
+        <p class="u-meta" style="color: #8d86a0;">Düsseldorf · Antwort meist innerhalb von zwei Werktagen</p>
       </div>
     </section>
   </div>

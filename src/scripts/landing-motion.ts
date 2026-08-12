@@ -102,11 +102,87 @@ if (root && isMotion && !prefersReduced) {
       });
 
       /* Bild-Parallaxe in Frames, Kapiteln und Bühnenmedien */
-      gsap.utils.toArray<HTMLElement>(".ld-frame img, .ld-chapter__media img").forEach((image) => {
+      gsap.utils.toArray<HTMLElement>(".ld-frame img, .ld-chapter__media img, .lw-chapter__media img").forEach((image) => {
         gsap.fromTo(image, { yPercent: -4.5 }, {
           yPercent: 4.5,
           ease: "none",
           scrollTrigger: { trigger: image.closest("a, div") as Element, start: "top bottom", end: "bottom top", scrub: true },
+        });
+      });
+
+      /* Themenwelten des Leistungs-Hubs */
+      // Ambient-Video im Hero: läuft nur, solange es sichtbar ist
+      const ambient = root.querySelector<HTMLVideoElement>("[data-ambient-video]");
+      if (ambient) {
+        ScrollTrigger.create({
+          trigger: ambient.closest("section") as Element,
+          start: "top bottom",
+          end: "bottom top",
+          onToggle: (self) => {
+            if (self.isActive) ambient.play().catch(() => {});
+            else ambient.pause();
+          },
+        });
+      }
+      // Hero-Inhalt und Sprung-Index treten gestaffelt auf
+      const lwHeroContent = root.querySelector(".lw-hero__content");
+      if (lwHeroContent) {
+        gsap.fromTo(
+          lwHeroContent.children,
+          { autoAlpha: 0.001, y: 30 },
+          { autoAlpha: 1, y: 0, duration: 0.85, stagger: 0.1, ease: "power3.out", delay: 0.1 }
+        );
+        gsap.fromTo(".lw-index a", { autoAlpha: 0.001, x: 24 }, { autoAlpha: 1, x: 0, duration: 0.6, stagger: 0.06, ease: "power2.out", delay: 0.4 });
+      }
+      // Rhythmusbalken: pulsieren ruhig, solange das Kapitel sichtbar ist
+      const bars = gsap.utils.toArray<HTMLElement>(".lw-bars i");
+      if (bars.length) {
+        bars.forEach((bar, index) => {
+          gsap.to(bar, {
+            scaleY: 0.45 + ((index * 37) % 40) / 100,
+            transformOrigin: "center bottom",
+            duration: 0.9 + ((index * 13) % 7) / 10,
+            yoyo: true,
+            repeat: -1,
+            ease: "sine.inOut",
+            scrollTrigger: { trigger: ".lw-bars", start: "top bottom", toggleActions: "play pause resume pause" },
+          });
+        });
+      }
+      // Schnitt-Playhead wandert mit dem Scroll über den Streifen
+      const stripHead = root.querySelector(".lw-strip__head");
+      if (stripHead) {
+        gsap.fromTo(stripHead, { left: "16%" }, {
+          left: "72%",
+          ease: "none",
+          scrollTrigger: { trigger: ".lw-chapter--postproduktion", start: "top bottom", end: "bottom top", scrub: true },
+        });
+      }
+      // Schallringe atmen mit dem Scroll
+      gsap.utils.toArray<HTMLElement>(".lw-rings i").forEach((ring, index) => {
+        gsap.fromTo(ring, { scale: 0.88, opacity: 0.4 }, {
+          scale: 1.06 + index * 0.04,
+          opacity: 1,
+          ease: "none",
+          scrollTrigger: { trigger: ".lw-chapter--tonaufnahme", start: "top bottom", end: "bottom top", scrub: true },
+        });
+      });
+      // Mapping-Raster driftet leicht über die Fläche
+      const gridOverlay = root.querySelector(".lw-grid-overlay");
+      if (gridOverlay) {
+        gsap.fromTo(gridOverlay, { xPercent: -2, opacity: 0.6 }, {
+          xPercent: 2,
+          opacity: 1,
+          ease: "none",
+          scrollTrigger: { trigger: ".lw-chapter--projection-mapping", start: "top bottom", end: "bottom top", scrub: true },
+        });
+      }
+      // Vollbild-Bühnen: sanfte Gegenbewegung des Hintergrunds
+      gsap.utils.toArray<HTMLElement>(".lw-chapter__stagebg img:not(.lw-echo)").forEach((image) => {
+        gsap.fromTo(image, { yPercent: -5 }, {
+          yPercent: 5,
+          ease: "none",
+          scrollTrigger: { trigger: image.closest("section") as Element, start: "top bottom", end: "bottom top", scrub: true },
         });
       });
 
