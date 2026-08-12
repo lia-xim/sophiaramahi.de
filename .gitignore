@@ -21,3 +21,4 @@ qa-*.png
 qa-*.jpg
 qa-*.json
 
+.vercel

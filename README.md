@@ -61,11 +61,15 @@ Das kurze Formular erstellt lokal einen ausgefüllten E-Mail-Entwurf an `info@so
 
 ## Deployment
 
-Das Projekt ist für Vercel vorbereitet. Vor der Live-Umschaltung bleiben drei externe Schritte:
+Das Repository ist mit dem Vercel-Projekt `lia-xims-projects/sophiaramahi.de` verbunden. Die aktuell veröffentlichte Vorschau ist:
+
+- <https://sophiaramahide.vercel.app>
+
+Vor der Umschaltung der echten Domain bleiben drei externe Schritte:
 
 1. Medien- und Veröffentlichungsrechte abschließend bestätigen.
 2. Impressum und Datenschutz fachlich prüfen lassen.
-3. Preview deployen, anschließend Domain-DNS bei Netcup auf Vercel zeigen und die Redirects gegen die reale WordPress-URL-Liste kontrollieren.
+3. Preview auf realen Geräten freigeben, anschließend Domain-DNS bei Netcup auf Vercel zeigen und die Redirects gegen die reale WordPress-URL-Liste kontrollieren.
 
 Die `.de`-Domain muss nicht zu Vercel transferiert werden. Sie bleibt beim Registrar; nur die DNS-Einträge werden nach der finalen Freigabe angepasst.
 

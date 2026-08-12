@@ -21,6 +21,8 @@ Stand: 12. August 2026
 - [x] Video ohne Autoplay und mit `preload="none"`
 - [x] Schriften, Bilder und Showreel lokal ausgeliefert
 - [x] keine Analytics-, Marketing- oder Social-Embed-Cookies
+- [x] Vercel-Projekt `lia-xims-projects/sophiaramahi.de` verbunden
+- [x] stabiler Preview-Alias `https://sophiaramahide.vercel.app` öffentlich erreichbar
 
 ## Messergebnis
 
@@ -42,8 +44,8 @@ LCP im lokalen gedrosselten Test: 3,0 s. Das größte Element ist die Hero-Textg
 - [ ] Impressum und Datenschutz fachlich/rechtlich gegen den tatsächlichen Betrieb prüfen
 - [ ] Vercel-Preview auf realen iOS-/Android-Geräten testen
 - [ ] E-Mail-Link auf mindestens Windows, iOS und Android testen
-- [ ] WordPress-URL-Export mit `vercel.json` abgleichen
-- [ ] Vercel-Projekt verbinden und Preview-Alias prüfen
+- [ ] WordPress-URL-Export vollständig mit `vercel.json` abgleichen
+- [x] Vercel-Projekt verbinden und Preview-Alias per HTTP prüfen
 - [ ] Netcup-DNS erst nach Preview-Freigabe ändern
 - [ ] nach Livegang: HTTPS, `www`/Apex-Kanonisierung, Redirects, Sitemap und Search Console prüfen
 
