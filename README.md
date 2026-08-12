@@ -2,13 +2,11 @@
 
 Produktionsrepository für den vollständigen Astro-Neubau von `sophiaramahi.de`.
 
-## Verbindlicher Projektpfad
+## Projektbasis
 
-```text
-C:\Users\matth\Documents\sophiaramahi.de
-```
+Dieses Repository ist der verbindliche Git- und Projekt-Ausgangspunkt. Die statischen Designentwürfe unter `design/` dokumentieren die visuelle Herkunft; die produktive Website liegt unter `src/` und `public/`.
 
-Dieser Ordner ist der einzige Git- und Projekt-Ausgangspunkt. Der frühere Download-Ordner bleibt reine Materialquelle. Die statischen Designentwürfe unter `design/` dokumentieren die visuelle Herkunft; die produktive Website liegt unter `src/` und `public/`.
+Das Repository ist öffentlich einsehbar, aber nicht Open Source. Code, Texte und Medien dürfen ohne ausdrückliche Erlaubnis nicht wiederverwendet werden. Details stehen in [LICENSE.md](LICENSE.md) und [PUBLIC-REPOSITORY.md](PUBLIC-REPOSITORY.md).
 
 ## Aktueller Stand
 
@@ -61,7 +59,7 @@ Das kurze Formular erstellt lokal einen ausgefüllten E-Mail-Entwurf an `info@so
 
 ## Deployment
 
-Das Repository ist mit dem Vercel-Projekt `lia-xims-projects/sophiaramahi.de` verbunden. Die aktuell veröffentlichte Vorschau ist:
+Das Repository ist mit Vercel verbunden. Die aktuell veröffentlichte Vorschau ist:
 
 - <https://sophiaramahide.vercel.app>
 

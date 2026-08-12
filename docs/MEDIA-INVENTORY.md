@@ -9,7 +9,7 @@ steht in `.gitignore`, ist nicht Teil des Repositorys und nicht veröffentlicht.
 Er existiert nur, damit das Grunddesign mit echten Motiven statt mit leeren
 Rahmen beurteilt werden kann. Details in `design/concepts/media/README.md`.
 
-**Quelle:** `C:\Users\matth\Downloads\Sophia Media`
+**Quelle:** externes, nicht öffentliches Projektarchiv
 **Stand der Sichtung:** 12. August 2026
 **Umfang:** 183 Dateien, davon 97 im Wurzelverzeichnis und 86 im Unterordner
 `Ramahi Sophia - Camera, lights & sound is all I need._files`.
@@ -133,7 +133,7 @@ assets/
 ```
 
 Dateinamen in Kleinschreibung, ohne Umlaute und Leerzeichen. Die Originale im
-Downloads-Ordner bleiben unverändert.
+externen Projektarchiv bleiben unverändert.
 
 ---
 

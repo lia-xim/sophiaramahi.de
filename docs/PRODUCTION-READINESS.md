@@ -21,7 +21,7 @@ Stand: 12. August 2026
 - [x] Video ohne Autoplay und mit `preload="none"`
 - [x] Schriften, Bilder und Showreel lokal ausgeliefert
 - [x] keine Analytics-, Marketing- oder Social-Embed-Cookies
-- [x] Vercel-Projekt `lia-xims-projects/sophiaramahi.de` verbunden
+- [x] GitHub-Repository mit Vercel verbunden
 - [x] stabiler Preview-Alias `https://sophiaramahide.vercel.app` öffentlich erreichbar
 
 ## Messergebnis

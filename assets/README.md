@@ -1,20 +1,17 @@
 # Assets
 
-In diesen Ordner kommen nur gepruefte und tatsaechlich verwendete Projektmedien.
+In diesen Ordner kommen nur geprüfte und tatsächlich verwendete Projektmedien.
 
-Die Originalquelle bleibt vorerst:
+Die hochauflösenden Originaldateien verbleiben in einem externen, nicht öffentlichen Projektarchiv und sind nicht Bestandteil dieses Repositorys.
 
-`C:\Users\matth\Downloads\Sophia Media`
-
-Vor dem Kopieren muessen fuer jedes Medium geklaert werden:
+Vor dem Kopieren müssen für jedes Medium geklärt werden:
 
 - Urheberschaft und Nutzungsrecht
 - dargestellte Personen und erforderliche Einwilligungen
-- zugehoeriges Projekt
+- zugehöriges Projekt
 - Sophias konkrete Rolle
-- benoetigte Credits
+- benötigte Credits
 - vorgesehene Verwendung auf der Website
 - Bildausschnitt, Poster und Webformate
 
-Die Originaldateien im Downloads-Ordner werden nicht veraendert.
-
+Die Originaldateien im externen Projektarchiv werden nicht verändert.

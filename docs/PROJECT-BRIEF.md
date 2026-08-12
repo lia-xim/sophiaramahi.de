@@ -9,7 +9,7 @@ Dieses Dokument ist die verbindliche Ausgangsbasis des Projekts. Es beschreibt Z
 - Bestehende Website: WordPress auf `sophiaramahi.de`
 - Zielsystem: Astro mit statischer Bereitstellung auf Vercel
 - Domain und E-Mail-Infrastruktur verbleiben zunaechst bei Netcup; die Website kann ueber DNS mit Vercel verbunden werden.
-- Lokale Materialquelle: `C:\Users\matth\Downloads\Sophia Media`
+- Nicht öffentliche Materialquelle: externes Projektarchiv (nicht Bestandteil dieses Repositorys)
 - Vorhandene reale Projekte mit Material:
   - Electric Lights
   - Dark Lights

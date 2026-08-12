@@ -5,11 +5,9 @@ Du arbeitest als Senior Digital Art Director, UX Designer und Astro Frontend Eng
 
 VERBINDLICHER ARBEITSORT
 
-Arbeite ausschliesslich in diesem bereits angelegten Git-Repository:
+Arbeite ausschliesslich in dem bereits angelegten Git-Repository, in dem du dich aktuell befindest.
 
-C:\Users\matth\Documents\sophiaramahi.de
-
-Dieser Ordner ist die verbindliche Ausgangsbasis und der einzige Projektpfad fuer den Neubau von sophiaramahi.de. Lege kein zweites Projekt in Downloads, Desktop, einem Temp-Ordner oder an einem anderen Ort an. Alle Designunterlagen, Astro-Dateien, Komponenten, Styles, Content-Schemas, Dokumentationen und spaeteren Konfigurationen gehoeren in dieses Repository.
+Dieses Repository ist die verbindliche Ausgangsbasis und der einzige Projektpfad fuer den Neubau von sophiaramahi.de. Lege kein zweites Projekt außerhalb dieses Repositorys an. Alle Designunterlagen, Astro-Dateien, Komponenten, Styles, Content-Schemas, Dokumentationen und spaeteren Konfigurationen gehoeren in dieses Repository.
 
 Bevor du Dateien veraenderst:
 
@@ -21,7 +19,7 @@ Bevor du Dateien veraenderst:
 
 Die externe Materialquelle ist:
 
-C:\Users\matth\Downloads\Sophia Media
+externes, nicht öffentliches Projektarchiv
 
 Veraendere oder verschiebe dort keine Originaldateien. Wenn die Assets noch nicht freigegeben oder zugeordnet wurden, arbeite mit klar beschrifteten Platzhaltern. Kopiere keine Medien blind in das Repository.
 
@@ -483,4 +481,3 @@ Nach der Freigabe entsteht in Phase 2 das Astro-Projekt mit:
 
 Schreibe keine erfundenen langen SEO-Texte und veroeffentliche keine generischen Stadtseiten. Das vollstaendige reale Material und die finalen Inhalte werden nach Freigabe des Grunddesigns eingebaut.
 ```
-
