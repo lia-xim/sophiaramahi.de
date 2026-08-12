@@ -1,0 +1,18 @@
+---
+import ArrowLink from "./ArrowLink.astro";
+const {
+  eyebrow = "Projektstart",
+  title = "Erzählen Sie kurz, was Sie vorhaben.",
+  copy = "Ein paar Sätze zu Anlass, Ort und ungefährer Zeit reichen für den ersten Kontakt.",
+} = Astro.props;
+---
+
+<section class="band cta-band">
+  <div class="glow glow--amber" aria-hidden="true"></div>
+  <div class="cine-wrap band__content cine-center" data-reveal>
+    <span class="cine-label">{eyebrow}</span>
+    <h2 class="cine-h2 cine-narrow">{title}</h2>
+    <p class="cine-lead">{copy}</p>
+    <ArrowLink href="/kontakt/" label="Projekt besprechen" class="cine-btn" />
+  </div>
+</section>

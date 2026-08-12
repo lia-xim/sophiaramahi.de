@@ -1,0 +1,54 @@
+---
+import "@fontsource-variable/archivo";
+import "@fontsource-variable/instrument-sans";
+import "../styles/site.css";
+import "../styles/production.css";
+import "../styles/performance.css";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import { site } from "../data/site";
+type Props = { title: string; description: string; image?: string; noindex?: boolean; schema?: Record<string, unknown> | Record<string, unknown>[]; article?: boolean; };
+const { title, description, image = "/media/electric-lights-cover.jpg", noindex = false, schema, article = false } = Astro.props as Props;
+const canonical = new URL(Astro.url.pathname, site.url);
+const imageUrl = new URL(image, site.url);
+const pathname = Astro.url.pathname;
+const baseSchema = [
+  { "@context": "https://schema.org", "@type": "WebSite", "@id": `${site.url}/#website`, url: site.url, name: site.name, inLanguage: "de-DE" },
+  { "@context": "https://schema.org", "@type": "Person", "@id": `${site.url}/#person`, name: site.name, url: site.url, image: `${site.url}/media/sophia-portrait.jpg`, email: `mailto:${site.email}`, telephone: site.phoneHref, jobTitle: "Videografin und Mediengestalterin Bild und Ton", address: { "@type": "PostalAddress", streetAddress: site.address[0], postalCode: "40229", addressLocality: "Düsseldorf", addressCountry: "DE" }, sameAs: site.social.map((item) => item.href) },
+  { "@context": "https://schema.org", "@type": "ProfessionalService", "@id": `${site.url}/#business`, name: "Sophia Ramahi Videografie", url: site.url, image: `${site.url}/media/sophia-portrait.jpg`, email: `mailto:${site.email}`, telephone: site.phoneHref, founder: { "@id": `${site.url}/#person` }, address: { "@type": "PostalAddress", streetAddress: site.address[0], postalCode: "40229", addressLocality: "Düsseldorf", addressCountry: "DE" }, areaServed: { "@type": "AdministrativeArea", name: "Nordrhein-Westfalen" }, priceRange: "Auf Anfrage" },
+];
+const allSchema = schema ? [...baseSchema, ...(Array.isArray(schema) ? schema : [schema])] : baseSchema;
+---
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#050506" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="description" content={description} />
+    <meta name="robots" content={noindex ? "noindex, follow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title="Sophia Ramahi Journal" href="/rss.xml" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:type" content={article ? "article" : "website"} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={imageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>{title}</title>
+    <script type="application/ld+json" set:html={JSON.stringify(allSchema)} is:inline></script>
+  </head>
+  <body class="cine">
+    <SiteHeader pathname={pathname} />
+    <main id="inhalt"><slot /></main>
+    <SiteFooter />
+    <script>
+      import "../scripts/site.ts";
+      import "../scripts/motion.ts";
+    </script>
+  </body>
+</html>

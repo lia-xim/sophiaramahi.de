@@ -1,0 +1,6 @@
+---
+import ServiceDetail from "../components/ServiceDetail.astro";
+import { services } from "../data/site";
+const service=services.find((item)=>item.slug==="postproduktion")!;
+---
+<ServiceDetail service={service} parentLabel="Leistungen" parentHref="/leistungen/" />

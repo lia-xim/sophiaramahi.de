@@ -1,0 +1,16 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import { site } from "../data/site";
+---
+<BaseLayout title="Impressum | Sophia Ramahi" description="Impressum und Anbieterkennzeichnung von Sophia Ramahi, Düsseldorf." noindex>
+  <PageHero compact title="Impressum" lead="Anbieterkennzeichnung nach § 5 Digitale-Dienste-Gesetz." crumbs={[{label:"Start",href:"/"},{label:"Impressum"}]} />
+  <div class="legal-content cine-wrap">
+    <section><h2>Angaben gemäß § 5 DDG</h2><p>Sophia Ramahi<br />{site.address[0]}<br />{site.address[1]}<br />Deutschland</p></section>
+    <section><h2>Kontakt</h2><p>Telefon: <a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a><br />E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a></p></section>
+    <section><h2>Verantwortlich für redaktionelle Inhalte</h2><p>Sophia Ramahi<br />Anschrift wie oben</p></section>
+    <section><h2>Verbraucherstreitbeilegung</h2><p>Ich bin nicht verpflichtet und nicht bereit, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p></section>
+    <section><h2>Urheberrecht</h2><p>Die auf dieser Website veröffentlichten Texte, Fotografien, Filme und Gestaltungen sind urheberrechtlich geschützt. Eine Nutzung außerhalb der gesetzlichen Schranken erfordert die vorherige Zustimmung der jeweiligen Rechteinhaberinnen und Rechteinhaber.</p></section>
+    <section><h2>Haftung für externe Links</h2><p>Diese Website enthält Links zu externen Angeboten. Für deren Inhalte sind ausschließlich die jeweiligen Betreiber verantwortlich. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Bei einem konkreten Hinweis wird der betroffene Link geprüft und gegebenenfalls entfernt.</p></section>
+  </div>
+</BaseLayout>

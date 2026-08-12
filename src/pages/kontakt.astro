@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import { site } from "../data/site";
+---
+<BaseLayout title="Kontakt | Videoprojekt mit Sophia Ramahi besprechen" description="Projektanfrage an Sophia Ramahi: Videografie, Kamera, Ton, Postproduktion, VJ und Projection Mapping in Düsseldorf und NRW.">
+  <PageHero title="Projekt anfragen" lead="Vier Angaben reichen für den Anfang: Was soll entstehen, wo, ungefähr wann und wofür?" image="/media/light-void.jpg" alt="Dunkle violette Lichtfläche" crumbs={[{label:"Start",href:"/"},{label:"Kontakt"}]} />
+  <section class="section cine-wrap contact-grid">
+    <div data-reveal><span class="cine-label">Direkter Kontakt</span><h2 class="cine-h2">Kein langes Anfrageformular</h2><div class="prose"><p>Wenn Termin oder Umfang noch offen sind, ist das kein Problem. Schreiben Sie, was bereits feststeht. Sophia meldet sich mit den nächsten sinnvollen Fragen zurück.</p></div><address><a href={`mailto:${site.email}`}>{site.email}</a><a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a><span>Düsseldorf · Produktionen in NRW</span></address></div>
+    <form class="contact-form" data-contact-form data-contact-email={site.email} data-reveal>
+      <div class="form-field"><label for="name">Name</label><input id="name" name="name" autocomplete="name" required maxlength="120" /></div>
+      <div class="form-field"><label for="email">E-Mail</label><input id="email" name="email" type="email" autocomplete="email" required maxlength="200" /></div>
+      <div class="form-field"><label for="project">Worum geht es?</label><select id="project" name="project" required><option value="">Bitte auswählen</option><option>Videoproduktion</option><option>Kamera oder Ton</option><option>Postproduktion</option><option>VJ oder Projection Mapping</option><option>Etwas anderes</option></select></div>
+      <div class="form-field form-field--full"><label for="message">Kurze Projektbeschreibung</label><textarea id="message" name="message" rows="7" required minlength="20" maxlength="5000" placeholder="Anlass, Ort, Zeitraum und gewünschtes Ergebnis"></textarea></div>
+      <p class="form-note">Beim Absenden öffnet sich Ihr E-Mail-Programm mit den eingetragenen Angaben. Die Website speichert oder überträgt die Formulardaten nicht.</p>
+      <button class="cine-btn" type="submit">E-Mail vorbereiten</button><p class="form-status" data-form-status aria-live="polite"></p>
+    </form>
+  </section>
+</BaseLayout>

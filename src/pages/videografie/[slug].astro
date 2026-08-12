@@ -1,0 +1,7 @@
+---
+import ServiceDetail from "../../components/ServiceDetail.astro";
+import { services, type Service } from "../../data/site";
+export function getStaticPaths(){return services.filter((s)=>s.parent==="videografie").map((service)=>({params:{slug:service.slug},props:{service}}));}
+const {service}=Astro.props as {service:Service};
+---
+<ServiceDetail service={service} parentLabel="Videografie" parentHref="/videografie/" />

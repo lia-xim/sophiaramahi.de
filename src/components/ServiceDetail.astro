@@ -1,0 +1,74 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ContactCta from "./ContactCta.astro";
+import FaqList from "./FaqList.astro";
+import PageHero from "./PageHero.astro";
+import ProjectGrid from "./ProjectGrid.astro";
+import { projects, servicePath, type Service } from "../data/site";
+
+const { service, parentLabel, parentHref } = Astro.props as {
+  service: Service;
+  parentLabel: string;
+  parentHref: string;
+};
+const related = projects.filter((project) => service.relatedProjects.includes(project.slug));
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.title,
+    description: service.seoDescription,
+    provider: { "@id": "https://sophiaramahi.de/#business" },
+    areaServed: { "@type": "AdministrativeArea", name: "Nordrhein-Westfalen" },
+    url: `https://sophiaramahi.de${servicePath(service)}`,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: service.faq.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  },
+];
+---
+
+<BaseLayout title={service.seoTitle} description={service.seoDescription} image={service.image} schema={schema}>
+  <PageHero title={service.title} lead={service.summary} image={service.image} alt={service.alt} crumbs={[{ label: "Start", href: "/" }, { label: parentLabel, href: parentHref }, { label: service.title }]} />
+
+  <section class="section section--split cine-wrap">
+    <div data-reveal>
+      <span class="cine-label">{service.eyebrow}</span>
+      <h2 class="cine-h2">Was die Produktion leisten soll</h2>
+    </div>
+    <div class="prose" data-reveal>
+      <p>{service.intro}</p>
+      <p>{service.outcome}</p>
+    </div>
+  </section>
+
+  <section class="section section--surface">
+    <div class="cine-wrap">
+      <div class="section-heading" data-reveal>
+        <span class="cine-label">Leistungsumfang</span>
+        <h2 class="cine-h2">Klar vereinbart, passend produziert</h2>
+      </div>
+      <div class="detail-columns">
+        <div data-reveal><h3>Typische Ergebnisse</h3><ul class="check-list">{service.deliverables.map((item) => <li>{item}</li>)}</ul></div>
+        <div data-reveal><h3>Geeignet für</h3><ul class="check-list">{service.suitableFor.map((item) => <li>{item}</li>)}</ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section cine-wrap">
+    <div class="section-heading" data-reveal><span class="cine-label">Ablauf</span><h2 class="cine-h2">Vom Briefing bis zur Übergabe</h2></div>
+    <ol class="process-grid">
+      {service.process.map((step, index) => <li data-reveal><span>{String(index + 1).padStart(2, "0")}</span><p>{step}</p></li>)}
+    </ol>
+  </section>
+
+  {related.length > 0 && <section class="section cine-wrap"><div class="section-heading" data-reveal><span class="cine-label">Ausgewählte Arbeiten</span><h2 class="cine-h2">Verwandte Projekte</h2></div><ProjectGrid items={related} /></section>}
+  <section class="section section--surface"><div class="cine-wrap"><div class="section-heading" data-reveal><span class="cine-label">Kurz geklärt</span><h2 class="cine-h2">Häufige Fragen</h2></div><FaqList items={service.faq} /></div></section>
+  <ContactCta title={`${service.title} anfragen`} copy="Schreiben Sie kurz, worum es geht, wo produziert werden soll und welcher Zeitraum realistisch ist." />
+</BaseLayout>

@@ -1,0 +1,5 @@
+/* Above-the-fold copy is readable before the deferred GSAP bundle initializes. */
+.motion-ready .cine-hero__content[data-reveal],
+.motion-ready .cine-page-hero__content[data-reveal] {
+  visibility: visible !important;
+}

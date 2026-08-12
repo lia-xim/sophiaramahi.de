@@ -1,0 +1,14 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ArrowLink from "../components/ArrowLink.astro";
+import ContactCta from "../components/ContactCta.astro";
+import PageHero from "../components/PageHero.astro";
+import { services, servicePath } from "../data/site";
+---
+<BaseLayout title="Leistungen | Videografie, Postproduktion, VJ & Mapping" description="Leistungen von Sophia Ramahi: Videografie, Kamera, Ton, Postproduktion, Live Visuals und Projection Mapping in Düsseldorf und NRW.">
+  <PageHero title="Leistungen" lead="Komplette Produktionen und einzelne Gewerke – mit klaren Zuständigkeiten und einem visuellen Konzept, das zum Anlass passt." image="/media/set-quer-01.jpg" alt="Kamera bei einer Videoproduktion" crumbs={[{label:"Start",href:"/"},{label:"Leistungen"}]} />
+  <section class="section cine-wrap"><div class="section-heading" data-reveal><span class="cine-label">Film & Video</span><h2 class="cine-h2">Videografie</h2><p class="cine-lead">Von Event und Musik bis zum persönlichen Unternehmensporträt.</p></div><div class="service-list">{services.filter((s)=>s.parent==="videografie").map((s,i)=><a class="service-row" href={servicePath(s)} data-reveal><span>{String(i+1).padStart(2,"0")}</span><div><h3>{s.title}</h3><p>{s.summary}</p></div><span aria-hidden="true">↗</span></a>)}</div><div class="section-action"><ArrowLink href="/videografie/" label="Videografie im Überblick" /></div></section>
+  <section class="section section--surface"><div class="cine-wrap"><div class="section-heading" data-reveal><span class="cine-label">Bühne & Raum</span><h2 class="cine-h2">VJ & Projection Mapping</h2></div><div class="service-list">{services.filter((s)=>s.parent==="vj-mapping").map((s,i)=><a class="service-row" href={servicePath(s)} data-reveal><span>{String(i+1).padStart(2,"0")}</span><div><h3>{s.title}</h3><p>{s.summary}</p></div><span aria-hidden="true">↗</span></a>)}</div><div class="section-action"><ArrowLink href="/vj-mapping/" label="Live Visuals und Mapping" /></div></div></section>
+  <section class="section cine-wrap section--split"><div data-reveal><span class="cine-label">Nach dem Dreh</span><h2 class="cine-h2">Postproduktion</h2></div><div data-reveal><p class="cine-lead">Schnitt, Farbgestaltung, Tonbearbeitung, Untertitel und Ausspielungen für eigene Drehs und ausgewähltes Fremdmaterial.</p><ArrowLink href="/postproduktion/" label="Zur Postproduktion" class="cine-btn" /></div></section>
+  <ContactCta />
+</BaseLayout>

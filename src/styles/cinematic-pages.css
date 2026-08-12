@@ -1,0 +1,507 @@
+/* sophiaramahi.de — Nocturnal Cinema, Bausteine der Unterseiten.
+   Ergaenzt cinematic.css: mobile Navigation, Seitenkopf, Karten, Prosa,
+   Faktenlisten, FAQ und Content-Slots in derselben Bildsprache. */
+
+/* ---------- 15. Mobile Navigation ---------------------------------------- */
+
+.cine-burger {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid rgba(244, 242, 245, 0.22);
+  border-radius: 999px;
+  background: rgba(13, 13, 16, 0.7);
+  backdrop-filter: blur(12px);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cine-burger__bars {
+  display: grid;
+  gap: 4px;
+  width: 18px;
+}
+
+.cine-burger__bars i {
+  height: 1px;
+  background: currentColor;
+}
+
+.cine-menu {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 49;
+  padding: 96px var(--gutter) 48px;
+  background: rgba(5, 5, 6, 0.97);
+  backdrop-filter: blur(18px);
+  overflow-y: auto;
+}
+
+.cine-menu[data-open] {
+  display: block;
+}
+
+.cine-menu__list {
+  display: grid;
+  gap: 2px;
+  max-width: 560px;
+  margin-inline: auto;
+}
+
+.cine-menu__list a {
+  display: flex;
+  align-items: center;
+  min-height: 66px;
+  padding-inline: 4px;
+  border-bottom: 1px solid rgba(244, 242, 245, 0.1);
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-stretch: 104%;
+  font-weight: 550;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.cine-menu__list a[aria-current="page"] {
+  color: color-mix(in oklab, var(--violet) 60%, white);
+}
+
+.cine-menu .cine-btn {
+  width: 100%;
+  max-width: 560px;
+  margin: 28px auto 0;
+}
+
+@media (max-width: 900px) {
+  .cine-burger {
+    display: inline-flex;
+  }
+
+  /* Auf Mobile fuehrt der Menue-Button, nicht zwei konkurrierende Aktionen. */
+  .cine-header__inner > .cine-ghost {
+    display: none;
+  }
+}
+
+/* ---------- 16. Seitenkopf der Unterseiten -------------------------------- */
+
+.cine-page-hero {
+  position: relative;
+  min-height: min(76svh, 760px);
+  display: grid;
+  align-content: end;
+  justify-items: center;
+  padding: clamp(140px, 20vh, 240px) var(--gutter) clamp(48px, 7vh, 96px);
+  text-align: center;
+  isolation: isolate;
+}
+
+.cine-page-hero__content {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: clamp(14px, 1.8vw, 22px);
+  width: 100%;
+  max-width: 900px;
+}
+
+.cine-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 10px;
+  font-size: var(--step-meta);
+  font-weight: 550;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8d88a0;
+}
+
+.cine-crumbs a {
+  color: #8d88a0;
+  border-bottom: 1px solid transparent;
+}
+
+.cine-crumbs a:hover,
+.cine-crumbs a:focus-visible {
+  color: var(--text);
+  border-color: rgba(244, 242, 245, 0.3);
+}
+
+.cine-crumbs [aria-current] {
+  color: #cbc6d6;
+}
+
+/* ---------- 17. Karten und Listen ---------------------------------------- */
+
+.cine-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(16px, 1.8vw, 26px);
+  width: 100%;
+  text-align: left;
+}
+
+.cine-card {
+  position: relative;
+  display: grid;
+  align-content: end;
+  gap: 10px;
+  min-height: min(56svh, 460px);
+  padding: clamp(22px, 2.6vw, 34px);
+  border-radius: 16px;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--surface);
+}
+
+.cine-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+.cine-card .layer,
+.cine-card .scrim {
+  z-index: 0;
+}
+
+.cine-card__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 1.8vw, 1.55rem);
+  font-stretch: 104%;
+  font-weight: 550;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+
+.cine-card__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.cine-card:hover .cine-card__go svg,
+.cine-card:focus-within .cine-card__go svg {
+  transform: translateX(4px);
+}
+
+.cine-card__go svg {
+  transition: transform var(--dur) var(--ease);
+}
+
+.cine-card .layer img {
+  transition: transform 600ms var(--ease);
+}
+
+.cine-card:hover .layer img {
+  transform: scale(1.03);
+}
+
+/* Textliste ohne Bild, fuer Unterleistungen */
+.cine-list {
+  width: 100%;
+  max-width: 860px;
+  text-align: left;
+  border-top: 1px solid rgba(244, 242, 245, 0.12);
+}
+
+.cine-list a {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 24px;
+  padding-block: 20px;
+  border-bottom: 1px solid rgba(244, 242, 245, 0.12);
+  transition: padding-inline-start var(--dur) var(--ease);
+}
+
+.cine-list a:hover,
+.cine-list a:focus-visible {
+  padding-inline-start: 12px;
+}
+
+.cine-list__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+  font-stretch: 104%;
+  font-weight: 550;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+
+.cine-list__note {
+  font-size: var(--step-caption);
+  color: #a7a3ad;
+  max-width: 34ch;
+}
+
+/* ---------- 18. Prosa und Fakten ----------------------------------------- */
+
+.cine-prose {
+  width: 100%;
+  max-width: 66ch;
+  margin-inline: auto;
+  text-align: left;
+}
+
+.cine-prose > * + * {
+  margin-top: 1.15em;
+}
+
+.cine-prose p {
+  color: #a7a3ad;
+  line-height: 1.75;
+}
+
+.cine-prose > p:first-child {
+  font-size: clamp(1.0625rem, 1.3vw, 1.3125rem);
+  line-height: 1.55;
+  color: #d7d3e0;
+}
+
+.cine-prose h2 {
+  margin-top: 2em;
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2vw, 1.75rem);
+  font-stretch: 104%;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.cine-prose strong {
+  color: var(--text);
+  font-weight: 550;
+}
+
+.cine-prose a {
+  color: var(--text);
+  border-bottom: 1px solid rgba(244, 242, 245, 0.3);
+}
+
+.cine-prose a:hover {
+  border-color: var(--amber);
+}
+
+.cine-prose ul {
+  display: grid;
+  gap: 12px;
+}
+
+.cine-prose li {
+  position: relative;
+  padding-left: 26px;
+  color: #a7a3ad;
+  line-height: 1.7;
+}
+
+.cine-prose li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.78em;
+  width: 10px;
+  height: 1px;
+  background: color-mix(in oklab, var(--violet) 70%, transparent);
+}
+
+.cine-prose blockquote {
+  margin: 2em 0;
+}
+
+.cine-prose blockquote p {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+  font-stretch: 104%;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  max-width: 26ch;
+}
+
+.cine-facts {
+  width: 100%;
+  max-width: 760px;
+  margin-inline: auto;
+  text-align: left;
+  border-top: 1px solid rgba(244, 242, 245, 0.16);
+}
+
+.cine-facts > div {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: 8px 24px;
+  padding-block: 16px;
+  border-bottom: 1px solid rgba(244, 242, 245, 0.1);
+}
+
+.cine-facts dt {
+  font-size: var(--step-caption);
+  letter-spacing: 0.04em;
+  color: #8d88a0;
+}
+
+.cine-facts dd {
+  margin: 0;
+  color: #d7d3e0;
+}
+
+/* ---------- 19. FAQ ------------------------------------------------------ */
+
+.cine-faq {
+  width: 100%;
+  max-width: 760px;
+  margin-inline: auto;
+  text-align: left;
+  border-top: 1px solid rgba(244, 242, 245, 0.14);
+}
+
+.cine-faq details {
+  border-bottom: 1px solid rgba(244, 242, 245, 0.14);
+}
+
+.cine-faq summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-block: 22px;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+  font-stretch: 104%;
+  font-weight: 550;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+
+.cine-faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.cine-faq summary::after {
+  content: "+";
+  flex: none;
+  font-family: var(--font-body);
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: #8d88a0;
+}
+
+.cine-faq details[open] summary::after {
+  content: "–";
+}
+
+.cine-faq__answer {
+  padding-bottom: 24px;
+  color: #a7a3ad;
+  line-height: 1.7;
+}
+
+/* ---------- 20. Content-Slot --------------------------------------------- */
+
+.cine-slot {
+  width: 100%;
+  max-width: 760px;
+  margin-inline: auto;
+  padding: 22px 24px;
+  border: 1px dashed rgba(143, 170, 255, 0.4);
+  border-radius: 14px;
+  background: rgba(117, 92, 255, 0.06);
+  text-align: left;
+}
+
+.cine-slot > .cine-label {
+  color: var(--ice);
+  margin-bottom: 8px;
+}
+
+.cine-slot p {
+  color: #a7a3ad;
+  font-size: var(--step-caption);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ---------- 21. Galerie --------------------------------------------------- */
+
+.cine-gallery {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(10px, 1.2vw, 18px);
+  width: 100%;
+}
+
+.cine-gallery figure {
+  position: relative;
+  margin: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.cine-gallery img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cine-gallery > *:nth-child(1) {
+  grid-column: span 7;
+  aspect-ratio: 3 / 2;
+}
+.cine-gallery > *:nth-child(2) {
+  grid-column: span 5;
+  aspect-ratio: 4 / 5;
+}
+.cine-gallery > *:nth-child(3) {
+  grid-column: span 5;
+  aspect-ratio: 4 / 5;
+}
+.cine-gallery > *:nth-child(4) {
+  grid-column: span 7;
+  aspect-ratio: 3 / 2;
+}
+.cine-gallery > *:nth-child(5) {
+  grid-column: span 12;
+  aspect-ratio: 21 / 9;
+}
+
+/* ---------- 22. Responsive ------------------------------------------------ */
+
+@media (max-width: 900px) {
+  .cine-page-hero {
+    min-height: min(66svh, 560px);
+  }
+
+  .cine-facts > div {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 700px) {
+  .cine-gallery > * {
+    grid-column: span 12 !important;
+    aspect-ratio: 3 / 2 !important;
+  }
+
+  .cine-card {
+    min-height: min(48svh, 380px);
+  }
+}

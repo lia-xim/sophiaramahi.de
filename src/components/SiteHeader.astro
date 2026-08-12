@@ -1,0 +1,36 @@
+---
+const { pathname = "/" } = Astro.props;
+const nav = [
+  { label: "Arbeiten", href: "/arbeiten/", match: ["/arbeiten/", "/projekte/"] },
+  { label: "Leistungen", href: "/leistungen/", match: ["/leistungen/", "/videografie/", "/postproduktion/", "/vj-mapping/", "/standorte/"] },
+  { label: "Über Sophia", href: "/ueber-sophia/", match: ["/ueber-sophia/"] },
+  { label: "Kontakt", href: "/kontakt/", match: ["/kontakt/"] },
+];
+const active = (item: (typeof nav)[number]) => item.match.some((prefix) => pathname.startsWith(prefix));
+---
+
+<a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+<header class="cine-header" data-site-header>
+  <div class="cine-wrap cine-header__inner">
+    <a class="wordmark" href="/" aria-label="Sophia Ramahi – Startseite">Sophia Ramahi</a>
+    <nav class="cine-nav" aria-label="Hauptnavigation">
+      {nav.map((item) => (
+        <a href={item.href} aria-current={active(item) ? "page" : undefined}>{item.label}</a>
+      ))}
+    </nav>
+    <a class="cine-ghost" href="/kontakt/">Projekt besprechen</a>
+    <button class="cine-burger" type="button" aria-expanded="false" aria-controls="mobile-menu" data-nav-toggle>
+      <span class="cine-burger__bars" aria-hidden="true"><i></i><i></i></span>
+      <span>Menü</span>
+    </button>
+  </div>
+</header>
+
+<div class="cine-menu" id="mobile-menu" data-nav hidden>
+  <nav class="cine-menu__list" aria-label="Mobile Navigation">
+    {nav.map((item) => (
+      <a href={item.href} aria-current={active(item) ? "page" : undefined}>{item.label}</a>
+    ))}
+  </nav>
+  <a class="cine-btn" href="/kontakt/">Projekt besprechen</a>
+</div>

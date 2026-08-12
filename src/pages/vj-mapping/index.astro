@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ContactCta from "../../components/ContactCta.astro";
+import PageHero from "../../components/PageHero.astro";
+import { services, servicePath } from "../../data/site";
+const items=services.filter((service)=>service.parent==="vj-mapping");
+---
+<BaseLayout title="VJ & Projection Mapping Düsseldorf | Sophia Ramahi" description="Live Visuals und Projection Mapping aus Düsseldorf für Konzerte, Festivals, Ausstellungen, Performances und besondere Räume.">
+  <PageHero title="VJ & Mapping" lead="Bewegte Bilder für Bühne, Musik, Architektur und reale Flächen – vorbereitet im Detail und live offen für den Moment." image="/media/spektra-detail-03.jpg" alt="Geometrische Projektion auf einer Bühnenfläche" crumbs={[{label:"Start",href:"/"},{label:"Leistungen",href:"/leistungen/"},{label:"VJ & Mapping"}]} />
+  <section class="section cine-wrap section--split"><div data-reveal><span class="cine-label">Visuelle Räume</span><h2 class="cine-h2">Nicht nur eine Leinwand bespielen</h2></div><div class="prose" data-reveal><p>Live Visuals reagieren auf Musik, Publikum und Licht. Beim Mapping bestimmt die reale Oberfläche, was gestaltet werden kann. Beides verlangt eine Verbindung aus visueller Idee und technischer Vorbereitung.</p><p>Projektionsleistung, Signalwege, Flächen, Kabel, Sicherheit und Proben gehören deshalb genauso zum Konzept wie das spätere Bildmaterial.</p></div></section>
+  <section class="section section--surface"><div class="cine-wrap"><div class="service-list">{items.map((s,i)=><a class="service-row" href={servicePath(s)} data-reveal><span>{String(i+1).padStart(2,"0")}</span><div><h2>{s.title}</h2><p>{s.summary}</p></div><span aria-hidden="true">↗</span></a>)}</div></div></section>
+  <ContactCta title="Visuals oder Mapping besprechen" />
+</BaseLayout>

@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ArrowLink from "../components/ArrowLink.astro";
+import ContactCta from "../components/ContactCta.astro";
+import ProjectGrid from "../components/ProjectGrid.astro";
+import { articles, locations, projects, services, servicePath } from "../data/site";
+const featuredServices = services.filter((service) => ["eventfilm", "musikvideo", "imagefilm", "live-visuals", "projection-mapping", "postproduktion"].includes(service.slug));
+---
+
+<BaseLayout title="Sophia Ramahi | Videografin & Visual Artist in Düsseldorf" description="Videografie, Kamera, Ton, Postproduktion, VJ und Projection Mapping aus Düsseldorf – für Musik, Kultur, Events und ausgewählte Unternehmen.">
+  <section class="cine-hero">
+    <div class="cine-hero__media"><img src="/media/light-hero.jpg" alt="Violette Lichtinszenierung" width="1920" height="1080" loading="eager" fetchpriority="high" /><div class="cine-hero__scrim" aria-hidden="true"></div></div>
+    <div class="cine-wrap cine-hero__content" data-reveal>
+      <span class="cine-label">Videografie · Bild & Ton · Live Visuals</span>
+      <h1 class="cine-display">Bilder, die<br />im Raum bleiben.</h1>
+      <p class="cine-lead">Sophia Ramahi entwickelt Filme und visuelle Räume für Musik, Kultur, Veranstaltungen und Menschen mit einer konkreten Geschichte.</p>
+      <div class="button-row"><ArrowLink href="/arbeiten/" label="Arbeiten ansehen" class="cine-btn" /><ArrowLink href="/kontakt/" label="Projekt anfragen" /></div>
+    </div>
+  </section>
+
+  <section class="section cine-wrap"><div class="section-heading section-heading--row" data-reveal><div><span class="cine-label">Ausgewählte Arbeiten</span><h2 class="cine-h2">Vier Projekte. Vier eigene Bildwelten.</h2></div><ArrowLink href="/arbeiten/" label="Alle Projekte" /></div><ProjectGrid items={projects} headingLevel="h3" /></section>
+
+  <section class="section section--surface"><div class="cine-wrap"><div class="section-heading" data-reveal><span class="cine-label">Leistungen</span><h2 class="cine-h2">Vom ersten Bild bis zur fertigen Ausspielung</h2><p class="cine-lead">Komplette Produktionen oder einzelne Gewerke – sauber abgegrenzt und passend zum Projekt.</p></div><div class="service-list">{featuredServices.map((service, index) => <a href={servicePath(service)} class="service-row" data-reveal><span>{String(index + 1).padStart(2, "0")}</span><div><h3>{service.title}</h3><p>{service.summary}</p></div><span aria-hidden="true">↗</span></a>)}</div><div class="section-action"><ArrowLink href="/leistungen/" label="Alle Leistungen im Überblick" class="cine-btn" /></div></div></section>
+
+  <section class="section cine-wrap showreel-grid"><div data-reveal><span class="cine-label">Showreel</span><h2 class="cine-h2">Kamera, Licht, Rhythmus.</h2><p class="cine-lead">Ein kurzer Querschnitt durch dokumentarische, inszenierte und live entstandene Bilder.</p></div><div class="video-frame" data-reveal><video controls preload="none" poster="/media/electric-lights-cover.jpg"><source src="/media/showreel.mp4" type="video/mp4" />Ihr Browser kann das Video nicht wiedergeben.</video></div></section>
+
+  <section class="section section--surface"><div class="cine-wrap"><div class="section-heading" data-reveal><span class="cine-label">Zusammenarbeit</span><h2 class="cine-h2">Klarer Prozess, ruhiges Set</h2></div><ol class="process-grid"><li data-reveal><span>01</span><h3>Einordnen</h3><p>Ziel, Publikum, Ort, Timing und realistischen Umfang gemeinsam klären.</p></li><li data-reveal><span>02</span><h3>Vorbereiten</h3><p>Bildidee, Technik, Ton, Ablauf und Verantwortlichkeiten so konkret wie nötig planen.</p></li><li data-reveal><span>03</span><h3>Produzieren</h3><p>Konzentriert drehen oder live gestalten, ohne den Raum unnötig zu blockieren.</p></li><li data-reveal><span>04</span><h3>Fertigstellen</h3><p>Material ordnen, präzise bearbeiten und in vereinbarten Formaten ausspielen.</p></li></ol></div></section>
+
+  <section class="section cine-wrap section--split"><div class="portrait-frame" data-reveal><img src="/media/sophia-portrait.jpg" alt="Sophia Ramahi, Videografin aus Düsseldorf" width="900" height="1100" loading="lazy" /></div><div data-reveal><span class="cine-label">Über Sophia</span><h2 class="cine-h2">Technisches Handwerk mit einem Blick für Atmosphäre</h2><div class="prose"><p>Als ausgebildete Mediengestalterin Bild und Ton verbindet Sophia Kamera, Licht, Ton und Postproduktion. Besonders gern arbeitet sie an Musik-, Kultur- und Eventformaten, bei denen eine eigene visuelle Sprache gefragt ist.</p></div><ArrowLink href="/ueber-sophia/" label="Mehr über die Zusammenarbeit" /></div></section>
+
+  <section class="section section--surface"><div class="cine-wrap"><div class="section-heading section-heading--row" data-reveal><div><span class="cine-label">Düsseldorf & NRW</span><h2 class="cine-h2">Regional verankert, mobil produziert</h2></div><ArrowLink href="/standorte/" label="Alle Einsatzorte" /></div><div class="location-strip">{locations.slice(0, 8).map((location) => <a href={`/standorte/${location.slug}/`}>{location.city}<span>{location.region}</span></a>)}</div></div></section>
+
+  <section class="section cine-wrap"><div class="section-heading section-heading--row" data-reveal><div><span class="cine-label">Journal</span><h2 class="cine-h2">Aus der Praxis</h2></div><ArrowLink href="/journal/" label="Alle Beiträge" /></div><div class="article-grid">{articles.map((article) => <a class="article-card" href={`/journal/${article.slug}/`} data-reveal><img src={article.image} alt="" width="900" height="600" loading="lazy" /><span>{article.readingTime}</span><h3>{article.title}</h3><p>{article.excerpt}</p></a>)}</div></section>
+  <ContactCta />
+</BaseLayout>

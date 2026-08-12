@@ -1,0 +1,18 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArrowLink from "../../components/ArrowLink.astro";
+import ContactCta from "../../components/ContactCta.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import { articles, type Article } from "../../data/site";
+export function getStaticPaths(){return articles.map((article)=>({params:{slug:article.slug},props:{article}}));}
+const {article}=Astro.props as {article:Article};
+const date=new Intl.DateTimeFormat("de-DE",{dateStyle:"long"}).format(new Date(article.publishedAt));
+const schema={"@context":"https://schema.org","@type":"BlogPosting",headline:article.title,description:article.excerpt,image:`https://sophiaramahi.de${article.image}`,datePublished:article.publishedAt,dateModified:article.publishedAt,author:{"@id":"https://sophiaramahi.de/#person"},mainEntityOfPage:`https://sophiaramahi.de/journal/${article.slug}/`};
+---
+<BaseLayout title={`${article.title} | Sophia Ramahi`} description={article.excerpt} image={article.image} article schema={schema}>
+  <article>
+    <header class="article-hero cine-wrap"><Breadcrumbs items={[{label:"Start",href:"/"},{label:"Journal",href:"/journal/"},{label:article.title}]} /><span class="cine-label">{date} · {article.readingTime}</span><h1 class="cine-display">{article.title}</h1><p class="cine-lead">{article.excerpt}</p><img src={article.image} alt="" width="1400" height="850" loading="eager" /></header>
+    <div class="article-body cine-wrap">{article.sections.map((section)=><section data-reveal><h2>{section.title}</h2>{section.copy.map((paragraph)=><p>{paragraph}</p>)}</section>)}<aside><span class="cine-label">Weiterlesen</span>{article.related.map((item)=><ArrowLink href={item.href} label={item.label} />)}</aside></div>
+  </article>
+  <ContactCta />
+</BaseLayout>

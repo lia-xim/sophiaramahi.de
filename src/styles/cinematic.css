@@ -1,0 +1,714 @@
+/* sophiaramahi.de — Nocturnal Cinema, cinematische Fassung.
+   Zweite Designrichtung nach den Referenzen: vollflaechige Bildwelten,
+   zentrierte Typografie auf dem Bild, randlose Uebergaenge, Licht als Traeger.
+   Setzt tokens.css voraus und ersetzt Teile von components/sections. */
+
+/* ---------- 1. Grundlage ------------------------------------------------- */
+
+.cine {
+  background: var(--bg);
+  overflow-x: hidden;
+}
+
+.cine main > * {
+  position: relative;
+}
+
+/* Kein sichtbarer Schnitt zwischen den Abschnitten: die Baender enden und
+   beginnen in derselben Schwaerze. */
+.cine .section,
+.cine .site-footer {
+  border-top: 0;
+}
+
+.cine-wrap {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.cine-narrow {
+  max-width: 760px;
+  margin-inline: auto;
+}
+
+.cine-center {
+  text-align: center;
+}
+
+/* ---------- 2. Typografie ------------------------------------------------ */
+
+.cine-display {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 7.2vw, 7rem);
+  font-weight: 600;
+  font-stretch: 108%;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+  margin: 0;
+  background: linear-gradient(180deg, #ffffff 8%, #cec8dc 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.cine-h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 4vw, 3.6rem);
+  font-weight: 600;
+  font-stretch: 106%;
+  line-height: 1.08;
+  letter-spacing: -0.028em;
+  text-wrap: balance;
+  margin: 0;
+  background: linear-gradient(180deg, #ffffff 10%, #d3cde0 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.cine-lead {
+  font-size: clamp(1.0625rem, 1.3vw, 1.375rem);
+  line-height: 1.55;
+  color: #b9b4c4;
+  margin: 0;
+}
+
+.cine-body {
+  font-size: var(--step-body);
+  line-height: 1.7;
+  color: #a7a3ad;
+  margin: 0;
+}
+
+.cine-label {
+  display: inline-block;
+  font-size: var(--step-meta);
+  font-weight: 550;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8d88a0;
+}
+
+/* ---------- 3. Bildebene und Abdunklung ---------------------------------- */
+
+.layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.layer img,
+.layer video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Der Scrim macht Text lesbar und laesst das Bild nach unten in Schwarz
+   auslaufen — daher braucht kein Abschnitt eine Trennlinie. */
+.scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      116% 78% at 50% 40%,
+      rgba(5, 5, 6, 0) 0%,
+      rgba(5, 5, 6, 0.5) 56%,
+      rgba(5, 5, 6, 0.9) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(5, 5, 6, 0.72) 0%,
+      rgba(5, 5, 6, 0.12) 26%,
+      rgba(5, 5, 6, 0.18) 58%,
+      var(--bg) 100%
+    );
+}
+
+/* Fuer Text mitten auf einem Bild: genug Abdunklung, dass auch im hellen
+   Lichtstrahl 4.5:1 erhalten bleibt. */
+.scrim--soft {
+  background: linear-gradient(
+      180deg,
+      var(--bg) 0%,
+      rgba(5, 5, 6, 0.62) 20%,
+      rgba(5, 5, 6, 0.62) 76%,
+      var(--bg) 100%
+    ),
+    radial-gradient(
+      80% 60% at 50% 50%,
+      rgba(5, 5, 6, 0.42) 0%,
+      rgba(5, 5, 6, 0) 78%
+    );
+}
+
+.scrim--bottom {
+  background: linear-gradient(
+    180deg,
+    rgba(5, 5, 6, 0.15) 0%,
+    rgba(5, 5, 6, 0.55) 52%,
+    rgba(5, 5, 6, 0.96) 100%
+  );
+}
+
+/* Ein einziger Lichtschein pro Abschnitt, nie mehr. */
+.glow {
+  position: absolute;
+  left: 50%;
+  top: 56%;
+  width: min(92vw, 1080px);
+  aspect-ratio: 2 / 1;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    color-mix(in oklab, var(--violet) 58%, transparent) 0%,
+    color-mix(in oklab, var(--magenta) 22%, transparent) 42%,
+    transparent 72%
+  );
+  filter: blur(64px);
+  opacity: 0.5;
+}
+
+.glow--amber {
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    color-mix(in oklab, var(--amber) 46%, transparent) 0%,
+    transparent 70%
+  );
+  opacity: 0.34;
+}
+
+/* Lichtkante als Abschluss eines Bandes */
+.beam {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: min(72%, 900px);
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, var(--violet) 80%, transparent) 32%,
+    color-mix(in oklab, var(--magenta) 80%, transparent) 66%,
+    transparent
+  );
+  opacity: 0.8;
+}
+
+/* ---------- 4. Hero ------------------------------------------------------ */
+
+.cine-hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  padding-block: clamp(140px, 18vh, 220px) clamp(80px, 12vh, 160px);
+  isolation: isolate;
+}
+
+.cine-hero__content {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: clamp(20px, 2.4vw, 30px);
+  text-align: center;
+}
+
+.cine-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 16px 26px;
+  margin-top: 6px;
+}
+
+.cine-scroll {
+  position: absolute;
+  bottom: clamp(24px, 4vh, 48px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #8d88a0;
+  font-size: var(--step-meta);
+  font-weight: 550;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.cine-scroll::after {
+  content: "";
+  width: 1px;
+  height: 34px;
+  background: linear-gradient(180deg, #8d88a0, transparent);
+}
+
+/* ---------- 5. Baender --------------------------------------------------- */
+
+.band {
+  position: relative;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  padding-block: clamp(96px, 13vh, 200px);
+  isolation: isolate;
+}
+
+.band--tall {
+  min-height: 92svh;
+}
+
+.band__content {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: clamp(18px, 2vw, 28px);
+  width: 100%;
+}
+
+/* Ein Band ohne Bild: nur Schwarz und ein Lichtschein. */
+.band--void {
+  padding-block: clamp(110px, 15vh, 220px);
+}
+
+/* ---------- 6. Arbeiten: vollflaechige Bildfolge ------------------------- */
+
+.cine-work {
+  position: relative;
+  display: block;
+  min-height: min(94svh, 940px);
+  isolation: isolate;
+  color: inherit;
+}
+
+.cine-work + .cine-work {
+  margin-top: clamp(-1px, -0.1vw, 0px);
+}
+
+.cine-work__content {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  min-height: inherit;
+  align-content: end;
+  padding: clamp(48px, 8vh, 120px) var(--gutter);
+  text-align: center;
+}
+
+.cine-work .layer img {
+  transition: transform 600ms var(--ease);
+}
+
+.cine-work:hover .layer img,
+.cine-work:focus-visible .layer img {
+  transform: scale(1.02);
+}
+
+.cine-work__meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 18px;
+}
+
+.cine-work__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  margin-top: 6px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text);
+  border-bottom: 1px solid rgba(244, 242, 245, 0.28);
+  transition: border-color var(--dur) var(--ease);
+}
+
+.cine-work:hover .cine-work__go {
+  border-color: var(--amber);
+}
+
+/* ---------- 7. Leistungen ------------------------------------------------ */
+
+.cine-split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  width: 100%;
+  background: rgba(244, 242, 245, 0.08);
+}
+
+.cine-world {
+  position: relative;
+  display: grid;
+  align-content: end;
+  gap: 14px;
+  min-height: min(76svh, 720px);
+  padding: clamp(36px, 5vh, 72px) clamp(28px, 3.4vw, 56px);
+  background: var(--bg);
+  isolation: isolate;
+  text-align: left;
+}
+
+.cine-world__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 8px;
+  margin-top: 8px;
+}
+
+.cine-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid rgba(244, 242, 245, 0.22);
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #cbc6d6;
+  background: rgba(5, 5, 6, 0.5);
+  backdrop-filter: blur(6px);
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+
+.cine-chip:hover,
+.cine-chip:focus-visible {
+  background: var(--text);
+  border-color: var(--text);
+  color: var(--bg);
+}
+
+/* ---------- 8. Prozess und Zahlenband ------------------------------------ */
+
+.cine-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(20px, 2.6vw, 44px);
+  width: 100%;
+  margin-top: clamp(36px, 4vw, 64px);
+  text-align: left;
+}
+
+.cine-step {
+  padding-top: 18px;
+  border-top: 1px solid rgba(244, 242, 245, 0.16);
+}
+
+.cine-step__num {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.2vw, 2.2rem);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: color-mix(in oklab, var(--violet) 78%, white);
+}
+
+.cine-step__title {
+  margin: 14px 0 8px;
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: 550;
+  color: var(--text);
+}
+
+/* ---------- 9. Kontakt --------------------------------------------------- */
+
+.cine-form {
+  display: grid;
+  gap: 14px;
+  width: min(100%, 560px);
+  margin-top: 8px;
+  text-align: left;
+}
+
+.cine-form__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.cine-field {
+  display: grid;
+  gap: 8px;
+}
+
+.cine-field input,
+.cine-field select,
+.cine-field textarea {
+  width: 100%;
+  min-height: 54px;
+  padding: 15px 18px;
+  background: rgba(244, 242, 245, 0.04);
+  border: 1px solid rgba(244, 242, 245, 0.16);
+  border-radius: 12px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  transition: border-color var(--dur) var(--ease),
+    background var(--dur) var(--ease);
+}
+
+.cine-field textarea {
+  min-height: 128px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.cine-field input::placeholder,
+.cine-field textarea::placeholder {
+  color: #7c7885;
+}
+
+.cine-field input:hover,
+.cine-field select:hover,
+.cine-field textarea:hover {
+  border-color: rgba(244, 242, 245, 0.32);
+}
+
+.cine-field input:focus,
+.cine-field select:focus,
+.cine-field textarea:focus {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+  border-color: transparent;
+  background: rgba(244, 242, 245, 0.07);
+}
+
+.cine-consent {
+  display: flex;
+  gap: 12px;
+  align-items: start;
+  font-size: var(--step-caption);
+  color: #a7a3ad;
+  line-height: 1.55;
+}
+
+.cine-consent input {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  margin-top: 2px;
+  accent-color: var(--violet);
+}
+
+.cine-consent a {
+  color: var(--text);
+  border-bottom: 1px solid rgba(244, 242, 245, 0.28);
+}
+
+/* ---------- 10. Buttons -------------------------------------------------- */
+
+.cine-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 54px;
+  padding: 0 30px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--text);
+  color: var(--bg);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.cine-btn:hover,
+.cine-btn:focus-visible {
+  background: var(--amber);
+  color: #1a0f06;
+}
+
+.cine-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 54px;
+  padding: 0 22px;
+  border: 1px solid rgba(244, 242, 245, 0.24);
+  border-radius: 999px;
+  color: var(--text);
+  font-size: 0.9375rem;
+  font-weight: 550;
+  transition: background var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+
+.cine-ghost:hover,
+.cine-ghost:focus-visible {
+  background: rgba(244, 242, 245, 0.09);
+  border-color: var(--text);
+}
+
+/* ---------- 11. Header --------------------------------------------------- */
+
+/* Der Header sitzt ganz oben. Die Review-Leiste scrollt in dieser Fassung
+   mit weg, damit der erste Viewport exakt dem spaeteren Live-Zustand
+   entspricht. */
+.cine .review-bar {
+  position: static;
+}
+
+.cine-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  padding-block: 18px;
+  background: linear-gradient(180deg, rgba(5, 5, 6, 0.86), rgba(5, 5, 6, 0));
+}
+
+.cine-header__inner .wordmark {
+  position: relative;
+  z-index: 1;
+}
+
+.cine-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.cine-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px;
+  border: 1px solid rgba(244, 242, 245, 0.12);
+  border-radius: 999px;
+  background: rgba(13, 13, 16, 0.62);
+  backdrop-filter: blur(14px);
+}
+
+.cine-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #b9b4c4;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.cine-nav a:hover,
+.cine-nav a:focus-visible {
+  background: rgba(244, 242, 245, 0.1);
+  color: var(--text);
+}
+
+.cine-nav a[aria-current="page"] {
+  background: rgba(244, 242, 245, 0.14);
+  color: var(--text);
+}
+
+/* ---------- 12. Footer --------------------------------------------------- */
+
+.cine-footer {
+  position: relative;
+  padding-block: clamp(64px, 8vh, 120px) 36px;
+  isolation: isolate;
+}
+
+.cine-footer__grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 28px;
+  margin-top: 28px;
+}
+
+.cine-footer__grid a {
+  color: #a7a3ad;
+  font-size: 0.9375rem;
+  transition: color var(--dur) var(--ease);
+}
+
+.cine-footer__grid a:hover,
+.cine-footer__grid a:focus-visible {
+  color: var(--text);
+}
+
+.cine-footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 24px;
+  margin-top: clamp(40px, 5vh, 72px);
+  padding-top: 22px;
+  border-top: 1px solid rgba(244, 242, 245, 0.1);
+}
+
+/* ---------- 13. Responsive ----------------------------------------------- */
+
+@media (max-width: 900px) {
+  .cine-split {
+    grid-template-columns: 1fr;
+  }
+
+  .cine-world {
+    min-height: min(62svh, 520px);
+  }
+
+  .cine-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cine-nav {
+    display: none;
+  }
+
+  .cine-work {
+    min-height: min(78svh, 680px);
+  }
+}
+
+@media (max-width: 560px) {
+  .cine-steps,
+  .cine-form__row {
+    grid-template-columns: 1fr;
+  }
+
+  .glow {
+    filter: blur(48px);
+    opacity: 0.42;
+  }
+}
+
+/* ---------- 14. Reduced motion ------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .cine-work .layer img {
+    transition: none;
+  }
+
+  .cine-work:hover .layer img {
+    transform: none;
+  }
+}

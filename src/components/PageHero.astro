@@ -1,0 +1,24 @@
+---
+import Breadcrumbs from "./Breadcrumbs.astro";
+const {
+  title,
+  lead,
+  image = "/media/light-hero.jpg",
+  alt = "",
+  crumbs = [],
+  compact = false,
+} = Astro.props;
+---
+
+<section class:list={["cine-page-hero", { "cine-page-hero--compact": compact }]}>
+  <div class="layer" aria-hidden={alt ? undefined : "true"}>
+    <img src={image} alt={alt} width="1600" height="900" loading="eager" decoding="async" />
+  </div>
+  <div class="scrim scrim--soft" aria-hidden="true"></div>
+  <div class="glow" aria-hidden="true"></div>
+  <div class="cine-page-hero__content" data-reveal>
+    {crumbs.length > 0 && <Breadcrumbs items={crumbs} />}
+    <h1 class="cine-display">{title}</h1>
+    {lead && <p class="cine-lead">{lead}</p>}
+  </div>
+</section>

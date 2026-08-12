@@ -1,0 +1,258 @@
+/* sophiaramahi.de - Nocturnal Cinema: Tokens, Basis, Typografie, Raster.
+   Wird in Phase 2 zu src/styles/tokens.css. Werte bleiben unveraendert. */
+
+/* ---------- 1. Tokens ---------------------------------------------------- */
+
+:root {
+  /* Flaechen */
+  --bg: #050506;
+  --surface: #0d0d10;
+  --surface-2: #14141a;
+  --frame: #08080b;
+
+  /* Schrift */
+  --text: #f4f2f5;
+  --text-muted: #a7a3ad;
+
+  /* Linien */
+  --line: rgba(244, 242, 245, 0.09);
+  --line-strong: rgba(244, 242, 245, 0.2);
+
+  /* Licht (Akzente) */
+  --violet: #755cff;
+  --magenta: #d947b4;
+  --amber: #ef9a62;
+  --ice: #8faaff;
+
+  /* Fokus */
+  --focus: var(--ice);
+
+  /* Typografie */
+  --font-display: "Archivo", "Archivo Expanded", "Helvetica Neue", Arial,
+    sans-serif;
+  --font-body: "Instrument Sans", ui-sans-serif, system-ui, "Segoe UI", Arial,
+    sans-serif;
+
+  --step-display: clamp(2.5rem, 8.2vw, 8.25rem);
+  --step-h1: clamp(2.5rem, 5.4vw, 4.75rem);
+  --step-h2: clamp(1.9rem, 3.4vw, 3.25rem);
+  --step-h3: clamp(1.3rem, 1.7vw, 1.6rem);
+  --step-h4: clamp(1.05rem, 1.15vw, 1.2rem);
+  --step-body-lg: clamp(1.0625rem, 1.2vw, 1.3125rem);
+  --step-body: clamp(1rem, 0.6vw + 0.85rem, 1.0625rem);
+  --step-caption: 0.8125rem;
+  --step-meta: 0.75rem;
+
+  /* Raster */
+  --gutter: clamp(20px, 4.2vw, 72px);
+  --page-max: 1440px;
+  --rule: 1px;
+
+  /* Rhythmus */
+  --space-section: clamp(80px, 9vw, 168px);
+  --radius: 2px;
+
+  /* Bewegung */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur: 220ms;
+}
+
+/* ---------- 2. Basis ----------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--step-body);
+  line-height: 1.6;
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img,
+video,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--violet);
+  color: var(--text);
+}
+
+.u-display {
+  font-family: var(--font-display);
+  font-size: var(--step-display);
+  font-weight: 600;
+  font-stretch: 112%;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.u-h1 {
+  font-size: var(--step-h1);
+  font-stretch: 108%;
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+}
+
+.u-h2 {
+  font-size: var(--step-h2);
+  font-stretch: 106%;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+
+.u-h3 {
+  font-size: var(--step-h3);
+  font-stretch: 104%;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.u-h4 {
+  font-size: var(--step-h4);
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+}
+
+.u-lead {
+  font-size: var(--step-body-lg);
+  line-height: 1.5;
+  color: var(--text-muted);
+  max-width: 46ch;
+}
+
+.u-body {
+  max-width: 66ch;
+  color: var(--text-muted);
+}
+
+.u-body strong {
+  color: var(--text);
+  font-weight: 550;
+}
+
+.u-body + .u-body {
+  margin-top: 1.1em;
+}
+
+.u-caption {
+  font-size: var(--step-caption);
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.u-meta {
+  font-family: var(--font-body);
+  font-size: var(--step-meta);
+  font-weight: 550;
+  line-height: 1.4;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+}
+
+.u-num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- 3. Raster ---------------------------------------------------- */
+
+.wrap {
+  width: 100%;
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.grid12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(16px, 1.8vw, 28px);
+}
+
+.section {
+  padding-block: var(--space-section);
+  border-top: var(--rule) solid var(--line);
+}
+
+.section--flush {
+  border-top: 0;
+}
+
+.section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px 40px;
+  margin-bottom: clamp(36px, 4vw, 64px);
+}
+
+.section-head__label {
+  display: block;
+  margin-bottom: 14px;
+}
+
+.br-lg {
+  display: none;
+}
+
+@media (min-width: 1081px) {
+  .br-lg {
+    display: inline;
+  }
+}
+
+code {
+  font-family: ui-monospace, "SFMono-Regular", "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--ice);
+}

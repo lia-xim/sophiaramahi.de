@@ -1,0 +1,18 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ContactCta from "../../components/ContactCta.astro";
+import FaqList from "../../components/FaqList.astro";
+import PageHero from "../../components/PageHero.astro";
+import { locations, services, servicePath, type Location } from "../../data/site";
+export function getStaticPaths(){return locations.map((location)=>({params:{slug:location.slug},props:{location}}));}
+const {location}=Astro.props as {location:Location};
+const localServices=services.filter((service)=>location.services.includes(service.slug));
+const schema=[{"@context":"https://schema.org","@type":"Service",name:`Videoproduktion in ${location.city}`,description:location.intro,provider:{"@id":"https://sophiaramahi.de/#business"},areaServed:{"@type":"City",name:location.city}},{"@context":"https://schema.org","@type":"FAQPage",mainEntity:location.faq.map((item)=>({"@type":"Question",name:item.question,acceptedAnswer:{"@type":"Answer",text:item.answer}}))}];
+---
+<BaseLayout title={`Videografin ${location.city} | Sophia Ramahi`} description={`Videografie, Eventfilm, Kamera und Live Visuals in ${location.city}. Produktion aus Düsseldorf mit transparent geplanter Anfahrt.`} image={location.image} noindex={!location.indexable} schema={schema}>
+  <PageHero title={`Videografie in ${location.city}`} lead={location.intro} image={location.image} alt={`Atmosphärische Lichtgestaltung für Produktionen in ${location.city}`} crumbs={[{label:"Start",href:"/"},{label:"Standorte",href:"/standorte/"},{label:location.city}]} />
+  <section class="section cine-wrap section--split"><div data-reveal><span class="cine-label">{location.region} · {location.distance}</span><h2 class="cine-h2">Was vor Ort wichtig wird</h2></div><div class="prose" data-reveal><p>{location.localAngle}</p><p>{location.logistics}</p></div></section>
+  <section class="section section--surface"><div class="cine-wrap"><div class="section-heading" data-reveal><span class="cine-label">Passende Leistungen</span><h2 class="cine-h2">Je nach Anlass als Produktion oder einzelnes Gewerk</h2></div><div class="service-list">{localServices.map((service,i)=><a class="service-row" href={servicePath(service)} data-reveal><span>{String(i+1).padStart(2,"0")}</span><div><h3>{service.title}</h3><p>{service.summary}</p></div><span aria-hidden="true">↗</span></a>)}</div></div></section>
+  <section class="section cine-wrap"><div class="section-heading" data-reveal><span class="cine-label">Planung</span><h2 class="cine-h2">Häufige Fragen zu {location.city}</h2></div><FaqList items={location.faq} /></section>
+  <ContactCta title={`Produktion in ${location.city} anfragen`} />
+</BaseLayout>

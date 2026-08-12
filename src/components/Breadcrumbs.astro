@@ -1,0 +1,11 @@
+---
+type Crumb = { label: string; href?: string };
+const { items } = Astro.props as { items: Crumb[] };
+const normalized = items.filter((item) => !(item.href === "/" || item.label.toLowerCase() === "start"));
+---
+<nav class="cine-crumbs" aria-label="Brotkrumennavigation">
+  <a href="/">Start</a>
+  {normalized.map((item) => (
+    <><span aria-hidden="true">/</span>{item.href ? <a href={item.href}>{item.label}</a> : <span aria-current="page">{item.label}</span>}</>
+  ))}
+</nav>

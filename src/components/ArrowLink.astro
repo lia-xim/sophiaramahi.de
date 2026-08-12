@@ -1,0 +1,7 @@
+---
+const { href, label, class: className = "cine-link" } = Astro.props;
+---
+
+<a href={href} class={className}>
+  <span>{label}</span><span aria-hidden="true">→</span>
+</a>

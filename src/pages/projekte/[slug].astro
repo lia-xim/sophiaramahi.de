@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArrowLink from "../../components/ArrowLink.astro";
+import ContactCta from "../../components/ContactCta.astro";
+import PageHero from "../../components/PageHero.astro";
+import { projects, services, servicePath, type Project } from "../../data/site";
+export function getStaticPaths() { return projects.map((project) => ({ params: { slug: project.slug }, props: { project } })); }
+const { project } = Astro.props as { project: Project };
+const relatedServices = services.filter((service) => project.services.includes(service.slug));
+const schema = {"@context":"https://schema.org","@type":"CreativeWork",name:project.title,description:project.seoDescription,image:project.gallery.map((item)=>`https://sophiaramahi.de${item.src}`),creator:{"@id":"https://sophiaramahi.de/#person"},dateCreated:project.year};
+---
+<BaseLayout title={`${project.title} | Projekt von Sophia Ramahi`} description={project.seoDescription} image={project.image} schema={schema}>
+  <PageHero title={project.title} lead={project.intro} image={project.image} alt={project.alt} crumbs={[{label:"Start",href:"/"},{label:"Arbeiten",href:"/arbeiten/"},{label:project.title}]} />
+  <section class="section cine-wrap project-facts"><div data-reveal><span class="cine-label">Projekt</span><dl><div><dt>Format</dt><dd>{project.category}</dd></div>{project.year && <div><dt>Jahr</dt><dd>{project.year}</dd></div>}{project.location && <div><dt>Ort</dt><dd>{project.location}</dd></div>}</dl></div><div data-reveal><span class="cine-label">Sophias Aufgaben</span><ul class="tag-list">{project.roles.map((role)=><li>{role}</li>)}</ul></div></section>
+  {project.sections.map((section,index)=><section class:list={["section", {"section--surface":index%2===1}]}><div class="cine-wrap section--split"><div data-reveal><span class="cine-label">{String(index+1).padStart(2,"0")}</span><h2 class="cine-h2">{section.title}</h2></div><div class="prose" data-reveal>{section.copy.map((paragraph)=><p>{paragraph}</p>)}</div></div></section>)}
+  <section class="section cine-wrap"><div class="section-heading" data-reveal><span class="cine-label">Einblicke</span><h2 class="cine-h2">Bilder aus dem Projekt</h2></div><div class="gallery-grid">{project.gallery.map((image,index)=><figure class:list={[{"gallery-grid__wide":index===0}]} data-reveal><img src={image.src} alt={image.alt} width="1200" height="800" loading="lazy" decoding="async" /></figure>)}</div></section>
+  <section class="section section--surface"><div class="cine-wrap"><div class="section-heading" data-reveal><span class="cine-label">Verwandte Leistungen</span><h2 class="cine-h2">Was in diesem Projekt zusammenkam</h2></div><div class="service-link-grid">{relatedServices.map((service)=><ArrowLink href={servicePath(service)} label={service.title} />)}</div></div></section>
+  <ContactCta title="Ein eigenes Projekt besprechen" />
+</BaseLayout>

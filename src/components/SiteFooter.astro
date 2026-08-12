@@ -1,0 +1,27 @@
+---
+import { site } from "../data/site";
+---
+
+<footer class="cine-footer">
+  <div class="cine-wrap cine-center">
+    <a class="wordmark footer-wordmark" href="/">Sophia Ramahi</a>
+    <p class="cine-body footer-intro">Videografin, Kamerafrau und Mediengestalterin Bild und Ton.</p>
+    <div class="cine-footer__grid" aria-label="Navigation im Fußbereich">
+      <a href="/arbeiten/">Arbeiten</a>
+      <a href="/leistungen/">Leistungen</a>
+      <a href="/standorte/">Standorte</a>
+      <a href="/ueber-sophia/">Über Sophia</a>
+      <a href="/journal/">Journal</a>
+      <a href="/kontakt/">Kontakt</a>
+      <a href="/impressum/">Impressum</a>
+      <a href="/datenschutz/">Datenschutz</a>
+    </div>
+    <div class="social-links" aria-label="Social Media">
+      {site.social.map((item) => <a href={item.href} rel="me noopener noreferrer">{item.label}</a>)}
+    </div>
+    <div class="cine-footer__bottom">
+      <span class="u-meta">© {new Date().getFullYear()} Sophia Ramahi</span>
+      <span class="u-meta">Düsseldorf · Nordrhein-Westfalen</span>
+    </div>
+  </div>
+</footer>

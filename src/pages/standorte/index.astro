@@ -1,0 +1,12 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ContactCta from "../../components/ContactCta.astro";
+import PageHero from "../../components/PageHero.astro";
+import { locations } from "../../data/site";
+---
+<BaseLayout title="Videografie in Düsseldorf & NRW | Einsatzorte" description="Sophia Ramahi produziert in Düsseldorf, Köln, dem Rheinland, am Niederrhein und im Ruhrgebiet. Alle regionalen Einsatzorte im Überblick.">
+  <PageHero title="Düsseldorf & NRW" lead="Basis in Düsseldorf, Produktionen im Rheinland, am Niederrhein und im Ruhrgebiet – mit transparent geplanter Anfahrt." image="/media/light-beams.jpg" alt="Abstrakte Lichtstrahlen" crumbs={[{label:"Start",href:"/"},{label:"Standorte"}]} />
+  <section class="section cine-wrap section--split"><div data-reveal><span class="cine-label">Regional produzieren</span><h2 class="cine-h2">Entfernung ist planbar. Unklare Abläufe sind es nicht.</h2></div><div class="prose" data-reveal><p>Die Standortseiten versprechen kein lokales Studio, das es nicht gibt. Sophia arbeitet von Düsseldorf aus und reist für passende Produktionen an. Entscheidend sind der konkrete Ort, die verfügbare Drehzeit, Zugang, Parken, Technik und ein realistischer Ablauf.</p><p>Für Orte außerhalb der aufgeführten Region genügt eine kurze Anfrage. Reisekosten und mögliche Übernachtungen werden vor der Beauftragung transparent festgehalten.</p></div></section>
+  <section class="section section--surface"><div class="cine-wrap"><div class="location-grid">{locations.map((location)=><a href={`/standorte/${location.slug}/`} data-reveal><span class="cine-label">{location.region} · {location.distance}</span><h2>{location.city}</h2><p>{location.intro}</p><span>Details zur Produktion ↗</span></a>)}</div></div></section>
+  <ContactCta title="Ihr Ort ist nicht dabei?" copy="Nennen Sie Ort, Termin und Projektart. Sophia prüft direkt, ob die Produktion sinnvoll planbar ist." />
+</BaseLayout>
