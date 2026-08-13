@@ -19,6 +19,7 @@ type Props = {
   article?: boolean;
   publishedAt?: string;
   modifiedAt?: string;
+  preloadImage?: string;
 };
 
 const {
@@ -31,6 +32,7 @@ const {
   article = false,
   publishedAt,
   modifiedAt = publishedAt,
+  preloadImage,
 } = Astro.props as Props;
 
 const canonical = new URL(Astro.url.pathname, site.url);
@@ -129,6 +131,7 @@ const allSchema = { "@context": "https://schema.org", "@graph": graph };
     <meta name="robots" content={noindex ? "noindex, follow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {preloadImage && <link rel="preload" as="image" href={preloadImage} fetchpriority="high" />}
     <link rel="alternate" type="application/rss+xml" title="Sophia Ramahi Journal" href="/rss.xml" />
     <meta property="og:locale" content="de_DE" />
     <meta property="og:type" content={article ? "article" : "website"} />

@@ -1,8 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Pic from "../components/Pic.astro";
 import "../styles/home.css";
 import { locations, projects, services, servicePath } from "../data/site";
-import { srcsetFor } from "../lib/responsive";
 
 // Purple Frame v2 — die Startseite als zusammenhängende Scroll-Erzählung.
 // Alle Inhalte sind echter HTML-Text; GSAP ist reines Progressive Enhancement.
@@ -139,12 +139,13 @@ const cutSteps = [
 ];
 ---
 
-<BaseLayout title="Sophia Ramahi | Videografin & Visual Artist in Düsseldorf" description="Videografie, Kamera, Ton, Postproduktion, VJ und Projection Mapping aus Düsseldorf – für Musik, Kultur, Events und ausgewählte Unternehmen.">
+<BaseLayout title="Sophia Ramahi | Videografin & Visual Artist in Düsseldorf" description="Videografie, Kamera, Ton, Postproduktion, VJ und Projection Mapping aus Düsseldorf – für Musik, Kultur, Events und ausgewählte Unternehmen." preloadImage="/media/hero-poster.avif">
   <div class="home" data-home>
     <!-- 1 · Ouvertüre: Aus dem Lichtspalt öffnet sich das laufende Bild -->
     <section class="ouv" aria-label="Einstieg">
       <div class="ouv__media" aria-hidden="true">
-        <video muted loop playsinline preload="metadata" poster="/media/hero-poster.jpg" width="1280" height="720" data-hero-video>
+        <video muted autoplay loop playsinline preload="auto" poster="/media/hero-poster.avif" width="1280" height="720" data-hero-video>
+          <source src="/media/hero-loop-mobile.mp4" type="video/mp4" media="(max-width: 720px)" />
           <source src="/media/hero-loop.mp4" type="video/mp4" />
         </video>
       </div>
@@ -197,7 +198,7 @@ const cutSteps = [
           <div class="reise__track">
             {reiseFrames.map((project, index) => (
               <a class:list={["reise__frame", { "reise__frame--electric": project.slug === "electric-lights" }]} href={`/projekte/${project.slug}/`}>
-                <img src={project.image} srcset={srcsetFor(project.image)} sizes="(min-width: 861px) 58vw, 94vw" alt={project.alt} width="1200" height="675" loading="lazy" decoding="async" />
+                <Pic src={project.image} sizes="(min-width: 861px) 58vw, 94vw" alt={project.alt} width="1200" height="675" loading="eager" decoding="async" fetchpriority="low" />
                 <span class="reise__scrim" aria-hidden="true"></span>
                 <span class="reise__index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
                 <span class="reise__meta">
@@ -276,12 +277,12 @@ const cutSteps = [
                 {service.slug === "postproduktion" ? (
                   <span class="buehne__strip">
                     {filmstripStills.map((still) => (
-                      <span class="buehne__still"><img src={still.src} srcset={srcsetFor(still.src)} sizes="(min-width: 861px) 19vw, 31vw" alt="" width="480" height="320" loading="lazy" decoding="async" /></span>
+                      <span class="buehne__still"><Pic src={still.src} sizes="(min-width: 861px) 19vw, 31vw" alt="" width="480" height="320" loading="lazy" decoding="async" /></span>
                     ))}
                     <span class="buehne__playhead"></span>
                   </span>
                 ) : (
-                  <img src={media.src} srcset={srcsetFor(media.src)} sizes="(min-width: 861px) 56vw, 94vw" alt="" width="1200" height="800" loading="lazy" decoding="async" />
+                  <Pic src={media.src} sizes="(min-width: 861px) 56vw, 94vw" alt="" width="1200" height="800" loading={index === 0 ? "eager" : "lazy"} decoding="async" fetchpriority={index === 0 ? "low" : undefined} />
                 )}
                 {service.slug === "projection-mapping" && <span class="buehne__grid"></span>}
               </div>
@@ -309,11 +310,11 @@ const cutSteps = [
                   {service.slug === "postproduktion" ? (
                     <span class="buehne__strip buehne__strip--band">
                       {filmstripStills.map((still) => (
-                        <span class="buehne__still"><img src={still.src} srcset={srcsetFor(still.src)} sizes="(min-width: 861px) 19vw, 31vw" alt="" width="480" height="320" loading="lazy" decoding="async" /></span>
+                        <span class="buehne__still"><Pic src={still.src} sizes="(min-width: 861px) 19vw, 31vw" alt="" width="480" height="320" loading="lazy" decoding="async" /></span>
                       ))}
                     </span>
                   ) : (
-                    <img src={media.src} srcset={srcsetFor(media.src)} sizes="94vw" alt="" width="960" height="410" loading="lazy" decoding="async" />
+                    <Pic src={media.src} sizes="94vw" alt="" width="960" height="410" loading="lazy" decoding="async" />
                   )}
                 </span>
                 <span class="cine-label">{service.eyebrow}</span>
@@ -349,7 +350,7 @@ const cutSteps = [
           <a class="cine-link" href="/ueber-sophia/"><span>Mehr über die Zusammenarbeit</span><span aria-hidden="true">→</span></a>
         </div>
         <figure class="portraet__frame">
-          <img src="/media/sophia-portrait.jpg" srcset={srcsetFor("/media/sophia-portrait.jpg")} sizes="(min-width: 861px) 38vw, 86vw" alt="Sophia Ramahi, Videografin aus Düsseldorf" width="900" height="1100" loading="lazy" decoding="async" />
+          <Pic src="/media/sophia-portrait.jpg" sizes="(min-width: 861px) 38vw, 86vw" alt="Sophia Ramahi, Videografin aus Düsseldorf" width="900" height="1100" loading="lazy" decoding="async" />
           <span class="portraet__tint" aria-hidden="true"></span>
           <span class="portraet__rail u-meta" aria-hidden="true">Sophia Ramahi · Mediengestalterin Bild & Ton</span>
         </figure>
@@ -460,6 +461,7 @@ const cutSteps = [
     <section class="finale" id="kontakt">
       <div class="finale__media" aria-hidden="true">
         <video muted loop playsinline preload="none" poster="/media/hero-poster.jpg" width="1280" height="720" data-finale-video>
+          <source src="/media/hero-loop-mobile.mp4" type="video/mp4" media="(max-width: 720px)" />
           <source src="/media/hero-loop.mp4" type="video/mp4" />
         </video>
       </div>

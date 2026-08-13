@@ -9,6 +9,17 @@ const root = document.querySelector<HTMLElement>("[data-home]");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const motionActive = document.documentElement.classList.contains("motion");
 
+/* Autoplay gehört nicht in den GSAP-Ladepfad: Der Hero soll sofort anlaufen,
+   auch wenn die Animationsbibliothek noch geladen oder vom Browser gecacht
+   werden muss. Das Attribut im Markup ist der primäre Weg; play() fängt
+   Browser ab, die den dynamisch gemounteten Zustand erst später erkennen. */
+const heroVideo = root?.querySelector<HTMLVideoElement>("[data-hero-video]");
+if (heroVideo && !reduceMotion) {
+  heroVideo.play().catch(() => {
+    /* Autoplay verweigert: Das priorisierte Poster bleibt sichtbar. */
+  });
+}
+
 /* Showreel-Player: geteilte Logik in reel-player.ts (initialisiert sich
    beim Import selbst; ohne JS bleiben die nativen Controls bedienbar). */
 import "./reel-player.ts";
@@ -17,20 +28,12 @@ if (root && motionActive && !reduceMotion) {
   /* Scroll-Restauration deaktivieren: Ein Reload mitten in der Erzählung
      würde sonst Pins und Startzustände gegeneinander verschieben. */
   if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-  Promise.all([import("gsap"), import("gsap/ScrollTrigger")])
+  const initMotion = () => Promise.all([import("gsap"), import("gsap/ScrollTrigger")])
     .then(([gsapModule, triggerModule]) => {
       const gsap = gsapModule.default;
       const ScrollTrigger = triggerModule.ScrollTrigger;
       gsap.registerPlugin(ScrollTrigger);
       ScrollTrigger.config({ ignoreMobileResize: true });
-
-      /* Der stumme Hero-Loop läuft nur im Motion-Modus. */
-      const heroVideo = root.querySelector<HTMLVideoElement>("[data-hero-video]");
-      if (heroVideo) {
-        heroVideo.play().catch(() => {
-          /* Autoplay verweigert: das Poster bleibt stehen. */
-        });
-      }
 
       const mm = gsap.matchMedia();
 
@@ -471,6 +474,11 @@ if (root && motionActive && !reduceMotion) {
     .catch(() => {
       document.documentElement.classList.remove("motion");
     });
+
+  /* Erst den priorisierten Poster- und Text-Paint freigeben, dann die rund
+     120 kB Animationsruntime laden. Zwei Frames reichen, ohne die
+     Scroll-Choreografie für reale Nutzer merklich zu verzögern. */
+  requestAnimationFrame(() => requestAnimationFrame(initMotion));
 } else if (!motionActive || reduceMotion) {
   document.documentElement.classList.remove("motion");
 }
