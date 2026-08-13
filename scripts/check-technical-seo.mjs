@@ -94,8 +94,8 @@ for (const [route, page] of pages) {
   for (const [, json] of jsonBlocks) {
     try { JSON.parse(json); } catch { failures.push(`${route}: invalid JSON-LD`); }
   }
-  if (!html.includes('"@type":"WebPage"')) failures.push(`${route}: WebPage schema missing`);
-  if (route !== "/" && route !== "/404/" && !["/impressum/", "/datenschutz/"].includes(route) && !html.includes('"@type":"BreadcrumbList"')) warnings.push(`${route}: breadcrumb schema missing`);
+  if (!html.includes('"@type":"WebPage"') && !html.includes('"@type":"ContactPage"')) failures.push(`${route}: WebPage-compatible schema missing`);
+  if (!noindex && route !== "/" && route !== "/404/" && !html.includes('"@type":"BreadcrumbList"')) warnings.push(`${route}: breadcrumb schema missing`);
 
   for (const match of html.matchAll(/\bhref=(["'])(\/.*?)\1/gi)) {
     const target = match[2].split(/[?#]/)[0];

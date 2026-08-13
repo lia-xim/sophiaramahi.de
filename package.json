@@ -10,7 +10,8 @@
     "check": "astro check",
     "qa:links": "node scripts/check-internal-links.mjs",
     "qa:seo": "node scripts/check-technical-seo.mjs",
-    "qa:release": "pnpm run build && pnpm run qa:links && pnpm run qa:seo"
+    "test:contact": "node --experimental-strip-types --test tests/contact-handler.test.mjs",
+    "qa:release": "pnpm run test:contact && pnpm run build && pnpm run qa:links && pnpm run qa:seo"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.10",

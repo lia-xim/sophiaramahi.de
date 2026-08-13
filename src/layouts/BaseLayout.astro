@@ -20,6 +20,7 @@ type Props = {
   publishedAt?: string;
   modifiedAt?: string;
   preloadImage?: string;
+  pageType?: "WebPage" | "ContactPage";
 };
 
 const {
@@ -33,6 +34,7 @@ const {
   publishedAt,
   modifiedAt = publishedAt,
   preloadImage,
+  pageType = "WebPage",
 } = Astro.props as Props;
 
 const canonical = new URL(Astro.url.pathname, site.url);
@@ -101,7 +103,7 @@ const graph = [
     },
   },
   {
-    "@type": "WebPage",
+    "@type": pageType,
     "@id": `${canonical}#webpage`,
     url: canonical.toString(),
     name: title,

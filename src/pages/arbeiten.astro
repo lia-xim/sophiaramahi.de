@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
 import "../styles/landing.css";
 import { projects } from "../data/site";
 import Pic from "../components/Pic.astro";
@@ -16,12 +17,13 @@ const indexMeta: Record<string, string> = {
 };
 ---
 
-<BaseLayout title="Projekte | Filme, Visuals & Installationen von Sophia Ramahi" description="Ausgewählte Projekte von Sophia Ramahi: Electric Lights, Dark Lights, 24h to take und Spektra Festival — Installationen, Lichtstudien, Wettbewerbe und Live Visuals.">
+<BaseLayout title="Projekte | Filme, Visuals & Installationen von Sophia Ramahi" description="Ausgewählte Projekte von Sophia Ramahi: Electric Lights, Dark Lights, 24h to take und Spektra Festival — Film, Licht, Wettbewerb und Live Visuals.">
   <div data-landing>
     <!-- 1 · Lichttisch: Headline über dem dunklen Raster, das aufleuchtet -->
     <section class="pj-stage" data-projekt-grid aria-label="Ausgewählte Projekte">
       <div class="pj-sticky">
         <header class="pj-head cine-wrap">
+          <Breadcrumbs items={[{ label: "Start", href: "/" }, { label: "Arbeiten" }]} />
           <p class="pj-kicker">Ausgewählte Arbeiten</p>
           <h1 class="pj-title">Vier Projekte, vier <em>Bildwelten</em>.</h1>
           <p class="pj-sub">Installation, Lichtstudie, Wettbewerb, Festival — jedes Projekt beginnt bei seinem Material: Musik, Raum, Menschen, Licht.</p>

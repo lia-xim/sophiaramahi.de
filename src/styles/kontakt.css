@@ -290,6 +290,21 @@ a.kn-direct__row:focus-visible strong {
   padding-right: 38px;
 }
 
+.kn-field__meta,
+.kn-field__count {
+  font-size: 0.76rem;
+  line-height: 1.45;
+  color: #8d86a0;
+}
+
+.kn-field__count {
+  justify-self: end;
+  margin-top: -27px;
+  padding-left: 12px;
+  background: rgba(10, 6, 20, 0.92);
+  font-variant-numeric: tabular-nums;
+}
+
 /* Honeypot: raus aus Sicht und Tab-Reihenfolge, aber im DOM */
 .kn-hp {
   position: absolute;

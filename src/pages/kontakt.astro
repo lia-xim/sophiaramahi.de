@@ -11,7 +11,11 @@ import { contactLimits, contactTopics } from "../data/kontakt";
 // Erfolg → /kontakt/danke/, Fehler → :target-Meldungen über dem Formular.
 ---
 
-<BaseLayout title="Kontakt | Videoprojekt mit Sophia Ramahi besprechen" description="Projektanfrage an Sophia Ramahi: Videografie, Kamera, Ton, Postproduktion, VJ und Projection Mapping in Düsseldorf und NRW.">
+<BaseLayout
+  title="Kontakt | Videoprojekt mit Sophia Ramahi besprechen"
+  description="Projektanfrage an Sophia Ramahi: Videografie, Kamera, Ton, Postproduktion, VJ und Projection Mapping in Düsseldorf und NRW."
+  pageType="ContactPage"
+>
   <div data-kontakt>
     <section class="kn-stage">
       <div class="kn-stage__media" aria-hidden="true">
@@ -53,23 +57,25 @@ import { contactLimits, contactTopics } from "../data/kontakt";
           </div>
 
           <div class="kn-field">
-            <label for="name">Name</label>
-            <input id="name" name="name" autocomplete="name" required maxlength={contactLimits.name.max} />
+            <label for="name">Name <span aria-hidden="true">*</span></label>
+            <input id="name" name="name" autocomplete="name" required maxlength={contactLimits.name.max} enterkeyhint="next" />
           </div>
           <div class="kn-field">
-            <label for="email">E-Mail</label>
-            <input id="email" name="email" type="email" autocomplete="email" required maxlength={contactLimits.email.max} />
+            <label for="email">E-Mail <span aria-hidden="true">*</span></label>
+            <input id="email" name="email" type="email" inputmode="email" autocomplete="email" required maxlength={contactLimits.email.max} enterkeyhint="next" />
           </div>
           <div class="kn-field">
-            <label for="project">Worum geht es?</label>
+            <label for="project">Worum geht es? <span aria-hidden="true">*</span></label>
             <select id="project" name="project" required>
               <option value="">Bitte auswählen</option>
               {contactTopics.map((topic) => <option value={topic}>{topic}</option>)}
             </select>
           </div>
           <div class="kn-field">
-            <label for="message">Kurze Projektbeschreibung</label>
-            <textarea id="message" name="message" rows="6" required minlength={contactLimits.message.min} maxlength={contactLimits.message.max} placeholder="Anlass, Ort, Zeitraum und gewünschtes Ergebnis"></textarea>
+            <label for="message">Kurze Projektbeschreibung <span aria-hidden="true">*</span></label>
+            <textarea id="message" name="message" rows="6" required minlength={contactLimits.message.min} maxlength={contactLimits.message.max} aria-describedby="message-hint message-count" placeholder="Anlass, Ort, Zeitraum und gewünschtes Ergebnis"></textarea>
+            <span class="kn-field__meta" id="message-hint">Mindestens {contactLimits.message.min} Zeichen. Keine sensiblen Daten eintragen.</span>
+            <span class="kn-field__count" id="message-count" data-kn-count aria-live="polite">0 / {contactLimits.message.max}</span>
           </div>
 
           {/* Honeypot: für Menschen unsichtbar und nicht fokussierbar */}
@@ -78,12 +84,13 @@ import { contactLimits, contactTopics } from "../data/kontakt";
             <input id="firma" name="firma" type="text" tabindex="-1" autocomplete="off" />
           </div>
           <input type="hidden" name="ts" value="" />
+          <input type="hidden" name="submissionId" value="" />
 
           <div class="kn-actions">
             <button class="cine-btn" type="submit" data-kn-submit>Anfrage senden</button>
-            <p class="kn-status" data-kn-status aria-live="polite"></p>
+            <p class="kn-status" data-kn-status role="status" aria-live="polite" tabindex="-1"></p>
           </div>
-          <p class="kn-note">Die Angaben werden verschlüsselt über diese Website übertragen und nur zur Beantwortung der Anfrage verwendet. Details in der <a href="/datenschutz/">Datenschutzerklärung</a>.</p>
+          <p class="kn-note"><span aria-hidden="true">*</span> Pflichtfeld. Die Angaben werden verschlüsselt übertragen, nicht auf dieser Website gespeichert und nur zur Beantwortung der Anfrage verwendet. Details in der <a href="/datenschutz/">Datenschutzerklärung</a>.</p>
         </form>
       </div>
     </section>

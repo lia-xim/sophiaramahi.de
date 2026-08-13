@@ -90,12 +90,17 @@ const serviceHref = (item: Service) => (location ? `${servicePath(item)}${locati
 // Von Hand geschriebene Stadt-Texte; ohne Eintrag greifen die Templates.
 const local = location ? localDetail(location.slug, service.slug) : undefined;
 
-const title = location
+const fullTitle = location
   ? (local?.seoTitle ?? `${service.title} in ${location.city} | Videografin Sophia Ramahi`)
   : service.seoTitle;
-const description = location
+// Lokale Titel tragen bereits Leistung und Ort. Die wiederholte Markenendung
+// machte sie unnötig lang; Google kann den Site-Namen separat ausspielen.
+const title = location ? fullTitle.replace(/\s*\|\s*Sophia Ramahi$/, "") : fullTitle;
+const fullDescription = location
   ? (local?.seoDescription ?? `${service.title} in ${location.city}: ${service.summary} Produktion aus Düsseldorf, Anfahrt transparent geplant.`)
   : service.seoDescription;
+// Verdichtet die einzige historische 161-Zeichen-Variante ohne Informationsverlust.
+const description = fullDescription.replace("Messe-Events und Firmenveranstaltungen", "Messen und Firmenveranstaltungen");
 
 // Lokalseiten mit eigenen Texten führen die Stadt-Fragen zuerst und
 // übernehmen nur die wichtigsten Leistungs-Fragen — die vollständige
