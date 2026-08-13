@@ -2093,6 +2093,247 @@ html.motion .lw-dust i {
   color: var(--text);
 }
 
+/* Riesiges Konturwort hinter dem Hero */
+.sp-ghost {
+  position: absolute;
+  z-index: 0;
+  left: -2%;
+  top: 6%;
+  font-family: var(--font-display);
+  font-size: clamp(9rem, 24vw, 22rem);
+  font-weight: 600;
+  font-stretch: 110%;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(154, 92, 255, 0.13);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* Arbeitsweise als Manifest: Wörter leuchten im Licht auf */
+.sp-manifest {
+  position: relative;
+}
+
+html.motion .sp-manifest {
+  height: 170svh;
+}
+
+.sp-manifest__sticky {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+  gap: clamp(20px, 3vh, 32px);
+  overflow: clip;
+  isolation: isolate;
+  padding: clamp(90px, 13vh, 160px) var(--gutter);
+}
+
+html.motion .sp-manifest__sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+}
+
+.sp-manifest__glow {
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 50%;
+  width: min(64vw, 820px);
+  aspect-ratio: 1.6;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(50% 50% at 50% 50%, rgba(113, 55, 255, 0.2) 0%, transparent 70%);
+  filter: blur(58px);
+  pointer-events: none;
+}
+
+.sp-manifest__quote {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  max-width: 24ch;
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 5vw, 4.6rem);
+  font-weight: 600;
+  font-stretch: 110%;
+  line-height: 1.12;
+  letter-spacing: -0.032em;
+  color: var(--text);
+}
+
+.sp-manifest__word {
+  display: inline-block;
+  color: #f2eefc;
+}
+
+html.motion .sp-manifest__word {
+  color: #322b40;
+}
+
+.sp-manifest__word--accent {
+  background: linear-gradient(92deg, var(--magenta), var(--amber));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+html.motion .sp-manifest__word--accent {
+  background: none;
+  color: #322b40;
+}
+
+html.motion .sp-manifest__word--accent.is-lit {
+  background: linear-gradient(92deg, var(--magenta), var(--amber));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Prosa nach dem Manifest: eine ruhige Spalte an der Lichtlinie */
+.sp-prose {
+  position: relative;
+  max-width: 62ch;
+  margin-inline: auto;
+  padding: 0 var(--gutter) clamp(80px, 11vh, 140px);
+  display: grid;
+  gap: 1.15em;
+}
+
+.sp-prose::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: clamp(84px, 12vh, 146px);
+  width: 1px;
+  background: linear-gradient(180deg, var(--violet), var(--magenta), transparent);
+  box-shadow: 0 0 14px 1px rgba(113, 55, 255, 0.35);
+}
+
+.sp-prose p {
+  color: var(--text-muted);
+  line-height: 1.75;
+  padding-left: clamp(18px, 2vw, 32px);
+}
+
+.sp-prose p:first-child {
+  font-size: var(--step-body-lg);
+  color: #d0cadd;
+}
+
+/* Gewerke-Welt: große Rollen-Zeilen über der Set-Szene */
+.sp-rolerows {
+  display: grid;
+}
+
+.sp-rolerow {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  padding-block: clamp(16px, 2.6vh, 26px);
+  border-bottom: 1px solid rgba(220, 200, 255, 0.16);
+  color: var(--text);
+}
+
+.sp-rolerow:first-child {
+  border-top: 1px solid rgba(220, 200, 255, 0.16);
+}
+
+.sp-rolerow__name {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 3.2vw, 3rem);
+  font-weight: 600;
+  font-stretch: 108%;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  background: linear-gradient(180deg, #ffffff 10%, #dbcdf6 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: text-shadow var(--dur) var(--ease);
+}
+
+.sp-rolerow__value {
+  color: #b9b2c6;
+  font-size: 0.9375rem;
+}
+
+.sp-rolerow__go {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: #8d86a0;
+  transition: color var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+
+a.sp-rolerow:hover .sp-rolerow__go,
+a.sp-rolerow:focus-visible .sp-rolerow__go {
+  color: var(--text);
+  transform: translateY(-50%) translateX(4px);
+}
+
+a.sp-rolerow:hover .sp-rolerow__name {
+  text-shadow: 0 0 26px rgba(154, 92, 255, 0.55);
+}
+
+/* Zweispaltige Gewerke-Welt */
+.lw-chapter--roles .lw-chapter__inner {
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(28px, 5vw, 80px);
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .lw-chapter--roles .lw-chapter__inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+/* Wofür sie gern arbeitet: schlanke Listen statt Karten */
+.sp-fits {
+  display: grid;
+  gap: clamp(22px, 3.4vh, 36px);
+  align-content: center;
+}
+
+.sp-fits__group {
+  display: grid;
+  gap: 10px;
+}
+
+.sp-fits__group .u-meta {
+  color: #9992ab;
+}
+
+.sp-fits__group ul {
+  display: grid;
+  gap: 8px;
+}
+
+.sp-fits__group li {
+  position: relative;
+  padding-left: 22px;
+  color: #cfc9dc;
+  line-height: 1.55;
+}
+
+.sp-fits__group li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.7em;
+  width: 10px;
+  height: 1px;
+  background: var(--magenta);
+  box-shadow: 0 0 8px 1px rgba(154, 92, 255, 0.45);
+}
+
 /* Kontaktformular-Szene am Seitenende */
 .sp-kontakt {
   position: relative;
@@ -2505,6 +2746,15 @@ html.motion .lw-dust i {
   html.motion .lw-grain { animation: none; }
   html.motion .lw-scanlines { animation: none; }
   html.motion .lw-perf { animation: none; }
+  html.motion .sp-manifest { height: auto; }
+  html.motion .sp-manifest__sticky { position: static; height: auto; }
+  html.motion .sp-manifest__word { color: #f2eefc; }
+  html.motion .sp-manifest__word--accent {
+    background: linear-gradient(92deg, var(--magenta), var(--amber));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
   html.motion .lw-chapter--imagefilm .lw-chapter__stagebg img { filter: none; }
   html.motion .lw-af { opacity: 0.55; }
   html.motion .lw-wave__row--fill { clip-path: none; }

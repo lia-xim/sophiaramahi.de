@@ -19,6 +19,12 @@ const stations = [
   <div data-landing>
     <!-- 1 · Identitäts-Hero: einmal vor der Kamera -->
     <section class="lw-hero">
+      <div class="lw-hero__media" aria-hidden="true">
+        <video muted loop playsinline preload="none" poster="/media/hero-poster.jpg" width="1280" height="720" data-ambient-video>
+          <source src="/media/hero-loop.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <span class="sp-ghost" aria-hidden="true" data-sp-ghost>Sophia</span>
       <div class="ld-hero__beam" aria-hidden="true"></div>
       <span class="lw-dust" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span>
       <span class="lw-grain" aria-hidden="true"></span>
@@ -45,20 +51,22 @@ const stations = [
       </div>
     </section>
 
-    <!-- 2 · Haltung -->
-    <section class="cine-wrap sp-claim" data-fx="rise">
-      <h2>Technik schafft den Rahmen. <em>Atmosphäre</em> macht den Film.</h2>
-    </section>
-    <section class="cine-wrap ld-split" style="padding-top: 0;">
-      <div class="ld-split__head" data-fx="rise">
-        <span class="cine-label">Arbeitsweise</span>
-        <h2>Technik soll Möglichkeiten schaffen, nicht Aufmerksamkeit verlangen</h2>
-      </div>
-      <div class="ld-split__prose" data-fx="rise">
-        <p>Sophia arbeitet an der Schnittstelle von Kamera, Licht, Ton und bewegtem Bild. Ihre Ausbildung zur Mediengestalterin Bild und Ton hat sie im Januar 2024 abgeschlossen. Seitdem entwickelt sie ihre Arbeit in freien Produktionen, Kulturprojekten, Veranstaltungen und eigenen visuellen Experimenten weiter.</p>
-        <p>Am Set bedeutet das: gut vorbereitet sein, aufmerksam beobachten und nur dort eingreifen, wo es dem Bild oder der Situation hilft. In der Postproduktion geht es anschließend darum, Material nicht bloß zu verkürzen, sondern seinen Rhythmus zu finden.</p>
+    <!-- 2 · Arbeitsweise als Manifest: das Licht macht die Haltung sichtbar -->
+    <section class="sp-manifest" aria-label="Arbeitsweise" data-sp-manifest>
+      <div class="sp-manifest__sticky">
+        <div class="sp-manifest__glow" aria-hidden="true"></div>
+        <h2 class="sp-manifest__quote">
+          <span class="sp-manifest__word">Gut</span> <span class="sp-manifest__word">vorbereitet</span> <span class="sp-manifest__word">sein.</span><br />
+          <span class="sp-manifest__word">Aufmerksam</span> <span class="sp-manifest__word">beobachten.</span><br />
+          <span class="sp-manifest__word">Nur</span> <span class="sp-manifest__word">eingreifen,</span> <span class="sp-manifest__word">wo</span> <span class="sp-manifest__word">es</span><br />
+          <span class="sp-manifest__word">dem</span> <span class="sp-manifest__word sp-manifest__word--accent">Bild</span> <span class="sp-manifest__word">hilft.</span>
+        </h2>
       </div>
     </section>
+    <div class="sp-prose" data-fx="rise">
+      <p>Sophia arbeitet an der Schnittstelle von Kamera, Licht, Ton und bewegtem Bild. Ihre Ausbildung zur Mediengestalterin Bild und Ton hat sie im Januar 2024 abgeschlossen — seitdem entwickelt sie ihre Arbeit in freien Produktionen, Kulturprojekten und eigenen visuellen Experimenten weiter.</p>
+      <p>In der Postproduktion geht es anschließend darum, Material nicht bloß zu verkürzen, sondern seinen Rhythmus zu finden. Technik soll Möglichkeiten schaffen, nicht Aufmerksamkeit verlangen.</p>
+    </div>
 
     <!-- 3 · Stationen -->
     <section class="cine-wrap ld-steps">
@@ -97,37 +105,64 @@ const stations = [
       </div>
     </section>
 
-    <!-- 5 · Was Sophia übernimmt + wofür sie gern arbeitet -->
-    <section class="cine-wrap ld-split">
-      <div class="ld-split__head" data-fx="rise">
-        <span class="cine-label">Ein Set, eine Handschrift</span>
-        <h2>Was Sophia übernimmt</h2>
-        <ol class="sp-credits" aria-label="Was Sophia übernimmt">
-          <li class="sp-credit"><span class="sp-credit__role">Kamera</span><i aria-hidden="true"></i><span class="sp-credit__value">nah dran, ohne zu stören</span></li>
-          <li class="sp-credit"><span class="sp-credit__role">Licht</span><i aria-hidden="true"></i><span class="sp-credit__value">Atmosphäre statt Ausleuchtung</span></li>
-          <li class="sp-credit"><span class="sp-credit__role">Ton</span><i aria-hidden="true"></i><span class="sp-credit__value">verständlich und räumlich</span></li>
-          <li class="sp-credit"><span class="sp-credit__role">Schnitt</span><i aria-hidden="true"></i><span class="sp-credit__value">Rhythmus und Dramaturgie</span></li>
-          <li class="sp-credit"><span class="sp-credit__role">Live Visuals</span><i aria-hidden="true"></i><span class="sp-credit__value">Bilder, die live reagieren</span></li>
-        </ol>
+    <!-- 5 · Gewerke-Welt: Was Sophia übernimmt, über der Set-Szene -->
+    <section class="lw-chapter lw-chapter--roles">
+      <div class="lw-chapter__stagebg" aria-hidden="true">
+        <img src="/media/spektra-set-hoch.jpg" alt="" width="1600" height="1000" loading="lazy" decoding="async" />
       </div>
-      <div class="ld-split__prose">
-        <div class="ld-card" data-fx="rise" style="margin-bottom: clamp(18px, 2.4vw, 32px);">
-          <h3>Besonders passend</h3>
-          <ul>
-            <li>Musikvideos, Konzerte und Live-Sessions</li>
-            <li>Festivals, Ausstellungen und Kulturveranstaltungen</li>
-            <li>Persönliche Imagefilme und Porträts</li>
-            <li>Live Visuals und Projection Mapping</li>
-          </ul>
+      <span class="lw-dust" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span>
+      <span class="lw-vignette" aria-hidden="true"></span>
+      <span class="lw-grain" aria-hidden="true"></span>
+      <div class="lw-chapter__inner">
+        <div data-fx="rise">
+          <span class="cine-label">Ein Set, eine Handschrift</span>
+          <h2 class="cine-h2" style="margin-top: 10px; margin-bottom: clamp(20px, 3vh, 32px);">Was Sophia übernimmt</h2>
+          <div class="sp-rolerows">
+            <a class="sp-rolerow" href="/videografie/kamera-bildgestaltung/">
+              <span class="sp-rolerow__name">Kamera</span>
+              <span class="sp-rolerow__value">nah dran, ohne zu stören</span>
+              <span class="sp-rolerow__go" aria-hidden="true">→</span>
+            </a>
+            <div class="sp-rolerow">
+              <span class="sp-rolerow__name">Licht</span>
+              <span class="sp-rolerow__value">Atmosphäre statt Ausleuchtung</span>
+            </div>
+            <a class="sp-rolerow" href="/videografie/tonaufnahme/">
+              <span class="sp-rolerow__name">Ton</span>
+              <span class="sp-rolerow__value">verständlich und räumlich</span>
+              <span class="sp-rolerow__go" aria-hidden="true">→</span>
+            </a>
+            <a class="sp-rolerow" href="/postproduktion/">
+              <span class="sp-rolerow__name">Schnitt</span>
+              <span class="sp-rolerow__value">Rhythmus und Dramaturgie</span>
+              <span class="sp-rolerow__go" aria-hidden="true">→</span>
+            </a>
+            <a class="sp-rolerow" href="/vj-mapping/live-visuals/">
+              <span class="sp-rolerow__name">Live Visuals</span>
+              <span class="sp-rolerow__value">Bilder, die live reagieren</span>
+              <span class="sp-rolerow__go" aria-hidden="true">→</span>
+            </a>
+          </div>
         </div>
-        <div class="ld-card" data-fx="rise">
-          <h3>Auch als Teil eines Teams</h3>
-          <ul>
-            <li>Kamera und Bildgestaltung</li>
-            <li>Ton in überschaubaren Setups</li>
-            <li>Schnitt und Postproduktion</li>
-            <li>Technische und visuelle Vorbereitung</li>
-          </ul>
+        <div class="sp-fits" data-fx="rise">
+          <div class="sp-fits__group">
+            <span class="u-meta">Besonders passend</span>
+            <ul>
+              <li>Musikvideos, Konzerte und Live-Sessions</li>
+              <li>Festivals, Ausstellungen und Kulturveranstaltungen</li>
+              <li>Persönliche Imagefilme und Porträts</li>
+              <li>Live Visuals und Projection Mapping</li>
+            </ul>
+          </div>
+          <div class="sp-fits__group">
+            <span class="u-meta">Auch als Teil eines Teams</span>
+            <ul>
+              <li>Kamera und Bildgestaltung</li>
+              <li>Ton in überschaubaren Setups</li>
+              <li>Schnitt und Postproduktion</li>
+              <li>Technische und visuelle Vorbereitung</li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -177,5 +212,6 @@ const stations = [
 
   <script>
     import "../scripts/landing-motion.ts";
+    import "../scripts/sophia-motion.ts";
   </script>
 </BaseLayout>
