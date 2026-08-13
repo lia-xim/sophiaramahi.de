@@ -4,10 +4,13 @@
 
 import type { CityCopy, LocalDetail } from "./local/types";
 import { duesseldorf } from "./local/duesseldorf";
+import { duisburg } from "./local/duisburg";
+import { essen } from "./local/essen";
 import { koeln } from "./local/koeln";
 import { krefeld } from "./local/krefeld";
 import { meerbusch } from "./local/meerbusch";
 import { neuss } from "./local/neuss";
+import { oberhausen } from "./local/oberhausen";
 import { ratingen } from "./local/ratingen";
 import { solingen } from "./local/solingen";
 import { wuppertal } from "./local/wuppertal";
@@ -16,10 +19,13 @@ export type { CityCopy, LocalDetail, LocalFaq, LocalPlace } from "./local/types"
 
 export const localCopy: Record<string, CityCopy> = {
   duesseldorf,
+  duisburg,
+  essen,
   koeln,
   krefeld,
   meerbusch,
   neuss,
+  oberhausen,
   ratingen,
   solingen,
   wuppertal,
