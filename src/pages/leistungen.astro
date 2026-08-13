@@ -3,7 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import "../styles/landing.css";
 import { locations, services, servicePath } from "../data/site";
-import { srcsetFor } from "../lib/responsive";
+import Pic from "../components/Pic.astro";
 
 // Leistungs-Hub: acht Gewerke als eigene Themenwelten. Jedes Kapitel hat
 // sein eigenes Bühnenbild (Vollbild-Szene, Rhythmusbalken, Sucher-Rahmen,
@@ -89,7 +89,7 @@ const waveHeights = Array.from({ length: 42 }, (_, index) => {
     <!-- 01 Eventfilm: Vollbild-Bühne -->
     <section id="eventfilm" class="lw-chapter lw-chapter--eventfilm">
       <div class="lw-chapter__stagebg" aria-hidden="true">
-        <img src={chapterMedia.eventfilm} srcset={srcsetFor(chapterMedia.eventfilm)} sizes="100vw" alt="" width="1600" height="1000" loading="lazy" decoding="async" />
+        <Pic src={chapterMedia.eventfilm} sizes="100vw" width="1600" height="1000" />
       </div>
       <div class="lw-beam" aria-hidden="true"></div>
       <div class="lw-beam lw-beam--b" aria-hidden="true"></div>
@@ -115,9 +115,9 @@ const waveHeights = Array.from({ length: 42 }, (_, index) => {
     <!-- 02 Musikvideo: violette Bühne + Rhythmus -->
     <section id="musikvideo" class="lw-chapter lw-chapter--musikvideo lw-chapter--flip">
       <div class="lw-chapter__stagebg" aria-hidden="true">
-        <img src={chapterMedia.musikvideo} srcset={srcsetFor(chapterMedia.musikvideo)} sizes="100vw" alt="" width="1600" height="1000" loading="lazy" decoding="async" />
-        <img class="lw-split lw-split--m" src={chapterMedia.musikvideo} srcset={srcsetFor(chapterMedia.musikvideo)} sizes="100vw" alt="" width="1600" height="1000" loading="lazy" decoding="async" />
-        <img class="lw-split lw-split--c" src={chapterMedia.musikvideo} srcset={srcsetFor(chapterMedia.musikvideo)} sizes="100vw" alt="" width="1600" height="1000" loading="lazy" decoding="async" />
+        <Pic src={chapterMedia.musikvideo} sizes="100vw" width="1600" height="1000" />
+        <Pic class="lw-split lw-split--m" src={chapterMedia.musikvideo} sizes="100vw" width="1600" height="1000" />
+        <Pic class="lw-split lw-split--c" src={chapterMedia.musikvideo} sizes="100vw" width="1600" height="1000" />
       </div>
       <span class="lw-mvpulse" aria-hidden="true"></span>
       <span class="lw-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
@@ -140,7 +140,7 @@ const waveHeights = Array.from({ length: 42 }, (_, index) => {
     <!-- 03 Imagefilm: ruhige Mitte im echten Licht -->
     <section id="imagefilm" class="lw-chapter lw-chapter--imagefilm lw-chapter--center">
       <div class="lw-chapter__stagebg" aria-hidden="true">
-        <img src={chapterMedia.imagefilm} srcset={srcsetFor(chapterMedia.imagefilm)} sizes="100vw" alt="" width="1600" height="1000" loading="lazy" decoding="async" />
+        <Pic src={chapterMedia.imagefilm} sizes="100vw" width="1600" height="1000" />
       </div>
       <div class="lw-glow" aria-hidden="true"></div>
       <span class="lw-iris" aria-hidden="true"><i></i></span>
@@ -165,7 +165,7 @@ const waveHeights = Array.from({ length: 42 }, (_, index) => {
     <!-- 04 Kamera & Bildgestaltung: der Viewport wird zum Sucher -->
     <section id="kamera-bildgestaltung" class="lw-chapter lw-chapter--kamera-bildgestaltung">
       <div class="lw-chapter__stagebg" aria-hidden="true">
-        <img src={chapterMedia["kamera-bildgestaltung"]} srcset={srcsetFor(chapterMedia["kamera-bildgestaltung"])} sizes="100vw" alt="" width="1600" height="1000" loading="lazy" decoding="async" />
+        <Pic src={chapterMedia["kamera-bildgestaltung"]} sizes="100vw" width="1600" height="1000" />
       </div>
       <span class="lw-finder" aria-hidden="true"><i></i><i></i><i></i><i></i><span class="lw-finder__rec">Rec</span><span class="lw-finder__mm"><span data-lw-mm>24</span> mm</span><span class="lw-finder__cross"></span></span>
       <span class="lw-vignette" aria-hidden="true"></span>
@@ -187,7 +187,7 @@ const waveHeights = Array.from({ length: 42 }, (_, index) => {
     <!-- 05 Tonaufnahme: Schallringe im Dunkel -->
     <section id="tonaufnahme" class="lw-chapter lw-chapter--tonaufnahme">
       <div class="lw-chapter__stagebg" aria-hidden="true">
-        <img src={chapterMedia.tonaufnahme} srcset={srcsetFor(chapterMedia.tonaufnahme)} sizes="100vw" alt="" width="1600" height="1000" loading="lazy" decoding="async" />
+        <Pic src={chapterMedia.tonaufnahme} sizes="100vw" width="1600" height="1000" />
       </div>
       <span class="lw-rings" aria-hidden="true"><i></i><i></i><i></i></span>
       <span class="lw-wave" aria-hidden="true">
@@ -214,7 +214,7 @@ const waveHeights = Array.from({ length: 42 }, (_, index) => {
     <!-- 06 Postproduktion: Schnitt-Timeline über der Szene -->
     <section id="postproduktion" class="lw-chapter lw-chapter--postproduktion">
       <div class="lw-chapter__stagebg" aria-hidden="true">
-        <img src={chapterMedia.postproduktion} srcset={srcsetFor(chapterMedia.postproduktion)} sizes="100vw" alt="" width="1600" height="1000" loading="lazy" decoding="async" />
+        <Pic src={chapterMedia.postproduktion} sizes="100vw" width="1600" height="1000" />
       </div>
       <span class="lw-timeline" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><span class="lw-timeline__head"></span></span>
       <span class="lw-perf lw-perf--l" aria-hidden="true"></span>
@@ -238,8 +238,8 @@ const waveHeights = Array.from({ length: 42 }, (_, index) => {
     <!-- 07 Live Visuals: Projektionsdopplung -->
     <section id="live-visuals" class="lw-chapter lw-chapter--live-visuals">
       <div class="lw-chapter__stagebg" aria-hidden="true">
-        <img src={chapterMedia["live-visuals"]} srcset={srcsetFor(chapterMedia["live-visuals"])} sizes="100vw" alt="" width="1600" height="1000" loading="lazy" decoding="async" />
-        <img class="lw-echo" src={chapterMedia["live-visuals"]} srcset={srcsetFor(chapterMedia["live-visuals"])} sizes="100vw" alt="" width="1600" height="1000" loading="lazy" decoding="async" />
+        <Pic src={chapterMedia["live-visuals"]} sizes="100vw" width="1600" height="1000" />
+        <Pic class="lw-echo" src={chapterMedia["live-visuals"]} sizes="100vw" width="1600" height="1000" />
       </div>
       <span class="lw-vignette" aria-hidden="true"></span>
       <span class="lw-grain" aria-hidden="true"></span>
@@ -261,7 +261,7 @@ const waveHeights = Array.from({ length: 42 }, (_, index) => {
     <!-- 08 Projection Mapping: das Raster liegt auf der ganzen Fläche -->
     <section id="projection-mapping" class="lw-chapter lw-chapter--projection-mapping lw-chapter--flip">
       <div class="lw-chapter__stagebg" aria-hidden="true">
-        <img src={chapterMedia["projection-mapping"]} srcset={srcsetFor(chapterMedia["projection-mapping"])} sizes="100vw" alt="" width="1600" height="1000" loading="lazy" decoding="async" />
+        <Pic src={chapterMedia["projection-mapping"]} sizes="100vw" width="1600" height="1000" />
       </div>
       <span class="lw-grid-overlay" aria-hidden="true"></span>
       <span class="lw-scan" aria-hidden="true"></span>

@@ -21,6 +21,12 @@ main {
   min-height: 70vh;
 }
 
+/* AVIF-Auslieferung über <picture> (Pic.astro): layoutneutral —
+   Grids und Positionierung greifen weiter direkt auf das img. */
+picture {
+  display: contents;
+}
+
 .skip-link {
   position: fixed;
   z-index: 1000;
@@ -159,7 +165,8 @@ main {
   margin-top: clamp(40px, 8vw, 120px);
 }
 
-.project-tile > img {
+.project-tile > img,
+.project-tile > picture > img {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -182,7 +189,9 @@ main {
 }
 
 .project-tile:hover > img,
-.project-tile:focus-within > img {
+.project-tile:focus-within > img,
+.project-tile:hover > picture > img,
+.project-tile:focus-within > picture > img {
   transform: scale(1.035);
 }
 

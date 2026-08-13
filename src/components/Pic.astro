@@ -1,0 +1,49 @@
+---
+/* Bildauslieferung mit modernem Format: AVIF zuerst, JPEG als Fallback,
+   beide mit Breiten-Varianten aus dem Manifest. Das <picture> ist per
+   `display: contents` (base.css) layoutneutral — bestehende `.x img`-
+   Selektoren und Grids funktionieren unverändert.
+
+   Für Bilder ohne Manifest-Eintrag rendert die Komponente ein
+   gewöhnliches <img>. */
+
+import { avifSrcsetFor, srcsetFor } from "../lib/responsive";
+
+type Props = {
+  src: string;
+  alt?: string;
+  sizes?: string;
+  width?: number | string;
+  height?: number | string;
+  loading?: "eager" | "lazy";
+  decoding?: "async" | "sync" | "auto";
+  fetchpriority?: "high" | "low" | "auto";
+  class?: string;
+  style?: string;
+};
+
+const {
+  src,
+  alt = "",
+  sizes,
+  width,
+  height,
+  loading = "lazy",
+  decoding = "async",
+  fetchpriority,
+  class: className,
+  style,
+} = Astro.props as Props;
+
+const jpgSet = srcsetFor(src);
+const avifSet = avifSrcsetFor(src);
+---
+
+{avifSet ? (
+  <picture>
+    <source type="image/avif" srcset={avifSet} sizes={sizes} />
+    <img src={src} srcset={jpgSet} sizes={jpgSet ? sizes : undefined} alt={alt} width={width} height={height} loading={loading} decoding={decoding} fetchpriority={fetchpriority} class={className} style={style} />
+  </picture>
+) : (
+  <img src={src} srcset={jpgSet} sizes={jpgSet ? sizes : undefined} alt={alt} width={width} height={height} loading={loading} decoding={decoding} fetchpriority={fetchpriority} class={className} style={style} />
+)}

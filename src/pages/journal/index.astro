@@ -3,13 +3,13 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import ContactCta from "../../components/ContactCta.astro";
 import PageHero from "../../components/PageHero.astro";
 import { articles } from "../../data/site";
-import { srcsetFor } from "../../lib/responsive";
+import Pic from "../../components/Pic.astro";
 
 // Neueste Notizen zuerst — das Array in site.ts bleibt chronologisch gewachsen.
 const sorted = [...articles].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
 ---
 <BaseLayout title="Journal | Videoproduktion, Ton & Visuals aus der Praxis" description="Praxiswissen von Sophia Ramahi zu Videoproduktion, Ton, Musikvideo, Live Visuals und Projection Mapping.">
   <PageHero title="Journal" lead="Konkrete Notizen zu Kamera, Ton, Vorbereitung und visuellen Räumen – ohne Universalrezepte." image="/media/journal-01.jpg" alt="Detail einer Videoproduktion" crumbs={[{label:"Start",href:"/"},{label:"Journal"}]} />
-  <section class="section cine-wrap"><div class="article-grid">{sorted.map((article)=><a class="article-card" href={`/journal/${article.slug}/`} data-reveal><img src={article.image} srcset={srcsetFor(article.image)} sizes="(min-width: 861px) 31vw, 94vw" alt="" width="900" height="600" loading="lazy" decoding="async" /><span>{article.readingTime}</span><h2>{article.title}</h2><p>{article.excerpt}</p></a>)}</div></section>
+  <section class="section cine-wrap"><div class="article-grid">{sorted.map((article)=><a class="article-card" href={`/journal/${article.slug}/`} data-reveal><Pic src={article.image} sizes="(min-width: 861px) 31vw, 94vw" width="900" height="600" /><span>{article.readingTime}</span><h2>{article.title}</h2><p>{article.excerpt}</p></a>)}</div></section>
   <ContactCta />
 </BaseLayout>

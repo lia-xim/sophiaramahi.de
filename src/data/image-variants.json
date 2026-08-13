@@ -4,230 +4,255 @@
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "club-projektion-02.jpg": {
     "original": 1600,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "club-projektion-03.jpg": {
     "original": 1600,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "club-projektion-04.jpg": {
     "original": 1600,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "club-projektion-hoch.jpg": {
     "original": 1200,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "dark-lights-01.jpg": {
     "original": 1600,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "dark-lights-02.jpg": {
     "original": 1600,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "dark-lights-03.jpg": {
     "original": 1600,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "dark-lights-04.jpg": {
     "original": 1600,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "electric-lights-cover.jpg": {
     "original": 1600,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "hero-poster.jpg": {
     "original": 1600,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "journal-01.jpg": {
     "original": 1600,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "journal-02.jpg": {
     "original": 1600,
     "variants": [
       480,
       960
-    ]
-  },
-  "light-amber.jpg": {
-    "original": 1376,
-    "variants": [
-      480,
-      960
-    ]
+    ],
+    "avif": true
   },
   "light-beams.jpg": {
     "original": 1376,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "light-hero.jpg": {
     "original": 1376,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "light-void.jpg": {
     "original": 1376,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "set-hoch-02.jpg": {
     "original": 1200,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "set-quer-01.jpg": {
     "original": 1600,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "sophia-portrait.jpg": {
     "original": 1600,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "spektra-aufbau.jpg": {
     "original": 1600,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "spektra-buehne-01.jpg": {
     "original": 1600,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "spektra-buehne-02.jpg": {
     "original": 1600,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "spektra-buehne-03.jpg": {
     "original": 1600,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "spektra-buehne-04.jpg": {
     "original": 1600,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "spektra-buehne-05.jpg": {
     "original": 1600,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "spektra-buehne-06.jpg": {
     "original": 1600,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "spektra-detail-01.jpg": {
     "original": 1600,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "spektra-detail-02.jpg": {
     "original": 1600,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "spektra-detail-03.jpg": {
     "original": 1600,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "spektra-maske.jpg": {
     "original": 1600,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "spektra-set-hoch.jpg": {
     "original": 1200,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   },
   "team.jpg": {
     "original": 1600,
     "variants": [
       480,
       960
-    ]
+    ],
+    "avif": true
   }
 }

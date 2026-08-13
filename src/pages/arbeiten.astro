@@ -2,7 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "../styles/landing.css";
 import { projects } from "../data/site";
-import { srcsetFor } from "../lib/responsive";
+import Pic from "../components/Pic.astro";
 
 // Projekte als Lichttisch: Das 2×2-Raster ist der Einstieg — vier dunkle
 // Kacheln, die sich beim Scrollen erhellen. Danach das Labor-Kapitel,
@@ -30,7 +30,7 @@ const indexMeta: Record<string, string> = {
         <div class="pj-grid">
           {tiles.map((project, index) => (
             <a class:list={["pj-tile", { "pj-tile--electric": project.slug === "electric-lights" }]} href={`/projekte/${project.slug}/`}>
-              <img src={project.image} srcset={srcsetFor(project.image)} sizes="(min-width: 901px) 48vw, 92vw" alt={project.alt} width="960" height="600" loading="eager" fetchpriority={index === 0 ? "high" : undefined} decoding="async" />
+              <Pic src={project.image} sizes="(min-width: 901px) 48vw, 92vw" alt={project.alt} width="960" height="600" loading="eager" fetchpriority={index === 0 ? "high" : undefined} />
               <span class="pj-tile__dim" aria-hidden="true"></span>
               <span class="pj-tile__meta">
                 <span class="cine-label">{String(index + 1).padStart(2, "0")} · {project.category}{project.year ? ` · ${project.year}` : ""}</span>

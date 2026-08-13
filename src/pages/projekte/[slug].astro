@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import Pic from "../../components/Pic.astro";
 import "../../styles/projekt.css";
 import { projects, services, servicePath, type Project } from "../../data/site";
 
@@ -47,7 +48,7 @@ const schema = {
     <!-- Titelkarte -->
     <section class="pd-hero">
       <div class:list={["pd-hero__stage", { "pd-hero__stage--crop": project.heroCrop }]} aria-hidden="true">
-        <img src={project.image} alt="" width="1600" height="1000" loading="eager" fetchpriority="high" decoding="async" style={project.heroPosition ? `object-position: ${project.heroPosition};` : undefined} />
+        <Pic src={project.image} sizes="100vw" width="1600" height="1000" loading="eager" fetchpriority="high" style={project.heroPosition ? `object-position: ${project.heroPosition};` : undefined} />
       </div>
       <span class="pd-vignette" aria-hidden="true"></span>
       <span class="pd-grain" aria-hidden="true"></span>
@@ -140,7 +141,7 @@ const schema = {
         {beats[sectionIndex] && (
           <figure class="pd-beat">
             <div class="pd-beat__stage" aria-hidden="true">
-              <img src={beats[sectionIndex].src} alt={beats[sectionIndex].alt} width="1600" height="1000" loading="lazy" decoding="async" />
+              <Pic src={beats[sectionIndex].src} sizes="100vw" alt={beats[sectionIndex].alt} width="1600" height="1000" />
             </div>
             <span class="pd-vignette" aria-hidden="true"></span>
             <span class="pd-grain" aria-hidden="true"></span>
@@ -160,7 +161,7 @@ const schema = {
         <div class="pd-sheet__grid">
           {sheet.map((image, imageIndex) => (
             <figure>
-              <span class="pd-sheet__frame"><img src={image.src} alt={image.alt} width="1200" height="800" loading="lazy" decoding="async" /></span>
+              <span class="pd-sheet__frame"><Pic src={image.src} sizes="(min-width: 861px) 48vw, 94vw" alt={image.alt} width="1200" height="800" /></span>
               <figcaption><span class="pd-still-num">Still {stillNumber(beats.length + imageIndex)}</span>{image.alt}</figcaption>
             </figure>
           ))}
@@ -199,7 +200,7 @@ const schema = {
         <a href="/arbeiten/">Alle Projekte</a>
       </div>
       <a class="pd-next__card" href={`/projekte/${next.slug}/`} data-fx="rise">
-        <img src={next.image} alt="" width="1600" height="1000" loading="lazy" decoding="async" />
+        <Pic src={next.image} sizes="(min-width: 861px) 72vw, 94vw" width="1600" height="1000" />
         <span class="pd-next__dim" aria-hidden="true"></span>
         <span class="pd-next__meta">
           <span class="u-meta">{next.category}</span>

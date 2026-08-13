@@ -3,7 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import "../styles/landing.css";
 import { site } from "../data/site";
-import { srcsetFor } from "../lib/responsive";
+import Pic from "../components/Pic.astro";
 
 // Über Sophia als Identitätsseite: einmal steht sie selbst vor der Kamera.
 // Aufbau nach dem Muster von Startseite, Projekten und Leistungs-Hub —
@@ -44,7 +44,7 @@ const stations = [
         </div>
         <figure class="sp-frame" data-fx="rise">
           <span class="sp-frame__media">
-            <img src="/media/sophia-portrait.jpg" srcset={srcsetFor("/media/sophia-portrait.jpg")} sizes="(min-width: 861px) 440px, 86vw" alt="Sophia Ramahi, Videografin aus Düsseldorf" width="900" height="1100" loading="eager" fetchpriority="high" decoding="async" />
+            <Pic src="/media/sophia-portrait.jpg" sizes="(min-width: 861px) 440px, 86vw" alt="Sophia Ramahi, Videografin aus Düsseldorf" width="900" height="1100" loading="eager" fetchpriority="high" />
           </span>
           <span class="lw-finder" aria-hidden="true"><i></i><i></i><i></i><i></i><span class="lw-finder__rec">Rec</span></span>
           <figcaption class="sp-frame__caption u-meta">Einmal selbst im Bild — sonst dahinter.</figcaption>
@@ -89,7 +89,7 @@ const stations = [
     <!-- 4 · Vollbild-Welt: Kultur & Organisation -->
     <section class="lw-chapter">
       <div class="lw-chapter__stagebg" aria-hidden="true">
-        <img src="/media/team.jpg" srcset={srcsetFor("/media/team.jpg")} sizes="100vw" alt="" width="1600" height="1000" loading="lazy" decoding="async" />
+        <Pic src="/media/team.jpg" sizes="100vw" width="1600" height="1000" />
       </div>
       <span class="lw-vignette" aria-hidden="true"></span>
       <span class="lw-grain" aria-hidden="true"></span>
@@ -109,7 +109,7 @@ const stations = [
     <!-- 5 · Gewerke-Welt: Was Sophia übernimmt, über der Set-Szene -->
     <section class="lw-chapter lw-chapter--roles">
       <div class="lw-chapter__stagebg" aria-hidden="true">
-        <img src="/media/spektra-set-hoch.jpg" srcset={srcsetFor("/media/spektra-set-hoch.jpg")} sizes="100vw" alt="" width="1600" height="1000" loading="lazy" decoding="async" />
+        <Pic src="/media/spektra-set-hoch.jpg" sizes="100vw" width="1600" height="1000" />
       </div>
       <span class="lw-dust" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span>
       <span class="lw-vignette" aria-hidden="true"></span>
