@@ -3,10 +3,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Breadcrumbs from "./Breadcrumbs.astro";
 import FaqList from "./FaqList.astro";
 import "../styles/landing.css";
+import "../styles/service.css";
 import { locations, projects, servicePath, type Location, type Service } from "../data/site";
 
 // Leistungs-Landingpage — und in der lokalisierten Variante die Stadtseite
 // derselben Leistung (gleiche Struktur, eigener lokaler Kontext).
+// Jede Seite öffnet mit der Themenwelt ihres Gewerks (gleiche Bildsprache
+// wie die Kapitel des Leistungs-Hubs) und endet im Abspann-Finale.
 const { service, parentLabel, parentHref, location } = Astro.props as {
   service: Service;
   parentLabel: string;
@@ -18,6 +21,35 @@ const related = projects.filter((project) => service.relatedProjects.includes(pr
 const basePath = servicePath(service);
 const localPath = (city: Location) => `${basePath}${city.slug}/`;
 
+// Kapitelnummer wie im Leistungs-Hub — sie wandert mit auf die Landingpage.
+const chapterOrder = [
+  "eventfilm",
+  "musikvideo",
+  "imagefilm",
+  "kamera-bildgestaltung",
+  "tonaufnahme",
+  "postproduktion",
+  "live-visuals",
+  "projection-mapping",
+];
+const heroNum = String(chapterOrder.indexOf(service.slug) + 1).padStart(2, "0");
+
+// Bühnen-Motive je Gewerk (gleiche Motiv-Bausteine wie die Hub-Welten)
+const heroFx: Record<string, string[]> = {
+  eventfilm: ["beam", "dust"],
+  musikvideo: ["bars"],
+  imagefilm: ["glow", "dust"],
+  "kamera-bildgestaltung": ["finder"],
+  tonaufnahme: ["rings", "dust"],
+  postproduktion: ["perf", "dust"],
+  "live-visuals": ["echo", "scanlines"],
+  "projection-mapping": ["grid", "scan"],
+};
+const fx = heroFx[service.slug] ?? ["dust"];
+
+// Haltungszeile: **…** markiert den Akzentteil
+const claimParts = service.claim.split("**");
+
 const title = location
   ? `${service.title} in ${location.city} | Videografin Sophia Ramahi`
   : service.seoTitle;
@@ -25,7 +57,6 @@ const description = location
   ? `${service.title} in ${location.city}: ${service.summary} Produktion aus Düsseldorf, Anfahrt transparent geplant.`
   : service.seoDescription;
 
-const h1 = location ? `${service.title} in ${location.city}` : service.title;
 const faqs = location ? [...location.faq, ...service.faq] : service.faq;
 
 const crumbs = location
@@ -63,19 +94,53 @@ const otherCities = location ? locations.filter((item) => item.slug !== location
 ---
 
 <BaseLayout title={title} description={description} image={service.image} schema={schema}>
-  <div data-landing>
-    <!-- Hero -->
-    <section class="ld-hero">
-      <div class="ld-hero__media" aria-hidden="true">
-        <img src={service.image} alt="" width="1600" height="900" loading="eager" fetchpriority="high" decoding="async" />
+  <div data-service>
+    <!-- Hero: die Themenwelt des Gewerks -->
+    <section class:list={["sd-hero", `sd-hero--${service.slug}`]}>
+      <div class="lw-chapter__stagebg" aria-hidden="true">
+        <img src={service.image} alt="" width="1600" height="1000" loading="eager" fetchpriority="high" decoding="async" />
+        {fx.includes("echo") && (
+          <img class="lw-echo" src={service.image} alt="" width="1600" height="1000" loading="eager" decoding="async" />
+        )}
       </div>
-      <div class="ld-hero__beam" aria-hidden="true"></div>
-      <div class="cine-wrap ld-hero__content">
+      {fx.includes("beam") && <div class="lw-beam" aria-hidden="true"></div>}
+      {fx.includes("glow") && <div class="lw-glow" aria-hidden="true"></div>}
+      {fx.includes("bars") && (
+        <span class="lw-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+      )}
+      {fx.includes("rings") && <span class="lw-rings" aria-hidden="true"><i></i><i></i><i></i></span>}
+      {fx.includes("finder") && (
+        <span class="lw-finder" aria-hidden="true"><i></i><i></i><i></i><i></i><span class="lw-finder__rec">Rec</span><span class="lw-finder__cross"></span></span>
+      )}
+      {fx.includes("perf") && (
+        <>
+          <span class="lw-perf lw-perf--l" aria-hidden="true"></span>
+          <span class="lw-perf lw-perf--r" aria-hidden="true"></span>
+        </>
+      )}
+      {fx.includes("grid") && <span class="lw-grid-overlay" aria-hidden="true"></span>}
+      {fx.includes("scan") && <span class="lw-scan" aria-hidden="true"></span>}
+      {fx.includes("scanlines") && <span class="lw-scanlines" aria-hidden="true"></span>}
+      {fx.includes("dust") && (
+        <span class="lw-dust" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span>
+      )}
+      <span class="lw-vignette" aria-hidden="true"></span>
+      <span class="lw-grain" aria-hidden="true"></span>
+      <span class="lw-chapter__ghost" aria-hidden="true">{heroNum}</span>
+      <div class="cine-wrap sd-hero__content">
         <Breadcrumbs items={crumbs} />
-        <p class="ld-hero__kicker">{service.eyebrow}</p>
-        <h1 class="ld-hero__title">{h1}</h1>
-        <p class="ld-hero__lead">{service.summary}</p>
-        <div class="ld-hero__actions">
+        <p class="sd-hero__kicker">{heroNum} · {service.eyebrow}</p>
+        <h1 class="sd-hero__title">
+          {location ? (
+            <>
+              {service.title} <em>in {location.city}</em>
+            </>
+          ) : (
+            service.title
+          )}
+        </h1>
+        <p class="sd-hero__lead">{service.summary}</p>
+        <div class="sd-hero__actions">
           <a class="cine-btn" href="/kontakt/">Projekt anfragen</a>
           {location ? (
             <a class="cine-ghost" href={`/standorte/${location.slug}/`}>Standort {location.city}</a>
@@ -83,7 +148,7 @@ const otherCities = location ? locations.filter((item) => item.slug !== location
             <a class="cine-ghost" href="/arbeiten/">Projekte ansehen</a>
           )}
         </div>
-        <p class="ld-hero__meta">
+        <p class="sd-hero__meta">
           {location ? (
             <>
               <span>{location.region}</span>
@@ -98,75 +163,106 @@ const otherCities = location ? locations.filter((item) => item.slug !== location
           )}
         </p>
       </div>
+      <span class="sd-hero__scroll" aria-hidden="true">Scrollen</span>
     </section>
 
-    <!-- Intro -->
-    <section class="cine-wrap ld-split">
-      <div class="ld-split__head" data-fx="rise">
-        <span class="cine-label">{location ? `${service.title} vor Ort` : "Worum es geht"}</span>
-        <h2>{location ? `Was in ${location.city} wichtig wird` : "Was die Produktion leisten soll"}</h2>
-      </div>
-      <div class="ld-split__prose" data-fx="rise">
-        {introParagraphs.map((paragraph) => <p>{paragraph}</p>)}
+    <!-- Haltungszeile -->
+    <section class="sd-statement">
+      <div class="cine-wrap">
+        <span class="cine-label" data-fx="rise">{location ? `Vor Ort in ${location.city}` : "Der Ansatz"}</span>
+        <p class="sd-claim" data-fx="rise">
+          {claimParts.map((part, index) => (index % 2 === 1 ? <em>{part}</em> : part))}
+        </p>
+        <div class="sd-statement__prose">
+          {introParagraphs.map((paragraph) => (
+            <p data-fx="rise">{paragraph}</p>
+          ))}
+        </div>
       </div>
     </section>
 
     <!-- Leistungsumfang -->
-    <div class="cine-wrap ld-cards">
-      <div class="ld-card" data-fx="rise">
-        <h3>Typische Ergebnisse</h3>
-        <ul>{service.deliverables.map((item) => <li>{item}</li>)}</ul>
+    <section class="sd-scope">
+      <div class="cine-wrap sd-scope__grid">
+        <header class="sd-scope__head" data-fx="rise">
+          <span class="cine-label">Leistungsumfang</span>
+          <h2 class="cine-h2">Was entsteht</h2>
+        </header>
+        <div class="sd-scope__body">
+          <ol class="sd-scope__list">
+            {service.deliverables.map((item, index) => (
+              <li class="sd-scope__row" data-fx="rise">
+                <span class="sd-scope__num" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                <span class="sd-scope__item">{item}</span>
+              </li>
+            ))}
+          </ol>
+          <div class="sd-scope__fit" data-fx="rise">
+            <span class="cine-label">Geeignet für</span>
+            <ul class="sd-chips">
+              {service.suitableFor.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
-      <div class="ld-card" data-fx="rise">
-        <h3>Geeignet für</h3>
-        <ul>{service.suitableFor.map((item) => <li>{item}</li>)}</ul>
-      </div>
-    </div>
-
-    <!-- Ablauf -->
-    <section class="cine-wrap ld-steps">
-      <div class="ld-steps__head" data-fx="rise">
-        <span class="cine-label">Ablauf</span>
-        <h2 class="cine-h2">{location ? `Vom Briefing bis zur Übergabe — geplant ab Düsseldorf` : "Vom Briefing bis zur Übergabe"}</h2>
-      </div>
-      <ol class="ld-steps__rail">
-        <span class="ld-steps__line" aria-hidden="true"><i></i></span>
-        {service.process.map((step, index) => (
-          <li class="ld-step" data-fx="rise">
-            <span class="ld-step__num">{String(index + 1).padStart(2, "0")}</span>
-            <p>{step}</p>
-          </li>
-        ))}
-      </ol>
     </section>
 
-    <!-- Referenzprojekte -->
-    {related.length > 0 && (
-      <section class="cine-wrap ld-frames">
-        <div class="ld-frames__head" data-fx="rise">
-          <div>
-            <span class="cine-label">{location ? "Referenzarbeiten aus Düsseldorf" : "Ausgewählte Arbeiten"}</span>
-            <h2 class="cine-h2">Projekte, in denen das zusammenkam</h2>
-          </div>
-          <a class="cine-link" href="/arbeiten/"><span>Alle Projekte</span><span aria-hidden="true">→</span></a>
+    <!-- Ablauf als Filmstreifen -->
+    <section class="sd-process">
+      <div class="cine-wrap">
+        <div class="sd-head" data-fx="rise">
+          <span class="cine-label">Ablauf</span>
+          <h2 class="cine-h2">{location ? "Vom Briefing bis zur Übergabe — geplant ab Düsseldorf" : "Vom Briefing bis zur Übergabe"}</h2>
         </div>
-        {related.map((project, index) => (
-          <a class:list={["ld-frame", { "ld-frame--electric": project.slug === "electric-lights" }]} href={`/projekte/${project.slug}/`} data-fx="rise">
-            <img src={project.image} alt={project.alt} width="1200" height="675" loading="lazy" decoding="async" />
-            <span class="ld-frame__index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-            <span class="ld-frame__meta">
-              <span class="cine-label">{project.category}{project.year ? ` · ${project.year}` : ""}</span>
-              <span class="ld-frame__title">{project.title}</span>
-              <span class="ld-frame__go">Projekt ansehen <span aria-hidden="true">→</span></span>
-            </span>
-          </a>
-        ))}
+        <div class="sd-strip">
+          <span class="sd-strip__perf sd-strip__perf--t" aria-hidden="true"></span>
+          <ol class="sd-strip__clips">
+            {service.process.map((step, index) => (
+              <li class="sd-clip">
+                <span class="sd-clip__num" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                <p>{step}</p>
+              </li>
+            ))}
+          </ol>
+          <span class="sd-strip__perf sd-strip__perf--b" aria-hidden="true"></span>
+          <span class="sd-strip__head" aria-hidden="true"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Referenzprojekte auf dem Lichttisch -->
+    {related.length > 0 && (
+      <section class="sd-projects">
+        <div class="cine-wrap">
+          <div class="sd-projects__head" data-fx="rise">
+            <div>
+              <span class="cine-label">{location ? "Referenzarbeiten aus Düsseldorf" : "Ausgewählte Arbeiten"}</span>
+              <h2 class="cine-h2">Projekte, in denen das zusammenkam</h2>
+            </div>
+            <a class="cine-link" href="/arbeiten/"><span>Alle Projekte</span><span aria-hidden="true">→</span></a>
+          </div>
+          <div class:list={["sd-tiles", { "sd-tiles--solo": related.length === 1 }]}>
+            {related.map((project) => (
+              <a class:list={["sd-tile", { "sd-tile--electric": project.slug === "electric-lights" }]} href={`/projekte/${project.slug}/`}>
+                <img src={project.image} alt={project.alt} width="1200" height="750" loading="lazy" decoding="async" />
+                <span class="sd-tile__dim" aria-hidden="true"></span>
+                <span class="sd-tile__meta">
+                  <span class="cine-label">{project.category}{project.year ? ` · ${project.year}` : ""}</span>
+                  <span class="sd-tile__title">{project.title}</span>
+                  <span class="sd-tile__go">Projekt ansehen <span aria-hidden="true">→</span></span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
       </section>
     )}
 
     <!-- FAQ -->
-    <section class="cine-wrap ld-steps" style="padding-top: 0;">
-      <div class="ld-steps__head" data-fx="rise">
+    <section class="cine-wrap sd-faq">
+      <div class="sd-head" data-fx="rise">
         <span class="cine-label">Kurz geklärt</span>
         <h2 class="cine-h2">{location ? `Häufige Fragen zu ${location.city}` : "Häufige Fragen"}</h2>
       </div>
@@ -213,19 +309,35 @@ const otherCities = location ? locations.filter((item) => item.slug !== location
       </div>
     </section>
 
-    <!-- Finale -->
-    <section class="ld-finale">
+    <!-- Finale: Abspann über bewegtem Licht -->
+    <section class="ld-finale ld-finale--media sd-finale">
+      <div class="ld-finale__media" aria-hidden="true">
+        <video muted loop playsinline preload="none" poster="/media/hero-poster.jpg" width="1280" height="720" data-finale-video>
+          <source src="/media/hero-loop.mp4" type="video/mp4" />
+        </video>
+      </div>
       <div class="ld-finale__portal" aria-hidden="true"></div>
       <div class="ld-finale__horizon" aria-hidden="true"></div>
+      <div class="ld-finale__slit" aria-hidden="true"></div>
       <div class="cine-wrap ld-finale__content">
+        <ol class="sd-credits" aria-label="Abspann">
+          <li class="sd-credit"><span class="sd-credit__role">Projekt</span><i></i><span class="sd-credit__value">Ihres</span></li>
+          <li class="sd-credit"><span class="sd-credit__role">Produktion</span><i></i><span class="sd-credit__value">Sophia Ramahi</span></li>
+          {location ? (
+            <li class="sd-credit"><span class="sd-credit__role">Drehort</span><i></i><span class="sd-credit__value">{location.city}{location.distance === "0 km" ? " · Basis" : ` · ${location.distance}`}</span></li>
+          ) : (
+            <li class="sd-credit"><span class="sd-credit__role">Basis</span><i></i><span class="sd-credit__value">Düsseldorf & NRW</span></li>
+          )}
+        </ol>
         <h2 class="ld-finale__title">{location ? `${service.title} in ${location.city} anfragen` : `${service.title} anfragen`}</h2>
         <p class="cine-lead">Schreiben Sie kurz, worum es geht, wo produziert werden soll und welcher Zeitraum realistisch ist.</p>
-        <a class="cine-btn finale__cta" href="/kontakt/">Projekt besprechen</a>
+        <a class="cine-btn finale__cta" href="/kontakt/" data-magnetic>Projekt besprechen</a>
+        <p class="sd-finale__note">Düsseldorf · Antwort meist innerhalb von zwei Werktagen</p>
       </div>
     </section>
   </div>
 
   <script>
-    import "../scripts/landing-motion.ts";
+    import "../scripts/service-motion.ts";
   </script>
 </BaseLayout>

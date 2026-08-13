@@ -6,6 +6,8 @@ export type Service = {
   title: string;
   eyebrow: string;
   summary: string;
+  /** Große Haltungszeile der Landingpage; **…** markiert den Akzentteil. */
+  claim: string;
   intro: string;
   outcome: string;
   image: string;
@@ -83,6 +85,7 @@ export const services: Service[] = [
     title: "Eventfilm",
     eyebrow: "Atmosphäre dokumentieren",
     summary: "Filme, die nicht nur zeigen, was stattgefunden hat, sondern wie es sich angefühlt hat.",
+    claim: "Ein Abend hat hundert Momente. **Der Film entscheidet, welche bleiben.**",
     intro: "Bei Konzerten, Festivals, Kulturveranstaltungen und Unternehmensformaten entstehen viele starke Momente gleichzeitig. Ein Eventfilm braucht deshalb eine klare Vorbereitung und eine Kamera, die nah dran ist, ohne das Geschehen zu stören.",
     outcome: "Das Ergebnis kann als kompakter Highlightfilm, ausführlichere Dokumentation oder als Paket aus Hauptfilm und kurzen Social-Clips geplant werden.",
     image: "/media/spektra-buehne-03.jpg",
@@ -105,6 +108,7 @@ export const services: Service[] = [
     title: "Musikvideo",
     eyebrow: "Bildsprache für Musik",
     summary: "Konzept, Kamera und Schnitt für Musikvideos mit eigener Stimmung statt austauschbarer Performancebilder.",
+    claim: "Erst kommt der Song. **Dann die Bilder.**",
     intro: "Ein Musikvideo beginnt nicht mit einer Shotlist, sondern mit dem Stück. Rhythmus, Text, Sound und vorhandene visuelle Ideen bestimmen, ob eine Performance, eine kleine Erzählung oder ein experimenteller Ansatz trägt.",
     outcome: "Sophia entwickelt den visuellen Rahmen gemeinsam mit den Künstlerinnen und Künstlern und führt ihn vom Konzept über den Dreh bis zum finalen Schnitt fort.",
     image: "/media/club-projektion-02.jpg",
@@ -126,6 +130,7 @@ export const services: Service[] = [
     title: "Imagefilm & Porträt",
     eyebrow: "Arbeit verständlich machen",
     summary: "Nahbare Filme für Organisationen, Selbstständige und ausgewählte Marken, die etwas Konkretes zu erzählen haben.",
+    claim: "Keine großen Behauptungen. **Einfach zeigen, wie gearbeitet wird.**",
     intro: "Ein guter Imagefilm braucht keine großen Behauptungen. Er zeigt Menschen bei ihrer Arbeit, erklärt einen Ablauf oder macht eine Haltung sichtbar. Entscheidend ist, welche Geschichte Kundinnen, Bewerber oder Partner nach dem Film verstanden haben sollen.",
     outcome: "Daraus entsteht ein konzentrierter Film, der auf der Website ebenso funktioniert wie in Präsentationen oder in angepassten Social-Versionen.",
     image: "/media/set-quer-01.jpg",
@@ -147,6 +152,7 @@ export const services: Service[] = [
     title: "Kamera & Bildgestaltung",
     eyebrow: "Für Produktionsteams",
     summary: "Buchbare Kamerafrau für Drehs, bei denen Bildsprache, Licht und zuverlässige Zusammenarbeit zusammengehören.",
+    claim: "Ein Briefing ist Papier. **Die Kamera macht Bilder daraus.**",
     intro: "Nicht jedes Projekt braucht eine komplette Produktion. Sophia kann als Kamerafrau und Mediengestalterin in bestehende Teams einsteigen, Briefings in konkrete Bilder übersetzen und sich in vorbereitete technische Abläufe einfügen.",
     outcome: "Vor dem Dreh werden Bildsprache, Format, Technik, Licht und Datenübergabe geklärt. So bleibt am Set mehr Raum für das Motiv.",
     image: "/media/set-hoch-02.jpg",
@@ -168,6 +174,7 @@ export const services: Service[] = [
     title: "Tonaufnahme am Set",
     eyebrow: "Sprache und Atmosphäre",
     summary: "Sauber geplanter Originalton für Interviews, dokumentarische Situationen und kleine Produktionen.",
+    claim: "Ton wird nicht im Schnitt repariert. **Er wird am Set entschieden.**",
     intro: "Ton ist nicht die Reparaturphase nach dem Dreh. Raum, Mikrofonierung, Umgebung und Bewegungsfreiheit müssen vorher zusammen gedacht werden. Als ausgebildete Mediengestalterin Bild und Ton kann Sophia beides in kleinen Setups verbinden.",
     outcome: "Je nach Produktion übernimmt sie den Ton selbst oder plant einen eigenen Tonposten ein, wenn Umfang und Verantwortung das erfordern.",
     image: "/media/light-void.jpg",
@@ -188,6 +195,7 @@ export const services: Service[] = [
     title: "VJ & Live Visuals",
     eyebrow: "Bilder, die live reagieren",
     summary: "Live gemischte Visuals für Konzerte, Clubs, Festivals und performative Formate.",
+    claim: "Kein Loop in Endlosschleife. **Bilder, die auf den Raum reagieren.**",
     intro: "Live Visuals sind kein Hintergrundvideo in Endlosschleife. Material, Rhythmus, Raum und Licht reagieren aufeinander. Dafür entwickelt Sophia visuelle Loops, kombiniert vorhandenes Material und mischt die Bildwelten live.",
     outcome: "Der Umfang reicht von einem kompakten VJ-Set bis zu einer abgestimmten Bilddramaturgie für einen ganzen Abend.",
     image: "/media/club-projektion-01.jpg",
@@ -209,6 +217,7 @@ export const services: Service[] = [
     title: "Projection Mapping",
     eyebrow: "Bilder für reale Flächen",
     summary: "Projektionen, die Architektur, Bühnenbild oder Objekte als Teil der Gestaltung behandeln.",
+    claim: "Die Fläche ist keine Leinwand. **Sie ist Teil des Bildes.**",
     intro: "Beim Projection Mapping bestimmt die Fläche das Bild. Maße, Blickwinkel, Helligkeit, Projektorposition und Umgebungslicht sind Teil des Konzepts. Erst danach lohnt sich die Gestaltung des Materials.",
     outcome: "Sophia entwickelt visuelle Inhalte, testet die Abbildung auf dem realen Objekt und stimmt die Zuspielung mit der Veranstaltungstechnik ab.",
     image: "/media/spektra-detail-03.jpg",
@@ -230,6 +239,7 @@ export const services: Service[] = [
     title: "Postproduktion",
     eyebrow: "Schnitt, Farbe und Ton",
     summary: "Postproduktion, die Material ordnet, Rhythmus findet und Bild und Ton zu einem fertigen Film verbindet.",
+    claim: "Gedreht ist schnell. **Erzählt wird im Schnitt.**",
     intro: "Im Schnitt entscheidet sich, welche Geschichte das gedrehte Material tatsächlich erzählt. Sophia übernimmt Postproduktion für eigene Drehs und ausgewählte Fremdproduktionen – von der Materialsichtung bis zu den finalen Formaten.",
     outcome: "Der Ablauf wird vorab klar begrenzt: Materialmenge, gewünschte Länge, Ausspielungen, Korrekturrunden und Übergabeformat.",
     image: "/media/journal-02.jpg",

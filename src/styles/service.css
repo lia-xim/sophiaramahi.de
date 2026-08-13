@@ -1,0 +1,709 @@
+/* sophiaramahi.de — Purple Frame, Leistungs-Landingpages (sd-*).
+   Szenenfolge der acht Leistungsseiten und ihrer lokalen Versionen:
+   Themenwelt-Hero, Haltungszeile, Umfangs-Index, Filmstreifen-Ablauf,
+   Lichttisch-Projekte und Abspann-Finale.
+
+   Gemeinsame Bausteine (cine-*, lw-Motive, ld-places, ld-finale)
+   kommen aus landing.css; dieses Modul liegt danach im Import und
+   darf sie für den Hero-Kontext justieren.
+
+   Kontrakt wie überall: Grundzustand offen und lesbar; Startzustände
+   nur unter `html.motion` (siehe service-motion.ts). */
+
+/* ============ Hero: die Themenwelt des Gewerks als Auftakt ============= */
+
+.sd-hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  align-content: center;
+  overflow: clip;
+  isolation: isolate;
+  padding-block: clamp(140px, 18vh, 210px) clamp(90px, 13vh, 150px);
+}
+
+.sd-hero__content {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: clamp(16px, 2.4vh, 26px);
+  justify-items: start;
+  width: 100%;
+}
+
+.sd-hero__content .cine-crumbs {
+  justify-content: flex-start;
+}
+
+.sd-hero__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: var(--step-meta);
+  font-weight: 550;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #a79fb8;
+}
+
+.sd-hero__kicker::before {
+  content: "";
+  width: 26px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--violet), var(--magenta));
+}
+
+.sd-hero__title {
+  margin: 0;
+  max-width: 14ch;
+  font-family: var(--font-display);
+  font-size: clamp(2.9rem, 8vw, 7.4rem);
+  font-weight: 600;
+  font-stretch: 110%;
+  line-height: 0.99;
+  letter-spacing: -0.038em;
+  background: linear-gradient(180deg, #ffffff 8%, #d6c6f4 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Lokale Version: die Stadt bekommt eine eigene, leuchtende Zeile */
+.sd-hero__title em {
+  display: block;
+  font-style: normal;
+  font-size: clamp(1.9rem, 4.6vw, 4.2rem);
+  letter-spacing: -0.03em;
+  background: linear-gradient(92deg, var(--magenta), var(--amber));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.sd-hero__lead {
+  max-width: 52ch;
+  margin: 0;
+  font-size: clamp(1.0625rem, 1.3vw, 1.375rem);
+  line-height: 1.55;
+  color: #d0cadd;
+}
+
+.sd-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 22px;
+  margin-top: 6px;
+}
+
+.sd-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin: 4px 0 0;
+  color: #9c94b0;
+  font-size: var(--step-meta);
+  font-weight: 550;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.sd-hero__scroll {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(18px, 4vh, 40px);
+  z-index: 2;
+  transform: translateX(-50%);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: #8d86a0;
+  font-size: var(--step-meta);
+  font-weight: 550;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.sd-hero__scroll::after {
+  content: "";
+  width: 1px;
+  height: 30px;
+  background: linear-gradient(180deg, #9a5cff, transparent);
+}
+
+/* Justierungen der geliehenen Bühnen-Motive im Hero-Kontext:
+   unter dem festen Header brauchen Ghost-Nummer und Sucher Luft. */
+.sd-hero .lw-chapter__ghost {
+  top: clamp(96px, 15vh, 150px);
+}
+
+.sd-hero .lw-finder {
+  inset: clamp(78px, 11vh, 110px) clamp(16px, 2.6vw, 38px) clamp(16px, 2.6vw, 38px);
+}
+
+.sd-hero .lw-rings {
+  right: 18%;
+}
+
+/* Musikvideo: dieselbe violette Bühnenfärbung wie im Hub-Kapitel */
+.sd-hero--musikvideo .lw-chapter__stagebg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(220deg, rgba(113, 55, 255, 0.28) 0%, transparent 46%, rgba(154, 92, 255, 0.18) 100%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
+}
+
+/* ============ Haltungszeile (statt „Worum es geht") ==================== */
+
+.sd-statement {
+  padding-block: clamp(90px, 13vh, 170px) clamp(70px, 10vh, 130px);
+}
+
+.sd-statement .cine-wrap {
+  display: grid;
+  gap: clamp(24px, 4vh, 44px);
+  justify-items: start;
+}
+
+.sd-claim {
+  margin: 0;
+  max-width: 24ch;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.8vw, 4.4rem);
+  font-weight: 600;
+  font-stretch: 110%;
+  line-height: 1.08;
+  letter-spacing: -0.034em;
+  background: linear-gradient(180deg, #ffffff 8%, #d6c6f4 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.sd-claim em {
+  font-style: normal;
+  background: linear-gradient(92deg, var(--magenta), var(--amber));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.sd-statement__prose {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(20px, 3vw, 56px);
+  max-width: 1060px;
+}
+
+.sd-statement__prose p {
+  color: var(--text-muted);
+  line-height: 1.75;
+}
+
+.sd-statement__prose p:first-child {
+  font-size: var(--step-body-lg);
+  line-height: 1.6;
+  color: #d0cadd;
+}
+
+/* ============ Leistungsumfang als Index ================================ */
+
+.sd-scope {
+  padding-block: 0 clamp(80px, 11vh, 150px);
+}
+
+.sd-scope__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: clamp(28px, 5vw, 96px);
+  align-items: start;
+}
+
+.sd-scope__head {
+  display: grid;
+  gap: 12px;
+  position: sticky;
+  top: 110px;
+}
+
+.sd-scope__body {
+  display: grid;
+  gap: clamp(24px, 4vh, 40px);
+}
+
+.sd-scope__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  border-top: 1px solid var(--line);
+}
+
+.sd-scope__row {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(16px, 2vw, 28px);
+  padding-block: clamp(16px, 2.4vh, 24px);
+  border-bottom: 1px solid var(--line);
+  transition: background var(--dur) var(--ease), padding-inline var(--dur) var(--ease);
+}
+
+.sd-scope__row:hover {
+  background: rgba(113, 55, 255, 0.07);
+  padding-inline: 12px;
+}
+
+.sd-scope__num {
+  flex: none;
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in oklab, var(--magenta) 80%, white);
+}
+
+.sd-scope__item {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2vw, 1.9rem);
+  font-weight: 550;
+  font-stretch: 106%;
+  letter-spacing: -0.02em;
+  color: #dcd6e8;
+}
+
+.sd-scope__fit {
+  display: grid;
+  gap: 16px;
+  justify-items: start;
+}
+
+.sd-chips {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 12px;
+  margin: 0;
+  padding: 0;
+}
+
+.sd-chips li {
+  padding: 9px 18px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(25, 16, 42, 0.35);
+  color: #c3bccf;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+}
+
+/* ============ Ablauf als Filmstreifen ================================== */
+
+.sd-head {
+  display: grid;
+  gap: 12px;
+  margin-bottom: clamp(36px, 6vh, 64px);
+  max-width: 760px;
+}
+
+.sd-process {
+  padding-block: 0 clamp(80px, 11vh, 150px);
+}
+
+.sd-strip {
+  position: relative;
+  padding-block: 30px;
+}
+
+/* Perforationsreihen oben und unten — der Ablauf liegt auf dem Filmstreifen */
+.sd-strip__perf {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 14px;
+  background-image: radial-gradient(rgba(215, 188, 255, 0.32) 2.5px, transparent 3.5px);
+  background-size: 30px 14px;
+  background-position: 0 center;
+  opacity: 0.5;
+  pointer-events: none;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+}
+
+.sd-strip__perf--t { top: 0; }
+.sd-strip__perf--b { bottom: 0; }
+
+html.motion .sd-strip__perf {
+  animation: sd-perf-roll 1.8s linear infinite;
+}
+
+@keyframes sd-perf-roll {
+  to { background-position: 30px center; }
+}
+
+.sd-strip__clips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(10px, 1.4vw, 18px);
+}
+
+/* Jeder Schritt ein Clip in der Spur */
+.sd-clip {
+  position: relative;
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  padding: clamp(18px, 2.4vw, 30px);
+  border: 1px solid rgba(220, 200, 255, 0.2);
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(113, 55, 255, 0.16), rgba(25, 16, 42, 0.4));
+}
+
+.sd-clip::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-radius: 10px 10px 0 0;
+  background: linear-gradient(90deg, var(--violet), var(--magenta));
+  opacity: 0.7;
+}
+
+html.motion .sd-clip {
+  opacity: 0.35;
+}
+
+.sd-clip__num {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 1.5vw, 1.4rem);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in oklab, var(--magenta) 80%, white);
+}
+
+.sd-clip p {
+  margin: 0;
+  color: #c9c2d6;
+  line-height: 1.55;
+  font-size: 0.9688rem;
+}
+
+/* Playhead: wandert beim Scrollen über die Spur */
+.sd-strip__head {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 24%;
+  width: 1px;
+  z-index: 1;
+  background: linear-gradient(180deg, var(--amber), var(--magenta));
+  box-shadow: 0 0 14px 2px rgba(154, 92, 255, 0.55);
+  pointer-events: none;
+}
+
+.sd-strip__head::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -4px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid var(--amber);
+}
+
+/* ============ Projekte: Lichttisch-Kacheln nebeneinander =============== */
+
+.sd-projects {
+  padding-block: 0 clamp(80px, 11vh, 150px);
+}
+
+.sd-projects__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 24px;
+  flex-wrap: wrap;
+  margin-bottom: clamp(24px, 4vh, 40px);
+}
+
+.sd-projects__head > div {
+  display: grid;
+  gap: 12px;
+}
+
+.sd-tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(14px, 1.8vw, 24px);
+}
+
+.sd-tiles--solo {
+  grid-template-columns: 1fr;
+}
+
+.sd-tile {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--frame);
+  color: var(--text);
+  isolation: isolate;
+  aspect-ratio: 16 / 10;
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+}
+
+.sd-tiles--solo .sd-tile {
+  aspect-ratio: 21 / 9;
+}
+
+.sd-tile img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s var(--ease);
+}
+
+/* Eingebrannten Bildtitel aus dem Ausschnitt halten */
+.sd-tile--electric img {
+  height: 175%;
+  object-position: center top;
+}
+
+.sd-tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(5, 3, 10, 0.05) 42%, rgba(5, 3, 10, 0.88) 100%);
+}
+
+/* Der Lichttisch: dunkler Schleier, den die Choreografie hebt */
+.sd-tile__dim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--bg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+html.motion .sd-tile__dim {
+  opacity: 0.75;
+}
+
+.sd-tile__meta {
+  position: absolute;
+  z-index: 3;
+  left: clamp(16px, 1.8vw, 28px);
+  right: clamp(16px, 1.8vw, 28px);
+  bottom: clamp(14px, 1.6vw, 24px);
+  display: grid;
+  gap: 5px;
+  justify-items: start;
+}
+
+html.motion .sd-tile__meta {
+  opacity: 0.5;
+}
+
+/* Bei zwei Kacheln sitzen die Titel in den Außenecken */
+@media (min-width: 901px) {
+  .sd-tiles:not(.sd-tiles--solo) .sd-tile:nth-child(2) .sd-tile__meta {
+    left: auto;
+    justify-items: end;
+    text-align: right;
+  }
+}
+
+.sd-tile__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.6vw, 2.7rem);
+  font-weight: 600;
+  font-stretch: 108%;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+.sd-tile__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  opacity: 0.8;
+  transition: gap var(--dur) var(--ease), opacity var(--dur) var(--ease);
+}
+
+.sd-tile:hover,
+.sd-tile:focus-visible {
+  transform: scale(1.014);
+  box-shadow: 0 26px 80px rgba(24, 8, 58, 0.55), 0 0 0 1px rgba(215, 188, 255, 0.24);
+  z-index: 2;
+}
+
+.sd-tile:hover img {
+  transform: scale(1.04);
+}
+
+.sd-tile:hover .sd-tile__go,
+.sd-tile:focus-visible .sd-tile__go {
+  opacity: 1;
+  gap: 12px;
+}
+
+.sd-tile:hover .sd-tile__dim {
+  opacity: 0 !important;
+}
+
+/* ============ FAQ ====================================================== */
+
+.sd-faq {
+  padding-block: 0 clamp(80px, 11vh, 140px);
+}
+
+/* ============ Abspann im Finale ======================================== */
+
+.sd-credits {
+  list-style: none;
+  margin: 0 0 clamp(6px, 1vh, 10px);
+  padding: 0;
+  width: min(560px, 100%);
+}
+
+.sd-credit {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding-block: 10px;
+  border-bottom: 1px solid rgba(220, 200, 255, 0.14);
+}
+
+.sd-credit:first-child {
+  border-top: 1px solid rgba(220, 200, 255, 0.14);
+}
+
+.sd-credit__role {
+  flex: none;
+  font-size: var(--step-meta);
+  font-weight: 550;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9c94b0;
+  text-align: left;
+}
+
+.sd-credit i {
+  flex: 1 1 auto;
+  height: 1px;
+  align-self: center;
+  background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--magenta) 45%, transparent));
+}
+
+.sd-credit__value {
+  flex: none;
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 1.2vw, 1.15rem);
+  font-weight: 600;
+  font-stretch: 106%;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.sd-finale__note {
+  margin: 0;
+  color: #8d86a0;
+  font-size: var(--step-meta);
+  font-weight: 550;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ============ Responsive =============================================== */
+
+@media (max-width: 900px) {
+  .sd-hero {
+    min-height: 92svh;
+    padding-block: clamp(120px, 16vh, 160px) clamp(80px, 12vh, 120px);
+  }
+
+  .sd-hero__scroll {
+    display: none;
+  }
+
+  /* Ghost-Nummer bleibt auch mobil unter dem Header */
+  .sd-hero .lw-chapter__ghost {
+    top: clamp(88px, 12vh, 120px);
+  }
+
+  .sd-hero .lw-finder {
+    inset: clamp(74px, 10vh, 96px) 10px 10px;
+  }
+
+  .sd-statement__prose {
+    grid-template-columns: 1fr;
+  }
+
+  .sd-scope__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sd-scope__head {
+    position: static;
+  }
+
+  .sd-strip__clips {
+    grid-template-columns: 1fr;
+  }
+
+  .sd-strip__head {
+    display: none;
+  }
+
+  .sd-tiles {
+    grid-template-columns: 1fr;
+  }
+
+  .sd-tiles--solo .sd-tile,
+  .sd-tile {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+@media (max-width: 560px) {
+  .sd-hero__actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .sd-hero__actions .cine-btn,
+  .sd-hero__actions .cine-ghost {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+/* Reduced Motion: alle Startzustände neutralisieren */
+@media (prefers-reduced-motion: reduce) {
+  html.motion .sd-clip { opacity: 1; }
+  html.motion .sd-tile__dim { opacity: 0; }
+  html.motion .sd-tile__meta { opacity: 1; }
+  html.motion .sd-strip__perf { animation: none; }
+}
