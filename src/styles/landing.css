@@ -1214,7 +1214,7 @@ html.motion .pj-tile__dim {
   overflow: clip;
   isolation: isolate;
   padding-block: clamp(90px, 13vh, 150px);
-  margin-block: clamp(50px, 12vh, 150px);
+  margin-block: clamp(100px, 24vh, 300px);
   scroll-margin-top: 70px;
 }
 
@@ -1387,6 +1387,30 @@ html.motion .pj-tile__dim {
   -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 18%);
 }
 
+/* Zweiter Lichtkegel (Eventfilm): schwenkt gegenläufig von links */
+.lw-beam--b {
+  right: auto;
+  left: 4%;
+  width: min(32vw, 460px);
+  background: linear-gradient(160deg, rgba(215, 188, 255, 0.22) 0%, rgba(113, 55, 255, 0.06) 55%, transparent 80%);
+  clip-path: polygon(52% 0, 70% 0, 100% 100%, 0 100%);
+}
+
+/* Verfolger-Spot (Eventfilm): der Lichtfleck wandert mit dem Scroll
+   über die Bühne — dorthin, wo die Kegel zeigen */
+.lw-spot {
+  position: absolute;
+  z-index: 1;
+  left: 12%;
+  bottom: 4%;
+  width: min(36vw, 480px);
+  aspect-ratio: 1.35;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(215, 188, 255, 0.34) 0%, rgba(113, 55, 255, 0.12) 55%, transparent 75%);
+  mix-blend-mode: screen;
+  filter: blur(6px);
+  pointer-events: none;
+}
+
 /* Rhythmusbalken (Musikvideo): Equalizer am unteren Bühnenrand */
 .lw-bars {
   position: absolute;
@@ -1428,6 +1452,34 @@ html.motion .pj-tile__dim {
   pointer-events: none;
   mask-image: linear-gradient(180deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
   -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
+}
+
+/* Farbsplit (Musikvideo): zwei versetzte Farbebenen desselben Bildes,
+   die mit dem Scroll in der Kapitelmitte einrasten — wie ein Beat-Drop.
+   Ohne Motion bleiben sie unsichtbar, der Effekt lebt von der Bewegung. */
+.lw-chapter__stagebg img.lw-split {
+  opacity: 0;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.lw-chapter__stagebg img.lw-split--m {
+  filter: saturate(2.1) hue-rotate(-40deg) brightness(0.85);
+}
+
+.lw-chapter__stagebg img.lw-split--c {
+  filter: saturate(2.1) hue-rotate(140deg) brightness(0.8);
+}
+
+/* Beat-Blitz (Musikvideo): kurze Lichtpulse an festen Scroll-Punkten */
+.lw-mvpulse {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(80% 70% at 60% 45%, rgba(154, 92, 255, 0.42) 0%, transparent 70%);
+  mix-blend-mode: screen;
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* Scroll-Vignette: am Szenenrand stark, öffnet sich zur Mitte des Kapitels */
@@ -1528,6 +1580,76 @@ html.motion .lw-perf {
   pointer-events: none;
 }
 
+/* Fokuszug (Imagefilm): das Bild startet unscharf und zieht mit dem
+   Scroll scharf — der Startzustand existiert nur unter html.motion,
+   GSAP führt exakt von diesem Wert weg. */
+html.motion .lw-chapter--imagefilm .lw-chapter__stagebg img {
+  filter: blur(16px);
+}
+
+@media (max-width: 900px) {
+  html.motion .lw-chapter--imagefilm .lw-chapter__stagebg img {
+    filter: blur(8px);
+  }
+}
+
+/* Iris (Imagefilm): ein Lichtkreis öffnet sich um das Motiv */
+.lw-iris {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.lw-iris i {
+  width: min(58vw, 780px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(215, 188, 255, 0.24);
+  border-radius: 999px;
+  box-shadow: inset 0 0 70px 12px rgba(113, 55, 255, 0.14);
+  opacity: 0.4;
+}
+
+/* AF-Rahmen (Imagefilm): leuchtet auf, sobald der Fokus sitzt */
+.lw-af {
+  position: absolute;
+  z-index: 1;
+  left: 20%;
+  top: 30%;
+  width: clamp(90px, 11vw, 140px);
+  aspect-ratio: 1;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+html.motion .lw-af {
+  opacity: 0;
+}
+
+.lw-af i {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 0 solid rgba(215, 188, 255, 0.9);
+}
+
+.lw-af i:nth-child(1) { top: 0; left: 0; border-top-width: 1px; border-left-width: 1px; }
+.lw-af i:nth-child(2) { top: 0; right: 0; border-top-width: 1px; border-right-width: 1px; }
+.lw-af i:nth-child(3) { bottom: 0; left: 0; border-bottom-width: 1px; border-left-width: 1px; }
+.lw-af i:nth-child(4) { bottom: 0; right: 0; border-bottom-width: 1px; border-right-width: 1px; }
+
+.lw-af__tag {
+  position: absolute;
+  top: -24px;
+  right: 0;
+  font-size: var(--step-meta);
+  font-weight: 550;
+  letter-spacing: 0.12em;
+  color: rgba(215, 188, 255, 0.85);
+}
+
 /* Sucher (Kamera): der ganze Viewport wird zum Kamerabild */
 .lw-finder {
   position: absolute;
@@ -1607,6 +1729,18 @@ html.motion .lw-finder__rec::before {
   height: 1px;
 }
 
+/* Brennweiten-Anzeige (Kamera): zählt beim Scroll-Zoom mit */
+.lw-finder__mm {
+  position: absolute;
+  bottom: 6px;
+  left: 0;
+  font-size: var(--step-meta);
+  font-weight: 550;
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+  color: rgba(248, 245, 255, 0.8);
+}
+
 /* Schallringe (Tonaufnahme): atmen über der ganzen Szene */
 .lw-rings {
   position: absolute;
@@ -1630,6 +1764,42 @@ html.motion .lw-finder__rec::before {
 .lw-rings i:nth-child(1) { width: min(34vw, 460px); aspect-ratio: 1; }
 .lw-rings i:nth-child(2) { width: min(48vw, 660px); aspect-ratio: 1; border-color: rgba(154, 92, 255, 0.2); }
 .lw-rings i:nth-child(3) { width: min(64vw, 880px); aspect-ratio: 1; border-color: rgba(154, 92, 255, 0.12); }
+
+/* Aufnahme-Waveform (Tonaufnahme): eine gedimmte Wellenform liegt am
+   unteren Bühnenrand, eine helle Kopie füllt sich mit dem Scroll —
+   als liefe die Aufnahme mit. */
+.lw-wave {
+  position: absolute;
+  z-index: 1;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: clamp(26px, 5.5vh, 60px);
+  height: clamp(54px, 9vh, 90px);
+  pointer-events: none;
+}
+
+.lw-wave__row {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.lw-wave__row i {
+  flex: 1;
+  border-radius: 2px;
+  background: rgba(154, 92, 255, 0.2);
+}
+
+.lw-wave__row--fill i {
+  background: linear-gradient(180deg, var(--amber), var(--magenta));
+  box-shadow: 0 0 10px 1px rgba(154, 92, 255, 0.35);
+}
+
+html.motion .lw-wave__row--fill {
+  clip-path: inset(0 100% 0 0);
+}
 
 /* Schnitt-Timeline (Postproduktion): volle Breite, Playhead wandert */
 .lw-timeline {
@@ -1738,6 +1908,200 @@ html.motion .lw-dust i {
 @keyframes lw-twinkle {
   0%, 100% { opacity: 0.25; }
   50% { opacity: 0.9; }
+}
+
+/* ============ Über Sophia: Identität ==================================== */
+
+/* Porträt im Sucher: einmal steht sie selbst vor der Kamera */
+.sp-frame {
+  position: relative;
+  width: min(100%, 440px);
+  aspect-ratio: 4 / 5;
+  justify-self: end;
+  overflow: visible;
+  transform: rotate(2.2deg);
+}
+
+.sp-frame__media {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--frame);
+  box-shadow: 0 40px 120px rgba(10, 4, 26, 0.65);
+}
+
+.sp-frame__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.92) contrast(1.04) brightness(0.94);
+}
+
+.sp-frame__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(200deg, rgba(113, 55, 255, 0.16) 0%, transparent 42%),
+    radial-gradient(120% 110% at 50% 40%, transparent 55%, rgba(5, 3, 10, 0.42) 100%);
+  pointer-events: none;
+}
+
+.sp-frame .lw-finder {
+  inset: -14px;
+}
+
+.sp-frame .lw-finder i {
+  width: 24px;
+  height: 24px;
+}
+
+.sp-frame .lw-finder__rec {
+  top: -4px;
+  right: 38px;
+}
+
+.sp-frame__caption {
+  position: absolute;
+  left: 0;
+  bottom: -34px;
+  color: #8d86a0;
+}
+
+/* Rollen-Zeile unter dem Namen */
+.sp-roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 0;
+  color: #c3bccf;
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+  font-weight: 550;
+  font-stretch: 106%;
+  letter-spacing: -0.01em;
+}
+
+.sp-roles span + span::before {
+  content: "·";
+  margin-right: 18px;
+  color: var(--magenta);
+}
+
+/* Haltungs-Zeile: große zentrierte Aussage */
+.sp-claim {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  padding-block: clamp(90px, 13vh, 170px) clamp(40px, 6vh, 70px);
+}
+
+.sp-claim h2 {
+  margin: 0;
+  max-width: 18ch;
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5.4vw, 5rem);
+  font-weight: 600;
+  font-stretch: 110%;
+  line-height: 1.06;
+  letter-spacing: -0.035em;
+  background: linear-gradient(180deg, #ffffff 8%, #d6c6f4 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.sp-claim h2 em {
+  font-style: normal;
+  background: linear-gradient(92deg, var(--magenta), var(--amber));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Abspann-Zeilen: Rolle — Haltung */
+.sp-credits {
+  width: 100%;
+  max-width: 620px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sp-credit {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  padding-block: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.sp-credit:first-child {
+  border-top: 1px solid var(--line);
+}
+
+.sp-credit__role {
+  flex: none;
+  min-width: 112px;
+  font-size: var(--step-meta);
+  font-weight: 550;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8d86a0;
+}
+
+.sp-credit i {
+  flex: 1 1 auto;
+  height: 1px;
+  align-self: center;
+  background: linear-gradient(90deg, var(--line), color-mix(in oklab, var(--magenta) 55%, transparent));
+}
+
+.sp-credit__value {
+  flex: none;
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.4vw, 1.3rem);
+  font-weight: 600;
+  font-stretch: 106%;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+
+/* Kontaktformular-Szene am Seitenende */
+.sp-kontakt {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  padding-block: clamp(80px, 11vh, 140px);
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 50%, var(--bg) 100%);
+  scroll-margin-top: 70px;
+}
+
+.sp-kontakt::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(84vw, 1100px);
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--violet) 75%, transparent) 35%, color-mix(in oklab, var(--magenta) 60%, transparent) 65%, transparent);
+  box-shadow: 0 0 18px 1px rgba(113, 55, 255, 0.35);
+}
+
+@media (max-width: 900px) {
+  .sp-frame {
+    justify-self: start;
+    width: min(100%, 380px);
+    margin-top: 18px;
+  }
+
+  .sp-frame__caption {
+    position: static;
+    margin-top: 44px;
+  }
 }
 
 /* ============ Showreel: Kanäle ========================================== */
@@ -1992,6 +2356,38 @@ html.motion .lw-dust i {
     display: none;
   }
 
+  .lw-finder__mm {
+    bottom: 2px;
+  }
+
+  .lw-beam--b {
+    display: none;
+  }
+
+  .lw-spot {
+    width: 56vw;
+    bottom: 3%;
+  }
+
+  .lw-iris i {
+    width: 88vw;
+  }
+
+  .lw-af {
+    display: none;
+  }
+
+  .lw-wave {
+    left: 16px;
+    right: 16px;
+    bottom: 14px;
+    height: 44px;
+  }
+
+  .lw-wave__row {
+    gap: 3px;
+  }
+
 
   .ld-steps__rail {
     grid-template-columns: 1fr;
@@ -2084,4 +2480,9 @@ html.motion .lw-dust i {
   html.motion .lw-grain { animation: none; }
   html.motion .lw-scanlines { animation: none; }
   html.motion .lw-perf { animation: none; }
+  html.motion .lw-chapter--imagefilm .lw-chapter__stagebg img { filter: none; }
+  html.motion .lw-af { opacity: 0.55; }
+  html.motion .lw-wave__row--fill { clip-path: none; }
+  html.motion .lw-chapter__stagebg img.lw-split { opacity: 0; }
+  html.motion .lw-mvpulse { opacity: 0; }
 }

@@ -1,12 +1,181 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ContactCta from "../components/ContactCta.astro";
-import PageHero from "../components/PageHero.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import "../styles/landing.css";
+import { site } from "../data/site";
+
+// Über Sophia als Identitätsseite: einmal steht sie selbst vor der Kamera.
+// Aufbau nach dem Muster von Startseite, Projekten und Leistungs-Hub —
+// mit dem echten Kontaktformular am Seitenende.
+const stations = [
+  { title: "Ausbildung", copy: "Mediengestalterin Bild und Ton — abgeschlossen im Januar 2024, mit Schwerpunkt auf Kamera, Licht und Tontechnik." },
+  { title: "Junge Filmwerkstatt", copy: "Medienarbeit, Social Media und Organisation im Umfeld der Jungen Filmwerkstatt Düsseldorf." },
+  { title: "24h to take", copy: "Seit 2019 beim 24-Stunden-Videowettbewerb — als Teilnehmerin, in Organisation und Technik, im Livestream und in der Jury." },
+  { title: "Freie Arbeiten & Aufträge", copy: "Kunstprojekte wie Electric Lights im KIT (2023), Musikvideos, Events und Kurzfilme — frei und im Auftrag." },
+];
 ---
+
 <BaseLayout title="Über Sophia Ramahi | Videografin aus Düsseldorf" description="Sophia Ramahi ist ausgebildete Mediengestalterin Bild und Ton, Kamerafrau und Visual Artist aus Düsseldorf.">
-  <PageHero title="Über Sophia" lead="Mediengestalterin Bild und Ton, Kamerafrau und Visual Artist – mit Basis in Düsseldorf." image="/media/sophia-portrait.jpg" alt="Porträt von Sophia Ramahi" crumbs={[{label:"Start",href:"/"},{label:"Über Sophia"}]} />
-  <section class="section cine-wrap section--split"><div data-reveal><span class="cine-label">Arbeitsweise</span><h2 class="cine-h2">Technik soll Möglichkeiten schaffen, nicht Aufmerksamkeit verlangen</h2></div><div class="prose" data-reveal><p>Sophia arbeitet an der Schnittstelle von Kamera, Licht, Ton und bewegtem Bild. Ihre Ausbildung zur Mediengestalterin Bild und Ton hat sie im Januar 2024 abgeschlossen. Seitdem entwickelt sie ihre Arbeit in freien Produktionen, Kulturprojekten, Veranstaltungen und eigenen visuellen Experimenten weiter.</p><p>Am Set bedeutet das: gut vorbereitet sein, aufmerksam beobachten und nur dort eingreifen, wo es dem Bild oder der Situation hilft. In der Postproduktion geht es anschließend darum, Material nicht bloß zu verkürzen, sondern seinen Rhythmus zu finden.</p></div></section>
-  <section class="section section--surface"><div class="cine-wrap section--split"><div class="portrait-frame" data-reveal><img src="/media/team.jpg" alt="Sophia Ramahi bei einer Produktion" width="1200" height="900" loading="lazy" /></div><div data-reveal><span class="cine-label">Kultur & Organisation</span><h2 class="cine-h2">Arbeit hinter der Kamera und hinter dem Ablauf</h2><div class="prose"><p>Neben eigenen Produktionen arbeitet Sophia im Umfeld der Jungen Filmwerkstatt Düsseldorf. Dort verbindet sie Medienarbeit, Social Media und organisatorische Aufgaben. Seit 2019 war sie außerdem als Teilnehmerin und in der Organisation des 24-Stunden-Videowettbewerbs „24h to take“ beteiligt.</p><p>Diese Erfahrung prägt auch Auftragsproduktionen: Ein gutes Ergebnis hängt nicht nur von Kameraeinstellungen ab. Kommunikation, Zeitplan, Zugänge, Technik und verlässliche Übergaben entscheiden genauso mit.</p></div></div></div></section>
-  <section class="section cine-wrap"><div class="section-heading" data-reveal><span class="cine-label">Wofür Sophia gern arbeitet</span><h2 class="cine-h2">Musik, Kultur, Räume und konkrete Geschichten</h2></div><div class="detail-columns"><div data-reveal><h3>Besonders passend</h3><ul class="check-list"><li>Musikvideos, Konzerte und Live-Sessions</li><li>Festivals, Ausstellungen und Kulturveranstaltungen</li><li>Persönliche Imagefilme und Porträts</li><li>Live Visuals und Projection Mapping</li></ul></div><div data-reveal><h3>Auch als Teil eines Teams</h3><ul class="check-list"><li>Kamera und Bildgestaltung</li><li>Ton in überschaubaren Setups</li><li>Schnitt und Postproduktion</li><li>Technische und visuelle Vorbereitung</li></ul></div></div></section>
-  <ContactCta title="Lernen wir uns mit einem konkreten Projekt kennen." />
+  <div data-landing>
+    <!-- 1 · Identitäts-Hero: einmal vor der Kamera -->
+    <section class="lw-hero">
+      <div class="ld-hero__beam" aria-hidden="true"></div>
+      <span class="lw-dust" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span>
+      <span class="lw-grain" aria-hidden="true"></span>
+      <div class="cine-wrap lw-hero__grid">
+        <div class="lw-hero__content">
+          <Breadcrumbs items={[{ label: "Start", href: "/" }, { label: "Über Sophia" }]} />
+          <p class="ld-hero__kicker">Hinter der Kamera</p>
+          <h1 class="ld-hero__title">Sophia <em>Ramahi</em>.</h1>
+          <p class="sp-roles"><span>Videografin</span><span>Kamerafrau</span><span>Mediengestalterin Bild & Ton</span></p>
+          <p class="ld-hero__lead">Sie verbindet Kamera, Licht, Ton und Postproduktion — besonders gern bei Musik-, Kultur- und Eventformaten, die eine eigene visuelle Sprache brauchen.</p>
+          <div class="ld-hero__actions">
+            <a class="cine-btn" href="#anfrage">Projekt besprechen</a>
+            <a class="cine-ghost" href="/arbeiten/">Projekte ansehen</a>
+          </div>
+          <p class="ld-hero__meta"><span>Düsseldorf</span><span>Ausbildung abgeschlossen 2024</span><span>Seit 2019 an Sets & Abläufen</span></p>
+        </div>
+        <figure class="sp-frame" data-fx="rise">
+          <span class="sp-frame__media">
+            <img src="/media/sophia-portrait.jpg" alt="Sophia Ramahi, Videografin aus Düsseldorf" width="900" height="1100" loading="eager" fetchpriority="high" decoding="async" />
+          </span>
+          <span class="lw-finder" aria-hidden="true"><i></i><i></i><i></i><i></i><span class="lw-finder__rec">Rec</span></span>
+          <figcaption class="sp-frame__caption u-meta">Einmal selbst im Bild — sonst dahinter.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 2 · Haltung -->
+    <section class="cine-wrap sp-claim" data-fx="rise">
+      <h2>Technik schafft den Rahmen. <em>Atmosphäre</em> macht den Film.</h2>
+    </section>
+    <section class="cine-wrap ld-split" style="padding-top: 0;">
+      <div class="ld-split__head" data-fx="rise">
+        <span class="cine-label">Arbeitsweise</span>
+        <h2>Technik soll Möglichkeiten schaffen, nicht Aufmerksamkeit verlangen</h2>
+      </div>
+      <div class="ld-split__prose" data-fx="rise">
+        <p>Sophia arbeitet an der Schnittstelle von Kamera, Licht, Ton und bewegtem Bild. Ihre Ausbildung zur Mediengestalterin Bild und Ton hat sie im Januar 2024 abgeschlossen. Seitdem entwickelt sie ihre Arbeit in freien Produktionen, Kulturprojekten, Veranstaltungen und eigenen visuellen Experimenten weiter.</p>
+        <p>Am Set bedeutet das: gut vorbereitet sein, aufmerksam beobachten und nur dort eingreifen, wo es dem Bild oder der Situation hilft. In der Postproduktion geht es anschließend darum, Material nicht bloß zu verkürzen, sondern seinen Rhythmus zu finden.</p>
+      </div>
+    </section>
+
+    <!-- 3 · Stationen -->
+    <section class="cine-wrap ld-steps">
+      <div class="ld-steps__head" data-fx="rise">
+        <span class="cine-label">Stationen</span>
+        <h2 class="cine-h2">Der Weg hinter die Kamera</h2>
+      </div>
+      <ol class="ld-steps__rail">
+        <span class="ld-steps__line" aria-hidden="true"><i></i></span>
+        {stations.map((station, index) => (
+          <li class="ld-step" data-fx="rise">
+            <span class="ld-step__num">{String(index + 1).padStart(2, "0")}</span>
+            <p><strong style="color: var(--text); display: block; margin-bottom: 6px; font-family: var(--font-display);">{station.title}</strong>{station.copy}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <!-- 4 · Vollbild-Welt: Kultur & Organisation -->
+    <section class="lw-chapter">
+      <div class="lw-chapter__stagebg" aria-hidden="true">
+        <img src="/media/team.jpg" alt="" width="1600" height="1000" loading="lazy" decoding="async" />
+      </div>
+      <span class="lw-vignette" aria-hidden="true"></span>
+      <span class="lw-grain" aria-hidden="true"></span>
+      <div class="lw-chapter__inner">
+        <div class="lw-chapter__content" data-fx="rise">
+          <span class="cine-label">Kultur & Organisation</span>
+          <h2>Arbeit hinter der Kamera — und hinter dem Ablauf</h2>
+          <p class="lw-chapter__lead">Ein gutes Ergebnis hängt nicht nur von Kameraeinstellungen ab. Kommunikation, Zeitplan, Zugänge, Technik und verlässliche Übergaben entscheiden genauso mit.</p>
+          <p>Neben eigenen Produktionen arbeitet Sophia im Umfeld der Jungen Filmwerkstatt Düsseldorf. Dort verbindet sie Medienarbeit, Social Media und organisatorische Aufgaben — und war seit 2019 als Teilnehmerin und in der Organisation des 24-Stunden-Videowettbewerbs „24h to take" beteiligt.</p>
+          <div class="lw-chapter__links">
+            <a class="cine-link" href="/projekte/24h-to-take/"><span>Zum Projekt 24h to take</span><span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 · Was Sophia übernimmt + wofür sie gern arbeitet -->
+    <section class="cine-wrap ld-split">
+      <div class="ld-split__head" data-fx="rise">
+        <span class="cine-label">Ein Set, eine Handschrift</span>
+        <h2>Was Sophia übernimmt</h2>
+        <ol class="sp-credits" aria-label="Was Sophia übernimmt">
+          <li class="sp-credit"><span class="sp-credit__role">Kamera</span><i aria-hidden="true"></i><span class="sp-credit__value">nah dran, ohne zu stören</span></li>
+          <li class="sp-credit"><span class="sp-credit__role">Licht</span><i aria-hidden="true"></i><span class="sp-credit__value">Atmosphäre statt Ausleuchtung</span></li>
+          <li class="sp-credit"><span class="sp-credit__role">Ton</span><i aria-hidden="true"></i><span class="sp-credit__value">verständlich und räumlich</span></li>
+          <li class="sp-credit"><span class="sp-credit__role">Schnitt</span><i aria-hidden="true"></i><span class="sp-credit__value">Rhythmus und Dramaturgie</span></li>
+          <li class="sp-credit"><span class="sp-credit__role">Live Visuals</span><i aria-hidden="true"></i><span class="sp-credit__value">Bilder, die live reagieren</span></li>
+        </ol>
+      </div>
+      <div class="ld-split__prose">
+        <div class="ld-card" data-fx="rise" style="margin-bottom: clamp(18px, 2.4vw, 32px);">
+          <h3>Besonders passend</h3>
+          <ul>
+            <li>Musikvideos, Konzerte und Live-Sessions</li>
+            <li>Festivals, Ausstellungen und Kulturveranstaltungen</li>
+            <li>Persönliche Imagefilme und Porträts</li>
+            <li>Live Visuals und Projection Mapping</li>
+          </ul>
+        </div>
+        <div class="ld-card" data-fx="rise">
+          <h3>Auch als Teil eines Teams</h3>
+          <ul>
+            <li>Kamera und Bildgestaltung</li>
+            <li>Ton in überschaubaren Setups</li>
+            <li>Schnitt und Postproduktion</li>
+            <li>Technische und visuelle Vorbereitung</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 · CTA: das Licht kehrt zurück -->
+    <section class="ld-finale ld-finale--media">
+      <div class="ld-finale__media" aria-hidden="true">
+        <video muted loop playsinline preload="none" poster="/media/hero-poster.jpg" width="1280" height="720" data-finale-video>
+          <source src="/media/hero-loop.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div class="ld-finale__portal" aria-hidden="true"></div>
+      <div class="ld-finale__horizon" aria-hidden="true"></div>
+      <div class="ld-finale__slit" aria-hidden="true"></div>
+      <div class="cine-wrap ld-finale__content">
+        <h2 class="ld-finale__title">Lernen wir uns kennen — am besten an einem <em>konkreten</em> Projekt.</h2>
+        <p class="cine-lead">Ein paar Sätze zu Anlass, Ort und Zeitraum reichen. Das Formular ist direkt hier unten.</p>
+        <a class="cine-btn finale__cta" href="#anfrage" data-magnetic>Zum Formular</a>
+        <p class="u-meta" style="color: #8d86a0;">Düsseldorf · Antwort meist innerhalb von zwei Werktagen</p>
+      </div>
+    </section>
+
+    <!-- 7 · Kontaktformular -->
+    <section class="sp-kontakt" id="anfrage">
+      <div class="cine-wrap contact-grid">
+        <div data-fx="rise">
+          <span class="cine-label">Direkter Kontakt</span>
+          <h2 class="cine-h2">Kein langes Anfrageformular</h2>
+          <div class="prose"><p>Wenn Termin oder Umfang noch offen sind, ist das kein Problem. Schreiben Sie, was bereits feststeht. Sophia meldet sich mit den nächsten sinnvollen Fragen zurück.</p></div>
+          <address style="display: grid; gap: 10px; margin-top: 34px; font-style: normal;">
+            <a href={`mailto:${site.email}`} style="color: var(--text); font-size: 1.15rem;">{site.email}</a>
+            <a href={`tel:${site.phoneHref}`} style="color: var(--text); font-size: 1.15rem;">{site.phoneDisplay}</a>
+            <span style="color: var(--text-muted);">Düsseldorf · Produktionen in NRW</span>
+          </address>
+        </div>
+        <form class="contact-form" data-contact-form data-contact-email={site.email} data-fx="rise">
+          <div class="form-field"><label for="name">Name</label><input id="name" name="name" autocomplete="name" required maxlength="120" /></div>
+          <div class="form-field"><label for="email">E-Mail</label><input id="email" name="email" type="email" autocomplete="email" required maxlength="200" /></div>
+          <div class="form-field"><label for="project">Worum geht es?</label><select id="project" name="project" required><option value="">Bitte auswählen</option><option>Videoproduktion</option><option>Kamera oder Ton</option><option>Postproduktion</option><option>VJ oder Projection Mapping</option><option>Etwas anderes</option></select></div>
+          <div class="form-field form-field--full"><label for="message">Kurze Projektbeschreibung</label><textarea id="message" name="message" rows="7" required minlength="20" maxlength="5000" placeholder="Anlass, Ort, Zeitraum und gewünschtes Ergebnis"></textarea></div>
+          <p class="form-note">Beim Absenden öffnet sich Ihr E-Mail-Programm mit den eingetragenen Angaben. Die Website speichert oder überträgt die Formulardaten nicht.</p>
+          <button class="cine-btn" type="submit">E-Mail vorbereiten</button><p class="form-status" data-form-status aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    import "../scripts/landing-motion.ts";
+  </script>
 </BaseLayout>
