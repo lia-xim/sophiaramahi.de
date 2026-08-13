@@ -1732,8 +1732,8 @@ html.motion .lw-finder__rec::before {
 /* Brennweiten-Anzeige (Kamera): zählt beim Scroll-Zoom mit */
 .lw-finder__mm {
   position: absolute;
-  bottom: 6px;
-  left: 0;
+  bottom: 8px;
+  left: 46px;
   font-size: var(--step-meta);
   font-weight: 550;
   letter-spacing: 0.08em;
@@ -2357,7 +2357,8 @@ html.motion .lw-dust i {
   }
 
   .lw-finder__mm {
-    bottom: 2px;
+    bottom: 4px;
+    left: 32px;
   }
 
   .lw-beam--b {

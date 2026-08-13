@@ -134,19 +134,47 @@ if (root && isMotion && !prefersReduced) {
         );
         gsap.fromTo(".lw-index a", { autoAlpha: 0.001, x: 24 }, { autoAlpha: 1, x: 0, duration: 0.6, stagger: 0.06, ease: "power2.out", delay: 0.4 });
       }
-      // Rhythmusbalken: pulsieren ruhig, solange das Kapitel sichtbar ist
+      // Rhythmusbalken: pulsieren kräftig, solange das Kapitel sichtbar ist
       const bars = gsap.utils.toArray<HTMLElement>(".lw-bars i");
       if (bars.length) {
         bars.forEach((bar, index) => {
           gsap.to(bar, {
-            scaleY: 0.45 + ((index * 37) % 40) / 100,
+            scaleY: 0.35 + ((index * 41) % 85) / 100,
             transformOrigin: "center bottom",
-            duration: 0.9 + ((index * 13) % 7) / 10,
+            duration: 0.55 + ((index * 13) % 7) / 10,
             yoyo: true,
             repeat: -1,
             ease: "sine.inOut",
             scrollTrigger: { trigger: ".lw-bars", start: "top bottom", toggleActions: "play pause resume pause" },
           });
+        });
+      }
+
+      // Musikvideo: die Farbebenen rasten in der Kapitelmitte ein — wie
+      // ein Beat-Drop — und lösen sich beim Weiterscrollen wieder
+      const splitM = root.querySelector("img.lw-split--m");
+      const splitC = root.querySelector("img.lw-split--c");
+      if (splitM && splitC) {
+        const mvTl = gsap.timeline({
+          defaults: { ease: "none" },
+          scrollTrigger: { trigger: ".lw-chapter--musikvideo", start: "top bottom", end: "bottom top", scrub: true },
+        });
+        mvTl
+          .fromTo(splitM, { xPercent: -2.6, x: 0, opacity: 0.42 }, { xPercent: -0.2, opacity: 0.22, duration: 0.5 }, 0)
+          .fromTo(splitC, { xPercent: 2.6, x: 0, opacity: 0.42 }, { xPercent: 0.2, opacity: 0.22, duration: 0.5 }, 0)
+          .to(splitM, { xPercent: -3, opacity: 0.46, duration: 0.5 }, 0.5)
+          .to(splitC, { xPercent: 3, opacity: 0.46, duration: 0.5 }, 0.5);
+      }
+      const pulse = root.querySelector(".lw-mvpulse");
+      if (pulse) {
+        const pulseTl = gsap.timeline({
+          defaults: { ease: "none" },
+          scrollTrigger: { trigger: ".lw-chapter--musikvideo", start: "top bottom", end: "bottom top", scrub: true },
+        });
+        [0.28, 0.5, 0.72].forEach((at) => {
+          pulseTl
+            .to(pulse, { opacity: 0.8, duration: 0.05 }, at)
+            .to(pulse, { opacity: 0, duration: 0.15 }, at + 0.05);
         });
       }
       // Schnitt-Playhead wandert mit dem Scroll über die Timeline
@@ -158,15 +186,25 @@ if (root && isMotion && !prefersReduced) {
           scrollTrigger: { trigger: ".lw-chapter--postproduktion", start: "top bottom", end: "bottom top", scrub: true },
         });
       }
-      // Schallringe atmen mit dem Scroll
+      // Schallringe expandieren spürbar mit dem Scroll
       gsap.utils.toArray<HTMLElement>(".lw-rings i").forEach((ring, index) => {
-        gsap.fromTo(ring, { scale: 0.88, opacity: 0.4 }, {
-          scale: 1.06 + index * 0.04,
+        gsap.fromTo(ring, { scale: 0.68, opacity: 0.2 }, {
+          scale: 1.14 + index * 0.06,
           opacity: 1,
           ease: "none",
           scrollTrigger: { trigger: ".lw-chapter--tonaufnahme", start: "top bottom", end: "bottom top", scrub: true },
         });
       });
+
+      // Tonaufnahme: die Waveform füllt sich, als liefe die Aufnahme mit
+      const waveFill = root.querySelector("[data-lw-wavefill]");
+      if (waveFill) {
+        gsap.fromTo(waveFill, { clipPath: "inset(0 100% 0 0)" }, {
+          clipPath: "inset(0 0% 0 0)",
+          ease: "none",
+          scrollTrigger: { trigger: ".lw-chapter--tonaufnahme", start: "top 78%", end: "bottom 40%", scrub: true },
+        });
+      }
       // Mapping-Raster driftet leicht über die Fläche
       const gridOverlay = root.querySelector(".lw-grid-overlay");
       if (gridOverlay) {
@@ -223,18 +261,39 @@ if (root && isMotion && !prefersReduced) {
         });
       });
 
-      // Eventfilm: der Lichtkegel schwenkt kaum merklich
-      const beam = root.querySelector(".lw-beam");
+      // Eventfilm: die Scheinwerfer schwenken mit dem Scroll über die
+      // Bühne, der Verfolger-Spot wandert unter ihnen durch
+      const eventScrub = {
+        trigger: ".lw-chapter--eventfilm",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+      };
+      const beam = root.querySelector(".lw-beam:not(.lw-beam--b)");
       if (beam) {
-        gsap.to(beam, {
-          rotation: 2.4,
-          xPercent: 3,
-          transformOrigin: "top center",
-          duration: 5.5,
-          yoyo: true,
-          repeat: -1,
-          ease: "sine.inOut",
-          scrollTrigger: chapterVisible(".lw-chapter--eventfilm"),
+        gsap.fromTo(beam, { rotation: -8, xPercent: -7, transformOrigin: "top center" }, {
+          rotation: 9,
+          xPercent: 7,
+          ease: "none",
+          scrollTrigger: eventScrub,
+        });
+      }
+      const beamB = root.querySelector(".lw-beam--b");
+      if (beamB) {
+        gsap.fromTo(beamB, { rotation: 7, xPercent: 6, transformOrigin: "top center" }, {
+          rotation: -9,
+          xPercent: -6,
+          ease: "none",
+          scrollTrigger: eventScrub,
+        });
+      }
+      const spot = root.querySelector(".lw-spot");
+      if (spot) {
+        gsap.fromTo(spot, { xPercent: -25, opacity: 0.35 }, {
+          xPercent: 150,
+          opacity: 0.95,
+          ease: "none",
+          scrollTrigger: eventScrub,
         });
       }
 
@@ -249,6 +308,74 @@ if (root && isMotion && !prefersReduced) {
           repeat: -1,
           ease: "sine.inOut",
           scrollTrigger: chapterVisible(".lw-chapter--imagefilm"),
+        });
+      }
+
+      // Imagefilm: der Fokus wird gezogen — das Bild kommt unscharf aus
+      // dem Dunkel und zieht mit dem Scroll scharf; der Startwert spiegelt
+      // exakt den CSS-Zustand unter html.motion
+      const focusImg = root.querySelector(".lw-chapter--imagefilm .lw-chapter__stagebg img");
+      if (focusImg) {
+        const blurFrom = window.matchMedia("(max-width: 900px)").matches ? 8 : 16;
+        gsap.fromTo(focusImg, { filter: `blur(${blurFrom}px)` }, {
+          filter: "blur(0px)",
+          ease: "none",
+          scrollTrigger: { trigger: ".lw-chapter--imagefilm", start: "top 85%", end: "center 55%", scrub: true },
+        });
+      }
+      const iris = root.querySelector(".lw-iris i");
+      if (iris) {
+        gsap.fromTo(iris, { scale: 0.72, opacity: 0.05 }, {
+          scale: 1.08,
+          opacity: 0.9,
+          ease: "none",
+          scrollTrigger: { trigger: ".lw-chapter--imagefilm", start: "top 90%", end: "center 50%", scrub: true },
+        });
+      }
+      const af = root.querySelector(".lw-af");
+      if (af) {
+        gsap.timeline({
+          defaults: { ease: "none" },
+          scrollTrigger: { trigger: ".lw-chapter--imagefilm", start: "top 60%", end: "center 42%", scrub: true },
+        })
+          .fromTo(af, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.35 }, 0)
+          .to(af, { autoAlpha: 0.6, duration: 0.3 }, 0.7);
+      }
+
+      // Kamera: Brennweitenzug — das Bild zoomt mit dem Scroll, die
+      // mm-Anzeige zählt mit und der Sucher zieht sich leicht zusammen
+      const kamScrub = {
+        trigger: ".lw-chapter--kamera-bildgestaltung",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+      };
+      const kamImg = root.querySelector(".lw-chapter--kamera-bildgestaltung .lw-chapter__stagebg img");
+      if (kamImg) {
+        gsap.fromTo(kamImg, { scale: 1, transformOrigin: "50% 42%" }, {
+          scale: 1.22,
+          ease: "none",
+          scrollTrigger: kamScrub,
+        });
+      }
+      const mmValue = root.querySelector("[data-lw-mm]");
+      if (mmValue) {
+        const zoom = { mm: 24 };
+        gsap.to(zoom, {
+          mm: 70,
+          ease: "none",
+          onUpdate: () => {
+            mmValue.textContent = String(Math.round(zoom.mm));
+          },
+          scrollTrigger: kamScrub,
+        });
+      }
+      const finder = root.querySelector(".lw-finder");
+      if (finder) {
+        gsap.fromTo(finder, { scale: 1, transformOrigin: "center" }, {
+          scale: 0.93,
+          ease: "none",
+          scrollTrigger: kamScrub,
         });
       }
 

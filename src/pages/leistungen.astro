@@ -29,6 +29,13 @@ const chapterMedia: Record<string, string> = {
   "projection-mapping": "/media/spektra-detail-03.jpg",
 };
 const chapters = chapterOrder.map((slug) => services.find((service) => service.slug === slug)!);
+
+// Aufnahme-Waveform (Tonaufnahme): deterministische Pseudo-Zufallshöhen,
+// damit jeder Build dieselbe Wellenform ausliefert.
+const waveHeights = Array.from({ length: 42 }, (_, index) => {
+  const value = Math.abs(Math.sin(index * 1.7) * 0.6 + Math.sin(index * 0.53) * 0.4);
+  return Math.round(16 + value * 84);
+});
 ---
 
 <BaseLayout title="Leistungen | Videografie, Postproduktion, VJ & Mapping" description="Leistungen von Sophia Ramahi: Videografie, Kamera, Ton, Postproduktion, Live Visuals und Projection Mapping in Düsseldorf und NRW.">
@@ -84,6 +91,8 @@ const chapters = chapterOrder.map((slug) => services.find((service) => service.s
         <img src={chapterMedia.eventfilm} alt="" width="1600" height="1000" loading="lazy" decoding="async" />
       </div>
       <div class="lw-beam" aria-hidden="true"></div>
+      <div class="lw-beam lw-beam--b" aria-hidden="true"></div>
+      <span class="lw-spot" aria-hidden="true"></span>
       <span class="lw-dust" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span>
       <span class="lw-vignette" aria-hidden="true"></span>
       <span class="lw-grain" aria-hidden="true"></span>
@@ -106,7 +115,10 @@ const chapters = chapterOrder.map((slug) => services.find((service) => service.s
     <section id="musikvideo" class="lw-chapter lw-chapter--musikvideo lw-chapter--flip">
       <div class="lw-chapter__stagebg" aria-hidden="true">
         <img src={chapterMedia.musikvideo} alt="" width="1600" height="1000" loading="lazy" decoding="async" />
+        <img class="lw-split lw-split--m" src={chapterMedia.musikvideo} alt="" width="1600" height="1000" loading="lazy" decoding="async" />
+        <img class="lw-split lw-split--c" src={chapterMedia.musikvideo} alt="" width="1600" height="1000" loading="lazy" decoding="async" />
       </div>
+      <span class="lw-mvpulse" aria-hidden="true"></span>
       <span class="lw-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
       <span class="lw-vignette" aria-hidden="true"></span>
       <span class="lw-grain" aria-hidden="true"></span>
@@ -130,6 +142,8 @@ const chapters = chapterOrder.map((slug) => services.find((service) => service.s
         <img src={chapterMedia.imagefilm} alt="" width="1600" height="1000" loading="lazy" decoding="async" />
       </div>
       <div class="lw-glow" aria-hidden="true"></div>
+      <span class="lw-iris" aria-hidden="true"><i></i></span>
+      <span class="lw-af" aria-hidden="true"><i></i><i></i><i></i><i></i><span class="lw-af__tag">AF</span></span>
       <span class="lw-dust" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span>
       <span class="lw-vignette" aria-hidden="true"></span>
       <span class="lw-grain" aria-hidden="true"></span>
@@ -152,7 +166,7 @@ const chapters = chapterOrder.map((slug) => services.find((service) => service.s
       <div class="lw-chapter__stagebg" aria-hidden="true">
         <img src={chapterMedia["kamera-bildgestaltung"]} alt="" width="1600" height="1000" loading="lazy" decoding="async" />
       </div>
-      <span class="lw-finder" aria-hidden="true"><i></i><i></i><i></i><i></i><span class="lw-finder__rec">Rec</span><span class="lw-finder__cross"></span></span>
+      <span class="lw-finder" aria-hidden="true"><i></i><i></i><i></i><i></i><span class="lw-finder__rec">Rec</span><span class="lw-finder__mm"><span data-lw-mm>24</span> mm</span><span class="lw-finder__cross"></span></span>
       <span class="lw-vignette" aria-hidden="true"></span>
       <span class="lw-grain" aria-hidden="true"></span>
       <span class="lw-chapter__ghost" aria-hidden="true">04</span>
@@ -175,6 +189,10 @@ const chapters = chapterOrder.map((slug) => services.find((service) => service.s
         <img src={chapterMedia.tonaufnahme} alt="" width="1600" height="1000" loading="lazy" decoding="async" />
       </div>
       <span class="lw-rings" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="lw-wave" aria-hidden="true">
+        <span class="lw-wave__row">{waveHeights.map((height) => <i style={`height:${height}%`}></i>)}</span>
+        <span class="lw-wave__row lw-wave__row--fill" data-lw-wavefill>{waveHeights.map((height) => <i style={`height:${height}%`}></i>)}</span>
+      </span>
       <span class="lw-dust" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span>
       <span class="lw-vignette" aria-hidden="true"></span>
       <span class="lw-grain" aria-hidden="true"></span>
