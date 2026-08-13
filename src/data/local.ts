@@ -3,12 +3,15 @@
    auf die generischen Standort-Texte zurück. */
 
 import type { CityCopy, LocalDetail } from "./local/types";
+import { bochum } from "./local/bochum";
+import { dortmund } from "./local/dortmund";
 import { duesseldorf } from "./local/duesseldorf";
 import { duisburg } from "./local/duisburg";
 import { essen } from "./local/essen";
 import { koeln } from "./local/koeln";
 import { krefeld } from "./local/krefeld";
 import { meerbusch } from "./local/meerbusch";
+import { moenchengladbach } from "./local/moenchengladbach";
 import { neuss } from "./local/neuss";
 import { oberhausen } from "./local/oberhausen";
 import { ratingen } from "./local/ratingen";
@@ -18,12 +21,15 @@ import { wuppertal } from "./local/wuppertal";
 export type { CityCopy, LocalDetail, LocalFaq, LocalPlace } from "./local/types";
 
 export const localCopy: Record<string, CityCopy> = {
+  bochum,
+  dortmund,
   duesseldorf,
   duisburg,
   essen,
   koeln,
   krefeld,
   meerbusch,
+  moenchengladbach,
   neuss,
   oberhausen,
   ratingen,
