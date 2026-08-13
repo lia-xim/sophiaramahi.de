@@ -4,8 +4,8 @@ import Breadcrumbs from "./Breadcrumbs.astro";
 import FaqList from "./FaqList.astro";
 import "../styles/landing.css";
 import "../styles/service.css";
-import { locations, projects, servicePath, type Location, type Service } from "../data/site";
-import { localDetail } from "../data/local";
+import { locations, projects, servicePath, services, type Location, type Service } from "../data/site";
+import { localCopy, localDetail } from "../data/local";
 
 // Leistungs-Landingpage — und in der lokalisierten Variante die Stadtseite
 // derselben Leistung (gleiche Struktur, eigener lokaler Kontext).
@@ -100,6 +100,11 @@ const introParagraphs = location
   : [service.intro, service.outcome];
 
 const otherCities = location ? locations.filter((item) => item.slug !== location.slug).slice(0, 8) : [];
+
+// Stadt-Cluster: die übrigen Gewerke mit eigenen Texten in dieser Stadt.
+const otherCityServices = location
+  ? services.filter((item) => item.slug !== service.slug && localCopy[location.slug]?.[item.slug])
+  : [];
 ---
 
 <BaseLayout title={title} description={description} image={service.image} schema={schema}>
@@ -339,6 +344,16 @@ const otherCities = location ? locations.filter((item) => item.slug !== location
                 <a href={localPath(city)}>{city.city}</a>
               ))}
             </p>
+            {otherCityServices.length > 0 && (
+              <>
+                <span class="cine-label ld-places__more" data-fx="rise">Auch in {location.city}</span>
+                <p class="ld-places__list ld-places__list--secondary" data-fx="rise">
+                  {otherCityServices.map((item) => (
+                    <a href={`${servicePath(item)}${location.slug}/`}>{item.title} in {location.city}</a>
+                  ))}
+                </p>
+              </>
+            )}
             <div class="ld-places__note">
               <p class="u-caption">Alle Produktionen werden von Düsseldorf aus geplant — keine Niederlassungen, Anfahrt transparent im Angebot.</p>
               <a class="cine-link" href={basePath}><span>{service.title} im Überblick</span><span aria-hidden="true">→</span></a>

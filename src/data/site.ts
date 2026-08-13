@@ -579,6 +579,115 @@ export const articles: Article[] = [
     ],
     related: [{ label: "Projection Mapping", href: "/vj-mapping/projection-mapping/" }, { label: "Spektra Festival", href: "/projekte/spektra-festival/" }],
   },
+  {
+    slug: "drehgenehmigung-nrw",
+    title: "Drehgenehmigung in NRW: Was wirklich angefragt werden muss",
+    excerpt: "Gehweg, U-Bahn, Zeche, Werksgelände: Wo kleine Drehs einfach möglich sind — und wo ohne Freigabe gar nichts geht.",
+    image: "/media/set-quer-01.jpg",
+    readingTime: "7 Minuten",
+    publishedAt: "2026-08-13",
+    sections: [
+      {
+        title: "Die wichtigste Unterscheidung: öffentlicher Raum oder Hausrecht",
+        copy: [
+          "Ein kleines Team mit Kamera auf dem Gehweg, im Park oder am Rheinufer ist in den meisten Städten unkompliziert — solange niemand behindert wird und nichts aufgebaut ist. Sobald Stative den Weg blockieren, Licht gestellt wird oder eine Fläche exklusiv gebraucht wird, verlangt die Stadt in der Regel eine Sondernutzungserlaubnis. Die Grenze verläuft also nicht zwischen privat und kommerziell, sondern zwischen mitlaufen und beanspruchen.",
+          "Ganz anders sieht es überall dort aus, wo Hausrecht gilt: Bahnhöfe, Bahnen und Stationen, Museen, Messen, Clubs, Werksgelände. Dort entscheidet der Eigentümer oder Betreiber — unabhängig davon, wie klein das Setup ist. Wer ohne Freigabe dreht, riskiert nicht nur den Rauswurf, sondern Material, das später nicht verwendet werden darf.",
+        ],
+      },
+      {
+        title: "Orte mit eigenen Regeln",
+        copy: [
+          "Ein paar Beispiele aus der Praxis in NRW: Die Stationen der Düsseldorfer Wehrhahn-Linie sind begehbare Kunsträume — Drehs dort laufen über die Rheinbahn. In Wuppertal gehört die Schwebebahn den WSW; die Außenperspektive vom Straßenraum aus ist dagegen meist frei. Der Landschaftspark Duisburg-Nord ist ausgesprochen drehfreundlich, größere Aufbauten gehen trotzdem über die Parkverwaltung. Und das Welterbe Zollverein in Essen vergibt Drehfreigaben über die Stiftung — mit Vorlauf.",
+          "Werksgelände sind die strengste Kategorie: Anmeldung, Sicherheitsunterweisung, teils Fotografier-Verbote für einzelne Anlagen. Das klingt nach Aufwand, ist aber verlässlich — wer die Regeln vorab kennt, bekommt am Drehtag genau die Bilder, die vereinbart wurden.",
+        ],
+      },
+      {
+        title: "Menschen im Bild",
+        copy: [
+          "Neben dem Ort braucht auch jede erkennbare Person eine Grundlage. Bei Veranstaltungen lässt sich das sauber lösen: ein Hinweis in den Teilnahmebedingungen oder am Einlass, dazu Absprachen, wer nicht gefilmt werden möchte. Bei Interviews und Porträts gehört die Einverständniserklärung zum Standard. Passanten, die zufällig durchs Bild laufen, sind meist unkritisch — Nahaufnahmen einzelner Personen ohne Absprache sind es nicht.",
+        ],
+      },
+      {
+        title: "Wie viel Vorlauf realistisch ist",
+        copy: [
+          "Städtische Erlaubnisse brauchen je nach Stadt einige Tage bis wenige Wochen; Stiftungen, Verkehrsbetriebe und Werke eher Wochen als Tage. Die praktische Regel: Genehmigungsfragen gehören in die Motivauswahl, nicht ans Ende der Planung. Ein Plan B ohne Genehmigungsweg — ein ähnliches Motiv im frei zugänglichen Raum — hält den Drehtermin, falls eine Zusage nicht rechtzeitig kommt.",
+          "Zur Einordnung: Das hier ist Produktionspraxis, keine Rechtsberatung. Was im Einzelfall gilt, wird bei der Motivplanung konkret geprüft — mit der zuständigen Stelle, nicht mit dem Bauchgefühl.",
+        ],
+      },
+    ],
+    related: [{ label: "Musikvideo", href: "/videografie/musikvideo/" }, { label: "Eventfilm", href: "/videografie/eventfilm/" }],
+  },
+  {
+    slug: "was-einen-eventfilm-teuer-macht",
+    title: "Was einen Eventfilm günstig macht — und was ihn teuer macht",
+    excerpt: "Keine Preisliste, aber eine ehrliche Antwort: Die Kosten eines Eventfilms entstehen im Briefing, nicht im Schnitt.",
+    image: "/media/spektra-buehne-02.jpg",
+    readingTime: "6 Minuten",
+    publishedAt: "2026-08-13",
+    sections: [
+      {
+        title: "Der Preis entsteht vor dem Drehtag",
+        copy: [
+          "Die häufigste Frage zu Eventfilmen lässt sich nicht mit einer Zahl beantworten, aber mit einer Beobachtung: Zwei Filme von derselben Veranstaltung können sich im Aufwand um ein Mehrfaches unterscheiden — je nachdem, was sie leisten sollen. Ein kompakter Highlightfilm braucht andere Drehzeit und einen anderen Schnitt als eine Dokumentation mit Reden, Programmpunkten und Stimmen. Die Entscheidung zwischen beiden fällt im Briefing — und mit ihr der größte Teil des Preises.",
+        ],
+      },
+      {
+        title: "Die vier großen Kostentreiber",
+        copy: [
+          "Erstens die zweite Kamera: Sie verdoppelt nicht nur Personal, sondern auch Material und Sichtungszeit. Sie lohnt, wenn Bühne und Publikum gleichzeitig wichtig sind — und ist verzichtbar, wenn ein Abend eine klare Blickrichtung hat. Zweitens der Ton: Ein Abgriff am Mischpult ist schnell organisiert; mehrere eigene Tonwege für Reden, Interviews und Atmosphäre sind ein eigenes Gewerk.",
+          "Drittens die Formate: Ein Hauptfilm plus Hochformate für Social Media wird beim Dreh mitgedacht und im Schnitt mehrfach ausgespielt — sinnvoll, aber nicht gratis. Viertens die Korrekturrunden: Jede Runde ist Arbeitszeit. Zwei gut vorbereitete Runden mit gesammeltem Feedback sind günstiger als fünf tröpfelnde — und führen fast immer zum besseren Film.",
+        ],
+      },
+      {
+        title: "Wo Sparen wehtut — und wo nicht",
+        copy: [
+          "Am Ton zu sparen rächt sich zuerst: Ein unverständliches Grußwort rettet kein Schnittprogramm. Auch die Vorbereitung ist der falsche Posten — eine Stunde Besichtigung erspart am Veranstaltungstag teure Improvisation. Gut sparen lässt sich dagegen an der Dauerpräsenz: Kaum ein Film braucht zwölf Stunden Drehzeit, wenn die Höhepunkte im Ablaufplan stehen. Wer die Schlüsselmomente kennt, bucht Drehzeit um sie herum.",
+        ],
+      },
+      {
+        title: "Der günstigste Hebel kostet nichts",
+        copy: [
+          "Ein Ablaufplan, eine erreichbare Ansprechperson am Veranstaltungstag und geklärte Zugänge — dieses Paket senkt den Aufwand jeder Produktion spürbar, weil niemand suchen, warten oder doppelt aufbauen muss. Es ist derselbe Grundsatz wie überall im Film: Was vorher entschieden ist, muss hinterher nicht repariert werden.",
+        ],
+      },
+    ],
+    related: [{ label: "Eventfilm", href: "/videografie/eventfilm/" }, { label: "Postproduktion", href: "/postproduktion/" }],
+  },
+  {
+    slug: "drehen-nach-licht",
+    title: "Drehen nach Licht: Warum gute Drehpläne dem Himmel folgen",
+    excerpt: "Goldene Stunde, blaue Stunde, Wolken als Softbox: Der Drehplan gehört ans Licht gehängt — nicht an die Drehbuch-Reihenfolge.",
+    image: "/media/light-beams.jpg",
+    readingTime: "5 Minuten",
+    publishedAt: "2026-08-13",
+    sections: [
+      {
+        title: "Die goldene Stunde ist ein Termin",
+        copy: [
+          "Das warme, tiefe Licht kurz nach Sonnenaufgang und vor Sonnenuntergang ist der zuverlässigste Produktionswert, den es umsonst gibt — aber nur für den, der pünktlich ist. Deshalb wird ein Außendreh nicht nach Drehbuch-Reihenfolge geplant, sondern nach Licht: Die wichtigste Außenszene bekommt das beste Fenster, alles andere ordnet sich darum. Umbau und Fahrtwege gehören in die Stunden mit hartem Mittagslicht, in denen ohnehin niemand draußen drehen will.",
+        ],
+      },
+      {
+        title: "Blaue Stunde: kurz, planbar, unbezahlbar",
+        copy: [
+          "Zwischen Sonnenuntergang und Dunkelheit liegt ein Fenster von zwanzig bis vierzig Minuten, in dem Himmel und Kunstlicht dieselbe Helligkeit haben — die Zeit, in der Stadtmotive, beleuchtete Industrie und Skylines am stärksten wirken. Dieses Fenster verzeiht keine Verspätung: Der Aufbau steht vorher, die Einstellungen sind durchgesprochen, und wenn es losgeht, wird gedreht statt diskutiert.",
+        ],
+      },
+      {
+        title: "Wetter ist Planung, kein Schicksal",
+        copy: [
+          "Ein bedeckter Himmel ist kein verlorener Drehtag — Wolken sind die größte Softbox der Welt und schmeicheln Gesichtern mehr als jede Sonne. Kritisch sind Regen auf der Technik und Wind am Mikrofon; beides wird mit Wetteroption geplant: ein Ausweichtermin oder eine umgestellte Reihenfolge, bei der die Innenmotive vorgezogen werden. Wer beides vorbereitet hat, entscheidet am Drehtag gelassen statt hektisch.",
+        ],
+      },
+      {
+        title: "Der Winter ist besser als sein Ruf",
+        copy: [
+          "Kurze Tage klingen nach Einschränkung, sind aber ein Geschenk für alle, die Nachtstimmungen brauchen: Die blaue Stunde liegt im Dezember um halb fünf statt um halb zehn — Stadtlichter, Industriekulissen und Fensterfronten lassen sich zu normalen Arbeitszeiten drehen. Die goldene Stunde wiederum dauert im Winter länger, weil die Sonne flacher wandert. Wer das Licht als Verbündeten plant, hat in jeder Jahreszeit ein Argument.",
+        ],
+      },
+    ],
+    related: [{ label: "Kamera & Bildgestaltung", href: "/videografie/kamera-bildgestaltung/" }, { label: "Musikvideo", href: "/videografie/musikvideo/" }],
+  },
 ];
 
 export const servicePath = (service: Service) => {

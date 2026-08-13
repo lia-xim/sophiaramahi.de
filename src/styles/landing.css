@@ -569,6 +569,24 @@ html.motion .ld-steps__line i {
   color: var(--text);
 }
 
+/* Zweite Ebene der Einsatzorte-Sektion: die übrigen Gewerke derselben
+   Stadt — kleiner gesetzt, damit die Städteliste die Bühne behält. */
+.ld-places__more {
+  display: block;
+  margin-top: clamp(30px, 5vh, 52px);
+  margin-bottom: 14px;
+}
+
+.ld-places__list--secondary {
+  gap: 8px 22px;
+}
+
+.ld-places__list--secondary a {
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  font-weight: 500;
+  color: #a99fc2;
+}
+
 .ld-places__note {
   margin-top: clamp(24px, 4vh, 40px);
   display: flex;
