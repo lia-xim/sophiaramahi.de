@@ -3,7 +3,6 @@ import sitemap from "@astrojs/sitemap";
 import vercel from "@astrojs/vercel";
 
 const noindexPages = new Set(["/impressum/", "/datenschutz/"]);
-const indexableLocations = new Set(["/standorte/duesseldorf/", "/standorte/koeln/"]);
 
 export default defineConfig({
   site: "https://sophiaramahi.de",
@@ -11,12 +10,9 @@ export default defineConfig({
   adapter: vercel(),
   integrations: [
     sitemap({
-      filter: (page) => {
-        const pathname = new URL(page).pathname;
-        if (noindexPages.has(pathname)) return false;
-        if (/^\/standorte\/[^/]+\/$/.test(pathname)) return indexableLocations.has(pathname);
-        return true;
-      },
+      // Alle 16 Standortseiten tragen seit den Stadtprofilen eigene,
+      // individuelle Inhalte und gehören damit in die Sitemap.
+      filter: (page) => !noindexPages.has(new URL(page).pathname),
     }),
   ],
   trailingSlash: "always",

@@ -4,15 +4,91 @@ import ContactCta from "../../components/ContactCta.astro";
 import FaqList from "../../components/FaqList.astro";
 import PageHero from "../../components/PageHero.astro";
 import { locations, services, servicePath, type Location } from "../../data/site";
-export function getStaticPaths(){return locations.map((location)=>({params:{slug:location.slug},props:{location}}));}
-const {location}=Astro.props as {location:Location};
-const localServices=services.filter((service)=>location.services.includes(service.slug));
-const schema=[{"@context":"https://schema.org","@type":"Service",name:`Videoproduktion in ${location.city}`,description:location.intro,provider:{"@id":"https://sophiaramahi.de/#business"},areaServed:{"@type":"City",name:location.city}},{"@context":"https://schema.org","@type":"FAQPage",mainEntity:location.faq.map((item)=>({"@type":"Question",name:item.question,acceptedAnswer:{"@type":"Answer",text:item.answer}}))}];
+import { localCopy } from "../../data/local";
+import { cityProfiles } from "../../data/local/profiles";
+
+// Standortseite = Hub der Stadt: eigenes Profil, dann alle Leistungen,
+// die für diese Stadt individuelle Texte tragen. Ohne Profil fällt die
+// Seite auf die generischen Standort-Texte zurück und bleibt noindex.
+export function getStaticPaths() {
+  return locations.map((location) => ({ params: { slug: location.slug }, props: { location } }));
+}
+const { location } = Astro.props as { location: Location };
+
+const profile = cityProfiles[location.slug];
+const cityCopy = localCopy[location.slug];
+const localizedServices = cityCopy ? services.filter((service) => cityCopy[service.slug]) : [];
+const localServices = localizedServices.length
+  ? localizedServices
+  : services.filter((service) => location.services.includes(service.slug));
+
+const title = profile?.seoTitle ?? `Videografin ${location.city} | Sophia Ramahi`;
+const description =
+  profile?.seoDescription ??
+  `Videografie, Eventfilm, Kamera und Live Visuals in ${location.city}. Produktion aus Düsseldorf mit transparent geplanter Anfahrt.`;
+const heroLead = profile?.heroLead ?? location.intro;
+const introParagraphs = profile?.intro ?? [location.localAngle, location.logistics];
+const sectionTitle = profile?.sectionTitle ?? "Was vor Ort wichtig wird";
+const faq = profile?.faq ?? location.faq;
+
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: `Videoproduktion in ${location.city}`,
+    description,
+    provider: { "@id": "https://sophiaramahi.de/#business" },
+    areaServed: { "@type": "City", name: location.city },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  },
+];
 ---
-<BaseLayout title={`Videografin ${location.city} | Sophia Ramahi`} description={`Videografie, Eventfilm, Kamera und Live Visuals in ${location.city}. Produktion aus Düsseldorf mit transparent geplanter Anfahrt.`} image={location.image} imageAlt={`Atmosphärische Lichtgestaltung für Produktionen in ${location.city}`} noindex={!location.indexable} schema={schema}>
-  <PageHero title={`Videografie in ${location.city}`} lead={location.intro} image={location.image} alt={`Atmosphärische Lichtgestaltung für Produktionen in ${location.city}`} crumbs={[{label:"Start",href:"/"},{label:"Standorte",href:"/standorte/"},{label:location.city}]} />
-  <section class="section cine-wrap section--split"><div data-reveal><span class="cine-label">{location.region} · {location.distance}</span><h2 class="cine-h2">Was vor Ort wichtig wird</h2></div><div class="prose" data-reveal><p>{location.localAngle}</p><p>{location.logistics}</p></div></section>
-  <section class="section section--surface"><div class="cine-wrap"><div class="section-heading" data-reveal><span class="cine-label">Passende Leistungen</span><h2 class="cine-h2">Je nach Anlass als Produktion oder einzelnes Gewerk</h2></div><div class="service-list">{localServices.map((service,i)=><a class="service-row" href={`${servicePath(service)}${location.slug}/`} data-reveal><span>{String(i+1).padStart(2,"0")}</span><div><h3>{service.title} in {location.city}</h3><p>{service.summary}</p></div><span aria-hidden="true">↗</span></a>)}</div></div></section>
-  <section class="section cine-wrap"><div class="section-heading" data-reveal><span class="cine-label">Planung</span><h2 class="cine-h2">Häufige Fragen zu {location.city}</h2></div><FaqList items={location.faq} /></section>
+
+<BaseLayout title={title} description={description} image={location.image} imageAlt={`Atmosphärische Lichtgestaltung für Produktionen in ${location.city}`} noindex={!profile && !location.indexable} schema={schema}>
+  <PageHero title={`Videografie in ${location.city}`} lead={heroLead} image={location.image} alt={`Atmosphärische Lichtgestaltung für Produktionen in ${location.city}`} crumbs={[{ label: "Start", href: "/" }, { label: "Standorte", href: "/standorte/" }, { label: location.city }]} />
+  <section class="section cine-wrap section--split">
+    <div data-reveal>
+      <span class="cine-label">{location.region} · {location.distance}</span>
+      <h2 class="cine-h2">{sectionTitle}</h2>
+    </div>
+    <div class="prose" data-reveal>
+      {introParagraphs.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+  </section>
+  <section class="section section--surface">
+    <div class="cine-wrap">
+      <div class="section-heading" data-reveal>
+        <span class="cine-label">Leistungen in {location.city}</span>
+        <h2 class="cine-h2">Je nach Anlass als Produktion oder einzelnes Gewerk</h2>
+      </div>
+      <div class="service-list">
+        {localServices.map((service, i) => (
+          <a class="service-row" href={`${servicePath(service)}${location.slug}/`} data-reveal>
+            <span>{String(i + 1).padStart(2, "0")}</span>
+            <div>
+              <h3>{service.title} in {location.city}</h3>
+              <p>{cityCopy?.[service.slug]?.lead ?? service.summary}</p>
+            </div>
+            <span aria-hidden="true">↗</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section class="section cine-wrap">
+    <div class="section-heading" data-reveal>
+      <span class="cine-label">Planung</span>
+      <h2 class="cine-h2">Häufige Fragen zu {location.city}</h2>
+    </div>
+    <FaqList items={faq} />
+  </section>
   <ContactCta title={`Produktion in ${location.city} anfragen`} />
 </BaseLayout>
