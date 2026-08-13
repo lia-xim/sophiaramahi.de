@@ -380,8 +380,11 @@ if (root && motionActive && !reduceMotion) {
           scrollTrigger: { trigger: ".region__basis", start: "top 88%", once: true },
         });
 
-        // 9 · Finale: das Licht aus der Ouvertüre kehrt zurück
-        const finaleVideo = root.querySelector<HTMLVideoElement>("[data-finale-video]");
+        // 9 · Finale: das Licht aus der Ouvertüre kehrt zurück — mobil
+        // bleibt das Poster stehen (kein zweiter Video-Decode pro Seite)
+        const finaleVideo = window.matchMedia("(max-width: 860px)").matches
+          ? null
+          : root.querySelector<HTMLVideoElement>("[data-finale-video]");
         if (finaleVideo) {
           ScrollTrigger.create({
             trigger: ".finale",

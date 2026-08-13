@@ -17,15 +17,23 @@ if (root && isMotion && !prefersReduced) {
       gsap.registerPlugin(ScrollTrigger);
       ScrollTrigger.config({ ignoreMobileResize: true });
 
+      /* Mobil fährt die Choreografie bewusst kleiner: Auftritte und
+         Scroll-Signaturen bleiben, aber Dauerschleifen, Deko-Parallaxen
+         und Videohintergründe entfallen — weniger Arbeit pro Frame,
+         weniger Akku. Die CSS-Seite spiegelt dieselbe 900px-Grenze. */
+      const compact = window.matchMedia("(max-width: 900px)").matches;
+
       /* Hero: Bild setzt sich, Beam blendet ein, Inhalt steigt auf */
       const heroMedia = root.querySelector(".ld-hero__media img");
       if (heroMedia) {
         gsap.fromTo(heroMedia, { scale: 1.08 }, { scale: 1, duration: 1.4, ease: "power2.out" });
-        gsap.fromTo(heroMedia, { yPercent: 0 }, {
-          yPercent: -6,
-          ease: "none",
-          scrollTrigger: { trigger: ".ld-hero", start: "top top", end: "bottom top", scrub: true },
-        });
+        if (!compact) {
+          gsap.fromTo(heroMedia, { yPercent: 0 }, {
+            yPercent: -6,
+            ease: "none",
+            scrollTrigger: { trigger: ".ld-hero", start: "top top", end: "bottom top", scrub: true },
+          });
+        }
       }
       const heroBeam = root.querySelector(".ld-hero__beam");
       if (heroBeam) gsap.fromTo(heroBeam, { opacity: 0 }, { opacity: 1, duration: 1.6, ease: "power2.out", delay: 0.2 });
@@ -70,12 +78,13 @@ if (root && isMotion && !prefersReduced) {
           });
           tl.to({}, { duration: 0.12 });
         } else {
+          /* Mobil gleiten die Kacheln nur — keine Opacity-Einblendung,
+             damit das erste Projektbild sofort gemalt wird (LCP). */
           tiles.forEach((tile) => {
             gsap.fromTo(
               tile,
-              { autoAlpha: 0.001, y: 32 },
+              { y: 32 },
               {
-                autoAlpha: 1,
                 y: 0,
                 duration: 0.7,
                 ease: "power2.out",
@@ -102,17 +111,20 @@ if (root && isMotion && !prefersReduced) {
       });
 
       /* Bild-Parallaxe in Frames, Kapiteln und Bühnenmedien */
-      gsap.utils.toArray<HTMLElement>(".ld-frame img, .ld-chapter__media img, .lw-chapter__media img").forEach((image) => {
-        gsap.fromTo(image, { yPercent: -4.5 }, {
-          yPercent: 4.5,
-          ease: "none",
-          scrollTrigger: { trigger: image.closest("a, div") as Element, start: "top bottom", end: "bottom top", scrub: true },
+      if (!compact) {
+        gsap.utils.toArray<HTMLElement>(".ld-frame img, .ld-chapter__media img, .lw-chapter__media img").forEach((image) => {
+          gsap.fromTo(image, { yPercent: -4.5 }, {
+            yPercent: 4.5,
+            ease: "none",
+            scrollTrigger: { trigger: image.closest("a, div") as Element, start: "top bottom", end: "bottom top", scrub: true },
+          });
         });
-      });
+      }
 
       /* Themenwelten des Leistungs-Hubs */
-      // Ambient-Video im Hero: läuft nur, solange es sichtbar ist
-      const ambient = root.querySelector<HTMLVideoElement>("[data-ambient-video]");
+      // Ambient-Video im Hero: läuft nur, solange es sichtbar ist —
+      // mobil bleibt das Poster stehen (kein Video-Download, kein Decode)
+      const ambient = compact ? null : root.querySelector<HTMLVideoElement>("[data-ambient-video]");
       if (ambient) {
         ScrollTrigger.create({
           trigger: ambient.closest("section") as Element,
@@ -135,7 +147,7 @@ if (root && isMotion && !prefersReduced) {
         gsap.fromTo(".lw-index a", { autoAlpha: 0.001, x: 24 }, { autoAlpha: 1, x: 0, duration: 0.6, stagger: 0.06, ease: "power2.out", delay: 0.4 });
       }
       // Rhythmusbalken: pulsieren kräftig, solange das Kapitel sichtbar ist
-      const bars = gsap.utils.toArray<HTMLElement>(".lw-bars i");
+      const bars = compact ? [] : gsap.utils.toArray<HTMLElement>(".lw-bars i");
       if (bars.length) {
         bars.forEach((bar, index) => {
           gsap.to(bar, {
@@ -152,8 +164,8 @@ if (root && isMotion && !prefersReduced) {
 
       // Musikvideo: die Farbebenen rasten in der Kapitelmitte ein — wie
       // ein Beat-Drop — und lösen sich beim Weiterscrollen wieder
-      const splitM = root.querySelector("img.lw-split--m");
-      const splitC = root.querySelector("img.lw-split--c");
+      const splitM = compact ? null : root.querySelector("img.lw-split--m");
+      const splitC = compact ? null : root.querySelector("img.lw-split--c");
       if (splitM && splitC) {
         const mvTl = gsap.timeline({
           defaults: { ease: "none" },
@@ -165,7 +177,7 @@ if (root && isMotion && !prefersReduced) {
           .to(splitM, { xPercent: -3, opacity: 0.46, duration: 0.5 }, 0.5)
           .to(splitC, { xPercent: 3, opacity: 0.46, duration: 0.5 }, 0.5);
       }
-      const pulse = root.querySelector(".lw-mvpulse");
+      const pulse = compact ? null : root.querySelector(".lw-mvpulse");
       if (pulse) {
         const pulseTl = gsap.timeline({
           defaults: { ease: "none" },
@@ -216,13 +228,15 @@ if (root && isMotion && !prefersReduced) {
         });
       }
       // Vollbild-Bühnen: sanfte Gegenbewegung des Hintergrunds
-      gsap.utils.toArray<HTMLElement>(".lw-chapter__stagebg img:not(.lw-echo)").forEach((image) => {
-        gsap.fromTo(image, { yPercent: -5 }, {
-          yPercent: 5,
-          ease: "none",
-          scrollTrigger: { trigger: image.closest("section") as Element, start: "top bottom", end: "bottom top", scrub: true },
+      if (!compact) {
+        gsap.utils.toArray<HTMLElement>(".lw-chapter__stagebg img:not(.lw-echo)").forEach((image) => {
+          gsap.fromTo(image, { yPercent: -5 }, {
+            yPercent: 5,
+            ease: "none",
+            scrollTrigger: { trigger: image.closest("section") as Element, start: "top bottom", end: "bottom top", scrub: true },
+          });
         });
-      });
+      }
 
       /* Mikroeffekte der Welten */
       const chapterVisible = (selector: string) => ({
@@ -232,34 +246,41 @@ if (root && isMotion && !prefersReduced) {
         toggleActions: "play pause resume pause",
       });
 
-      // Scroll-Vignette: am Rand der Szene stark, in der Mitte offen
-      gsap.utils.toArray<HTMLElement>(".lw-vignette").forEach((vignette) => {
-        const section = vignette.closest("section") as Element;
-        gsap.timeline({
-          defaults: { ease: "none" },
-          scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: true },
-        })
-          .fromTo(vignette, { opacity: 1 }, { opacity: 0.28, duration: 0.5 })
-          .to(vignette, { opacity: 1, duration: 0.5 });
-      });
+      // Scroll-Vignette: am Rand der Szene stark, in der Mitte offen —
+      // mobil steht sie ruhig auf ihrem CSS-Wert
+      if (!compact) {
+        gsap.utils.toArray<HTMLElement>(".lw-vignette").forEach((vignette) => {
+          const section = vignette.closest("section") as Element;
+          gsap.timeline({
+            defaults: { ease: "none" },
+            scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: true },
+          })
+            .fromTo(vignette, { opacity: 1 }, { opacity: 0.28, duration: 0.5 })
+            .to(vignette, { opacity: 1, duration: 0.5 });
+        });
+      }
 
       // Ghost-Nummern ziehen langsam gegen die Scrollrichtung
-      gsap.utils.toArray<HTMLElement>(".lw-chapter__ghost").forEach((ghost) => {
-        gsap.fromTo(ghost, { yPercent: 16 }, {
-          yPercent: -16,
-          ease: "none",
-          scrollTrigger: { trigger: ghost.closest("section") as Element, start: "top bottom", end: "bottom top", scrub: true },
+      if (!compact) {
+        gsap.utils.toArray<HTMLElement>(".lw-chapter__ghost").forEach((ghost) => {
+          gsap.fromTo(ghost, { yPercent: 16 }, {
+            yPercent: -16,
+            ease: "none",
+            scrollTrigger: { trigger: ghost.closest("section") as Element, start: "top bottom", end: "bottom top", scrub: true },
+          });
         });
-      });
+      }
 
       // Lichtstaub: jedes Korn treibt in eigener Tiefe
-      gsap.utils.toArray<HTMLElement>(".lw-dust i").forEach((dot, index) => {
-        gsap.fromTo(dot, { y: 30 + (index % 3) * 22 }, {
-          y: -(30 + ((index + 1) % 3) * 26),
-          ease: "none",
-          scrollTrigger: { trigger: dot.closest("section") as Element, start: "top bottom", end: "bottom top", scrub: true },
+      if (!compact) {
+        gsap.utils.toArray<HTMLElement>(".lw-dust i").forEach((dot, index) => {
+          gsap.fromTo(dot, { y: 30 + (index % 3) * 22 }, {
+            y: -(30 + ((index + 1) % 3) * 26),
+            ease: "none",
+            scrollTrigger: { trigger: dot.closest("section") as Element, start: "top bottom", end: "bottom top", scrub: true },
+          });
         });
-      });
+      }
 
       // Eventfilm: die Scheinwerfer schwenken mit dem Scroll über die
       // Bühne, der Verfolger-Spot wandert unter ihnen durch
@@ -297,8 +318,8 @@ if (root && isMotion && !prefersReduced) {
         });
       }
 
-      // Imagefilm: das Glühen atmet
-      const glow = root.querySelector(".lw-glow");
+      // Imagefilm: das Glühen atmet (nur Desktop — mobil steht es ruhig)
+      const glow = compact ? null : root.querySelector(".lw-glow");
       if (glow) {
         gsap.to(glow, {
           scale: 1.12,
@@ -379,8 +400,8 @@ if (root && isMotion && !prefersReduced) {
         });
       }
 
-      // Kamera: Fadenkreuz driftet wie aus der Hand geführt
-      const cross = root.querySelector(".lw-finder__cross");
+      // Kamera: Fadenkreuz driftet wie aus der Hand geführt (nur Desktop)
+      const cross = compact ? null : root.querySelector(".lw-finder__cross");
       if (cross) {
         gsap.to(cross, {
           x: 10,
@@ -393,8 +414,8 @@ if (root && isMotion && !prefersReduced) {
         });
       }
 
-      // Live Visuals: das Projektions-Echo flackert leicht
-      const echo = root.querySelector(".lw-echo");
+      // Live Visuals: das Projektions-Echo flackert leicht (nur Desktop)
+      const echo = compact ? null : root.querySelector(".lw-echo");
       if (echo) {
         gsap.to(echo, {
           opacity: 0.22,
@@ -419,8 +440,9 @@ if (root && isMotion && !prefersReduced) {
         });
       }
 
-      // Mapping: die Scan-Linie tastet die Fläche von oben nach unten ab
-      const scan = root.querySelector(".lw-scan");
+      // Mapping: die Scan-Linie tastet die Fläche von oben nach unten ab —
+      // mobil bleibt sie aus (CSS blendet sie unter 900px auf opacity 0)
+      const scan = compact ? null : root.querySelector(".lw-scan");
       if (scan) {
         const scanTl = gsap.timeline({ repeat: -1, repeatDelay: 1.2, scrollTrigger: chapterVisible(".lw-chapter--projection-mapping") });
         scanTl
@@ -440,10 +462,11 @@ if (root && isMotion && !prefersReduced) {
         });
       }
 
-      /* Finale: das Portal baut sich auf — optional über bewegtem Licht */
+      /* Finale: das Portal baut sich auf — optional über bewegtem Licht.
+         Mobil bleibt das Poster stehen statt des Videos. */
       const portal = root.querySelector(".ld-finale__portal");
       if (portal) {
-        const finaleVideo = root.querySelector<HTMLVideoElement>("[data-finale-video]");
+        const finaleVideo = compact ? null : root.querySelector<HTMLVideoElement>("[data-finale-video]");
         if (finaleVideo) {
           ScrollTrigger.create({
             trigger: ".ld-finale",

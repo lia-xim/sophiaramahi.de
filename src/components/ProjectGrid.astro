@@ -1,5 +1,6 @@
 ---
 import { projects, type Project } from "../data/site";
+import { srcsetFor } from "../lib/responsive";
 const { items = projects, headingLevel = "h3" } = Astro.props as { items?: Project[]; headingLevel?: "h2" | "h3" };
 const Heading = headingLevel;
 ---
@@ -7,7 +8,7 @@ const Heading = headingLevel;
 <div class="project-grid">
   {items.map((project: Project) => (
     <a class="project-card" href={`/projekte/${project.slug}/`} data-reveal>
-      <img src={project.image} alt={project.alt} width="960" height="1200" loading="lazy" decoding="async" />
+      <img src={project.image} srcset={srcsetFor(project.image)} sizes="(min-width: 861px) 48vw, 94vw" alt={project.alt} width="960" height="1200" loading="lazy" decoding="async" />
       <span class="project-card__scrim" aria-hidden="true"></span>
       <span class="project-card__copy">
         <span class="cine-label">{project.category}{project.year ? ` · ${project.year}` : ""}</span>

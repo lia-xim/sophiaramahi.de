@@ -1,5 +1,6 @@
 ---
 import Breadcrumbs from "./Breadcrumbs.astro";
+import { srcsetFor } from "../lib/responsive";
 const {
   title,
   lead,
@@ -12,7 +13,7 @@ const {
 
 <section class:list={["cine-page-hero", { "cine-page-hero--compact": compact }]}>
   <div class="layer" aria-hidden={alt ? undefined : "true"}>
-    <img src={image} alt={alt} width="1600" height="900" loading="eager" decoding="async" />
+    <img src={image} srcset={srcsetFor(image)} sizes="100vw" alt={alt} width="1600" height="900" loading="eager" fetchpriority="high" decoding="async" />
   </div>
   <div class="scrim scrim--soft" aria-hidden="true"></div>
   <div class="glow" aria-hidden="true"></div>

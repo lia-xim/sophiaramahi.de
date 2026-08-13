@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "../styles/home.css";
 import { locations, projects, services, servicePath } from "../data/site";
+import { srcsetFor } from "../lib/responsive";
 
 // Purple Frame v2 — die Startseite als zusammenhängende Scroll-Erzählung.
 // Alle Inhalte sind echter HTML-Text; GSAP ist reines Progressive Enhancement.
@@ -137,7 +138,7 @@ const cutSteps = [
           <div class="reise__track">
             {reiseFrames.map((project, index) => (
               <a class:list={["reise__frame", { "reise__frame--electric": project.slug === "electric-lights" }]} href={`/projekte/${project.slug}/`}>
-                <img src={project.image} alt={project.alt} width="1200" height="675" loading="lazy" decoding="async" />
+                <img src={project.image} srcset={srcsetFor(project.image)} sizes="(min-width: 861px) 58vw, 94vw" alt={project.alt} width="1200" height="675" loading="lazy" decoding="async" />
                 <span class="reise__scrim" aria-hidden="true"></span>
                 <span class="reise__index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
                 <span class="reise__meta">
@@ -216,12 +217,12 @@ const cutSteps = [
                 {service.slug === "postproduktion" ? (
                   <span class="buehne__strip">
                     {filmstripStills.map((still) => (
-                      <span class="buehne__still"><img src={still.src} alt="" width="480" height="320" loading="lazy" decoding="async" /></span>
+                      <span class="buehne__still"><img src={still.src} srcset={srcsetFor(still.src)} sizes="(min-width: 861px) 19vw, 31vw" alt="" width="480" height="320" loading="lazy" decoding="async" /></span>
                     ))}
                     <span class="buehne__playhead"></span>
                   </span>
                 ) : (
-                  <img src={media.src} alt="" width="1200" height="800" loading="lazy" decoding="async" />
+                  <img src={media.src} srcset={srcsetFor(media.src)} sizes="(min-width: 861px) 56vw, 94vw" alt="" width="1200" height="800" loading="lazy" decoding="async" />
                 )}
                 {service.slug === "projection-mapping" && <span class="buehne__grid"></span>}
               </div>
@@ -249,11 +250,11 @@ const cutSteps = [
                   {service.slug === "postproduktion" ? (
                     <span class="buehne__strip buehne__strip--band">
                       {filmstripStills.map((still) => (
-                        <span class="buehne__still"><img src={still.src} alt="" width="480" height="320" loading="lazy" decoding="async" /></span>
+                        <span class="buehne__still"><img src={still.src} srcset={srcsetFor(still.src)} sizes="(min-width: 861px) 19vw, 31vw" alt="" width="480" height="320" loading="lazy" decoding="async" /></span>
                       ))}
                     </span>
                   ) : (
-                    <img src={media.src} alt="" width="960" height="410" loading="lazy" decoding="async" />
+                    <img src={media.src} srcset={srcsetFor(media.src)} sizes="94vw" alt="" width="960" height="410" loading="lazy" decoding="async" />
                   )}
                 </span>
                 <span class="cine-label">{service.eyebrow}</span>
@@ -289,7 +290,7 @@ const cutSteps = [
           <a class="cine-link" href="/ueber-sophia/"><span>Mehr über die Zusammenarbeit</span><span aria-hidden="true">→</span></a>
         </div>
         <figure class="portraet__frame">
-          <img src="/media/sophia-portrait.jpg" alt="Sophia Ramahi, Videografin aus Düsseldorf" width="900" height="1100" loading="lazy" decoding="async" />
+          <img src="/media/sophia-portrait.jpg" srcset={srcsetFor("/media/sophia-portrait.jpg")} sizes="(min-width: 861px) 38vw, 86vw" alt="Sophia Ramahi, Videografin aus Düsseldorf" width="900" height="1100" loading="lazy" decoding="async" />
           <span class="portraet__tint" aria-hidden="true"></span>
           <span class="portraet__rail u-meta" aria-hidden="true">Sophia Ramahi · Mediengestalterin Bild & Ton</span>
         </figure>

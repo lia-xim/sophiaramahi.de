@@ -2169,8 +2169,10 @@ html.motion .sp-manifest__sticky {
   color: #f2eefc;
 }
 
+/* Gedimmter Startzustand: bewusst noch lesbar (≥4.5:1 auf dem Schwarz),
+   damit der Text auch vor dem Aufleuchten zugänglich bleibt. */
 html.motion .sp-manifest__word {
-  color: #322b40;
+  color: #837b98;
 }
 
 .sp-manifest__word--accent {
@@ -2182,7 +2184,7 @@ html.motion .sp-manifest__word {
 
 html.motion .sp-manifest__word--accent {
   background: none;
-  color: #322b40;
+  color: #837b98;
 }
 
 html.motion .sp-manifest__word--accent.is-lit {
@@ -2760,4 +2762,17 @@ a.sp-rolerow:hover .sp-rolerow__name {
   html.motion .lw-wave__row--fill { clip-path: none; }
   html.motion .lw-chapter__stagebg img.lw-split { opacity: 0; }
   html.motion .lw-mvpulse { opacity: 0; }
+}
+
+/* Mobil (≤900px): weniger Animation. Die Dauerläufer — Filmkorn, Scanlines,
+   Perforation, Staub-Getwinkle, Scan-Linie — stehen still, ihre Textur
+   bleibt als ruhige Ebene sichtbar. landing-motion.ts zieht an derselben
+   Grenze die Split-Ebenen, Parallaxen und Videohintergründe zurück. */
+@media (max-width: 900px) {
+  html.motion .lw-grain { animation: none; }
+  html.motion .lw-scanlines { animation: none; }
+  html.motion .lw-perf { animation: none; }
+  html.motion .lw-dust i { animation: none; opacity: 0.5; }
+  html.motion .lw-scan { opacity: 0; }
+  html.motion .lw-vignette { opacity: 0.5; }
 }
