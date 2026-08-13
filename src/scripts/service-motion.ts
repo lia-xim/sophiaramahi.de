@@ -166,6 +166,25 @@ if (root && isMotion && !prefersReduced) {
         }
       }
 
+      /* Haltungszeile: die Wörter leuchten mit dem Scroll auf —
+         der Akzentteil zündet in Farbe (Signatur des Start-Manifests) */
+      const claim = root.querySelector<HTMLElement>(".sd-claim");
+      if (claim) {
+        const words = gsap.utils.toArray<HTMLElement>(".sd-claim__w", claim);
+        if (words.length) {
+          ScrollTrigger.create({
+            trigger: claim,
+            start: "top 80%",
+            end: "top 34%",
+            scrub: 0.5,
+            onUpdate: (self) => {
+              const lit = Math.round(self.progress * words.length + 0.25);
+              words.forEach((word, index) => word.classList.toggle("is-lit", index < lit));
+            },
+          });
+        }
+      }
+
       /* Generische Auftritte */
       gsap.utils.toArray<HTMLElement>("[data-fx='rise']").forEach((element) => {
         gsap.fromTo(
@@ -181,9 +200,9 @@ if (root && isMotion && !prefersReduced) {
         );
       });
 
-      /* Vertiefung: das Geisterwort zieht langsam gegen die Scrollrichtung */
-      const focusGhost = root.querySelector(".sd-focus__ghost");
-      if (focusGhost) {
+      /* Vertiefung: die Geisterwörter ziehen langsam gegen die
+         Scrollrichtung (auf Stadtseiten gibt es zwei Sektionen) */
+      gsap.utils.toArray<HTMLElement>(".sd-focus__ghost").forEach((focusGhost) => {
         gsap.fromTo(focusGhost, { yPercent: 14 }, {
           yPercent: -14,
           ease: "none",
@@ -194,7 +213,7 @@ if (root && isMotion && !prefersReduced) {
             scrub: true,
           },
         });
-      }
+      });
 
       /* Filmstreifen: der Playhead fährt über die Spur, die Clips
          setzen sich nacheinander ins Licht */

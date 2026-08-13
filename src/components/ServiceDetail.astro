@@ -4,7 +4,7 @@ import Breadcrumbs from "./Breadcrumbs.astro";
 import FaqList from "./FaqList.astro";
 import "../styles/landing.css";
 import "../styles/service.css";
-import { locations, projects, servicePath, services, type Location, type Service } from "../data/site";
+import { articles, locations, projects, servicePath, services, site, type Location, type Service } from "../data/site";
 import { localCopy, localDetail } from "../data/local";
 
 // Leistungs-Landingpage — und in der lokalisierten Variante die Stadtseite
@@ -48,8 +48,43 @@ const heroFx: Record<string, string[]> = {
 };
 const fx = heroFx[service.slug] ?? ["dust"];
 
-// Haltungszeile: **…** markiert den Akzentteil
-const claimParts = service.claim.split("**");
+// Haltungszeile: **…** markiert den Akzentteil. Für das Wort-für-Wort-
+// Aufleuchten (gleiche Signatur wie das Manifest der Startseite) wird
+// die Zeile in einzelne Wörter zerlegt.
+const claimWords = service.claim.split("**").flatMap((part, index) =>
+  part
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((text) => ({ text, em: index % 2 === 1 }))
+);
+
+// Motiv-Echo der Vertiefung: ein gedimmter Baustein der Hero-Welt
+const focusFxMap: Record<string, string> = {
+  eventfilm: "beam",
+  musikvideo: "dust",
+  imagefilm: "glow",
+  "kamera-bildgestaltung": "dust",
+  tonaufnahme: "rings",
+  postproduktion: "perf",
+  "live-visuals": "scanlines",
+  "projection-mapping": "grid",
+};
+const focusFx = focusFxMap[service.slug] ?? "dust";
+
+// „Weiter im Programm": das nächste Kapitel der Hub-Reihenfolge (zirkulär),
+// zwei verwandte Gewerke und — wo vorhanden — ein Journal-Artikel.
+// Auf Stadtseiten zeigen alle Links auf die lokalen Versionen.
+const nextService = services.find(
+  (item) => item.slug === chapterOrder[(chapterOrder.indexOf(service.slug) + 1) % chapterOrder.length]
+)!;
+const chapterNum = (slug: string) => String(chapterOrder.indexOf(slug) + 1).padStart(2, "0");
+const relatedServiceItems = service.relatedServices
+  .map((slug) => services.find((item) => item.slug === slug))
+  .filter((item): item is Service => Boolean(item));
+const journalArticle = !location && service.articleSlug
+  ? articles.find((article) => article.slug === service.articleSlug)
+  : undefined;
+const serviceHref = (item: Service) => (location ? `${servicePath(item)}${location.slug}/` : servicePath(item));
 
 // Von Hand geschriebene Stadt-Texte; ohne Eintrag greifen die Templates.
 const local = location ? localDetail(location.slug, service.slug) : undefined;
@@ -182,10 +217,13 @@ const otherCityServices = location
 
     <!-- Haltungszeile -->
     <section class="sd-statement">
+      <span class="lw-dust" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span>
       <div class="cine-wrap">
         <span class="cine-label" data-fx="rise">{location ? `Vor Ort in ${location.city}` : "Der Ansatz"}</span>
-        <p class="sd-claim" data-fx="rise">
-          {claimParts.map((part, index) => (index % 2 === 1 ? <em>{part}</em> : part))}
+        <p class="sd-claim">
+          {claimWords.map((word) => (
+            <><span class:list={["sd-claim__w", { "sd-claim__w--em": word.em }]}>{word.text}</span>{" "}</>
+          ))}
         </p>
         <div class="sd-statement__prose">
           {introParagraphs.map((paragraph) => (
@@ -249,6 +287,20 @@ const otherCityServices = location
 
     <!-- Vertiefung: die individuelle Facette des Gewerks -->
     <section class:list={["sd-focus", `sd-focus--${service.slug}`]}>
+      <div class="sd-focus__fx" aria-hidden="true">
+        {focusFx === "beam" && <div class="lw-beam"></div>}
+        {focusFx === "glow" && <div class="lw-glow"></div>}
+        {focusFx === "rings" && <span class="lw-rings"><i></i><i></i><i></i></span>}
+        {focusFx === "perf" && (
+          <>
+            <span class="lw-perf lw-perf--l"></span>
+            <span class="lw-perf lw-perf--r"></span>
+          </>
+        )}
+        {focusFx === "grid" && <span class="lw-grid-overlay"></span>}
+        {focusFx === "scanlines" && <span class="lw-scanlines"></span>}
+        {focusFx === "dust" && <span class="lw-dust"><i></i><i></i><i></i><i></i><i></i><i></i></span>}
+      </div>
       <span class="sd-focus__ghost" aria-hidden="true">{service.focus.label}</span>
       <div class="cine-wrap">
         <div class="sd-head" data-fx="rise">
@@ -278,6 +330,7 @@ const otherCityServices = location
           <h2 class="cine-h2">{location ? `${service.processTitle} — geplant ab Düsseldorf` : service.processTitle}</h2>
         </div>
         <div class="sd-strip">
+          <span class="sd-strip__label" aria-hidden="true">Spur {heroNum} · {service.title}</span>
           <span class="sd-strip__perf sd-strip__perf--t" aria-hidden="true"></span>
           <ol class="sd-strip__clips">
             {service.process.map((step, index) => (
@@ -380,6 +433,41 @@ const otherCityServices = location
       </div>
     </section>
 
+    <!-- Weiter im Programm: das nächste Kapitel und passende Gewerke -->
+    <section class="sd-next">
+      <div class="cine-wrap sd-next__grid">
+        <div class="sd-next__main" data-fx="rise">
+          <span class="cine-label">Weiter im Programm</span>
+          <a class="sd-next__link" href={serviceHref(nextService)}>
+            <span class="sd-next__num" aria-hidden="true">{chapterNum(nextService.slug)}</span>
+            <span class="sd-next__title">{location ? `${nextService.title} in ${location.city}` : nextService.title}</span>
+            <span class="sd-next__arrow" aria-hidden="true">→</span>
+          </a>
+          <p class="sd-next__tease">{nextService.summary}</p>
+        </div>
+        <div class="sd-next__aside" data-fx="rise">
+          <span class="cine-label">Passt dazu</span>
+          <ul class="sd-next__list">
+            {relatedServiceItems.map((item) => (
+              <li>
+                <a href={serviceHref(item)}>
+                  <span class="sd-next__listnum" aria-hidden="true">{chapterNum(item.slug)}</span>
+                  <span>{location ? `${item.title} in ${location.city}` : item.title}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          {journalArticle && (
+            <a class="sd-next__journal" href={`/journal/${journalArticle.slug}/`}>
+              <span class="cine-label">Aus dem Journal</span>
+              <span class="sd-next__journaltitle">{journalArticle.title}</span>
+              <span class="sd-next__journalmeta">{journalArticle.readingTime} Lesezeit</span>
+            </a>
+          )}
+        </div>
+      </div>
+    </section>
+
     <!-- Finale: Abspann über bewegtem Licht -->
     <section class="ld-finale ld-finale--media sd-finale">
       <div class="ld-finale__media" aria-hidden="true">
@@ -399,6 +487,7 @@ const otherCityServices = location
           ) : (
             <li class="sd-credit"><span class="sd-credit__role">Basis</span><i></i><span class="sd-credit__value">Düsseldorf & NRW</span></li>
           )}
+          <li class="sd-credit"><span class="sd-credit__role">Kontakt</span><i></i><a class="sd-credit__value sd-credit__value--link" href={`mailto:${site.email}`}>{site.email}</a></li>
         </ol>
         <h2 class="ld-finale__title">{location ? `${service.title} in ${location.city} anfragen` : `${service.title} anfragen`}</h2>
         <p class="cine-lead">Schreiben Sie kurz, worum es geht, wo produziert werden soll und welcher Zeitraum realistisch ist.</p>

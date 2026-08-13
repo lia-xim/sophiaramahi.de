@@ -16,6 +16,10 @@ export type Service = {
   process: string[];
   suitableFor: string[];
   relatedProjects: string[];
+  /** Verwandte Gewerke für die „Weiter im Programm"-Navigation. */
+  relatedServices: string[];
+  /** Optionaler Journal-Artikel, der das Gewerk vertieft. */
+  articleSlug?: string;
   /** Individuelle Vertiefung der Landingpage: drei Facetten des Gewerks. */
   focus: { label: string; title: string; lead: string; items: { title: string; copy: string }[] };
   /** Individuelle Sektionsüberschriften — keine Seite liest sich wie die Kopie einer anderen. */
@@ -110,6 +114,8 @@ export const services: Service[] = [
     process: ["Ablauf und Schlüsselmomente klären", "Dreh mit abgestimmter Präsenz", "Material sichten und dramaturgisch ordnen", "Korrekturrunde und finale Ausspielung"],
     suitableFor: ["Kulturveranstaltungen", "Konzerte und Festivals", "Premieren und Ausstellungen", "Unternehmens- und Community-Events"],
     relatedProjects: ["spektra-festival", "24h-to-take"],
+    relatedServices: ["tonaufnahme", "postproduktion"],
+    articleSlug: "warum-ton-beim-eventfilm-entscheidet",
     focus: {
       label: "Formate",
       title: "Ein Abend, drei mögliche Filme",
@@ -149,6 +155,8 @@ export const services: Service[] = [
     process: ["Song und Referenzen besprechen", "Konzept auf Budget und Ort zuschneiden", "Dreh und Bildgestaltung", "Schnitt im Rhythmus des Stücks"],
     suitableFor: ["Singles und EP-Releases", "Live-Sessions", "Performancevideos", "Experimentelle Musikprojekte"],
     relatedProjects: ["electric-lights", "dark-lights"],
+    relatedServices: ["postproduktion", "live-visuals"],
+    articleSlug: "musikvideo-mit-kleinem-budget",
     focus: {
       label: "Ansätze",
       title: "Drei Wege, die ein Video nehmen kann",
@@ -188,6 +196,7 @@ export const services: Service[] = [
     process: ["Zielgruppe und Kernbotschaft festlegen", "Protagonisten und Drehorte vorbereiten", "Dreh mit kleinem, ruhigem Setup", "Schnitt mit nachvollziehbarer Dramaturgie"],
     suitableFor: ["Kultureinrichtungen", "Kreative Unternehmen", "Vereine und Initiativen", "Persönliche Unternehmensporträts"],
     relatedProjects: ["24h-to-take"],
+    relatedServices: ["tonaufnahme", "postproduktion"],
     focus: {
       label: "Blickwinkel",
       title: "Drei Wege, Arbeit sichtbar zu machen",
@@ -227,6 +236,7 @@ export const services: Service[] = [
     process: ["Briefing und Referenzen prüfen", "Technik und Schnittstellen abstimmen", "Dreh im Team", "Saubere Übergabe an Postproduktion oder DIT"],
     suitableFor: ["Agenturproduktionen", "Kultur- und Musikdrehs", "Interviews und Reportage", "Kleine narrative Produktionen"],
     relatedProjects: ["electric-lights", "spektra-festival"],
+    relatedServices: ["tonaufnahme", "postproduktion"],
     focus: {
       label: "Zusammenarbeit",
       title: "Vor dem Dreh, am Set, danach",
@@ -266,6 +276,8 @@ export const services: Service[] = [
     process: ["Raum und Motiv einschätzen", "Mikrofonierung festlegen", "Pegel und Störquellen kontrollieren", "Material sichern und dokumentieren"],
     suitableFor: ["Interviews", "Event-Statements", "Kleine Dokumentationen", "Kompakte One-Person-Produktionen"],
     relatedProjects: ["electric-lights"],
+    relatedServices: ["kamera-bildgestaltung", "eventfilm"],
+    articleSlug: "warum-ton-beim-eventfilm-entscheidet",
     focus: {
       label: "Ebenen",
       title: "Sprache, Raum und die ehrliche Grenze",
@@ -304,6 +316,7 @@ export const services: Service[] = [
     process: ["Musik und Ablauf verstehen", "Flächen und Technik prüfen", "Material vorbereiten und testen", "Live spielen und auf den Raum reagieren"],
     suitableFor: ["Konzerte", "Clubnächte", "Festivals", "Performances und Installationen"],
     relatedProjects: ["spektra-festival", "dark-lights"],
+    relatedServices: ["projection-mapping", "musikvideo"],
     focus: {
       label: "Bausteine",
       title: "Woraus ein Set gebaut ist",
@@ -343,6 +356,8 @@ export const services: Service[] = [
     process: ["Ort und Fläche vermessen", "Technische Machbarkeit klären", "Inhalte auf die Geometrie gestalten", "Vor Ort einrichten und korrigieren"],
     suitableFor: ["Festivalbühnen", "Ausstellungen", "Kunstinstallationen", "Marken- und Kulturveranstaltungen"],
     relatedProjects: ["spektra-festival", "electric-lights"],
+    relatedServices: ["live-visuals", "eventfilm"],
+    articleSlug: "projection-mapping-vorbereitung",
     focus: {
       label: "Machbarkeit",
       title: "Erst die Fläche, dann das Bild",
@@ -381,6 +396,7 @@ export const services: Service[] = [
     process: ["Material und Ziel prüfen", "Rohschnitt abstimmen", "Feinschnitt, Farbe und Ton", "Freigabe und Masterexport"],
     suitableFor: ["Event- und Musikproduktionen", "Interviews", "Social-Versionen", "Bereits gedrehtes Fremdmaterial"],
     relatedProjects: ["electric-lights", "24h-to-take"],
+    relatedServices: ["eventfilm", "musikvideo"],
     focus: {
       label: "Rahmen",
       title: "Ein Schnitt mit klaren Grenzen",

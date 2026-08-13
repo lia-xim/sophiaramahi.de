@@ -164,10 +164,19 @@
 /* ============ Haltungszeile (statt „Worum es geht") ==================== */
 
 .sd-statement {
+  position: relative;
+  overflow: clip;
+  isolation: isolate;
   padding-block: clamp(90px, 13vh, 170px) clamp(70px, 10vh, 130px);
 }
 
+.sd-statement .lw-dust {
+  opacity: 0.6;
+}
+
 .sd-statement .cine-wrap {
+  position: relative;
+  z-index: 1;
   display: grid;
   gap: clamp(24px, 4vh, 44px);
   justify-items: start;
@@ -182,14 +191,35 @@
   font-stretch: 110%;
   line-height: 1.08;
   letter-spacing: -0.034em;
+}
+
+/* Die Wörter tragen den Verlauf selbst — so kann die Choreografie sie
+   einzeln aufleuchten lassen (gleiche Signatur wie das Start-Manifest). */
+.sd-claim__w {
   background: linear-gradient(180deg, #ffffff 8%, #d6c6f4 96%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  transition: color 0.3s var(--ease);
 }
 
-.sd-claim em {
-  font-style: normal;
+.sd-claim__w--em {
+  background: linear-gradient(92deg, var(--magenta), var(--amber));
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* Startzustand nur mit Motion: gedimmt, bis der Scroll sie ins Licht setzt */
+html.motion .sd-claim__w {
+  background: none;
+  color: #453d58;
+}
+
+html.motion .sd-claim__w.is-lit {
+  color: #f2eefc;
+}
+
+html.motion .sd-claim__w--em.is-lit {
   background: linear-gradient(92deg, var(--magenta), var(--amber));
   -webkit-background-clip: text;
   background-clip: text;
@@ -319,7 +349,19 @@
 
 .sd-strip {
   position: relative;
-  padding-block: 30px;
+  padding-block: 46px 30px;
+}
+
+/* Spur-Beschriftung: der Ablauf liegt als benannte Spur im Schnittprogramm */
+.sd-strip__label {
+  position: absolute;
+  top: 0;
+  left: 2px;
+  font-size: var(--step-meta);
+  font-weight: 550;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8d86a0;
 }
 
 /* Perforationsreihen oben und unten — der Ablauf liegt auf dem Filmstreifen */
@@ -337,7 +379,7 @@
   -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
 }
 
-.sd-strip__perf--t { top: 0; }
+.sd-strip__perf--t { top: 24px; }
 .sd-strip__perf--b { bottom: 0; }
 
 html.motion .sd-strip__perf {
@@ -403,7 +445,7 @@ html.motion .sd-clip {
 /* Playhead: wandert beim Scrollen über die Spur */
 .sd-strip__head {
   position: absolute;
-  top: 4px;
+  top: 22px;
   bottom: 4px;
   left: 24%;
   width: 1px;
@@ -595,6 +637,21 @@ html.motion .sd-tile__meta {
   box-shadow: 0 0 18px 1px rgba(113, 55, 255, 0.35);
 }
 
+/* Motiv-Echo: ein gedimmter Baustein der Hero-Welt kehrt zurück */
+.sd-focus__fx {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.35;
+  pointer-events: none;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 78%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 78%, transparent 100%);
+}
+
+.sd-focus__fx .lw-grid-overlay {
+  opacity: 0.5;
+}
+
 /* Das Geisterwort der Sektion — jedes Gewerk trägt hier sein eigenes */
 .sd-focus__ghost {
   position: absolute;
@@ -680,6 +737,157 @@ html.motion .sd-tile__meta {
   padding-block: 0 clamp(80px, 11vh, 140px);
 }
 
+/* ============ Weiter im Programm ======================================= */
+
+.sd-next {
+  padding-block: clamp(70px, 10vh, 130px);
+}
+
+.sd-next__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(28px, 5vw, 90px);
+  align-items: start;
+}
+
+.sd-next__main {
+  display: grid;
+  gap: 14px;
+  justify-items: start;
+}
+
+.sd-next__link {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(12px, 1.6vw, 22px);
+  color: var(--text);
+}
+
+.sd-next__num {
+  flex: none;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 1.5vw, 1.5rem);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in oklab, var(--magenta) 80%, white);
+}
+
+.sd-next__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.4vw, 4rem);
+  font-weight: 600;
+  font-stretch: 108%;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  background: linear-gradient(180deg, #ffffff 10%, #dbcdf6 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: text-shadow 0.4s var(--ease);
+}
+
+.sd-next__arrow {
+  font-size: clamp(1.4rem, 2.4vw, 2.2rem);
+  color: #8d86a0;
+  transition: transform 0.4s var(--ease), color 0.4s var(--ease);
+}
+
+.sd-next__link:hover .sd-next__title,
+.sd-next__link:focus-visible .sd-next__title {
+  text-shadow: 0 0 28px rgba(154, 92, 255, 0.5);
+}
+
+.sd-next__link:hover .sd-next__arrow,
+.sd-next__link:focus-visible .sd-next__arrow {
+  transform: translateX(6px);
+  color: var(--text);
+}
+
+.sd-next__tease {
+  margin: 0;
+  max-width: 46ch;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.sd-next__aside {
+  display: grid;
+  gap: 16px;
+  justify-items: start;
+}
+
+.sd-next__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  width: 100%;
+  border-top: 1px solid var(--line);
+}
+
+.sd-next__list a {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding-block: 12px;
+  border-bottom: 1px solid var(--line);
+  color: #c3bccf;
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 1.4vw, 1.3rem);
+  font-weight: 550;
+  font-stretch: 106%;
+  letter-spacing: -0.015em;
+  transition: color var(--dur) var(--ease), padding-inline-start var(--dur) var(--ease);
+}
+
+.sd-next__list a:hover,
+.sd-next__list a:focus-visible {
+  color: var(--text);
+  padding-inline-start: 8px;
+}
+
+.sd-next__listnum {
+  flex: none;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in oklab, var(--magenta) 75%, white);
+}
+
+.sd-next__journal {
+  display: grid;
+  gap: 6px;
+  width: 100%;
+  margin-top: 10px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(25, 16, 42, 0.35);
+  color: var(--text);
+  transition: border-color 0.4s var(--ease), transform 0.4s var(--ease);
+}
+
+.sd-next__journal:hover,
+.sd-next__journal:focus-visible {
+  border-color: rgba(215, 188, 255, 0.35);
+  transform: translateY(-2px);
+}
+
+.sd-next__journaltitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+  font-weight: 600;
+  font-stretch: 106%;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+
+.sd-next__journalmeta {
+  color: #8d86a0;
+  font-size: 0.85rem;
+}
+
 /* ============ Abspann im Finale ======================================== */
 
 .sd-credits {
@@ -728,6 +936,18 @@ html.motion .sd-tile__meta {
   color: var(--text);
 }
 
+a.sd-credit__value--link {
+  color: var(--text);
+  border-bottom: 1px solid rgba(215, 188, 255, 0.35);
+  transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+a.sd-credit__value--link:hover,
+a.sd-credit__value--link:focus-visible {
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
 .sd-finale__note {
   margin: 0;
   color: #8d86a0;
@@ -771,6 +991,11 @@ html.motion .sd-tile__meta {
   .sd-focus__item:nth-child(3) {
     justify-self: start;
     width: 100%;
+  }
+
+  .sd-next__grid {
+    grid-template-columns: 1fr;
+    gap: clamp(36px, 6vh, 56px);
   }
 
   .sd-scope__grid {
@@ -835,4 +1060,18 @@ html.motion .sd-tile__meta {
   html.motion .sd-tile__dim { opacity: 0; }
   html.motion .sd-tile__meta { opacity: 1; }
   html.motion .sd-strip__perf { animation: none; }
+
+  html.motion .sd-claim__w {
+    background: linear-gradient(180deg, #ffffff 8%, #d6c6f4 96%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  html.motion .sd-claim__w--em {
+    background: linear-gradient(92deg, var(--magenta), var(--amber));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
 }
