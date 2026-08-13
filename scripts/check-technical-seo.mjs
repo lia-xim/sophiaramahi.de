@@ -1,12 +1,34 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative, sep } from "node:path";
 
-const root = new URL("../dist/", import.meta.url).pathname.replace(/^\/(.:)/, "$1");
+const distRoot = new URL("../dist/", import.meta.url).pathname.replace(/^\/(.:)/, "$1");
+// Mit einer Server-Route (/api/kontakt) legt Astro die statischen Seiten
+// unter dist/client/ ab — dort müssen absolute Pfade aufgelöst werden.
+const root = existsSync(join(distRoot, "client")) ? join(distRoot, "client") : distRoot;
 const origin = "https://sophiaramahi.de";
 const failures = [];
 const warnings = [];
 const pages = new Map();
-const indexableLocations = new Set(["/standorte/duesseldorf/", "/standorte/koeln/"]);
+// Seit den Stadtprofilen (src/data/local/profiles.ts) tragen alle 16
+// Standortseiten individuelle Inhalte und sind bewusst indexierbar.
+const indexableLocations = new Set([
+  "/standorte/duesseldorf/",
+  "/standorte/koeln/",
+  "/standorte/neuss/",
+  "/standorte/ratingen/",
+  "/standorte/meerbusch/",
+  "/standorte/krefeld/",
+  "/standorte/wuppertal/",
+  "/standorte/essen/",
+  "/standorte/duisburg/",
+  "/standorte/moenchengladbach/",
+  "/standorte/leverkusen/",
+  "/standorte/bonn/",
+  "/standorte/bochum/",
+  "/standorte/dortmund/",
+  "/standorte/oberhausen/",
+  "/standorte/solingen/",
+]);
 
 const walk = (directory) => {
   for (const name of readdirSync(directory)) {

@@ -1,0 +1,483 @@
+/* Purple Frame — Kontaktseite „Das Gespräch".
+   Eine Video-Bühne trägt den direkten Draht und die Projektanfrage als
+   Produktionstafel. Fehlermeldungen funktionieren ohne JavaScript über
+   :target (der Endpoint verlinkt auf /kontakt/#fehler-…). */
+
+/* ============ Bühne ===================================================== */
+
+.kn-stage {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  align-items: center;
+  overflow: clip;
+  isolation: isolate;
+  padding-block: clamp(120px, 15vh, 170px) clamp(70px, 10vh, 120px);
+}
+
+.kn-stage__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.kn-stage__media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.3;
+}
+
+.kn-stage__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 90% at 32% 40%, rgba(5, 3, 10, 0.2) 0%, rgba(5, 3, 10, 0.72) 62%, rgba(5, 3, 10, 0.96) 100%),
+    linear-gradient(180deg, rgba(5, 3, 10, 0.85) 0%, rgba(5, 3, 10, 0.35) 28%, rgba(5, 3, 10, 0.45) 72%, var(--bg) 100%);
+}
+
+.kn-portal {
+  position: absolute;
+  left: 50%;
+  bottom: -20%;
+  z-index: 0;
+  width: min(120vw, 1400px);
+  aspect-ratio: 2.2 / 1;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    50% 64% at 50% 100%,
+    rgba(246, 240, 255, 0.5) 0%,
+    rgba(154, 92, 255, 0.32) 26%,
+    rgba(113, 55, 255, 0.16) 50%,
+    transparent 72%
+  );
+  filter: blur(34px);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.kn-grain {
+  position: absolute;
+  inset: -70px;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.7'/%3E%3C/svg%3E");
+  background-size: 240px 240px;
+}
+
+html.motion .kn-grain {
+  animation: kn-grain 900ms steps(4) infinite;
+}
+
+@keyframes kn-grain {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-26px, 18px); }
+  50% { transform: translate(16px, -24px); }
+  75% { transform: translate(-12px, -14px); }
+  100% { transform: translate(22px, 12px); }
+}
+
+.kn-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  gap: clamp(32px, 5vw, 90px);
+  align-items: center;
+}
+
+/* ============ Intro-Spalte ============================================== */
+
+.kn-intro {
+  display: grid;
+  gap: clamp(16px, 2.4vh, 26px);
+  justify-items: start;
+}
+
+.kn-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5.4vw, 5rem);
+  font-weight: 600;
+  font-stretch: 110%;
+  line-height: 1.03;
+  letter-spacing: -0.035em;
+  background: linear-gradient(180deg, #ffffff 8%, #d6c6f4 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.kn-title em {
+  font-style: normal;
+  background: linear-gradient(180deg, #e8dcff 0%, var(--magenta) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.kn-lead {
+  margin: 0;
+  max-width: 46ch;
+  font-size: var(--step-body-lg);
+  line-height: 1.6;
+  color: #d5cfe2;
+}
+
+.kn-direct {
+  display: grid;
+  gap: 0;
+  width: min(100%, 460px);
+  margin-top: 6px;
+}
+
+.kn-direct .cine-label {
+  margin-bottom: 10px;
+  color: #9992ab;
+}
+
+.kn-direct__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 0;
+  padding-block: 12px;
+  border-top: 1px solid var(--line);
+  color: inherit;
+}
+
+.kn-direct__row:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.kn-direct__row span {
+  font-size: var(--step-meta);
+  font-weight: 550;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #9992ab;
+}
+
+.kn-direct__row strong {
+  font-family: var(--font-display);
+  font-size: clamp(0.98rem, 1.25vw, 1.15rem);
+  font-weight: 550;
+  color: var(--text);
+  text-align: right;
+}
+
+a.kn-direct__row:hover strong,
+a.kn-direct__row:focus-visible strong {
+  text-shadow: 0 0 18px rgba(154, 92, 255, 0.55);
+}
+
+.kn-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.kn-social a {
+  padding: 8px 15px;
+  border: 1px solid rgba(215, 188, 255, 0.28);
+  border-radius: 999px;
+  font-size: var(--step-caption);
+  font-weight: 550;
+  color: #d5cfe2;
+  transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+
+.kn-social a:hover,
+.kn-social a:focus-visible {
+  border-color: rgba(154, 92, 255, 0.75);
+  color: var(--text);
+  box-shadow: 0 0 18px rgba(113, 55, 255, 0.35);
+}
+
+/* ============ Formular-Karte ============================================ */
+
+.kn-card {
+  display: grid;
+  gap: 16px;
+  padding: clamp(22px, 3vw, 36px);
+  border: 1px solid rgba(220, 200, 255, 0.16);
+  background: linear-gradient(180deg, rgba(18, 10, 33, 0.82), rgba(10, 6, 20, 0.88));
+  backdrop-filter: blur(6px);
+  box-shadow: 0 30px 80px rgba(3, 1, 8, 0.55);
+}
+
+.kn-card__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin: 0;
+}
+
+.kn-card__hint {
+  color: #9992ab;
+}
+
+/* Fehlermeldungen: unsichtbar, bis der Redirect sie per #fragment
+   anspringt — reine CSS-Lösung für den No-JS-Pfad. */
+.kn-alert {
+  display: none;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 154, 154, 0.4);
+  border-left: 3px solid #ff9a9a;
+  background: rgba(64, 12, 24, 0.5);
+  color: #ffd9d9;
+  font-size: var(--step-caption);
+  line-height: 1.55;
+}
+
+.kn-alert a {
+  color: #ffffff;
+  border-bottom: 1px solid rgba(255, 217, 217, 0.5);
+}
+
+.kn-alert:target {
+  display: block;
+}
+
+.kn-field {
+  display: grid;
+  gap: 8px;
+}
+
+.kn-field label {
+  font-size: var(--step-meta);
+  font-weight: 550;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #b3abc4;
+}
+
+.kn-field input,
+.kn-field select,
+.kn-field textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid rgba(220, 200, 255, 0.22);
+  border-radius: 6px;
+  background: rgba(5, 3, 10, 0.6);
+  color: var(--text);
+  font: inherit;
+  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+
+.kn-field textarea {
+  resize: vertical;
+  min-height: 130px;
+}
+
+.kn-field input:focus-visible,
+.kn-field select:focus-visible,
+.kn-field textarea:focus-visible {
+  outline: none;
+  border-color: rgba(154, 92, 255, 0.85);
+  box-shadow: 0 0 0 3px rgba(113, 55, 255, 0.28);
+}
+
+.kn-field select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23d7bcff' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 38px;
+}
+
+/* Honeypot: raus aus Sicht und Tab-Reihenfolge, aber im DOM */
+.kn-hp {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.kn-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 18px;
+  margin-top: 2px;
+}
+
+.kn-actions .cine-btn[disabled] {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.kn-status {
+  margin: 0;
+  font-size: var(--step-caption);
+  line-height: 1.5;
+  color: #ffd9d9;
+}
+
+.kn-note {
+  margin: 0;
+  font-size: var(--step-meta);
+  line-height: 1.6;
+  color: #8d86a0;
+}
+
+.kn-note a {
+  color: #cfc9dc;
+  border-bottom: 1px solid rgba(215, 188, 255, 0.3);
+}
+
+/* Erfolgszustand nach fetch-Versand */
+.kn-card--sent {
+  align-content: center;
+  min-height: 380px;
+}
+
+.kn-sent {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+
+.kn-sent h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+  font-weight: 600;
+  font-stretch: 108%;
+  letter-spacing: -0.025em;
+  background: linear-gradient(180deg, #ffffff 10%, #dbcdf6 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.kn-sent p {
+  margin: 0;
+  color: #d5cfe2;
+}
+
+/* ============ Danke-Seite =============================================== */
+
+.kn-stage--danke {
+  min-height: 88svh;
+  text-align: left;
+}
+
+.kn-danke {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: clamp(16px, 2.4vh, 26px);
+  justify-items: start;
+  max-width: 720px;
+}
+
+.kn-danke .kn-lead a {
+  color: var(--text);
+  border-bottom: 1px solid rgba(215, 188, 255, 0.4);
+}
+
+.kn-danke__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+/* ============ Schritte ================================================== */
+
+.kn-steps {
+  padding-block: clamp(60px, 9vh, 110px) clamp(80px, 11vh, 140px);
+}
+
+.kn-steps__head {
+  display: grid;
+  gap: 12px;
+  margin-bottom: clamp(28px, 4.5vh, 50px);
+}
+
+.kn-steps__head h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 3.6vw, 3.2rem);
+  font-weight: 600;
+  font-stretch: 108%;
+  letter-spacing: -0.03em;
+  background: linear-gradient(180deg, #ffffff 10%, #dbcdf6 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.kn-steps__list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(20px, 3vw, 44px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kn-steps__list li {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.kn-steps__list i {
+  font-style: normal;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in oklab, var(--magenta) 78%, white);
+}
+
+.kn-steps__list strong {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.6vw, 1.4rem);
+  font-weight: 600;
+  font-stretch: 106%;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+
+.kn-steps__list p {
+  margin: 0;
+  color: #b9b2c6;
+  line-height: 1.65;
+}
+
+/* ============ Mobil ===================================================== */
+
+@media (max-width: 900px) {
+  .kn-stage {
+    padding-top: clamp(100px, 13vh, 130px);
+  }
+
+  .kn-grid {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .kn-direct {
+    width: 100%;
+  }
+
+  .kn-steps__list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Reduced Motion: alle Startzustände neutralisieren */
+@media (prefers-reduced-motion: reduce) {
+  html.motion .kn-grain { animation: none; }
+}

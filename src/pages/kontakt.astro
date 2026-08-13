@@ -1,19 +1,108 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import PageHero from "../components/PageHero.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import "../styles/kontakt.css";
 import { site } from "../data/site";
+import { contactLimits, contactTopics } from "../data/kontakt";
+
+// Kontaktseite „Das Gespräch": eine Video-Bühne, links der direkte Draht,
+// rechts die Anfrage als Produktionstafel. Das Formular versendet über
+// /api/kontakt (Resend) und funktioniert ohne JavaScript vollständig:
+// Erfolg → /kontakt/danke/, Fehler → :target-Meldungen über dem Formular.
 ---
+
 <BaseLayout title="Kontakt | Videoprojekt mit Sophia Ramahi besprechen" description="Projektanfrage an Sophia Ramahi: Videografie, Kamera, Ton, Postproduktion, VJ und Projection Mapping in Düsseldorf und NRW.">
-  <PageHero title="Projekt anfragen" lead="Vier Angaben reichen für den Anfang: Was soll entstehen, wo, ungefähr wann und wofür?" image="/media/light-void.jpg" alt="Dunkle violette Lichtfläche" crumbs={[{label:"Start",href:"/"},{label:"Kontakt"}]} />
-  <section class="section cine-wrap contact-grid">
-    <div data-reveal><span class="cine-label">Direkter Kontakt</span><h2 class="cine-h2">Kein langes Anfrageformular</h2><div class="prose"><p>Wenn Termin oder Umfang noch offen sind, ist das kein Problem. Schreiben Sie, was bereits feststeht. Sophia meldet sich mit den nächsten sinnvollen Fragen zurück.</p></div><address><a href={`mailto:${site.email}`}>{site.email}</a><a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a><span>Düsseldorf · Produktionen in NRW</span></address></div>
-    <form class="contact-form" data-contact-form data-contact-email={site.email} data-reveal>
-      <div class="form-field"><label for="name">Name</label><input id="name" name="name" autocomplete="name" required maxlength="120" /></div>
-      <div class="form-field"><label for="email">E-Mail</label><input id="email" name="email" type="email" autocomplete="email" required maxlength="200" /></div>
-      <div class="form-field"><label for="project">Worum geht es?</label><select id="project" name="project" required><option value="">Bitte auswählen</option><option>Videoproduktion</option><option>Kamera oder Ton</option><option>Postproduktion</option><option>VJ oder Projection Mapping</option><option>Etwas anderes</option></select></div>
-      <div class="form-field form-field--full"><label for="message">Kurze Projektbeschreibung</label><textarea id="message" name="message" rows="7" required minlength="20" maxlength="5000" placeholder="Anlass, Ort, Zeitraum und gewünschtes Ergebnis"></textarea></div>
-      <p class="form-note">Beim Absenden öffnet sich Ihr E-Mail-Programm mit den eingetragenen Angaben. Die Website speichert oder überträgt die Formulardaten nicht.</p>
-      <button class="cine-btn" type="submit">E-Mail vorbereiten</button><p class="form-status" data-form-status aria-live="polite"></p>
-    </form>
-  </section>
+  <div data-kontakt>
+    <section class="kn-stage">
+      <div class="kn-stage__media" aria-hidden="true">
+        <video muted loop playsinline preload="none" poster="/media/hero-poster.jpg" width="1280" height="720" data-kn-video>
+          <source src="/media/hero-loop.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div class="kn-portal" aria-hidden="true"></div>
+      <span class="kn-grain" aria-hidden="true"></span>
+
+      <div class="cine-wrap kn-grid">
+        <div class="kn-intro">
+          <Breadcrumbs items={[{ label: "Start", href: "/" }, { label: "Kontakt" }]} />
+          <h1 class="kn-title">Der nächste Film beginnt mit einem <em>Gespräch</em>.</h1>
+          <p class="kn-lead">Vier Angaben reichen für den Anfang: Was soll entstehen, wo, ungefähr wann und wofür? Alles Weitere klärt sich im Gespräch.</p>
+
+          <div class="kn-direct">
+            <span class="cine-label">Direkter Draht</span>
+            <a class="kn-direct__row" href={`mailto:${site.email}`}><span>E-Mail</span><strong>{site.email}</strong></a>
+            <a class="kn-direct__row" href={`tel:${site.phoneHref}`}><span>Telefon</span><strong>{site.phoneDisplay}</strong></a>
+            <p class="kn-direct__row"><span>Basis</span><strong>Düsseldorf · Produktionen in ganz NRW</strong></p>
+          </div>
+
+          <div class="kn-social">
+            {site.social.map((entry) => (
+              <a href={entry.href} rel="me noopener" target="_blank">{entry.label}</a>
+            ))}
+          </div>
+        </div>
+
+        <form class="kn-card" method="post" action="/api/kontakt/" data-kontakt-form>
+          <p class="kn-card__head"><span class="cine-label">Projektanfrage</span><span class="kn-card__hint u-meta">Antwort meist innerhalb von zwei Werktagen</span></p>
+
+          <div class="kn-alert" id="fehler-eingaben" role="alert" tabindex="-1">
+            <strong>Bitte prüfen Sie die Angaben.</strong> Name, eine gültige E-Mail-Adresse, ein Thema und eine Nachricht ab {contactLimits.message.min} Zeichen werden gebraucht.
+          </div>
+          <div class="kn-alert" id="fehler-versand" role="alert" tabindex="-1">
+            <strong>Der Versand ist gerade nicht möglich.</strong> Schreiben Sie stattdessen direkt an <a href={`mailto:${site.email}`}>{site.email}</a> — die Anfrage kommt genauso an.
+          </div>
+
+          <div class="kn-field">
+            <label for="name">Name</label>
+            <input id="name" name="name" autocomplete="name" required maxlength={contactLimits.name.max} />
+          </div>
+          <div class="kn-field">
+            <label for="email">E-Mail</label>
+            <input id="email" name="email" type="email" autocomplete="email" required maxlength={contactLimits.email.max} />
+          </div>
+          <div class="kn-field">
+            <label for="project">Worum geht es?</label>
+            <select id="project" name="project" required>
+              <option value="">Bitte auswählen</option>
+              {contactTopics.map((topic) => <option value={topic}>{topic}</option>)}
+            </select>
+          </div>
+          <div class="kn-field">
+            <label for="message">Kurze Projektbeschreibung</label>
+            <textarea id="message" name="message" rows="6" required minlength={contactLimits.message.min} maxlength={contactLimits.message.max} placeholder="Anlass, Ort, Zeitraum und gewünschtes Ergebnis"></textarea>
+          </div>
+
+          {/* Honeypot: für Menschen unsichtbar und nicht fokussierbar */}
+          <div class="kn-hp" aria-hidden="true">
+            <label for="firma">Firma</label>
+            <input id="firma" name="firma" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+          <input type="hidden" name="ts" value="" />
+
+          <div class="kn-actions">
+            <button class="cine-btn" type="submit" data-kn-submit>Anfrage senden</button>
+            <p class="kn-status" data-kn-status aria-live="polite"></p>
+          </div>
+          <p class="kn-note">Die Angaben werden verschlüsselt über diese Website übertragen und nur zur Beantwortung der Anfrage verwendet. Details in der <a href="/datenschutz/">Datenschutzerklärung</a>.</p>
+        </form>
+      </div>
+    </section>
+
+    <section class="cine-wrap kn-steps">
+      <div class="kn-steps__head" data-fx="rise">
+        <span class="cine-label">So geht es weiter</span>
+        <h2>Von der Anfrage zum Drehtag</h2>
+      </div>
+      <ol class="kn-steps__list">
+        <li data-fx="rise"><i>01</i><strong>Antwort</strong><p>Meist innerhalb von zwei Werktagen — mit den nächsten sinnvollen Fragen, falls etwas fehlt.</p></li>
+        <li data-fx="rise"><i>02</i><strong>Gespräch</strong><p>Kurzer Austausch zu Anlass, Ort und Umfang. Danach ist klar, welches Format und welches Team passt.</p></li>
+        <li data-fx="rise"><i>03</i><strong>Angebot</strong><p>Transparent kalkuliert, inklusive Anfahrt und klarer Zuständigkeiten. Kein Kleingedrucktes.</p></li>
+      </ol>
+    </section>
+  </div>
+
+  <script>
+    import "../scripts/kontakt-form.ts";
+    import "../scripts/kontakt-motion.ts";
+  </script>
 </BaseLayout>

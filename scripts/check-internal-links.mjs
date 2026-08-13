@@ -1,6 +1,9 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
-const root = new URL("../dist/", import.meta.url).pathname.replace(/^\/(.:)/, "$1");
+const distRoot = new URL("../dist/", import.meta.url).pathname.replace(/^\/(.:)/, "$1");
+// Mit einer Server-Route (/api/kontakt) legt Astro die statischen Seiten
+// unter dist/client/ ab — dort müssen absolute Pfade aufgelöst werden.
+const root = existsSync(join(distRoot, "client")) ? join(distRoot, "client") : distRoot;
 const htmlFiles = [];
 const walk = (directory) => { for (const name of readdirSync(directory)) { const path = join(directory, name); if (statSync(path).isDirectory()) walk(path); else if (name.endsWith(".html")) htmlFiles.push(path); } };
 walk(root);

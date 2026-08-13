@@ -2,7 +2,7 @@ import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import vercel from "@astrojs/vercel";
 
-const noindexPages = new Set(["/impressum/", "/datenschutz/"]);
+const noindexPages = new Set(["/impressum/", "/datenschutz/", "/kontakt/danke/"]);
 
 export default defineConfig({
   site: "https://sophiaramahi.de",

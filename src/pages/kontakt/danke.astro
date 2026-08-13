@@ -1,0 +1,36 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import "../../styles/kontakt.css";
+import { site } from "../../data/site";
+
+// Bestätigungsseite nach erfolgreichem Versand — auch das Ziel des
+// No-JS-Redirects aus /api/kontakt. Nicht indexierbar.
+---
+
+<BaseLayout title="Anfrage gesendet | Sophia Ramahi" description="Ihre Projektanfrage ist unterwegs. Sophia Ramahi antwortet meist innerhalb von zwei Werktagen." noindex>
+  <div data-kontakt>
+    <section class="kn-stage kn-stage--danke">
+      <div class="kn-stage__media" aria-hidden="true">
+        <video muted loop playsinline preload="none" poster="/media/hero-poster.jpg" width="1280" height="720" data-kn-video>
+          <source src="/media/hero-loop.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div class="kn-portal" aria-hidden="true"></div>
+      <span class="kn-grain" aria-hidden="true"></span>
+
+      <div class="cine-wrap kn-danke">
+        <span class="cine-label">Anfrage gesendet</span>
+        <h1 class="kn-title">Danke — die Anfrage ist <em>unterwegs</em>.</h1>
+        <p class="kn-lead">Sophia meldet sich meist innerhalb von zwei Werktagen. Wenn es eilt: <a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a>.</p>
+        <div class="kn-danke__actions">
+          <a class="cine-btn" href="/arbeiten/">Projekte ansehen</a>
+          <a class="cine-ghost" href="/leistungen/">Leistungen entdecken</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    import "../../scripts/kontakt-motion.ts";
+  </script>
+</BaseLayout>
