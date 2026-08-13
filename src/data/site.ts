@@ -42,6 +42,16 @@ export type Project = {
   services: string[];
   sections: { title: string; copy: string[] }[];
   seoDescription: string;
+  /* Optionale Ausbaustufen der Projektseite — alles darf fehlen:
+     logline ersetzt die summary im Hero, heroPosition richtet das
+     Titelbild aus (object-position), video blendet einen eigenen
+     Projekt-Player ein. */
+  logline?: string;
+  heroPosition?: string;
+  /** Beschneidet das Titelbild auf sein oberes Drittel — für Motive mit
+      eingebranntem Schriftzug, der sonst den Seitentitel doppeln würde. */
+  heroCrop?: boolean;
+  video?: { src: string; poster?: string; caption?: string };
 };
 
 export type Location = {
@@ -408,10 +418,13 @@ export const projects: Project[] = [
     intro: "Electric Lights entstand im Programm „Was mit Kunst?!“ in Kooperation mit dem KIT – Kunst im Tunnel und der Jungen Filmwerkstatt Düsseldorf. Sophia konzipierte eine audiovisuelle Arbeit, in der Licht und Klang nicht begleiten, sondern gemeinsam erzählen.",
     image: "/media/electric-lights-cover.jpg",
     alt: "Protagonistin von Electric Lights im violetten Licht",
+    heroPosition: "center top",
+    heroCrop: true,
     gallery: [
       { src: "/media/electric-lights-cover.jpg", alt: "Filmszene in violettem Licht" },
       { src: "/media/light-beams.jpg", alt: "Abstrakte Lichtstrahlen" },
       { src: "/media/light-hero.jpg", alt: "Violette Lichtfläche" },
+      { src: "/media/light-void.jpg", alt: "Dunkle Fläche mit violettem Restlicht" },
     ],
     roles: ["Konzept", "Kamera und Lichtgestaltung", "Klang-Komposition", "Schnitt", "Ausstellung"],
     services: ["kamera-bildgestaltung", "tonaufnahme", "postproduktion", "projection-mapping"],
@@ -426,19 +439,19 @@ export const projects: Project[] = [
     title: "Dark Lights",
     category: "Fotografie & Lichtstudie",
     summary: "Eine dunkle Bildserie, die mit wenigen Lichtquellen, Farbe und Nähe arbeitet.",
-    intro: "Das vorhandene Material zu Dark Lights zeigt Körper, Texturen und Gesichter im grünen und violetten Licht. Die Projektseite wird als visuelle Studie aufgebaut – ohne die alten Lorem-ipsum-Texte und ohne eine Geschichte zu erfinden, die das Material nicht belegt.",
-    image: "/media/club-projektion-hoch.jpg",
-    alt: "Porträt im grünen Projektionslicht",
+    intro: "Dark Lights zeigt Körper, Texturen und Gesichter im grünen und violetten Licht. Die Serie arbeitet mit wenigen Lichtquellen, Farbe und Nähe – eine visuelle Studie, die bewusst bei dem bleibt, was das Material zeigt.",
+    image: "/media/dark-lights-04.jpg",
+    alt: "Porträt in rotem und violettem Licht",
     gallery: [
-      { src: "/media/club-projektion-01.jpg", alt: "Performance im grünen Licht" },
-      { src: "/media/club-projektion-02.jpg", alt: "Nahaufnahme im farbigen Licht" },
-      { src: "/media/club-projektion-03.jpg", alt: "Lichtprojektion auf einer Person" },
-      { src: "/media/club-projektion-04.jpg", alt: "Dunkle Szene mit Projektion" },
+      { src: "/media/dark-lights-01.jpg", alt: "Porträt im grünen Licht mit glitzernder Textur" },
+      { src: "/media/dark-lights-02.jpg", alt: "Liegendes Porträt unter transparenten Stoffbahnen" },
+      { src: "/media/dark-lights-03.jpg", alt: "Silhouette hinter blau angestrahltem Stoff" },
+      { src: "/media/dark-lights-04.jpg", alt: "Porträt in rotem und violettem Licht" },
     ],
     roles: ["Bildidee", "Lichtgestaltung", "Fotografie"],
     services: ["kamera-bildgestaltung", "live-visuals"],
     sections: [
-      { title: "Reduktion statt Kulisse", copy: ["Die Bilder gewinnen ihre Wirkung nicht aus einem großen Set. Entscheidend sind Richtung und Farbe des Lichts, der Ausschnitt und die Nähe zur Person.", "Dark Lights bleibt deshalb als kurze, konzentrierte Serie lesbar. Sobald Credits, Jahr und genauer Kontext bestätigt sind, können diese Angaben ergänzt werden."] },
+      { title: "Reduktion statt Kulisse", copy: ["Die Bilder gewinnen ihre Wirkung nicht aus einem großen Set. Entscheidend sind Richtung und Farbe des Lichts, der Ausschnitt und die Nähe zur Person.", "Dark Lights bleibt deshalb als kurze, konzentrierte Serie lesbar – jedes Bild trägt allein, ohne Erklärung und ohne Kulisse."] },
     ],
     seoDescription: "Dark Lights ist eine fotografische Lichtstudie von Sophia Ramahi mit Farbe, Projektion und reduzierter Bildgestaltung.",
   },
@@ -470,7 +483,7 @@ export const projects: Project[] = [
     title: "Spektra Festival",
     category: "Live Visuals & Festival",
     summary: "Projektionen, Bühne und Live-Momente als zusammenhängende visuelle Fläche.",
-    intro: "Das Spektra-Material dokumentiert Aufbau, Masken, Projektionen, Musiker und die fertige Bühne. Die neue Projektseite konzentriert sich auf diese belegbaren Ebenen und zeigt den Weg vom technischen Aufbau bis zur Veranstaltung.",
+    intro: "Das Spektra-Material dokumentiert Aufbau, Masken, Projektionen, Musiker und die fertige Bühne – den ganzen Weg vom technischen Aufbau bis zur laufenden Veranstaltung.",
     image: "/media/spektra-buehne-01.jpg",
     alt: "Bühne des Spektra Festivals mit Projektionen",
     gallery: [
@@ -479,6 +492,10 @@ export const projects: Project[] = [
       { src: "/media/spektra-aufbau.jpg", alt: "Aufbau der Projektionstechnik" },
       { src: "/media/spektra-detail-01.jpg", alt: "Detail einer Projektion" },
       { src: "/media/spektra-buehne-05.jpg", alt: "Bühnenansicht mit Licht und Musikern" },
+      { src: "/media/spektra-set-hoch.jpg", alt: "Technik und Kamera am Set" },
+      { src: "/media/spektra-buehne-04.jpg", alt: "Projizierte Fläche über der Bühne" },
+      { src: "/media/spektra-detail-02.jpg", alt: "Nahaufnahme einer Projektionsfläche" },
+      { src: "/media/spektra-buehne-06.jpg", alt: "Bühne im violetten Licht" },
     ],
     roles: ["Visuelle Gestaltung", "Live Visuals", "Aufbau und technische Abstimmung", "Dokumentation"],
     services: ["eventfilm", "live-visuals", "projection-mapping"],

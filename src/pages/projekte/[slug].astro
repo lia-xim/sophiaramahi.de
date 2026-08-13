@@ -1,19 +1,233 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import ArrowLink from "../../components/ArrowLink.astro";
-import ContactCta from "../../components/ContactCta.astro";
-import PageHero from "../../components/PageHero.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import "../../styles/projekt.css";
 import { projects, services, servicePath, type Project } from "../../data/site";
-export function getStaticPaths() { return projects.map((project) => ({ params: { slug: project.slug }, props: { project } })); }
+
+// Projektseiten-Template „Vorführung": eine gemeinsame Basis für alle
+// Projekte. Die Dramaturgie — Titelkarte, Produktionstafel, Szenen mit
+// Vollbild-Beats, Kontaktbogen, Abspann, nächste Vorführung, Finale —
+// wird komplett aus den Daten in site.ts gefüttert. Optionale Felder
+// (logline, heroPosition, video) erweitern die Seite ohne Template-Umbau.
+export function getStaticPaths() {
+  return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
 const { project } = Astro.props as { project: Project };
+
+const index = projects.findIndex((entry) => entry.slug === project.slug);
+const next = projects[(index + 1) % projects.length];
 const relatedServices = services.filter((service) => project.services.includes(service.slug));
-const schema = {"@context":"https://schema.org","@type":"CreativeWork",name:project.title,description:project.seoDescription,image:project.gallery.map((item)=>`https://sophiaramahi.de${item.src}`),creator:{"@id":"https://sophiaramahi.de/#person"},dateCreated:project.year};
+const number = String(index + 1).padStart(2, "0");
+const logline = project.logline ?? project.summary;
+const metaParts = [project.category, project.year, project.location].filter(Boolean) as string[];
+
+// Stills-Dramaturgie: nach jeder Text-Szene folgt ein Vollbild-Beat,
+// die übrigen Bilder bilden den Kontaktbogen. Nummern laufen durch.
+const beats = project.gallery.slice(0, project.sections.length);
+const sheet = project.gallery.slice(project.sections.length);
+const stillNumber = (offset: number) => String(offset + 1).padStart(2, "0");
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  name: project.title,
+  description: project.seoDescription,
+  image: project.gallery.map((item) => `https://sophiaramahi.de${item.src}`),
+  creator: { "@id": "https://sophiaramahi.de/#person" },
+  dateCreated: project.year,
+  inLanguage: "de",
+  genre: project.category,
+  keywords: [project.category, ...project.roles].join(", "),
+  ...(project.location ? { locationCreated: { "@type": "Place", name: project.location } } : {}),
+};
 ---
+
 <BaseLayout title={`${project.title} | Projekt von Sophia Ramahi`} description={project.seoDescription} image={project.image} imageAlt={project.alt} schema={schema}>
-  <PageHero title={project.title} lead={project.intro} image={project.image} alt={project.alt} crumbs={[{label:"Start",href:"/"},{label:"Arbeiten",href:"/arbeiten/"},{label:project.title}]} />
-  <section class="section cine-wrap project-facts"><div data-reveal><span class="cine-label">Projekt</span><dl><div><dt>Format</dt><dd>{project.category}</dd></div>{project.year && <div><dt>Jahr</dt><dd>{project.year}</dd></div>}{project.location && <div><dt>Ort</dt><dd>{project.location}</dd></div>}</dl></div><div data-reveal><span class="cine-label">Sophias Aufgaben</span><ul class="tag-list">{project.roles.map((role)=><li>{role}</li>)}</ul></div></section>
-  {project.sections.map((section,index)=><section class:list={["section", {"section--surface":index%2===1}]}><div class="cine-wrap section--split"><div data-reveal><span class="cine-label">{String(index+1).padStart(2,"0")}</span><h2 class="cine-h2">{section.title}</h2></div><div class="prose" data-reveal>{section.copy.map((paragraph)=><p>{paragraph}</p>)}</div></div></section>)}
-  <section class="section cine-wrap"><div class="section-heading" data-reveal><span class="cine-label">Einblicke</span><h2 class="cine-h2">Bilder aus dem Projekt</h2></div><div class="gallery-grid">{project.gallery.map((image,index)=><figure class:list={[{"gallery-grid__wide":index===0}]} data-reveal><img src={image.src} alt={image.alt} width="1200" height="800" loading="lazy" decoding="async" /></figure>)}</div></section>
-  <section class="section section--surface"><div class="cine-wrap"><div class="section-heading" data-reveal><span class="cine-label">Verwandte Leistungen</span><h2 class="cine-h2">Was in diesem Projekt zusammenkam</h2></div><div class="service-link-grid">{relatedServices.map((service)=><ArrowLink href={servicePath(service)} label={service.title} />)}</div></div></section>
-  <ContactCta title="Ein eigenes Projekt besprechen" />
+  <div data-projekt>
+    <!-- Titelkarte -->
+    <section class="pd-hero">
+      <div class:list={["pd-hero__stage", { "pd-hero__stage--crop": project.heroCrop }]} aria-hidden="true">
+        <img src={project.image} alt="" width="1600" height="1000" loading="eager" fetchpriority="high" decoding="async" style={project.heroPosition ? `object-position: ${project.heroPosition};` : undefined} />
+      </div>
+      <span class="pd-vignette" aria-hidden="true"></span>
+      <span class="pd-grain" aria-hidden="true"></span>
+      <div class="cine-wrap pd-hero__inner">
+        <Breadcrumbs items={[{ label: "Start", href: "/" }, { label: "Projekte", href: "/arbeiten/" }, { label: project.title }]} />
+        <p class="pd-hero__meta">
+          <span class="pd-hero__num">{number} / {String(projects.length).padStart(2, "0")}</span>
+          {metaParts.map((part, partIndex) => (
+            <>
+              {partIndex > 0 && <i aria-hidden="true">·</i>}
+              <span>{part}</span>
+            </>
+          ))}
+        </p>
+        <h1 class="pd-hero__title">{project.title}</h1>
+        <p class="pd-hero__logline">{logline}</p>
+      </div>
+      <div class="pd-hero__cue" aria-hidden="true"><i></i>Scroll</div>
+    </section>
+
+    <!-- Produktionstafel -->
+    <section class="cine-wrap pd-slate" data-fx="rise">
+      <dl class="pd-slate__facts">
+        <div><dt>Format</dt><dd>{project.category}</dd></div>
+        {project.year && <div><dt>Jahr</dt><dd>{project.year}</dd></div>}
+        {project.location && <div><dt>Ort</dt><dd>{project.location}</dd></div>}
+      </dl>
+      <div class="pd-slate__services">
+        <span class="cine-label">Leistungen in diesem Projekt</span>
+        <div class="pd-slate__chips">
+          {relatedServices.map((service) => (
+            <a href={servicePath(service)}>{service.title}</a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Einordnung -->
+    <section class="cine-wrap pd-intro" data-fx="rise">
+      <p>{project.intro}</p>
+    </section>
+
+    {project.video && (
+      <section class="cine-wrap pd-reel">
+        <div class="reel__frame" data-reel>
+          <video controls playsinline preload="metadata" poster={project.video.poster ?? project.image} width="1920" height="1080" aria-label={`Projektfilm: ${project.title}`}>
+            <source src={project.video.src} type="video/mp4" />
+            Ihr Browser kann das Video nicht wiedergeben.
+          </video>
+          <button class="reel__play" type="button" data-reel-play hidden>
+            <span class="reel__play-ring" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor" /></svg>
+            </span>
+            <span>Film abspielen</span>
+          </button>
+          <div class="reel__ui" data-reel-ui hidden>
+            <button class="reel__ui-btn" type="button" data-reel-toggle aria-label="Pause">
+              <svg class="reel__icon-pause" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M7 5h3.4v14H7zm6.6 0H17v14h-3.4z" fill="currentColor" /></svg>
+              <svg class="reel__icon-play" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor" /></svg>
+            </button>
+            <div class="reel__scrub" data-reel-scrub role="slider" aria-label="Position im Film" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+              <i class="reel__scrub-fill" data-reel-fill></i>
+              <i class="reel__scrub-knob" data-reel-knob></i>
+            </div>
+            <span class="reel__time u-num" data-reel-time>0:00</span>
+            <button class="reel__ui-btn" type="button" data-reel-full aria-label="Vollbild">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+            </button>
+          </div>
+        </div>
+        {project.video.caption && <p class="u-caption">{project.video.caption}</p>}
+      </section>
+    )}
+
+    <!-- Szenen mit Vollbild-Beats -->
+    {project.sections.map((section, sectionIndex) => (
+      <>
+        <section class:list={["pd-scene", { "pd-scene--flip": sectionIndex % 2 === 1 }]}>
+          <span class="pd-scene__ghost" aria-hidden="true">{String(sectionIndex + 1).padStart(2, "0")}</span>
+          <div class="cine-wrap pd-scene__inner">
+            <div class="pd-scene__head" data-fx="rise">
+              <span class="cine-label">Szene {String(sectionIndex + 1).padStart(2, "0")}</span>
+              <h2>{section.title}</h2>
+            </div>
+            <div class="pd-scene__copy" data-fx="rise">
+              {section.copy.map((paragraph) => <p>{paragraph}</p>)}
+            </div>
+          </div>
+        </section>
+        {beats[sectionIndex] && (
+          <figure class="pd-beat">
+            <div class="pd-beat__stage" aria-hidden="true">
+              <img src={beats[sectionIndex].src} alt={beats[sectionIndex].alt} width="1600" height="1000" loading="lazy" decoding="async" />
+            </div>
+            <span class="pd-vignette" aria-hidden="true"></span>
+            <span class="pd-grain" aria-hidden="true"></span>
+            <figcaption><span class="pd-still-num">Still {stillNumber(sectionIndex)}</span>{beats[sectionIndex].alt}</figcaption>
+          </figure>
+        )}
+      </>
+    ))}
+
+    <!-- Kontaktbogen -->
+    {sheet.length > 0 && (
+      <section class="cine-wrap pd-sheet">
+        <header class="pd-sheet__head" data-fx="rise">
+          <span class="cine-label">Kontaktbogen</span>
+          <h2>Bilder aus dem Projekt</h2>
+        </header>
+        <div class="pd-sheet__grid">
+          {sheet.map((image, imageIndex) => (
+            <figure>
+              <span class="pd-sheet__frame"><img src={image.src} alt={image.alt} width="1200" height="800" loading="lazy" decoding="async" /></span>
+              <figcaption><span class="pd-still-num">Still {stillNumber(beats.length + imageIndex)}</span>{image.alt}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Abspann -->
+    <section class="pd-credits">
+      <div class="cine-wrap">
+        <header class="pd-credits__head" data-fx="rise">
+          <span class="cine-label">Abspann</span>
+          <h2>Sophias Aufgaben</h2>
+        </header>
+        <div class="pd-credits__inner">
+          <ol class="pd-credits__rows">
+            {project.roles.map((role, roleIndex) => (
+              <li><i>{String(roleIndex + 1).padStart(2, "0")}</i><span>{role}</span></li>
+            ))}
+          </ol>
+          <div class="pd-credits__services" data-fx="rise">
+            <span class="cine-label">Was zusammenkam</span>
+            <p>Die Gewerke aus diesem Projekt sind einzeln buchbar — jedes hat eine eigene Leistungsseite.</p>
+            {relatedServices.map((service) => (
+              <a class="cine-link" href={servicePath(service)}><span>{service.title}</span><span aria-hidden="true">→</span></a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Nächste Vorführung -->
+    <section class="cine-wrap pd-next">
+      <div class="pd-next__label" data-fx="rise">
+        <span class="cine-label">Nächste Vorführung</span>
+        <a href="/arbeiten/">Alle Projekte</a>
+      </div>
+      <a class="pd-next__card" href={`/projekte/${next.slug}/`} data-fx="rise">
+        <img src={next.image} alt="" width="1600" height="1000" loading="lazy" decoding="async" />
+        <span class="pd-next__dim" aria-hidden="true"></span>
+        <span class="pd-next__meta">
+          <span class="u-meta">{next.category}</span>
+          <span class="pd-next__title">{next.title}<svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+        </span>
+      </a>
+    </section>
+
+    <!-- Finale -->
+    <section class="pd-finale">
+      <div class="pd-finale__media" aria-hidden="true">
+        <video muted loop playsinline preload="none" poster="/media/hero-poster.jpg" width="1280" height="720" data-finale-video>
+          <source src="/media/hero-loop.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div class="pd-finale__portal" aria-hidden="true"></div>
+      <div class="pd-finale__horizon" aria-hidden="true"></div>
+      <div class="pd-finale__slit" aria-hidden="true"></div>
+      <div class="cine-wrap pd-finale__content">
+        <h2 class="pd-finale__title">Ein eigenes Projekt <em>besprechen</em>?</h2>
+        <p class="cine-lead">Anlass, Ort und ungefährer Zeitraum reichen für den Anfang — Sophia schlägt den passenden Rahmen vor.</p>
+        <a class="cine-btn finale__cta" href="/kontakt/" data-magnetic>Projekt besprechen</a>
+        <p class="u-meta" style="color: #8d86a0;">Düsseldorf · Antwort meist innerhalb von zwei Werktagen</p>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    import "../../scripts/projekt-motion.ts";
+  </script>
 </BaseLayout>
