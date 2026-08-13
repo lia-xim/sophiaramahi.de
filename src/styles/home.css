@@ -624,7 +624,8 @@ html.motion .reel__bar {
   clip-path: inset(0 0 0 0);
 }
 
-.buehne__medium > img {
+.buehne__medium > img,
+.buehne__medium > picture > img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -632,7 +633,8 @@ html.motion .reel__bar {
   transition: transform 8s linear;
 }
 
-.buehne__medium.is-active > img {
+.buehne__medium.is-active > img,
+.buehne__medium.is-active > picture > img {
   transform: scale(1);
 }
 
