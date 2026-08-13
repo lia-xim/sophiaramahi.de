@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Breadcrumbs from "./Breadcrumbs.astro";
 import FaqList from "./FaqList.astro";
+import Pic from "./Pic.astro";
 import "../styles/landing.css";
 import "../styles/service.css";
 import { articles, locations, projects, servicePath, services, site, type Location, type Service } from "../data/site";
@@ -147,9 +148,9 @@ const otherCityServices = location
     <!-- Hero: die Themenwelt des Gewerks -->
     <section class:list={["sd-hero", `sd-hero--${service.slug}`]}>
       <div class="lw-chapter__stagebg" aria-hidden="true">
-        <img src={service.image} alt="" width="1600" height="1000" loading="eager" fetchpriority="high" decoding="async" />
+        <Pic src={service.image} sizes="100vw" width="1600" height="1000" loading="eager" fetchpriority="high" />
         {fx.includes("echo") && (
-          <img class="lw-echo" src={service.image} alt="" width="1600" height="1000" loading="eager" decoding="async" />
+          <Pic class="lw-echo" src={service.image} sizes="100vw" width="1600" height="1000" loading="eager" />
         )}
       </div>
       {fx.includes("beam") && <div class="lw-beam" aria-hidden="true"></div>}
@@ -360,7 +361,7 @@ const otherCityServices = location
           <div class:list={["sd-tiles", { "sd-tiles--solo": related.length === 1 }]}>
             {related.map((project) => (
               <a class:list={["sd-tile", { "sd-tile--electric": project.slug === "electric-lights" }]} href={`/projekte/${project.slug}/`}>
-                <img src={project.image} alt={project.alt} width="1200" height="750" loading="lazy" decoding="async" />
+                <Pic src={project.image} sizes={related.length === 1 ? "(min-width: 861px) 92vw, 94vw" : "(min-width: 861px) 46vw, 94vw"} alt={project.alt} width="1200" height="750" />
                 <span class="sd-tile__dim" aria-hidden="true"></span>
                 <span class="sd-tile__meta">
                   <span class="cine-label">{project.category}{project.year ? ` · ${project.year}` : ""}</span>
