@@ -186,7 +186,7 @@ const otherCities = location ? locations.filter((item) => item.slug !== location
       <div class="cine-wrap sd-scope__grid">
         <header class="sd-scope__head" data-fx="rise">
           <span class="cine-label">Leistungsumfang</span>
-          <h2 class="cine-h2">Was entsteht</h2>
+          <h2 class="cine-h2">{service.scopeTitle}</h2>
         </header>
         <div class="sd-scope__body">
           <ol class="sd-scope__list">
@@ -209,12 +209,35 @@ const otherCities = location ? locations.filter((item) => item.slug !== location
       </div>
     </section>
 
+    <!-- Vertiefung: die individuelle Facette des Gewerks -->
+    <section class:list={["sd-focus", `sd-focus--${service.slug}`]}>
+      <span class="sd-focus__ghost" aria-hidden="true">{service.focus.label}</span>
+      <div class="cine-wrap">
+        <div class="sd-head" data-fx="rise">
+          <span class="cine-label">{service.focus.label}</span>
+          <h2 class="cine-h2">{service.focus.title}</h2>
+          <p class="cine-lead">{service.focus.lead}</p>
+        </div>
+        <ol class="sd-focus__items">
+          {service.focus.items.map((item, index) => (
+            <li class="sd-focus__item" data-fx="rise">
+              <span class="sd-focus__num" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
     <!-- Ablauf als Filmstreifen -->
     <section class="sd-process">
       <div class="cine-wrap">
         <div class="sd-head" data-fx="rise">
           <span class="cine-label">Ablauf</span>
-          <h2 class="cine-h2">{location ? "Vom Briefing bis zur Übergabe — geplant ab Düsseldorf" : "Vom Briefing bis zur Übergabe"}</h2>
+          <h2 class="cine-h2">{location ? `${service.processTitle} — geplant ab Düsseldorf` : service.processTitle}</h2>
         </div>
         <div class="sd-strip">
           <span class="sd-strip__perf sd-strip__perf--t" aria-hidden="true"></span>
@@ -264,7 +287,7 @@ const otherCities = location ? locations.filter((item) => item.slug !== location
     <section class="cine-wrap sd-faq">
       <div class="sd-head" data-fx="rise">
         <span class="cine-label">Kurz geklärt</span>
-        <h2 class="cine-h2">{location ? `Häufige Fragen zu ${location.city}` : "Häufige Fragen"}</h2>
+        <h2 class="cine-h2">{location ? `Häufige Fragen zu ${location.city}` : service.faqTitle}</h2>
       </div>
       <div data-fx="rise"><FaqList items={faqs} /></div>
     </section>

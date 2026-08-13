@@ -181,6 +181,21 @@ if (root && isMotion && !prefersReduced) {
         );
       });
 
+      /* Vertiefung: das Geisterwort zieht langsam gegen die Scrollrichtung */
+      const focusGhost = root.querySelector(".sd-focus__ghost");
+      if (focusGhost) {
+        gsap.fromTo(focusGhost, { yPercent: 14 }, {
+          yPercent: -14,
+          ease: "none",
+          scrollTrigger: {
+            trigger: focusGhost.closest("section") as Element,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true,
+          },
+        });
+      }
+
       /* Filmstreifen: der Playhead fährt über die Spur, die Clips
          setzen sich nacheinander ins Licht */
       const strip = root.querySelector<HTMLElement>(".sd-strip");

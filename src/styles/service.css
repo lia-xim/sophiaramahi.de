@@ -572,6 +572,108 @@ html.motion .sd-tile__meta {
   opacity: 0 !important;
 }
 
+/* ============ Vertiefung: individuelle Facette des Gewerks ============= */
+
+.sd-focus {
+  position: relative;
+  overflow: clip;
+  isolation: isolate;
+  padding-block: clamp(80px, 11vh, 150px);
+  margin-bottom: clamp(70px, 10vh, 130px);
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 45%, var(--bg) 100%);
+}
+
+.sd-focus::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(84vw, 1100px);
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--violet) 75%, transparent) 35%, color-mix(in oklab, var(--magenta) 60%, transparent) 65%, transparent);
+  box-shadow: 0 0 18px 1px rgba(113, 55, 255, 0.35);
+}
+
+/* Das Geisterwort der Sektion — jedes Gewerk trägt hier sein eigenes */
+.sd-focus__ghost {
+  position: absolute;
+  z-index: 0;
+  top: clamp(18px, 4vh, 44px);
+  right: 2%;
+  font-family: var(--font-display);
+  font-size: clamp(3.6rem, 9vw, 8.5rem);
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(154, 92, 255, 0.14);
+  pointer-events: none;
+}
+
+.sd-focus .cine-wrap {
+  position: relative;
+  z-index: 1;
+}
+
+.sd-focus .sd-head {
+  max-width: 820px;
+}
+
+.sd-focus__items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(30px, 5vh, 56px);
+}
+
+/* Versatz statt Kartenraster: die Facetten stehen wie Absätze im Raum */
+.sd-focus__item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: clamp(16px, 2.4vw, 36px);
+  align-items: start;
+  width: min(100%, 720px);
+}
+
+.sd-focus__item:nth-child(2) {
+  justify-self: center;
+}
+
+.sd-focus__item:nth-child(3) {
+  justify-self: end;
+}
+
+.sd-focus__num {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.6vw, 2.6rem);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--magenta) 85%, white), var(--violet));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.sd-focus__item h3 {
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.1vw, 2rem);
+  font-weight: 600;
+  font-stretch: 106%;
+  letter-spacing: -0.02em;
+}
+
+.sd-focus__item p {
+  margin: 0;
+  max-width: 52ch;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
 /* ============ FAQ ====================================================== */
 
 .sd-faq {
@@ -658,6 +760,17 @@ html.motion .sd-tile__meta {
 
   .sd-statement__prose {
     grid-template-columns: 1fr;
+  }
+
+  .sd-focus__ghost {
+    font-size: clamp(3rem, 14vw, 5rem);
+  }
+
+  .sd-focus__item,
+  .sd-focus__item:nth-child(2),
+  .sd-focus__item:nth-child(3) {
+    justify-self: start;
+    width: 100%;
   }
 
   .sd-scope__grid {
