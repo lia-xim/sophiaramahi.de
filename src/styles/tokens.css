@@ -74,6 +74,41 @@
 html {
   -webkit-text-size-adjust: 100%;
   color-scheme: dark;
+  scrollbar-color: #33245c var(--bg);
+}
+
+/* Filmischer Seitenwechsel: kurzer Schnitt durch Schwarz statt hartem
+   Sprung. Nur in Browsern mit Cross-Document View Transitions; alle
+   anderen navigieren wie bisher. */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition {
+  background: #05030a;
+}
+
+::view-transition-old(root) {
+  animation: vt-cut-out 160ms cubic-bezier(0.55, 0, 0.8, 0.4) both;
+}
+
+::view-transition-new(root) {
+  animation: vt-cut-in 280ms 90ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+@keyframes vt-cut-out {
+  to { opacity: 0; }
+}
+
+@keyframes vt-cut-in {
+  from { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
 }
 
 body {

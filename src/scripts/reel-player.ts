@@ -94,13 +94,40 @@ export function initReelPlayer(): void {
     }
   });
 
-  if (full) {
-    full.addEventListener("click", () => {
-      const host = reelFrame as HTMLElement & { requestFullscreen?: () => Promise<void> };
-      if (document.fullscreenElement) void document.exitFullscreen();
-      else if (host.requestFullscreen) void host.requestFullscreen();
-    });
-  }
+  const toggleFullscreen = () => {
+    const host = reelFrame as HTMLElement & { requestFullscreen?: () => Promise<void> };
+    if (document.fullscreenElement) void document.exitFullscreen();
+    else if (host.requestFullscreen) void host.requestFullscreen();
+  };
+
+  if (full) full.addEventListener("click", toggleFullscreen);
+  video.addEventListener("dblclick", toggleFullscreen);
+
+  /* Tastatur im Player: Leertaste/K spielt und pausiert, F wechselt in den
+     Vollbildmodus, Pfeile spulen — Buttons und der Scrubber behalten ihr
+     eigenes Verhalten. */
+  reelFrame.addEventListener("keydown", (event) => {
+    const target = event.target as HTMLElement | null;
+    const key = event.key.toLowerCase();
+    if (event.key === " " || key === "k") {
+      if (event.key === " " && target?.closest("button")) return;
+      event.preventDefault();
+      if (!play.hidden) {
+        start();
+        return;
+      }
+      if (video.paused) void video.play();
+      else video.pause();
+    } else if (key === "f") {
+      event.preventDefault();
+      toggleFullscreen();
+    } else if ((event.key === "ArrowRight" || event.key === "ArrowLeft") && target !== scrub) {
+      event.preventDefault();
+      const delta = event.key === "ArrowRight" ? 5 : -5;
+      video.currentTime = Math.min(video.duration || 48, Math.max(0, video.currentTime + delta));
+      render();
+    }
+  });
 }
 
 initReelPlayer();

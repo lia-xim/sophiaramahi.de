@@ -71,6 +71,65 @@ const regionGroups = [
   items: group.slugs.map((slug) => locations.find((location) => location.slug === slug)!),
 }));
 
+/* NRW-Lichtnetz: echte Relativpositionen der Einsatzorte (Luftlinie ab
+   Düsseldorf). Die Karte ist dekorativ (aria-hidden) — der zugängliche
+   Inhalt bleibt die Ortsliste daneben. */
+const cityGeo: Record<string, { lat: number; lon: number }> = {
+  duesseldorf: { lat: 51.2277, lon: 6.7735 },
+  koeln: { lat: 50.9375, lon: 6.9603 },
+  neuss: { lat: 51.2042, lon: 6.6879 },
+  ratingen: { lat: 51.2973, lon: 6.8492 },
+  meerbusch: { lat: 51.2664, lon: 6.6866 },
+  krefeld: { lat: 51.3388, lon: 6.5853 },
+  wuppertal: { lat: 51.2562, lon: 7.1508 },
+  essen: { lat: 51.4556, lon: 7.0116 },
+  duisburg: { lat: 51.4344, lon: 6.7623 },
+  moenchengladbach: { lat: 51.1805, lon: 6.4428 },
+  leverkusen: { lat: 51.0459, lon: 6.9853 },
+  bonn: { lat: 50.7374, lon: 7.0982 },
+  bochum: { lat: 51.4818, lon: 7.2162 },
+  dortmund: { lat: 51.5136, lon: 7.4653 },
+  oberhausen: { lat: 51.4696, lon: 6.8514 },
+  solingen: { lat: 51.1652, lon: 7.067 },
+};
+const MAP_W = 640;
+const MAP_H = 760;
+const MAP_PAD = 76;
+const lats = Object.values(cityGeo).map((g) => g.lat);
+const lons = Object.values(cityGeo).map((g) => g.lon);
+const latMin = Math.min(...lats);
+const latMax = Math.max(...lats);
+const lonMin = Math.min(...lons);
+const lonMax = Math.max(...lons);
+const lonShrink = Math.cos(((latMin + latMax) / 2 / 180) * Math.PI);
+const spanX = (lonMax - lonMin) * lonShrink;
+const spanY = latMax - latMin;
+const mapScale = Math.min((MAP_W - 2 * MAP_PAD) / spanX, (MAP_H - 2 * MAP_PAD) / spanY);
+const mapX = (lon: number) => MAP_PAD + (MAP_W - 2 * MAP_PAD - spanX * mapScale) / 2 + (lon - lonMin) * lonShrink * mapScale;
+const mapY = (lat: number) => MAP_PAD + (MAP_H - 2 * MAP_PAD - spanY * mapScale) / 2 + (latMax - lat) * mapScale;
+const beelineKm = (a: { lat: number; lon: number }, b: { lat: number; lon: number }) => {
+  const rad = (v: number) => (v / 180) * Math.PI;
+  const h =
+    Math.sin(rad(b.lat - a.lat) / 2) ** 2 +
+    Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(rad(b.lon - a.lon) / 2) ** 2;
+  return Math.round(6371 * 2 * Math.asin(Math.sqrt(h)));
+};
+const dusGeo = cityGeo.duesseldorf;
+const mapNodes = locations
+  .filter((location) => cityGeo[location.slug])
+  .map((location) => {
+    const geoPoint = cityGeo[location.slug];
+    return {
+      slug: location.slug,
+      city: location.city,
+      x: Math.round(mapX(geoPoint.lon) * 10) / 10,
+      y: Math.round(mapY(geoPoint.lat) * 10) / 10,
+      km: beelineKm(dusGeo, geoPoint),
+      isBase: location.slug === "duesseldorf",
+    };
+  });
+const mapBase = mapNodes.find((node) => node.isBase)!;
+
 const cutSteps = [
   { key: "gespraech", title: "Gespräch", copy: "Ziel, Publikum, Ort und ein realistischer Rahmen — geklärt, bevor Technik eine Rolle spielt." },
   { key: "konzeption", title: "Konzeption", copy: "Bildidee, Licht, Ton, Ablauf und Verantwortlichkeiten werden so konkret wie nötig geplant." },
@@ -334,26 +393,65 @@ const cutSteps = [
           <span class="cine-label">Düsseldorf & NRW</span>
           <h2 class="cine-h2">Die Basis ist Düsseldorf. Produziert wird, wo das Projekt stattfindet.</h2>
         </div>
-        <a class="region__basis" href={`/standorte/${duesseldorf.slug}/`}>
-          <span class="region__basis-name">Düsseldorf</span>
-          <span class="u-meta">Basis · Vorgespräche & Produktionen</span>
-        </a>
-        <div class="region__groups">
-          {regionGroups.map((group) => (
-            <div class="region__group">
-              <span class="region__beam" aria-hidden="true"></span>
-              <h3 class="u-meta">{group.label}</h3>
-              <p class="region__cities">
-                {group.items.map((location) => (
-                  <a href={`/standorte/${location.slug}/`}>{location.city}</a>
-                ))}
-              </p>
+        <div class="region__layout">
+          <div class="region__content">
+            <a class="region__basis" href={`/standorte/${duesseldorf.slug}/`} data-city="duesseldorf">
+              <span class="region__basis-name">Düsseldorf</span>
+              <span class="u-meta">Basis · Vorgespräche & Produktionen</span>
+            </a>
+            <div class="region__groups">
+              {regionGroups.map((group) => (
+                <div class="region__group">
+                  <span class="region__beam" aria-hidden="true"></span>
+                  <h3 class="u-meta">{group.label}</h3>
+                  <p class="region__cities">
+                    {group.items.map((location) => (
+                      <a href={`/standorte/${location.slug}/`} data-city={location.slug}>{location.city}</a>
+                    ))}
+                  </p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-        <div class="region__foot">
-          <p class="u-caption">Keine Niederlassungen — Produktionen werden von Düsseldorf aus geplant, Anfahrt transparent im Angebot.</p>
-          <a class="cine-link" href="/standorte/"><span>Alle Einsatzorte</span><span aria-hidden="true">→</span></a>
+            <div class="region__foot">
+              <p class="u-caption">Keine Niederlassungen — Produktionen werden von Düsseldorf aus geplant, Anfahrt transparent im Angebot.</p>
+              <a class="cine-link" href="/standorte/"><span>Alle Einsatzorte</span><span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+          <!-- Lichtnetz: Luftlinien ab Düsseldorf, Positionen aus echten
+               Koordinaten. Beim Überfahren der Ortsnamen leuchtet der
+               zugehörige Punkt auf (site.ts). -->
+          <figure class="region__map" aria-hidden="true">
+            <svg viewBox={`0 0 ${MAP_W} ${MAP_H}`} fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="rmap-halo" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="rgba(154, 92, 255, 0.5)" />
+                  <stop offset="100%" stop-color="rgba(154, 92, 255, 0)" />
+                </radialGradient>
+              </defs>
+              <text class="rmap__ghost" x={MAP_W / 2} y={MAP_H / 2}>NRW</text>
+              {mapNodes.filter((node) => !node.isBase).map((node) => (
+                <line
+                  class="rmap__ray"
+                  x1={mapBase.x}
+                  y1={mapBase.y}
+                  x2={node.x}
+                  y2={node.y}
+                  pathLength="1"
+                  data-city-ray={node.slug}
+                />
+              ))}
+              {mapNodes.map((node) => (
+                <g class:list={["rmap__node", { "rmap__node--base": node.isBase }]} data-city-dot={node.slug}>
+                  <circle class="rmap__halo" cx={node.x} cy={node.y} r={node.isBase ? 30 : 18} fill="url(#rmap-halo)" />
+                  {node.isBase && <circle class="rmap__ring" cx={node.x} cy={node.y} r="13" />}
+                  <circle class="rmap__dot" cx={node.x} cy={node.y} r={node.isBase ? 5.5 : 3.5} />
+                  <text class="rmap__name" x={node.x} y={node.y - (node.isBase ? 24 : 14)}>
+                    {node.isBase ? node.city : `${node.city} · ${node.km} km`}
+                  </text>
+                </g>
+              ))}
+            </svg>
+          </figure>
         </div>
       </div>
     </section>

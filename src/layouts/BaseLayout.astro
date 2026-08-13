@@ -6,7 +6,7 @@ import "../styles/production.css";
 import "../styles/performance.css";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
-import { site } from "../data/site";
+import { site, services, servicePath } from "../data/site";
 
 type SchemaNode = Record<string, unknown>;
 type Props = {
@@ -57,6 +57,7 @@ const graph = [
     email: `mailto:${site.email}`,
     telephone: site.phoneHref,
     jobTitle: "Videografin und Mediengestalterin Bild und Ton",
+    knowsAbout: services.map((service) => service.title),
     address: {
       "@type": "PostalAddress",
       streetAddress: site.address[0],
@@ -84,6 +85,18 @@ const graph = [
     },
     areaServed: { "@type": "AdministrativeArea", name: "Nordrhein-Westfalen" },
     priceRange: "Auf Anfrage",
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Leistungen",
+      itemListElement: services.map((service) => ({
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: service.title,
+          url: new URL(servicePath(service), site.url).toString(),
+        },
+      })),
+    },
   },
   {
     "@type": "WebPage",

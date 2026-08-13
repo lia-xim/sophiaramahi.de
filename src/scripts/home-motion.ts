@@ -372,6 +372,26 @@ if (root && motionActive && !reduceMotion) {
             );
           }
         });
+        /* Lichtnetz: die Luftlinien zeichnen sich mit dem Scroll von
+           Düsseldorf aus, die Orte leuchten gestaffelt auf. */
+        const rays = gsap.utils.toArray<SVGLineElement>(".rmap__ray");
+        const mapNodes = gsap.utils.toArray<SVGGElement>(".rmap__node");
+        if (rays.length && mapNodes.length) {
+          gsap.fromTo(rays, { strokeDashoffset: 1 }, {
+            strokeDashoffset: 0,
+            ease: "none",
+            stagger: 0.05,
+            scrollTrigger: { trigger: ".region__map", start: "top 86%", end: "center 55%", scrub: 0.4 },
+          });
+          gsap.fromTo(mapNodes, { autoAlpha: 0.001 }, {
+            autoAlpha: 1,
+            duration: 0.45,
+            ease: "power2.out",
+            stagger: { each: 0.05, from: "center" },
+            scrollTrigger: { trigger: ".region__map", start: "top 82%", once: true },
+          });
+        }
+
         gsap.fromTo(".region__basis", { autoAlpha: 0.001, y: 28 }, {
           autoAlpha: 1,
           y: 0,

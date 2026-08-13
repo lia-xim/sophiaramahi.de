@@ -32,6 +32,24 @@ if (toggle && nav) {
   });
 }
 
+/* Lichtnetz (Startseite): Ortsname in der Liste und Punkt auf der Karte
+   leuchten gemeinsam — per Hover und per Tastaturfokus. */
+const cityLinks = document.querySelectorAll<HTMLAnchorElement>("[data-city]");
+if (cityLinks.length) {
+  const setHot = (slug: string | undefined, hot: boolean) => {
+    if (!slug) return;
+    document
+      .querySelectorAll(`[data-city-dot="${slug}"], [data-city-ray="${slug}"]`)
+      .forEach((node) => node.classList.toggle("is-hot", hot));
+  };
+  cityLinks.forEach((link) => {
+    link.addEventListener("mouseenter", () => setHot(link.dataset.city, true));
+    link.addEventListener("mouseleave", () => setHot(link.dataset.city, false));
+    link.addEventListener("focus", () => setHot(link.dataset.city, true));
+    link.addEventListener("blur", () => setHot(link.dataset.city, false));
+  });
+}
+
 const contactForm = document.querySelector<HTMLFormElement>("[data-contact-form]");
 const formStatus = document.querySelector<HTMLElement>("[data-form-status]");
 

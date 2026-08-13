@@ -1334,6 +1334,112 @@ html.motion .cut__clip.is-active .cut__clip-label {
   max-width: 62ch;
 }
 
+/* Das Lichtnetz: Einsatzorte als Konstellation, Luftlinien ab Düsseldorf */
+
+.region__layout {
+  display: grid;
+  gap: clamp(36px, 5vh, 56px);
+}
+
+@media (min-width: 1081px) {
+  .region__layout {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: clamp(40px, 4vw, 88px);
+    align-items: start;
+  }
+
+  .region__map {
+    position: sticky;
+    top: clamp(72px, 10vh, 120px);
+  }
+}
+
+.region__map {
+  margin: 0;
+  justify-self: center;
+  width: min(100%, 460px);
+}
+
+.region__map svg {
+  width: 100%;
+  height: auto;
+}
+
+.rmap__ghost {
+  fill: none;
+  stroke: rgba(215, 188, 255, 0.07);
+  stroke-width: 1;
+  font-family: var(--font-display);
+  font-size: 190px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+.rmap__ray {
+  stroke: rgba(154, 92, 255, 0.34);
+  stroke-width: 1;
+}
+
+html.motion .rmap__ray {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.rmap__dot {
+  fill: #d7bcff;
+}
+
+.rmap__ring {
+  stroke: rgba(215, 188, 255, 0.5);
+  stroke-width: 1;
+}
+
+.rmap__halo {
+  opacity: 0.7;
+}
+
+.rmap__name {
+  fill: #cfc9dc;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 550;
+  letter-spacing: 0.06em;
+  text-anchor: middle;
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease);
+}
+
+.rmap__node--base .rmap__name {
+  opacity: 1;
+  fill: #f2eefc;
+  font-size: 16px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+html.motion .rmap__node {
+  opacity: 0;
+}
+
+/* Hover-Verbund: Ortsname in der Liste ⇄ Punkt im Netz (site.ts) */
+.rmap__node.is-hot .rmap__name {
+  opacity: 1;
+}
+
+.rmap__node.is-hot .rmap__dot {
+  fill: #ffffff;
+}
+
+.rmap__node.is-hot .rmap__halo {
+  opacity: 1;
+}
+
+.rmap__ray.is-hot {
+  stroke: rgba(215, 188, 255, 0.85);
+}
+
 /* ============ 9 · Finale ================================================ */
 
 .finale {
@@ -1708,4 +1814,6 @@ html.motion .finale__portal {
   html.motion .cut__step { position: static; opacity: 1; transform: none; pointer-events: auto; }
   html.motion .cut__playhead { display: none; }
   html.motion .finale__portal { transform: translateX(-50%); opacity: 0.85; }
+  html.motion .rmap__ray { stroke-dashoffset: 0; }
+  html.motion .rmap__node { opacity: 1; }
 }
