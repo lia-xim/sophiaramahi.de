@@ -813,6 +813,22 @@ html.motion .sd-tile__meta {
   }
 }
 
+/* Vor-Ort-Sektion der Stadtseiten: der Stadtname als Ghost muss auch
+   bei langen Namen (Mönchengladbach) im Rahmen bleiben. */
+.sd-local .sd-focus__ghost {
+  font-size: clamp(2.4rem, 5.5vw, 5.5rem);
+  max-width: 96%;
+  overflow: hidden;
+  text-overflow: clip;
+  white-space: nowrap;
+}
+
+@media (max-width: 860px) {
+  .sd-local .sd-focus__ghost {
+    font-size: clamp(2rem, 9vw, 3.4rem);
+  }
+}
+
 /* Reduced Motion: alle Startzustände neutralisieren */
 @media (prefers-reduced-motion: reduce) {
   html.motion .sd-clip { opacity: 1; }

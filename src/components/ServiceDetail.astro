@@ -5,6 +5,7 @@ import FaqList from "./FaqList.astro";
 import "../styles/landing.css";
 import "../styles/service.css";
 import { locations, projects, servicePath, type Location, type Service } from "../data/site";
+import { localDetail } from "../data/local";
 
 // Leistungs-Landingpage — und in der lokalisierten Variante die Stadtseite
 // derselben Leistung (gleiche Struktur, eigener lokaler Kontext).
@@ -50,14 +51,22 @@ const fx = heroFx[service.slug] ?? ["dust"];
 // Haltungszeile: **…** markiert den Akzentteil
 const claimParts = service.claim.split("**");
 
+// Von Hand geschriebene Stadt-Texte; ohne Eintrag greifen die Templates.
+const local = location ? localDetail(location.slug, service.slug) : undefined;
+
 const title = location
-  ? `${service.title} in ${location.city} | Videografin Sophia Ramahi`
+  ? (local?.seoTitle ?? `${service.title} in ${location.city} | Videografin Sophia Ramahi`)
   : service.seoTitle;
 const description = location
-  ? `${service.title} in ${location.city}: ${service.summary} Produktion aus Düsseldorf, Anfahrt transparent geplant.`
+  ? (local?.seoDescription ?? `${service.title} in ${location.city}: ${service.summary} Produktion aus Düsseldorf, Anfahrt transparent geplant.`)
   : service.seoDescription;
 
-const faqs = location ? [...location.faq, ...service.faq] : service.faq;
+// Lokalseiten mit eigenen Texten führen die Stadt-Fragen zuerst und
+// übernehmen nur die wichtigsten Leistungs-Fragen — die vollständige
+// Liste bleibt der Hauptseite vorbehalten.
+const faqs = location
+  ? (local ? [...local.faq, ...service.faq.slice(0, 3)] : [...location.faq, ...service.faq])
+  : service.faq;
 
 const crumbs = location
   ? [{ label: "Start", href: "/" }, { label: parentLabel, href: parentHref }, { label: service.title, href: basePath }, { label: location.city }]
@@ -87,7 +96,7 @@ const schema = [
 ];
 
 const introParagraphs = location
-  ? [location.localAngle, location.logistics, service.outcome]
+  ? (local?.intro ?? [location.localAngle, location.logistics, service.outcome])
   : [service.intro, service.outcome];
 
 const otherCities = location ? locations.filter((item) => item.slug !== location.slug).slice(0, 8) : [];
@@ -139,7 +148,7 @@ const otherCities = location ? locations.filter((item) => item.slug !== location
             service.title
           )}
         </h1>
-        <p class="sd-hero__lead">{service.summary}</p>
+        <p class="sd-hero__lead">{local?.lead ?? service.summary}</p>
         <div class="sd-hero__actions">
           <a class="cine-btn" href="/kontakt/">Projekt anfragen</a>
           {location ? (
@@ -208,6 +217,30 @@ const otherCities = location ? locations.filter((item) => item.slug !== location
         </div>
       </div>
     </section>
+
+    <!-- Vor Ort: konkrete Orte und Bedingungen der Stadt (nur Lokalseiten) -->
+    {local && location && (
+      <section class="sd-focus sd-local">
+        <span class="sd-focus__ghost" aria-hidden="true">{location.city}</span>
+        <div class="cine-wrap">
+          <div class="sd-head" data-fx="rise">
+            <span class="cine-label">Drehorte & Anlässe</span>
+            <h2 class="cine-h2">{local.placesTitle}</h2>
+          </div>
+          <ol class="sd-focus__items">
+            {local.places.map((item, index) => (
+              <li class="sd-focus__item" data-fx="rise">
+                <span class="sd-focus__num" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  <h3>{item.title}</h3>
+                  <p>{item.copy}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+    )}
 
     <!-- Vertiefung: die individuelle Facette des Gewerks -->
     <section class:list={["sd-focus", `sd-focus--${service.slug}`]}>
