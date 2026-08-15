@@ -43,6 +43,26 @@ const walk = (directory) => {
 };
 
 walk(root);
+const homeHtml = pages.get("/")?.html ?? "";
+const requiredFonts = [
+  "fonts/archivo-latin.woff2",
+  "fonts/instrument-sans-latin.woff2",
+];
+for (const fontPath of requiredFonts) {
+  if (!existsSync(join(root, fontPath))) failures.push(`${fontPath} is missing`);
+  if (!homeHtml.includes(`href="/${fontPath}"`)) failures.push(`${fontPath} is not preloaded on the home page`);
+}
+const builtCss = readdirSync(join(root, "_astro"))
+  .filter((name) => name.endsWith(".css"))
+  .map((name) => readFileSync(join(root, "_astro", name), "utf8"))
+  .join("\n");
+for (const family of ["Sophia Archivo", "Sophia Instrument Sans"]) {
+  if (!builtCss.includes(family)) failures.push(`${family} is missing from the built CSS`);
+}
+const fontOutput = `${homeHtml}\n${builtCss}`;
+for (const externalHost of ["fonts.googleapis.com", "fonts.gstatic.com"]) {
+  if (fontOutput.includes(externalHost)) failures.push(`external font host found: ${externalHost}`);
+}
 const content = (html, pattern) => html.match(pattern)?.[1]?.trim();
 const sitemapPath = join(root, "sitemap-0.xml");
 const robotsPath = join(root, "robots.txt");
@@ -122,4 +142,4 @@ if (failures.length) {
   process.exit(1);
 }
 if (warnings.length) console.warn(`Technical SEO QA warnings (${warnings.length}):\n${warnings.map((item) => `- ${item}`).join("\n")}`);
-console.log(`Technical SEO QA passed: ${pages.size} HTML pages, ${sitemapUrls.size} sitemap canonicals, robots, social metadata, JSON-LD, location gates and orphan checks.`);
+console.log(`Technical SEO QA passed: ${pages.size} HTML pages, ${sitemapUrls.size} sitemap canonicals, self-hosted fonts, robots, social metadata, JSON-LD, location gates and orphan checks.`);

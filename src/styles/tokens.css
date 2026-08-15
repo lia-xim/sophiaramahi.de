@@ -34,10 +34,10 @@
   --focus: #8fb0ff;
 
   /* Typografie */
-  --font-display: "Archivo", "Archivo Expanded", "Helvetica Neue", Arial,
+  --font-display: "Sophia Archivo", "Arial Narrow", "Helvetica Neue", Arial,
     sans-serif;
-  --font-body: "Instrument Sans", ui-sans-serif, system-ui, "Segoe UI", Arial,
-    sans-serif;
+  --font-body: "Sophia Instrument Sans", ui-sans-serif, system-ui, "Segoe UI",
+    Arial, sans-serif;
 
   --step-display: clamp(2.5rem, 8.2vw, 8.25rem);
   --step-h1: clamp(2.5rem, 5.4vw, 4.75rem);
@@ -118,7 +118,7 @@ body {
   font-family: var(--font-body);
   font-size: var(--step-body);
   line-height: 1.6;
-  font-synthesis-weight: none;
+  font-synthesis: none;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
