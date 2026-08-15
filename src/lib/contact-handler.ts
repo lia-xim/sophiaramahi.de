@@ -184,7 +184,22 @@ export async function handleContactRequest(
       }),
       signal: AbortSignal.timeout(10_000),
     });
-    if (!response.ok) return unavailable(502);
+    if (!response.ok) {
+      const resendError = await response
+        .json()
+        .catch(() => null) as { name?: unknown; message?: unknown } | null;
+      const redactEmails = (value: unknown) =>
+        String(value ?? "unknown")
+          .replace(/[^\s@]+@[^\s@]+\.[^\s@]+/g, "[redacted-email]")
+          .slice(0, 500);
+
+      console.error("Resend contact delivery rejected", {
+        status: response.status,
+        name: redactEmails(resendError?.name),
+        message: redactEmails(resendError?.message),
+      });
+      return unavailable(502);
+    }
   } catch {
     return unavailable(502);
   }
