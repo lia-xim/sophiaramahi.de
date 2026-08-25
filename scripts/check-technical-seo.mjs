@@ -67,18 +67,46 @@ const content = (html, pattern) => html.match(pattern)?.[1]?.trim();
 const sitemapPath = join(root, "sitemap-0.xml");
 const robotsPath = join(root, "robots.txt");
 const videoSitemapPath = join(root, "video-sitemap.xml");
+const vercelConfigPath = join(distRoot, "..", "vercel.json");
 for (const [path, label] of [[join(root, "sitemap-index.xml"), "sitemap-index.xml"], [sitemapPath, "sitemap-0.xml"], [robotsPath, "robots.txt"], [videoSitemapPath, "video-sitemap.xml"]]) {
   if (!existsSync(path)) failures.push(`${label} is missing`);
 }
 
 const sitemap = existsSync(sitemapPath) ? readFileSync(sitemapPath, "utf8") : "";
 const sitemapUrls = new Set([...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]));
+const consolidatedLocalRoutePatterns = [
+  /^\/videografie\/[^/]+\/[^/]+\/$/,
+  /^\/vj-mapping\/[^/]+\/[^/]+\/$/,
+  /^\/postproduktion\/[^/]+\/$/,
+];
+const requiredConsolidationRedirects = [
+  ["/videografie/:leistung/:stadt", "/videografie/:leistung/"],
+  ["/videografie/:leistung/:stadt/", "/videografie/:leistung/"],
+  ["/vj-mapping/:leistung/:stadt", "/vj-mapping/:leistung/"],
+  ["/vj-mapping/:leistung/:stadt/", "/vj-mapping/:leistung/"],
+  ["/postproduktion/:stadt", "/postproduktion/"],
+  ["/postproduktion/:stadt/", "/postproduktion/"],
+];
+if (!existsSync(vercelConfigPath)) {
+  failures.push("vercel.json is missing");
+} else {
+  const vercelConfig = JSON.parse(readFileSync(vercelConfigPath, "utf8"));
+  for (const [source, destination] of requiredConsolidationRedirects) {
+    const redirect = vercelConfig.redirects?.find((item) => item.source === source);
+    if (redirect?.destination !== destination || redirect?.permanent !== true) {
+      failures.push(`missing permanent consolidation redirect ${source} -> ${destination}`);
+    }
+  }
+}
 const robots = existsSync(robotsPath) ? readFileSync(robotsPath, "utf8") : "";
 if (!robots.includes(`Sitemap: ${origin}/sitemap-index.xml`)) failures.push("robots.txt does not reference the canonical sitemap index");
 if (!robots.includes(`Sitemap: ${origin}/video-sitemap.xml`)) failures.push("robots.txt does not reference the video sitemap");
 
 for (const [route, page] of pages) {
   const { html } = page;
+  if (consolidatedLocalRoutePatterns.some((pattern) => pattern.test(route))) {
+    failures.push(`${route}: retired city-service combination was generated`);
+  }
   const canonical = content(html, /<link rel="canonical" href="([^"]+)"/i);
   const expectedCanonical = `${origin}${route}`;
   const robotsMeta = content(html, /<meta name="robots" content="([^"]+)"/i);

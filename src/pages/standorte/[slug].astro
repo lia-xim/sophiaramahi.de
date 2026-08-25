@@ -7,9 +7,9 @@ import { locations, services, servicePath, type Location } from "../../data/site
 import { localCopy } from "../../data/local";
 import { cityProfiles } from "../../data/local/profiles";
 
-// Standortseite = Hub der Stadt: eigenes Profil, dann alle Leistungen,
-// die für diese Stadt individuelle Texte tragen. Ohne Profil fällt die
-// Seite auf die generischen Standort-Texte zurück und bleibt noindex.
+// Standortseite = einziger geografischer Hub der Stadt. Die Karten ordnen
+// das regionale Profil den zentralen Leistungsseiten zu; eigene
+// Stadt-mal-Leistung-URLs werden bewusst nicht erzeugt.
 export function getStaticPaths() {
   return locations.map((location) => ({ params: { slug: location.slug }, props: { location } }));
 }
@@ -68,13 +68,14 @@ const schema = [
       <div class="section-heading" data-reveal>
         <span class="cine-label">Leistungen in {location.city}</span>
         <h2 class="cine-h2">Je nach Anlass als Produktion oder einzelnes Gewerk</h2>
+        <p class="cine-lead">Die Hinweise hier betreffen die Planung in {location.city}. Umfang, Ablauf und Beispiele stehen auf der jeweiligen Leistungsseite.</p>
       </div>
       <div class="service-list">
         {localServices.map((service, i) => (
-          <a class="service-row" href={`${servicePath(service)}${location.slug}/`} data-reveal>
+          <a class="service-row" href={servicePath(service)} data-reveal>
             <span>{String(i + 1).padStart(2, "0")}</span>
             <div>
-              <h3>{service.title} in {location.city}</h3>
+              <h3>{service.title}</h3>
               <p>{cityCopy?.[service.slug]?.lead ?? service.summary}</p>
             </div>
             <span aria-hidden="true">↗</span>

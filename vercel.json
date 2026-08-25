@@ -1,6 +1,12 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [
+    { "source": "/videografie/:leistung/:stadt", "destination": "/videografie/:leistung/", "permanent": true },
+    { "source": "/videografie/:leistung/:stadt/", "destination": "/videografie/:leistung/", "permanent": true },
+    { "source": "/vj-mapping/:leistung/:stadt", "destination": "/vj-mapping/:leistung/", "permanent": true },
+    { "source": "/vj-mapping/:leistung/:stadt/", "destination": "/vj-mapping/:leistung/", "permanent": true },
+    { "source": "/postproduktion/:stadt", "destination": "/postproduktion/", "permanent": true },
+    { "source": "/postproduktion/:stadt/", "destination": "/postproduktion/", "permanent": true },
     { "source": "/contact", "destination": "/kontakt/", "permanent": true },
     { "source": "/contact/", "destination": "/kontakt/", "permanent": true },
     { "source": "/electirc-lights", "destination": "/projekte/electric-lights/", "permanent": true },
