@@ -1,4 +1,5 @@
 import { contactLimits, contactTopics } from "../data/kontakt.ts";
+import { isBlockedContact, verifyContactToken } from "./contact-protection.ts";
 
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
 const MAX_REQUEST_BYTES = 16_000;
@@ -6,7 +7,7 @@ const RATE_WINDOW_MS = 10 * 60 * 1000;
 const RATE_MAX = 5;
 const RATE_RETRY_SECONDS = Math.ceil(RATE_WINDOW_MS / 1000);
 const ALLOWED_CONTENT_TYPES = ["application/x-www-form-urlencoded", "multipart/form-data"];
-const ALLOWED_FIELDS = new Set(["name", "email", "project", "message", "firma", "ts", "submissionId"]);
+const ALLOWED_FIELDS = new Set(["name", "email", "project", "message", "firma", "ts", "submissionId", "cf-turnstile-response"]);
 const rateLog = new Map<string, number[]>();
 
 type ContactHandlerDependencies = {
@@ -146,7 +147,11 @@ export async function handleContactRequest(
   }
 
   const ip = (request.headers.get("x-forwarded-for") ?? "unbekannt").split(",")[0].trim();
+  if (isBlockedContact(email, getEnv)) return unavailable(403, "schutz");
   if (!rateLimit(ip, now)) return unavailable(429, "rate", RATE_RETRY_SECONDS);
+
+  const protectionStatus = await verifyContactToken(data.get("cf-turnstile-response"), { env: getEnv, fetcher });
+  if (protectionStatus) return unavailable(protectionStatus, "schutz");
 
   const apiKey = getEnv("RESEND_API_KEY");
   const to = getEnv("CONTACT_TO") ?? "info@sophiaramahi.de";

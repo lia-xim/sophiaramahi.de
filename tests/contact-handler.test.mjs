@@ -12,6 +12,7 @@ const validData = {
   firma: "",
   ts: String(now - 10_000),
   submissionId,
+  "cf-turnstile-response": "valid-test-token",
 };
 
 function request(fields = {}, headers = {}) {
@@ -31,6 +32,7 @@ function request(fields = {}, headers = {}) {
 }
 
 const env = (name) => ({
+  TURNSTILE_SECRET_KEY: "test-secret",
   RESEND_API_KEY: "re_test",
   CONTACT_TO: "info@sophiaramahi.de",
   CONTACT_FROM: "Website <website@sophiaramahi.de>",
@@ -43,6 +45,7 @@ test("validiert und sendet eine Anfrage genau einmal mit Idempotency-Key", async
     env,
     rateLimit: () => true,
     fetcher: async (url, init) => {
+      if (String(url).includes("siteverify")) return verified();
       calls.push({ url, init });
       return new Response(JSON.stringify({ id: "email_1" }), { status: 200 });
     },
@@ -117,7 +120,7 @@ test("mappt Resend-Ausfälle und klassische Form-Posts sauber", async () => {
     now: () => now,
     env,
     rateLimit: () => true,
-    fetcher: async () => new Response(null, { status: 422 }),
+    fetcher: async (url) => String(url).includes("siteverify") ? verified() : new Response(null, { status: 422 }),
   });
   assert.equal(resendFailure.status, 502);
 
@@ -126,8 +129,79 @@ test("mappt Resend-Ausfälle und klassische Form-Posts sauber", async () => {
     now: () => now,
     env,
     rateLimit: () => true,
-    fetcher: async () => new Response(null, { status: 200 }),
+    fetcher: async (url) => String(url).includes("siteverify") ? verified() : new Response(null, { status: 200 }),
   });
   assert.equal(htmlSuccess.status, 303);
   assert.equal(htmlSuccess.headers.get("location"), "https://sophiaramahi.de/kontakt/danke/");
+});
+
+function verified(overrides = {}) {
+  return new Response(JSON.stringify({ success: true, hostname: "sophiaramahi.de", action: "contact", ...overrides }), { status: 200 });
+}
+
+test("fehlende, ungültige und zu lange Nachweise sowie gesperrte Absender versenden nichts", async () => {
+  for (const fields of [
+    { "cf-turnstile-response": "" },
+    { "cf-turnstile-response": "x".repeat(2049) },
+    { email: "RRSZTJGS2296@hotmail.com" },
+    { email: "robertgulledge51652@aol.com" },
+    { email: "extra@example.com" },
+  ]) {
+    let calls = 0;
+    const response = await handleContactRequest(request(fields), {
+      now: () => now, env: (name) => name === "CONTACT_BLOCKED_EMAILS" ? "extra@example.com" : env(name), rateLimit: () => true,
+      fetcher: async () => { calls++; return verified(); },
+    });
+    assert.equal(response.status, 403);
+    assert.equal(calls, 0);
+  }
+});
+
+test("falscher Host, falsche Action, Ablauf und Wiederverwendung werden vor Resend abgewiesen", async () => {
+  for (const result of [
+    { hostname: "attacker.example" }, { hostname: undefined },
+    { action: "other" }, { action: undefined },
+    { success: false, "error-codes": ["timeout-or-duplicate"] }, { success: "true" },
+  ]) {
+    const calls = [];
+    const response = await handleContactRequest(request(), {
+      now: () => now, env, rateLimit: () => true,
+      fetcher: async (url) => { calls.push(String(url)); return verified(result); },
+    });
+    assert.equal(response.status, 403);
+    assert.deepEqual(calls, ["https://challenges.cloudflare.com/turnstile/v0/siteverify"]);
+  }
+});
+
+test("fehlendes Secret und Cloudflare-Ausfälle sperren den Versand", async () => {
+  for (const failure of ["secret", "http", "network", "json", "invalid-secret"]) {
+    const calls = [];
+    const response = await handleContactRequest(request(), {
+      now: () => now, env: (name) => failure === "secret" && name === "TURNSTILE_SECRET_KEY" ? undefined : env(name), rateLimit: () => true,
+      fetcher: async (url) => {
+        calls.push(String(url));
+        if (failure === "network") throw new Error("offline");
+        if (failure === "http") return new Response(null, { status: 503 });
+        if (failure === "json") return new Response("invalid json");
+        return verified({ success: false, "error-codes": ["invalid-input-secret"] });
+      },
+    });
+    assert.equal(response.status, 503);
+    assert.ok(calls.every((url) => url.includes("siteverify")));
+  }
+});
+
+test("prüft den Nachweis vor Resend und übermittelt keine Formulardaten an Cloudflare", async () => {
+  const calls = [];
+  const response = await handleContactRequest(request(), {
+    now: () => now, env, rateLimit: () => true,
+    fetcher: async (url, init) => {
+      calls.push({ url: String(url), body: JSON.parse(init.body) });
+      return String(url).includes("siteverify") ? verified() : new Response(JSON.stringify({ id: "email_1" }));
+    },
+  });
+  assert.equal(response.status, 200);
+  assert.equal(calls.length, 2);
+  assert.deepEqual(calls[0].body, { secret: "test-secret", response: "valid-test-token" });
+  assert.equal(calls[1].url, "https://api.resend.com/emails");
 });

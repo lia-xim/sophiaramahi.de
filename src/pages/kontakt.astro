@@ -4,11 +4,11 @@ import Breadcrumbs from "../components/Breadcrumbs.astro";
 import "../styles/kontakt.css";
 import { site } from "../data/site";
 import { contactLimits, contactTopics } from "../data/kontakt";
+const turnstileSiteKey = process.env.PUBLIC_TURNSTILE_SITE_KEY ?? import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
 // Kontaktseite „Das Gespräch": eine Video-Bühne, links der direkte Draht,
 // rechts die Anfrage als Produktionstafel. Das Formular versendet über
-// /api/kontakt (Resend) und funktioniert ohne JavaScript vollständig:
-// Erfolg → /kontakt/danke/, Fehler → :target-Meldungen über dem Formular.
+// /api/kontakt (Resend); Turnstile benötigt JavaScript.
 ---
 
 <BaseLayout
@@ -87,9 +87,11 @@ import { contactLimits, contactTopics } from "../data/kontakt";
           <input type="hidden" name="submissionId" value="" />
 
           <div class="kn-actions">
+            <div data-kn-turnstile data-sitekey={turnstileSiteKey} style="width:100%;flex-basis:100%;min-height:65px"></div>
             <button class="cine-btn" type="submit" data-kn-submit>Anfrage senden</button>
             <p class="kn-status" data-kn-status role="status" aria-live="polite" tabindex="-1"></p>
           </div>
+          <noscript><p class="kn-status">Für den sicheren Formularversand aktivieren Sie bitte JavaScript oder schreiben Sie direkt an <a href={`mailto:${site.email}`}>{site.email}</a>.</p></noscript>
           <p class="kn-note"><span aria-hidden="true">*</span> Pflichtfeld. Die Angaben werden verschlüsselt übertragen, nicht auf dieser Website gespeichert und nur zur Beantwortung der Anfrage verwendet. Details in der <a href="/datenschutz/">Datenschutzerklärung</a>.</p>
         </form>
       </div>
