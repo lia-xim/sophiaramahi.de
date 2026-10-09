@@ -43,7 +43,7 @@ const schema = {
 };
 ---
 
-<BaseLayout title={`${project.title} | Projekt von Sophia Ramahi`} description={project.seoDescription} image={project.image} imageAlt={project.alt} schema={schema}>
+<BaseLayout title={project.seoTitle ?? `${project.title} | Projekt von Sophia Ramahi`} description={project.seoDescription} image={project.image} imageAlt={project.alt} schema={schema}>
   <div data-projekt>
     <!-- Titelkarte -->
     <section class="pd-hero">
@@ -77,7 +77,7 @@ const schema = {
         {project.location && <div><dt>Ort</dt><dd>{project.location}</dd></div>}
       </dl>
       <div class="pd-slate__services">
-        <span class="cine-label">Leistungen in diesem Projekt</span>
+        <span class="cine-label">Verwandte Leistungen</span>
         <div class="pd-slate__chips">
           {relatedServices.map((service) => (
             <a href={servicePath(service)}>{service.title}</a>
@@ -223,7 +223,7 @@ const schema = {
         <h2 class="pd-finale__title">Ein eigenes Projekt <em>besprechen</em>?</h2>
         <p class="cine-lead">Anlass, Ort und ungefährer Zeitraum reichen für den Anfang — Sophia schlägt den passenden Rahmen vor.</p>
         <a class="cine-btn finale__cta" href="/kontakt/" data-magnetic>Projekt besprechen</a>
-        <p class="u-meta" style="color: #8d86a0;">Düsseldorf · Antwort meist innerhalb von zwei Werktagen</p>
+        <p class="u-meta" style="color: #8d86a0;">Düsseldorf · Termin und Umfang nach Absprache</p>
       </div>
     </section>
   </div>

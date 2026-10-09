@@ -47,7 +47,7 @@ const turnstileSiteKey = process.env.PUBLIC_TURNSTILE_SITE_KEY ?? import.meta.en
         </div>
 
         <form class="kn-card" method="post" action="/api/kontakt/" data-kontakt-form>
-          <p class="kn-card__head"><span class="cine-label">Projektanfrage</span><span class="kn-card__hint u-meta">Antwort meist innerhalb von zwei Werktagen</span></p>
+          <p class="kn-card__head"><span class="cine-label">Projektanfrage</span><span class="kn-card__hint u-meta">Termin und Aufgabe kurz beschreiben</span></p>
 
           <div class="kn-alert" id="fehler-eingaben" role="alert" tabindex="-1">
             <strong>Bitte prüfen Sie die Angaben.</strong> Name, eine gültige E-Mail-Adresse, ein Thema und eine Nachricht ab {contactLimits.message.min} Zeichen werden gebraucht.
@@ -103,7 +103,7 @@ const turnstileSiteKey = process.env.PUBLIC_TURNSTILE_SITE_KEY ?? import.meta.en
         <h2>Von der Anfrage zum Drehtag</h2>
       </div>
       <ol class="kn-steps__list">
-        <li data-fx="rise"><i>01</i><strong>Antwort</strong><p>Meist innerhalb von zwei Werktagen — mit den nächsten sinnvollen Fragen, falls etwas fehlt.</p></li>
+        <li data-fx="rise"><i>01</i><strong>Antwort</strong><p>Sophia prüft Ihre Anfrage und klärt offene Fragen zu Termin, Umfang und Ablauf.</p></li>
         <li data-fx="rise"><i>02</i><strong>Gespräch</strong><p>Kurzer Austausch zu Anlass, Ort und Umfang. Danach ist klar, welches Format und welches Team passt.</p></li>
         <li data-fx="rise"><i>03</i><strong>Angebot</strong><p>Transparent kalkuliert, inklusive Anfahrt und klarer Zuständigkeiten. Kein Kleingedrucktes.</p></li>
       </ol>

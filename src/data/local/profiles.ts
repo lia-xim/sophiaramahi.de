@@ -16,402 +16,338 @@ export type CityProfile = {
 
 export const cityProfiles: Record<string, CityProfile> = {
   duesseldorf: {
-    seoTitle: "Videografin in Düsseldorf – Sophia Ramahi",
-    seoDescription:
-      "Videografin in Düsseldorf: Eventfilm, Musikvideo, Imagefilm, Kamera, Ton, Live Visuals und Postproduktion — ohne Anfahrtskosten, mit Ortskenntnis.",
-    heroLead:
-      "Düsseldorf ist Sophias Basis: Hier finden Vorgespräche, Besichtigungen und viele Drehs statt — ohne Anfahrtskosten, mit kurzen Wegen und Ortskenntnis.",
-    sectionTitle: "Die Basis als Vorteil",
+    seoTitle: "Videodreh in Düsseldorf | Sophia Ramahi",
+    seoDescription: "Düsseldorf ist Sophias Produktionsbasis. Film, Kamera und Visuals für Musik, Kultur und Unternehmen: Drehort, Umfang und Technik gemeinsam planen.",
+    heroLead: "Düsseldorf ist Sophias Produktionsbasis. Kamera, Film und Visuals werden für den konkreten Ort und Anlass geplant.",
+    sectionTitle: "Die Produktionsbasis in Düsseldorf",
     intro: [
-      "Wer in Düsseldorf produziert, bekommt die einfachste Version jeder Zusammenarbeit: Besichtigungen sind Stundentermine, Drehs lassen sich auf mehrere Lichtstimmungen verteilen, kurzfristige Termine scheitern nicht an der Logistik. Und die Stadt selbst liefert von der Tonhalle bis zur Industriehalle fast jede Kulisse.",
-      "Dazu kommt die persönliche Verbindung: Sophias eigene Projekte — Electric Lights im KIT, die Arbeit mit der Jungen Filmwerkstatt — sind in dieser Stadt entstanden. Die Wege, Häuser und Eigenheiten kennt sie nicht aus Recherche, sondern aus der Praxis.",
+      "Sophia arbeitet von Düsseldorf aus als Videografin, Kamerafrau und Visual Artist. Ihre audiovisuelle Arbeit Electric Lights wurde im KIT gezeigt; ihre Beiträge sind auf der Projektseite beschrieben. Für einen neuen Auftrag werden Motive, Zugänge und technische Bedingungen eigens geprüft.",
+      "Bei einer Veranstaltung stehen Ablauf und Aufnahmepositionen im Vordergrund. Ein Interview braucht eine passende Gesprächssituation und Tonplanung. Für Live Visuals oder Mapping werden Bildflächen, Zuspielung und Aufbau mit der Veranstaltungstechnik abgestimmt. Die jeweilige Leistungsseite beschreibt den fachlichen Umfang."
     ],
     faq: [
       {
-        question: "Fallen innerhalb Düsseldorfs Fahrtkosten an?",
-        answer:
-          "Praktisch keine — Anfahrten innerhalb der Stadt werden transparent ausgewiesen und fallen kaum ins Gewicht. Das Budget fließt in Drehzeit, Licht und Schnitt.",
+        "question": "Wie werden Fahrt und Techniktransport innerhalb Düsseldorfs behandelt?",
+        "answer": "Der konkrete Drehort, Transport und Aufbau werden im Angebot berücksichtigt. Aus der Produktionsbasis in Düsseldorf folgt keine pauschale Zusage zu kostenlosen Fahrten oder zusätzlichen Besichtigungen."
       },
       {
-        question: "Sind kurzfristige Termine in Düsseldorf möglich?",
-        answer:
-          "Wenn der Kalender es zulässt, ja — ohne Anreise ist auch ein Termin mit wenigen Tagen Vorlauf realistisch planbar. Ein kurzes Briefing zu Anlass, Ort und Ziel reicht für den Start.",
-      },
+        "question": "Was hilft bei einer Anfrage für Düsseldorf?",
+        "answer": "Termin, genaue Location, Projektart, gewünschte Nutzung und vorhandene technische Angaben. Falls Zugänge oder Freigaben noch offen sind, nennen Sie die zuständige Ansprechperson. Verfügbarkeit und Umfang werden für das Projekt geprüft."
+      }
     ],
   },
 
   koeln: {
-    seoTitle: "Videografin in Köln – Sophia Ramahi",
-    seoDescription:
-      "Videografin für Köln: Eventfilm, Musikvideo, Imagefilm, Kamera, Ton und Live Visuals — 40 km von der Basis Düsseldorf, ohne Übernachtungslogik.",
-    heroLead:
-      "Köln ist von Düsseldorf aus ein Arbeitsweg, keine Reise: Konzerte, Messen, Unternehmensdrehs und Musikproduktionen werden regulär und ohne Übernachtungskosten geplant.",
-    sectionTitle: "Köln als regulärer Produktionsraum",
+    seoTitle: "Videoproduktion in Köln | Planung ab Düsseldorf",
+    seoDescription: "Film, Kamera und Live Visuals für Projekte in Köln. Produktion ab Düsseldorf mit abgestimmter Anreise, Drehplanung und technischem Umfang.",
+    heroLead: "Für Produktionen in Köln reist Sophia aus Düsseldorf an. Dreh, Aufbau und mögliche Proben werden mit dem Zeitplan vor Ort abgestimmt.",
+    sectionTitle: "Veranstaltungsablauf und Anreise zusammen planen",
     intro: [
-      "Zwischen Konzerthäusern in Mülheim, den Deutzer Messehallen, der Medienbranche und einer dichten Musikszene produziert Köln pausenlos — und braucht dafür verlässliche Gewerke. Die 40 Kilometer von Düsseldorf sind dabei kein Kompromiss: Besichtigungen, Drehtage und auch späte Veranstaltungsenden bleiben normale Termine.",
-      "Für Kölner Projekte gilt dieselbe Arbeitsweise wie überall: Vorbereitung vor Ort statt Ferndiagnose, transparente Kalkulation, und ein Ergebnis, das sich nicht anhört wie von der Stange. Die Leistungsseiten zeigen, was das je Gewerk konkret bedeutet.",
+      "Ein Konzertfilm oder ein Live-Visuals-Einsatz in Köln braucht neben den Spielzeiten auch Angaben zum Aufbau, zu Übergaben und zum Ende der Veranstaltung. Frühere Aufbau- und späte Abbauzeiten gehören in die Kalkulation. Reise und eine gegebenenfalls nötige Übernachtung werden für den tatsächlichen Ablauf geprüft.",
+      "Bei Musikvideos, Interviews und Unternehmensporträts bestimmen Motive, Personen und freigegebene Zeitfenster die Planung. Wenn bereits Regie und Produktion vorhanden sind, kann Sophia als Kamerafrau angefragt werden. Die fachlichen Details stehen auf den zentralen Leistungsseiten."
     ],
     faq: [
       {
-        question: "Berechnet Sophia für Köln Übernachtungskosten?",
-        answer:
-          "In der Regel nicht — auch nach späten Veranstaltungen ist die Rückfahrt machbar. Nur bei mehrtägigen Produktionen mit sehr frühen Starts wird verglichen, ob eine Übernachtung wirtschaftlicher ist; das steht dann offen im Angebot.",
+        "question": "Ist für einen Dreh in Köln eine Übernachtung nötig?",
+        "answer": "Das hängt von Start, Ende, Zahl der Produktionstage und Reiseplanung ab. Eine pauschale Kostenfreiheit wird nicht vorausgesetzt; die vereinbarten Reiseposten stehen im Angebot."
       },
       {
-        question: "Kommt Sophia für Vorgespräche nach Köln?",
-        answer:
-          "Ja — Konzepttermine, Besichtigungen und Technik-Checks in Köln sind kurze Termine. Erste Abstimmungen funktionieren auch per Video; spätestens vor dem Drehtag lohnt der Blick auf den echten Ort.",
-      },
+        "question": "Muss jede Abstimmung in Köln stattfinden?",
+        "answer": "Ein erstes Briefing kann anhand von Ablauf, Fotos und technischen Angaben erfolgen. Ob eine Besichtigung oder Probe vor Ort nötig ist, wird danach für das Projekt festgelegt."
+      }
     ],
   },
 
   neuss: {
-    seoTitle: "Videografin in Neuss – Sophia Ramahi",
-    seoDescription:
-      "Videografin für Neuss: Eventfilm, Imagefilm, Musikvideo, Kamera und mehr — direkt über die Rheinbrücke, praktisch ohne Anfahrt.",
-    heroLead:
-      "Neuss liegt direkt gegenüber der Basis: Produktionen hier laufen zu denselben Bedingungen wie in Düsseldorf selbst — kurze Wege, flexible Termine.",
-    sectionTitle: "Die Nachbarstadt",
+    seoTitle: "Videodreh in Neuss | Interviews, Film & Kamera",
+    seoDescription: "Videodreh in Neuss mit Sophia Ramahi aus Düsseldorf: Interviews, Eventfilm und Kameraarbeit. Ort, Anreise, Ton und Auslieferung konkret planen.",
+    heroLead: "Film- und Kameraaufträge in Neuss werden von Düsseldorf aus geplant. Auch bei kurzen Wegen zählen Zugang, Aufbau und der tatsächliche Drehumfang.",
+    sectionTitle: "Interviews und Aufnahmen am selben Ort planen",
     intro: [
-      "Vom Düsseldorfer Ufer nach Neuss sind es ein paar Brückenminuten — für die Produktion heißt das: Besichtigung, Dreh und Nachaufnahmen sind spontane Termine, keine Planungsposten. Gleichzeitig hat Neuss eigene Bühnen und Anlässe: das Schützenfest, Kultur im Zeughaus und am Globe, den Hafen und einen Mittelstand mit Geschichte.",
-      "Die Leistungsseiten für Neuss gehen ins Detail — vom Eventfilm über Unternehmensporträts bis zur Postproduktion mit persönlicher Übergabe.",
+      "Für ein Porträt oder einen Interviewblock in Neuss werden Gesprächsort und ergänzende Arbeitsbilder gemeinsam vorbereitet. Angaben zu Raum, vorhandenen Lichtquellen und Störgeräuschen helfen bei der Kamera- und Tonplanung. Zugänge und die Verfügbarkeit der Personen gehören ins Briefing.",
+      "Bei einem Veranstaltungsfilm braucht Sophia zusätzlich den Ablauf und die gewünschten Schlüsselmomente. Anreise, Techniktransport, Aufbau und mögliche weitere Termine werden im Angebot berücksichtigt. Nähe zu Düsseldorf ist eine logistische Bedingung und keine Zusage zu identischen Konditionen."
     ],
     faq: [
       {
-        question: "Gelten für Neuss dieselben Konditionen wie für Düsseldorf?",
-        answer:
-          "Praktisch ja: Die Anfahrt ist ein symbolischer Posten, Termine bleiben flexibel, und auch geteilte Drehs — Besichtigung heute, Dreh nächste Woche — kosten keine Reiselogistik.",
+        "question": "Sind kleine Projekte in Neuss möglich?",
+        "answer": "Eine kompakte Aufgabe wie ein Interview oder ein konzentrierter Dreh kann angefragt werden. Sinnvoller Umfang, Verfügbarkeit und erforderlicher Aufbau werden anhand des konkreten Briefings geprüft."
       },
       {
-        question: "Übernimmt Sophia auch kleine Neusser Projekte?",
-        answer:
-          "Ja — gerade bei dieser Nähe rechnen sich auch halbe Drehtage: ein Interviewblock, eine Veranstaltungsstunde, ein Porträttermin. Der Umfang wird ehrlich auf den Anlass geschnitten.",
-      },
+        "question": "Wie werden Anfahrt und Besichtigungen berechnet?",
+        "answer": "Reise, Transport und gegebenenfalls gesonderte Vor-Ort-Termine werden vor der Beauftragung vereinbart. Dafür sind Location und Ablauf wichtiger als eine pauschale Entfernungsschätzung."
+      }
     ],
   },
 
   ratingen: {
-    seoTitle: "Videografin in Ratingen – Sophia Ramahi",
-    seoDescription:
-      "Videografin für Ratingen: Corporate-Filme, Eventfilm, Interviews und mehr — 15 km von Düsseldorf, auch kurzfristig verfügbar.",
-    heroLead:
-      "Ratingen liegt fünfzehn Kilometer von der Basis: kurzfristige Corporate-Drehs, Interviews mit engen Zeitfenstern und Events sind hier normale Termine.",
-    sectionTitle: "Produktionsort für Unternehmen",
+    seoTitle: "Videodreh in Ratingen | Interviews & Unternehmensporträt",
+    seoDescription: "Interviews, Unternehmensporträts und Kameraarbeit in Ratingen mit Sophia Ramahi. Produktionsplanung aus Düsseldorf für den vereinbarten Umfang.",
+    heroLead: "Für Interviews und Unternehmensporträts in Ratingen werden Personen, Räume und Zeitfenster vor dem Dreh abgestimmt.",
+    sectionTitle: "Ein Dreh im laufenden Betrieb",
     intro: [
-      "Ratingens Gewerbegebiete beherbergen internationale Zentralen und IT-Unternehmen — entsprechend hoch ist der Bedarf an Corporate-Video: Interviews, Townhalls, Produktfilme, oft mit knappen Slots und internationalen Beteiligten. Die Nähe zur Basis macht auch spontane Termine realistisch.",
-      "Daneben hat die Stadt eigene Gesichter: die historische Textilfabrik Cromford, die Altstadt, den Blauen See. Was je Leistung möglich ist — vom Imagefilm mit Untertitel-Fassungen bis zum Mapping auf der Firmenfassade — zeigen die Ratinger Leistungsseiten.",
+      "Ein Unternehmensporträt in Ratingen kann Interviews mit Aufnahmen von Arbeitsabläufen verbinden. Dazu müssen Personen, freigegebene Motive und mögliche Betriebsunterbrechungen benannt werden. Vertrauliche Bereiche und die zuständige Ansprechperson gehören in die Vorbereitung.",
+      "Bei einem Auftrag innerhalb eines vorhandenen Produktionsteams werden Bildsprache, Formate und technische Vorgaben vorab besprochen. Sophia arbeitet von Düsseldorf aus; Anreise und Umfang werden für den tatsächlichen Drehplan vereinbart. Eine kurzfristige Buchung hängt von Verfügbarkeit und Vorbereitung ab."
     ],
     faq: [
       {
-        question: "Wie kurzfristig kann ein Dreh in Ratingen stattfinden?",
-        answer:
-          "Bei freiem Kalender auch von heute auf morgen — die Anfahrt ist kein Faktor. Entscheidend ist ein kompaktes Briefing: wer spricht, wo, in welcher Bildsprache, wohin geht das Material.",
+        "question": "Kann mit vorhandenen Gestaltungsvorgaben gearbeitet werden?",
+        "answer": "Bildreferenzen, Formate und Übergabevorgaben können ins Briefing aufgenommen werden. Vor dem Auftrag wird geprüft, welche Anforderungen zum geplanten Dreh und zur Postproduktion gehören."
       },
       {
-        question: "Arbeitet Sophia nach internationalen Brand-Guidelines?",
-        answer:
-          "Ja — Looks, Formate und Naming-Konventionen internationaler Unternehmen werden im Briefing übernommen, damit das Material weltweit in die bestehende Kommunikation passt.",
-      },
+        "question": "Ist ein kurzfristiger Dreh möglich?",
+        "answer": "Das wird für Termin und Umfang geprüft. Nennen Sie Location, Personen, Nutzung und bereits geklärte Zugänge. Die Nähe zu Düsseldorf ersetzt weder Vorbereitung noch eine Verfügbarkeitsprüfung."
+      }
     ],
   },
 
   meerbusch: {
-    seoTitle: "Videografin in Meerbusch – Sophia Ramahi",
-    seoDescription:
-      "Videografin für Meerbusch: Porträts, Imagefilme, Events und ruhige Drehorte am Rhein — fünfzehn Minuten von Düsseldorf.",
-    heroLead:
-      "Meerbusch verbindet ruhige Drehorte mit kurzer Anfahrt: Porträts, Firmenfilme und Feste zwischen Rheinauen, Höfen und Gewerbeparks.",
-    sectionTitle: "Ruhe als Standortvorteil",
+    seoTitle: "Videodreh in Meerbusch | Porträt & Produktionsplanung",
+    seoDescription: "Film und Kamera für Projekte in Meerbusch, geplant ab Düsseldorf. Interviewort, Licht, Ton, Zugänge und Nutzung vor der Produktion klären.",
+    heroLead: "Für einen Porträt- oder Videodreh in Meerbusch werden Ort, Licht und Ton gemeinsam mit dem Produktionsrahmen vorbereitet.",
+    sectionTitle: "Den Gesprächsort vor der Aufnahme prüfen",
     intro: [
-      "Meerbusch ist der ruhige Nachbar: Kanzleien, Praxen und Unternehmenssitze im Grünen, Höfe und Rheinauen als Kulisse, Kulturorte wie die Teloy-Mühle. Produktionen hier sind oft persönlicher als anderswo — Porträts, diskrete Feste, Filme für Auftraggeber, die von Vertrauen leben.",
-      "Die Nähe zur Basis hält alles leichtgewichtig: Besichtigungen sind Stundentermine, Drehs folgen dem Licht statt dem Fahrplan. Die Leistungsseiten zeigen die Details — vom Imagefilm bis zur Projektion auf der Hofscheune.",
+      "Bei einem Interview in Meerbusch ist der Hintergrund nur ein Teil der Ortswahl. Auch Umgebung, störende Geräusche, Platz für Kamera und Licht sowie erreichbare Aufbauzeiten müssen passen. Fotos und Angaben zum Raum ermöglichen eine erste Einschätzung.",
+      "Für Außenmotive werden die tatsächlichen Bedingungen zur geplanten Drehzeit geprüft. Wetter, Freigaben und ein möglicher Ersatzort gehören in die Absprache. Fahrtzeiten und Aufwand werden anhand der genauen Location geplant; eine pauschale Minutenangabe trägt den Drehplan nicht."
     ],
     faq: [
       {
-        question: "Übernimmt Sophia auch private Anlässe in Meerbusch?",
-        answer:
-          "Ausgewählte, ja — etwa Jubiläen und Feste mit kulturellem oder unternehmerischem Rahmen. Wie diskret gearbeitet wird, klärt das Vorgespräch: kleines Setup, klare Absprachen, keine gestellten Szenen.",
+        "question": "Wie wird mit Störgeräuschen am Drehort umgegangen?",
+        "answer": "Die Situation wird für den konkreten Ort beurteilt. Eine andere Gesprächsposition, ein geeignetes Zeitfenster oder ein Innenraum kann sinnvoll sein. Verständlicher Ton sollte vor dem Dreh geplant werden."
       },
       {
-        question: "Was ist mit dem Fluglärm bei Außenaufnahmen?",
-        answer:
-          "Der wird eingeplant: Je nach Ortsteil und Betriebsrichtung liegen Flugzeiten über Meerbusch — Zeitfenster und Ortswahl reagieren darauf, Interviews weichen im Zweifel in ruhige Innenräume aus.",
-      },
+        "question": "Welche Angaben braucht ein Porträtdreh?",
+        "answer": "Personen, Tätigkeit, gewünschte Aussage, verfügbare Orte und die spätere Nutzung. Ergänzen Sie Termine, Fotos und bekannte Einschränkungen, damit Aufnahme und Auslieferung gemeinsam geplant werden können."
+      }
     ],
   },
 
   krefeld: {
-    seoTitle: "Videografin in Krefeld – Sophia Ramahi",
-    seoDescription:
-      "Videografin für Krefeld: Eventfilm, Imagefilm, Musikvideo und mehr in der Samt- und Seidenstadt — 30 km von Düsseldorf.",
-    heroLead:
-      "Krefeld bietet Textilgeschichte, Kulturbühnen und Industrie — Produktionen hier werden von Düsseldorf aus mit Besichtigung und klarem Plan aufgesetzt.",
-    sectionTitle: "Die Seidenstadt als Drehort",
+    seoTitle: "Videodreh in Krefeld | Kultur, Events & Kamera",
+    seoDescription: "Videodreh, Eventfilm und Kameraarbeit für Projekte in Krefeld mit Sophia Ramahi aus Düsseldorf. Aufbau, Ton und freigegebene Motive planen.",
+    heroLead: "Für Kultur- und Veranstaltungsprojekte in Krefeld werden Filmziel, Drehorte und technische Zuständigkeiten im Briefing geklärt.",
+    sectionTitle: "Kulturveranstaltung und Filmnutzung verbinden",
     intro: [
-      "Krefeld hat für Produktionen eine seltene Mischung: Industriekultur aus der Textilära, Kulturorte von der Kulturfabrik bis zum Theater, Feste an der Burg Linn — und einen Mittelstand von der Manufaktur bis zum Chempark-Dienstleister. Je nach Gewerk wird daraus ein anderes Projekt.",
-      "Die 30 Kilometer Anfahrt sind ein normaler Arbeitsweg: Besichtigungen und Drehtage bleiben flexible Termine, und auch ein Konzertende nach Mitternacht braucht keine Übernachtungslogik.",
+      "Ein Film über eine Veranstaltung in Krefeld kann als kurzer Rückblick oder als ausführlichere Dokumentation geplant werden. Welche Programmpunkte und Stimmen gebraucht werden, sollte vor dem Dreh feststehen. Zugang, Kameraaufnahmen und benötigte Tonquellen werden mit den Verantwortlichen abgestimmt.",
+      "Für Projektionen oder Live Visuals gehören Bildflächen, Anschlüsse und ein Prüfzeitfenster zur Anfrage. Anreise und technische Bereitstellung werden von Düsseldorf aus für das Projekt geplant. Eine neue Location wird anhand ihrer tatsächlichen Bedingungen beurteilt."
     ],
     faq: [
       {
-        question: "Kennt Sophia die Krefelder Locations?",
-        answer:
-          "Die relevanten Orte werden vor jedem Projekt konkret geprüft — eine Besichtigung gehört bei Sälen, Hallen und Industrieflächen zum Standard. Behauptete Ortskenntnis ersetzt keinen Termin vor Ort.",
+        "question": "Wie wird eine neue Location vorbereitet?",
+        "answer": "Fotos, Maße, Ablauf und technische Angaben sind ein erster Einstieg. Ob eine Besichtigung oder Probe nötig ist, wird für die konkrete Aufgabe festgelegt. Eine behauptete allgemeine Ortskenntnis ersetzt diese Prüfung nicht."
       },
       {
-        question: "Was kostet die Anfahrt nach Krefeld?",
-        answer:
-          "Einen transparent ausgewiesenen, kleinen Posten — keine Pauschalen, keine Zuschläge. Bei mehrteiligen Produktionen werden Fahrten gebündelt geplant.",
-      },
+        "question": "Können Film und Live Visuals kombiniert werden?",
+        "answer": "Beides kann angefragt werden. Live-Betreuung und gleichzeitige Filmaufnahmen brauchen aber klare Zuständigkeiten und gegebenenfalls zusätzliche Besetzung; der Umfang wird gemeinsam geplant."
+      }
     ],
   },
 
   wuppertal: {
-    seoTitle: "Videografin in Wuppertal – Sophia Ramahi",
-    seoDescription:
-      "Videografin für Wuppertal: Kultur- und Unternehmensfilme, Musikvideos und Events im Tal — 35 km von Düsseldorf.",
-    heroLead:
-      "Wuppertal hat eigene Regeln: Hanglage, Schwebebahn, dichte Kulturszene — Produktionen hier brauchen Ortsverstand und belohnen ihn mit unverwechselbaren Bildern.",
-    sectionTitle: "Produzieren im Tal",
+    seoTitle: "Videodreh in Wuppertal | Motive & Kameraplanung",
+    seoDescription: "Kamera- und Videoproduktion in Wuppertal ab Düsseldorf. Motive, Zugänge, Wege, Licht und technische Vorbereitung für das konkrete Projekt abstimmen.",
+    heroLead: "Ein Videodreh in Wuppertal beginnt mit den konkreten Motiven, ihren Zugängen und den verfügbaren Aufnahmezeiten.",
+    sectionTitle: "Mehrere Motive in einen Drehplan bringen",
     intro: [
-      "Wuppertal sieht aus wie keine andere Stadt in NRW — Schwebebahn, Treppenviertel, Industriearchitektur an der Wupper — und hat mit Stadthalle, Bühnen und freier Szene ein Kulturleben, das Filme verdient. Gleichzeitig stellt die Topografie eigene Anforderungen an Wege, Technik und Zeitplan.",
-      "Beides fließt in die Planung ein: Motive werden nach Lage gebündelt, Wegzeiten ehrlich gerechnet, das Licht des Tals genutzt statt bekämpft. Die Leistungsseiten zeigen, was das je Gewerk bedeutet.",
+      "Wenn ein Musikvideo oder Porträt mehrere Orte in Wuppertal nutzt, zählen auch Wege, Transport, Aufbau und mögliche Wartezeiten. Geben Sie deshalb die genauen Motive und Ansprechpartner an. Freigaben und verfügbare Drehfenster sollten vor der endgültigen Aufnahmereihenfolge geklärt werden.",
+      "Kamera und Licht werden anhand der gewünschten Bildsprache vorbereitet. Orte mit betrieblichen oder besonderen Zugangsregeln müssen mit den Zuständigen abgestimmt werden. Aus einer Außenansicht oder allgemeinen Zugänglichkeit wird keine Aufnahmefreigabe abgeleitet."
     ],
     faq: [
       {
-        question: "Macht die Hanglage Drehs in Wuppertal teurer?",
-        answer:
-          "Nicht teurer, aber anders: Mehr Wegzeit, kompaktere Technik, Motive nach Lage gebündelt. Ein realistischer Drehplan fängt das auf — versteckte Puffer oder Zuschläge gibt es nicht.",
+        "question": "Kann an Verkehrsanlagen oder besonderen Orten gedreht werden?",
+        "answer": "Eine Idee kann geprüft werden. Ob Zugang und Nutzung möglich sind, klären die zuständigen Betreiber oder Flächenverantwortlichen für den konkreten Dreh. Diese Rückmeldung gehört in die Motivplanung."
       },
       {
-        question: "Braucht ein Dreh mit der Schwebebahn eine Genehmigung?",
-        answer:
-          "In Bahnen und auf Stationen ja — die Freigabe der WSW wird bei passendem Konzept früh angefragt. Außenaufnahmen der Bahn vom öffentlichen Raum aus sind meist unkompliziert.",
-      },
+        "question": "Was hilft bei mehreren Drehorten?",
+        "answer": "Adressen, Fotos, Zugangszeiten, Ansprechpartner und der geplante Umfang je Motiv. Anreise und Wechsel zwischen den Orten werden mit der verfügbaren Drehzeit zusammen geplant."
+      }
     ],
   },
 
   essen: {
-    seoTitle: "Videografin in Essen – Sophia Ramahi",
-    seoDescription:
-      "Videografin für Essen: Events, Unternehmensfilme, Musikvideos und mehr — von Zollverein bis Baldeneysee, 40 km von Düsseldorf.",
-    heroLead:
-      "Essen reicht vom Welterbe Zollverein bis zum Baldeneysee: Events, Konzernproduktionen und Kulturformate — geplant ab Düsseldorf, mit Besichtigung, wo der Ort sie verlangt.",
-    sectionTitle: "Zwischen Welterbe und Konzernzentrale",
+    seoTitle: "Videoproduktion in Essen | Kultur, Kamera & Events",
+    seoDescription: "Film- und Kameraaufträge in Essen mit Sophia Ramahi aus Düsseldorf. Kulturveranstaltungen, Interviews und Drehplanung nach vereinbartem Umfang.",
+    heroLead: "Bei einer Produktion in Essen werden Veranstaltungen, Interviews oder einzelne Kameraaufträge mit ihren jeweiligen Aufnahmebedingungen geplant.",
+    sectionTitle: "Inhalte und Drehzugang vorab abstimmen",
     intro: [
-      "Essen produziert auf zwei Ebenen: Kultur und Events auf Flächen wie Zollverein, in Philharmonie und Lichtburg — und Corporate-Formate der Konzerne und Institutionen, die hier ihren Sitz haben. Beides verlangt Vorbereitung: Welterbe-Flächen haben Freigabewege, Konzerndrehs Compliance und Guidelines.",
-      "Genau diese Vorbereitung ist Teil der Arbeitsweise: Regeln früh klären, Orte besichtigen, den Drehtag den Bildern überlassen. Die Essener Leistungsseiten zeigen die Details je Gewerk.",
+      "Für ein Veranstaltungsformat in Essen muss geklärt sein, welche Inhalte der Film festhalten soll und wann Zugang für Kamera und Ton besteht. Bei Interviews können Aufbau und Gesprächszeiten vom laufenden Programm abweichen. Eine verantwortliche Ansprechperson erleichtert diese Abstimmung.",
+      "Ein Kulturfilm oder Musikvideo erhält seine eigene Motiv- und Lichtplanung. Besondere Veranstaltungsorte, Parks und andere Flächen werden mit den Zuständigen für die konkrete Nutzung geprüft. Sophia reist aus Düsseldorf an; technische Aufgaben und Reiseumfang stehen im Angebot."
     ],
     faq: [
       {
-        question: "Wie läuft ein Dreh auf Zollverein?",
-        answer:
-          "Über die Stiftung: Kommerzielle Drehs auf dem Welterbe brauchen Freigabe und Vorlauf. Bei Veranstaltungen deckt oft der Veranstalter die Dokumentation ab — was gilt, wird vor dem Termin geklärt, nicht am Tor.",
+        "question": "Kann in öffentlich zugänglichen Anlagen gedreht werden?",
+        "answer": "Öffentliche Zugänglichkeit beantwortet nicht alle Fragen zum Aufbau und zur Nutzung. Ort, Aufnahmeumfang und mögliche Sondernutzung müssen mit der jeweils zuständigen Stelle geprüft werden."
       },
       {
-        question: "Ist Essen für Abendveranstaltungen praktikabel?",
-        answer:
-          "Ja — 40 Kilometer erlauben auch späte Rückfahrten ohne Hotelkosten. Nur mehrtägige Formate mit frühen Starts werden gegen eine Übernachtung gerechnet, transparent im Angebot.",
-      },
+        "question": "Kann nur Kameraarbeit gebucht werden?",
+        "answer": "Ja, eine Anfrage als Einzelgewerk ist möglich. Regie, Bildsprache, technische Vorgaben, Tonverantwortung und Datenübergabe werden mit der vorhandenen Produktion geklärt."
+      }
     ],
   },
 
   duisburg: {
-    seoTitle: "Videografin in Duisburg – Sophia Ramahi",
-    seoDescription:
-      "Videografin für Duisburg: Events im Landschaftspark, Industrie- und Hafenproduktionen, Musikvideos — 30 km von Düsseldorf.",
-    heroLead:
-      "Duisburg liefert Kulissen mit Wucht: Landschaftspark, Europas größter Binnenhafen, Tiger & Turtle — Produktionen hier leben von guter Vorbereitung.",
-    sectionTitle: "Produktionsraum mit Schwerkraft",
+    seoTitle: "Videodreh in Duisburg | Zugang, Kamera & Ton",
+    seoDescription: "Videodreh und Kameraarbeit in Duisburg mit Sophia Ramahi. Ort, Zugänge, Aufbau und Originalton für Filmprojekte ab Düsseldorf planen.",
+    heroLead: "Für einen Dreh in Duisburg zählen genaue Motive, freigegebene Zugänge und Bedingungen für Kamera und Ton.",
+    sectionTitle: "Zugang und Aufbau vor der Kamera planen",
     intro: [
-      "Kaum eine Stadt gibt Filmen so viel visuelle Masse: die Hochöfen des Landschaftsparks, endlose Hafenbecken, Halden mit Skulpturen. Gleichzeitig ist vieles davon Arbeitsgebiet — mit Sicherheitsregeln, Freigaben und Wegen, die geplant sein wollen.",
-      "Die 30 Kilometer von Düsseldorf machen Duisburg zum regulären Produktionsraum: Besichtigungen sind kurze Termine, Nachtdrehs im illuminierten Landschaftspark enden mit einer normalen Heimfahrt. Details je Gewerk stehen auf den Duisburger Leistungsseiten.",
+      "Bei Unternehmensflächen oder anderen betriebenen Orten in Duisburg sollte die Anfrage den tatsächlichen Aufbau beschreiben. Ansprechpartner, Aufnahmebereiche und Zeitfenster müssen benannt sein. Anforderungen an Zugang und Betrieb werden mit den Verantwortlichen vor Ort geklärt.",
+      "Interviews, ergänzende Arbeitsbilder und ein Eventfilm stellen unterschiedliche Anforderungen an Ton und Licht. Sophia kann die passende Kamera- oder Produktionsaufgabe auf Grundlage des Briefings prüfen. Für Außenmotive werden Wetter und Ausweichmöglichkeiten eingeplant."
     ],
     faq: [
       {
-        question: "Sind Drehs im Landschaftspark genehmigungspflichtig?",
-        answer:
-          "Kleine Setups im öffentlichen Bereich meist nicht — Aufbauten, Licht und exklusive Flächen laufen über die Parkverwaltung. Die Regeln sind drehfreundlich; geklärt wird trotzdem vorab.",
+        "question": "Kann auf Unternehmens- oder Industriegelände gedreht werden?",
+        "answer": "Das hängt von der Freigabe und den Bedingungen des jeweiligen Standorts ab. Nennen Sie Ansprechpartner, gewünschte Motive, Zugänge und bereits bekannte Vorgaben. Eine pauschale Zusage für Anlagen wird nicht vorausgesetzt."
       },
       {
-        question: "Bekommt eine Produktion Zugang zum Hafen?",
-        answer:
-          "Über die Betriebe: Als Auftraggeber vor Ort öffnen sie Türen, die eine Produktion allein nicht öffnet. Anmeldung, Sicherheitsunterweisung und erlaubte Motive brauchen Vorlauf — eingeplant von Anfang an.",
-      },
+        "question": "Was braucht die Kamera- und Tonplanung?",
+        "answer": "Drehziel, genaue Location, Zeitfenster, Personen, Bildreferenzen und die gewünschte Nutzung. Bekannte Störquellen und technische Möglichkeiten helfen, Interview und Bildaufnahmen zusammen vorzubereiten."
+      }
     ],
   },
 
   oberhausen: {
-    seoTitle: "Videografin in Oberhausen – Sophia Ramahi",
-    seoDescription:
-      "Videografin für Oberhausen: Konzerte, Events, Unternehmensfilme und Musikvideos — von Turbinenhalle bis Gasometer, 35 km von Düsseldorf.",
-    heroLead:
-      "Oberhausen ist Veranstaltungsstadt mit Filmtradition: Konzerte, Shows und Feste — und Betriebe, deren Wandel sich erzählen lässt.",
-    sectionTitle: "Veranstaltungsstadt mit Geschichte",
+    seoTitle: "Videodreh in Oberhausen | Kultur & Produktion",
+    seoDescription: "Videodreh, Eventfilm und Kameraaufträge in Oberhausen mit Sophia Ramahi. Drehorte, Interviews und technische Bedingungen ab Düsseldorf planen.",
+    heroLead: "Ein Filmprojekt in Oberhausen wird anhand seiner Aufgabe geplant: Veranstaltung, Interview, Musikvideo oder einzelne Kameraarbeit.",
+    sectionTitle: "Den Aufnahmeort mit der Bildidee abgleichen",
     intro: [
-      "Zwischen Turbinenhalle, Arena und Gasometer ist Oberhausen an große Formate gewöhnt — und mit den Internationalen Kurzfilmtagen trägt die Stadt Filmgeschichte im Namen. Produktionen hier reichen vom Konzertfilm über Firmenporträts bis zu Musikvideos in Industriekulisse.",
-      "Die 35 Kilometer Anfahrt bleiben ein normaler Arbeitsweg — auch für Abendtermine. Was je Leistung gilt, von Medienregeln bei Shows bis zu Motiven am Kanal, steht auf den Oberhausener Leistungsseiten.",
+      "Für einen Dreh in Oberhausen werden Motive und gewünschte Bildsprache gemeinsam betrachtet. Raum, Licht, Ton und Zugänge müssen zum Aufbau passen. An besonderen Veranstaltungsorten oder betriebenen Flächen werden Bedingungen mit den Zuständigen konkret geprüft.",
+      "Ein vorhandenes Produktionsteam kann Sophia für Kamera und Bildgestaltung anfragen. Bei einer kompakten Produktion werden Konzept, Dreh und Postproduktion als vereinbarter Umfang geplant. Reiseposten und zusätzliche Vor-Ort-Termine werden im Angebot benannt."
     ],
     faq: [
       {
-        question: "Kann bei Shows und Konzerten in Oberhausen gefilmt werden?",
-        answer:
-          "Im Rahmen der Medienregeln von Veranstaltern und Management — meist akkreditierte Fenster und Positionen. Für Veranstalter-eigene Filme lassen sich erweiterte Absprachen treffen, fixiert vor dem Abend.",
+        "question": "Kann ein Kulturprojekt mit kleinem Team umgesetzt werden?",
+        "answer": "Das wird anhand von Motiven, Ablauf und technischer Aufgabe geprüft. Ein kompakter Aufbau kann passen; parallele Aufnahmen, umfangreicher Ton oder besondere Zugänge können zusätzliche Besetzung erfordern."
       },
       {
-        question: "Lohnt ein Film für wiederkehrende Oberhausener Formate?",
-        answer:
-          "Besonders: Ein starker Film wirbt eine ganze Saison, Ausschnitte tragen die Kanäle über Monate. Gedreht wird bei einer Ausgabe mit gutem Programm — geschnitten auf Wiederverwendbarkeit.",
-      },
+        "question": "Wie wird ein neuer Drehort geprüft?",
+        "answer": "Fotos, Maße, Nutzung und technische Angaben helfen bei der ersten Einschätzung. Freigaben, Zugänge und gegebenenfalls eine Besichtigung werden vor dem Dreh mit den Beteiligten geklärt."
+      }
     ],
   },
 
   bochum: {
-    seoTitle: "Videografin in Bochum – Sophia Ramahi",
-    seoDescription:
-      "Videografin für Bochum: Konzerte, Kultur, Unternehmensfilme und Musikvideos — von Jahrhunderthalle bis Bermuda3eck, ab Düsseldorf geplant.",
-    heroLead:
-      "Bochum hat Bühnen-Dichte und eigenen Stolz: Konzerte, Theater, Wissenschaft und Betriebe im Aufbruch — Produktionen hier tragen Selbstbewusstsein.",
-    sectionTitle: "Musikstadt im Aufbruch",
+    seoTitle: "Eventfilm & Kamera in Bochum | Planung ab Düsseldorf",
+    seoDescription: "Eventfilm, Kulturproduktionen und Kameraarbeit in Bochum mit Sophia Ramahi. Ablauf, Originalton und Drehumfang vor der Buchung abstimmen.",
+    heroLead: "Für Veranstaltungs- und Kulturprojekte in Bochum werden Filmziel, Kamerapositionen und Tonwege vor dem Termin besprochen.",
+    sectionTitle: "Ablauf und Aufnahmefenster zusammenbringen",
     intro: [
-      "Jahrhunderthalle, Schauspielhaus, Musikforum, Clubs am Bermuda3eck: Bochum veranstaltet über seiner Gewichtsklasse — und wandelt sich daneben zur Wissens- und Technologiestadt. Beides liefert Stoff für Filme: Konzertabende ebenso wie Betriebe, die vom Weitermachen erzählen.",
-      "Die 50 Kilometer von Düsseldorf sind planbar: Abendtermine mit später Rückfahrt bleiben normal, nur mehrtägige Produktionen werden gegen eine Übernachtung gerechnet. Details je Gewerk stehen auf den Bochumer Leistungsseiten.",
+      "Ein Konzert oder eine Performance in Bochum hat einen festen Ablauf. Für einen Eventfilm werden die wichtigen Momente, möglichen Kamerapositionen und gewünschten Stimmen benannt. Aufnahmeregeln und Zugang werden mit Veranstaltern und weiteren Zuständigen geprüft.",
+      "Soll zusätzlich visuelles Material live eingesetzt werden, müssen VJ-Aufgabe und Dokumentation getrennt besetzt oder zeitlich geplant werden. Sophia arbeitet von Düsseldorf aus; Reise, Aufbau und gegebenenfalls zusätzliche Crew werden für die konkrete Veranstaltung vereinbart."
     ],
     faq: [
       {
-        question: "Ist Bochum für Abendveranstaltungen zu weit?",
-        answer:
-          "Nein — auch nach einem späten Konzertende bleibt die Rückfahrt machbar, Übernachtungskosten entstehen nicht. Der Vorlauf gehört eher den Freigaben: Positionen, Foto-Regeln, Tonabgriff.",
+        "question": "Welche Regeln gelten für Konzertaufnahmen?",
+        "answer": "Die Vorgaben werden für die konkrete Veranstaltung mit Veranstaltern und weiteren Zuständigen geklärt. Es gibt keine hier vorausgesetzte pauschale Anzahl erlaubter Songs oder Kamerapositionen."
       },
       {
-        question: "Was macht Bochumer Filme besonders?",
-        answer:
-          "Der Ton der Stadt: direkt, warm, ohne Pose. Interviews dürfen genau so klingen — das macht Unternehmens- und Kulturfilme hier glaubwürdiger als jede Hochglanz-Formel.",
-      },
+        "question": "Was braucht ein Aftermovie-Angebot?",
+        "answer": "Termin, Ort, Ablauf, wichtige Programmpunkte, geplante Nutzung und gewünschte Fassungen. Nennen Sie außerdem Interviewbedarf, technische Ansprechperson und mögliche Auf- und Abbauzeiten."
+      }
     ],
   },
 
   dortmund: {
-    seoTitle: "Videografin in Dortmund – Sophia Ramahi",
-    seoDescription:
-      "Videografin für Dortmund: Kongresse, Festivals, Unternehmensfilme und Musikvideos — Westfalenhallen, Phoenix, Hafen. Mit realistischer Planung ab Düsseldorf.",
-    heroLead:
-      "Dortmund veranstaltet im Großformat: Kongresse, Festivals, Kultur — die 70 Kilometer sind eine Planungsgröße, kein Hindernis.",
-    sectionTitle: "Großformat mit Plan",
+    seoTitle: "Videodreh in Dortmund | Veranstaltung & Kamera",
+    seoDescription: "Eventfilm und Kameraarbeit für Projekte in Dortmund, geplant ab Düsseldorf. Bühnen, Interviewbedarf, Aufbau und Auslieferung konkret abstimmen.",
+    heroLead: "Für eine Veranstaltung oder einen Kameraauftrag in Dortmund werden Programmpunkte, Wege und Zuständigkeiten in einem gemeinsamen Ablauf geplant.",
+    sectionTitle: "Parallele Aufgaben realistisch besetzen",
     intro: [
-      "Westfalenhallen, Westfalenpark, Konzerthaus, das U: Dortmund arbeitet in Dimensionen, die eigene Logistik verlangen — und hat mit Phoenix, Hafenquartier und Stadion-Mythos Motive, die es nur hier gibt. Produktionen werden deshalb als geplante Blöcke aufgesetzt: Scouting gebündelt, Drehtage konzentriert.",
-      "Die Distanz steht offen in der Kalkulation: Anfahrten einzeln ausgewiesen, Übernachtung nur, wo sie wirtschaftlicher ist. Was je Leistung gilt, zeigen die Dortmunder Leistungsseiten.",
+      "Bei einer Veranstaltung in Dortmund können Bühne, Publikum und Interviews gleichzeitig wichtig sein. Ein Ablaufplan zeigt, welche Aufnahmen sich überschneiden. Die Besetzung muss die vereinbarten Aufgaben abdecken können; eine einzelne Kamera erfasst nicht zeitgleich mehrere entfernte Orte.",
+      "Für ein Musikvideo oder einen anderen Kameradreh stehen Bildidee, Motive und Licht im Briefing. Aufbau, Reise aus Düsseldorf und die Übergabe an die Postproduktion gehören zur Planung. Der konkrete Auftrag legt die gewünschten Rollen und Fassungen fest."
     ],
     faq: [
       {
-        question: "Wie wird die Entfernung nach Dortmund kalkuliert?",
-        answer:
-          "Transparent: Fahrten als einzelne Positionen, bei frühen Starts oder Mehrtagesformaten der ehrliche Vergleich mit einer Übernachtung. Keine Pauschalen — die Zahlen stehen vor der Beauftragung.",
+        "question": "Sind mehrere Kameras möglich?",
+        "answer": "Eine passende Besetzung kann projektbezogen geplant werden. Zahl und Aufgaben der Kameras werden anhand des Ablaufs, der Räume und des gewünschten Ergebnisses geklärt."
       },
       {
-        question: "Ab welchem Vorlauf ist eine Dortmund-Produktion sinnvoll?",
-        answer:
-          "Ein bis zwei Wochen reichen für einzelne Drehtage mit Briefing und Technikabstimmung. Same-Day-Einsätze sind bei 70 Kilometern selten die beste Lösung — planbare Termine dafür umso mehr.",
-      },
+        "question": "Wie wird Material an eine bestehende Postproduktion übergeben?",
+        "answer": "Format, Tonzuordnung, Dateibenennung und Übergabe werden vor dem Dreh mit der Produktion vereinbart. Die Verantwortlichkeit für Sicherung und weitere Archivierung wird ebenfalls festgelegt."
+      }
     ],
   },
 
   moenchengladbach: {
-    seoTitle: "Videografin in Mönchengladbach – Sophia Ramahi",
-    seoDescription:
-      "Videografin für Mönchengladbach: Events, Unternehmensfilme, Musikvideos — SparkassenPark, Textilerbe, Niederrhein. 35 km von Düsseldorf.",
-    heroLead:
-      "Mönchengladbach verbindet Open-Air-Bühne, Textilerbe und Niederrhein-Weite — eine Doppelstadt mit mehr Motiven, als ihr Ruf verrät.",
-    sectionTitle: "Die Doppelstadt am Niederrhein",
+    seoTitle: "Videoproduktion Mönchengladbach | Film & Visuals",
+    seoDescription: "Film, Kamera und Live Visuals für Projekte in Mönchengladbach. Sophia Ramahi plant von Düsseldorf aus nach Anlass, Ort und technischem Bedarf.",
+    heroLead: "Film und visuelle Gestaltung in Mönchengladbach werden passend zu Veranstaltung, Musikprojekt oder Porträt geplant.",
+    sectionTitle: "Filmaufnahme und Live-Aufgabe auseinanderhalten",
     intro: [
-      "Zwischen SparkassenPark-Konzerten, dem Museumsbau am Abteiberg, Textilhallen und offener Niederrhein-Landschaft bietet Mönchengladbach drei Bildwelten in einer Stadt — verteilt auf zwei Zentren, die der Drehplan zusammendenkt.",
-      "Für Unternehmen zählt anderes: Logistik, Textilkompetenz, Mittelstand — und der Wettbewerb um Personal. Filme helfen an beiden Fronten; die Gladbacher Leistungsseiten zeigen, wie.",
+      "Soll eine Veranstaltung in Mönchengladbach dokumentiert werden oder braucht sie Live Visuals auf der Bühne? Die Aufgaben können zusammenkommen, verlangen aber unterschiedliche Vorbereitung. Kamera und Ton erfassen Inhalte; ein VJ-Set braucht Material, Zuspielung und Betreuung während der Veranstaltung.",
+      "Bei Interviews und Unternehmensporträts werden Personen, Räume und freigegebene Abläufe gemeinsam geplant. Umfang, Technik und Anreise aus Düsseldorf richten sich nach dem konkreten Projekt. Ein Angebot benennt die Zuständigkeiten und gewünschten Fassungen."
     ],
     faq: [
       {
-        question: "Deckt eine Produktion beide Stadtzentren ab?",
-        answer:
-          "Ja — Gladbach und Rheydt liegen zehn Autominuten auseinander. Der Drehplan bündelt Motive je Zentrum und legt Wege in Programmpausen; die Anfahrt aus Düsseldorf bleibt ein kleiner Posten.",
+        "question": "Was sollte eine Veranstaltungsanfrage enthalten?",
+        "answer": "Termin, Ort, Ablauf und das gewünschte Ergebnis. Geben Sie an, ob ein Film, Live Visuals oder beides gebraucht wird, und wer Bühnen- beziehungsweise Veranstaltungstechnik betreut."
       },
       {
-        question: "Kann bei Konzerten im SparkassenPark gefilmt werden?",
-        answer:
-          "Im Rahmen der Medienregeln: Akkreditierung und meist die ersten Songs. Für Veranstalter- und Sponsorenfilme werden erweiterte Absprachen vor dem Termin verhandelt.",
-      },
+        "question": "Sind kurze Social-Versionen möglich?",
+        "answer": "Ja, nach vereinbartem Umfang. Zahl, Bildformate, Untertitel und Nutzung sollten vor der Aufnahme feststehen, damit die Motive für diese Fassungen geplant werden können."
+      }
     ],
   },
 
   leverkusen: {
-    seoTitle: "Videografin in Leverkusen – Sophia Ramahi",
-    seoDescription:
-      "Videografin für Leverkusen: Events, Unternehmensfilme, Musikvideos — Jazztage, Erholungshaus, Rheinufer. 35 km von Düsseldorf.",
-    heroLead:
-      "Leverkusen liegt auf halber Strecke zwischen Düsseldorf und Köln: Kultur mit Rang, Industrie am Horizont und ein Mittelstand mit Lagevorteil.",
-    sectionTitle: "Auf halber Strecke",
+    seoTitle: "Videodreh in Leverkusen | Interviews & Kamera",
+    seoDescription: "Interviews, Unternehmensporträts und Kameraarbeit in Leverkusen. Produktion ab Düsseldorf mit geklärten Zugängen, Motiven und technischem Umfang.",
+    heroLead: "Bei einem Videodreh in Leverkusen werden Interviews, Aufnahmebereiche und Zugänge mit dem Team vor Ort abgestimmt.",
+    sectionTitle: "Aufnahmen in den Betrieb einplanen",
     intro: [
-      "Die Jazztage, Konzerte im Erholungshaus, Kunst an Schloss Morsbroich: Leverkusens Kulturleben ist größer als sein Ruf — und die Industriesilhouette gibt der Stadt ein Bild, das kein anderer Ort hat. Dazwischen arbeitet ein Mittelstand, der zwischen zwei Großstädten um Personal und Aufmerksamkeit konkurriert.",
-      "Für Produktionen liegt die Stadt ideal: 35 Kilometer von der Basis, Besichtigungen als kurze Termine, keine Übernachtungslogik. Die Leverkusener Leistungsseiten zeigen die Details je Gewerk.",
+      "Für ein Porträt an einem Unternehmensstandort in Leverkusen werden Ansprechpartner, Drehbereiche und verfügbare Personen benannt. Vertrauliche Inhalte und mögliche Einschränkungen gehören ins Vorgespräch. Kamera, Licht und Transport werden anhand des vereinbarten Aufbaus vorbereitet.",
+      "Wenn eine Agentur oder Produktion den Auftrag führt, kann Sophia als Kamerafrau einsteigen. Bildreferenzen und technische Vorgaben helfen bei der Rollenklärung. Ton und Postproduktion werden als eigene Aufgaben oder als Teil des vereinbarten Umfangs benannt."
     ],
     faq: [
       {
-        question: "Kann die Industriekulisse in Filme einfließen?",
-        answer:
-          "Vom öffentlichen Raum aus ja — als Silhouette und Lichtquelle gehört sie zum Stadtbild. Werksgelände und sicherheitsrelevante Details bleiben außen vor; die Fernwirkung ist ohnehin das stärkere Bild.",
+        "question": "Was muss ein Unternehmensstandort vorab klären?",
+        "answer": "Zugänge, Ansprechperson, Aufnahmebereiche und verfügbare Zeitfenster. Zusätzliche standortspezifische Anforderungen werden vom Verantwortlichen bestätigt und in die Planung aufgenommen."
       },
       {
-        question: "Ist Leverkusen auch für Kölner Produktionen ein Treffpunkt?",
-        answer:
-          "Praktisch ja — die Stadt liegt für beide Seiten auf halber Strecke. Besichtigungen, Übergaben und Drehs lassen sich hier ohne großen Aufwand für alle Beteiligten organisieren.",
-      },
+        "question": "Kann Sophia mit einer vorhandenen Agentur arbeiten?",
+        "answer": "Ja, Kamera und Bildgestaltung können als Einzelgewerk angefragt werden. Briefing, Regie, Technik, Datenübergabe und weitere Zuständigkeiten werden vor dem Dreh abgestimmt."
+      }
     ],
   },
 
   bonn: {
-    seoTitle: "Videografin in Bonn – Sophia Ramahi",
-    seoDescription:
-      "Videografin für Bonn: Konferenzen, Institutionsfilme, Kultur und Musikvideos — WCCB, Museumsmeile, Rheinaue. Mit realistischer Planung ab Düsseldorf.",
-    heroLead:
-      "Bonn veranstaltet mit institutionellem Gewicht: Konferenzen, Kultur, internationale Organisationen — Produktionen hier sind Planungsarbeit, und genau die gehört zum Angebot.",
-    sectionTitle: "Die Bundesstadt als Auftraggeberin",
+    seoTitle: "Videoproduktion in Bonn | Interviews & Kultur",
+    seoDescription: "Interviews, Kulturfilm und Kameraaufträge in Bonn mit Sophia Ramahi aus Düsseldorf. Gesprächsorte, Drehzeiten und gewünschte Filmfassungen planen.",
+    heroLead: "Für Interviews und Kulturprojekte in Bonn werden Aufnahmeorte, Personen und die spätere Filmnutzung gemeinsam vorbereitet.",
+    sectionTitle: "Aussagen und ergänzende Bilder verbinden",
     intro: [
-      "UN-Campus, Ministerien, Verbände, Museumsmeile, Beethoven-Erbe: Bonn produziert Anlässe mit Protokoll — Konferenzen, Empfänge, Kulturformate. Filme auf diesem Niveau brauchen Vorbereitung: Akkreditierungen, Freigaben, präzise Abläufe. Genau das ist Teil der Arbeitsweise.",
-      "Die 75 Kilometer machen Bonn zum Planungsfall mit offener Kalkulation: Anfahrten einzeln, Übernachtung nur, wo sie wirtschaftlicher ist. Was je Gewerk gilt — vom Konferenzfilm bis zum Kirschblüten-Musikvideo — steht auf den Bonner Leistungsseiten.",
+      "Ein Interviewfilm in Bonn kann die Stimme einer Person mit Aufnahmen ihrer Arbeit oder des Projektortes verbinden. Dafür werden Gesprächsfragen, Motive und Zeiten mit den Beteiligten abgestimmt. Raum und Umgebung müssen eine verständliche Tonaufnahme ermöglichen.",
+      "Bei Kulturveranstaltungen bestimmt der Ablauf, welche Momente aufgenommen werden können. Hauptfilm, längere Dokumentation und kurze Fassungen brauchen ein benanntes Ziel. Anreise und mögliche weitere Vor-Ort-Termine werden ab Düsseldorf für den tatsächlichen Plan kalkuliert."
     ],
     faq: [
       {
-        question: "Hat Sophia Erfahrung mit Protokoll und Sicherheitsauflagen?",
-        answer:
-          "Der Umgang damit ist Teil der Vorbereitung: Akkreditierungen, Sperrzonen und Fotografier-Regeln werden vorab gesammelt und in Positionen übersetzt — am Veranstaltungstag gibt es keine Überraschungen.",
+        "question": "Wie wird ein Interview mit mehreren Personen geplant?",
+        "answer": "Personen, Gesprächsorte und Zeitfenster werden im Briefing gesammelt. Ob nacheinander oder parallel aufgenommen werden soll, beeinflusst Kamera- und Tonbesetzung sowie Aufbau."
       },
       {
-        question: "Wie wird ein mehrtägiges Bonner Format kalkuliert?",
-        answer:
-          "Offen: Drehtage, Fahrten und — falls günstiger — Übernachtung stehen einzeln im Angebot. Der Drehplan priorisiert Programmpunkte statt Dauerpräsenz; so bleibt auch ein Kongress bezahlbar.",
-      },
+        "question": "Wie werden Reise und zusätzliche Termine behandelt?",
+        "answer": "Anfahrt, Techniktransport, gegebenenfalls Übernachtung und gesonderte Besichtigungen werden vor der Beauftragung vereinbart. Entscheidend sind Location und tatsächlicher Ablauf."
+      }
     ],
   },
 
   solingen: {
-    seoTitle: "Videografin in Solingen – Sophia Ramahi",
-    seoDescription:
-      "Videografin für Solingen: Manufaktur-Filme, Events, Musikvideos — Klingenstadt, Schloss Burg, Müngstener Brücke. 35 km von Düsseldorf.",
-    heroLead:
-      "Solingen trägt sein Handwerk im Namen: Manufakturen, Industriekultur und bergische Kulissen — Stoff für Filme mit Substanz.",
-    sectionTitle: "Die Klingenstadt im Film",
+    seoTitle: "Imagefilm & Videodreh in Solingen | Sophia Ramahi",
+    seoDescription: "Imagefilm, Interviewporträt und Kameraarbeit in Solingen mit Sophia Ramahi aus Düsseldorf. Menschen, Abläufe, Motive und Filmnutzung konkret planen.",
+    heroLead: "Für einen Imagefilm oder ein Interviewporträt in Solingen werden Menschen und ihre Arbeit zum Ausgangspunkt des Films.",
+    sectionTitle: "Arbeit durch konkrete Situationen zeigen",
     intro: [
-      "„Made in Solingen“ ist filmbares Kapital: Hände, die schleifen und prüfen, Betriebe mit Generationenwissen — dazu Kulissen wie Schloss Burg, die Müngstener Brücke und der Fachwerkkern von Gräfrath. Kaum eine Stadt liefert so viel ehrliche Substanz auf so engem Raum.",
-      "Die 35 Kilometer aus Düsseldorf sind ein Arbeitsweg mit Serpentinen — eingeplant im Zeitbudget. Was je Leistung gilt, vom Manufaktur-Porträt bis zur Projektion auf historischem Mauerwerk, steht auf den Solinger Leistungsseiten.",
+      "Ein Unternehmensporträt in Solingen kann Interviews mit Aufnahmen von Arbeitsabläufen verbinden. Welche Tätigkeit verständlich werden soll, bestimmt Fragen und Motive. Dafür braucht es freigegebene Aufnahmebereiche, verfügbare Personen und passende Zeitfenster.",
+      "Sophia plant den Auftrag von Düsseldorf aus. Kamera, Originalton, Schnitt und gewünschte Fassungen werden im Briefing benannt. Ist bereits eine Produktion vorhanden, kann auch ein einzelnes Gewerk angefragt werden. Konditionen und Reise hängen vom tatsächlichen Umfang ab."
     ],
     faq: [
       {
-        question: "Kann in einer aktiven Schmiede oder Schleiferei gedreht werden?",
-        answer:
-          "Mit Absprache ja — Sicherheitsabstände, Schutzausrüstung und Versicherungsfragen werden vor dem Drehtag geklärt. Die Bilder aus echten Werkstätten sind den Aufwand wert.",
+        "question": "Was braucht ein Imagefilm-Briefing?",
+        "answer": "Zielgruppe, Kernaussage, Personen, Drehorte, Nutzung und gewünschte Fassungen. Fotos, Beispielmaterial und eine Ansprechperson vor Ort helfen, Aufwand und Vorbereitung einzugrenzen."
       },
       {
-        question: "Eignet sich ein Solinger Film auch für den Export-Auftritt?",
-        answer:
-          "Sehr — Herkunft und Handarbeit sind international die stärksten Argumente. Der Film wird dafür mit Untertiteln oder als englische Fassung ausgespielt; alle Fassungen entstehen aus einem Dreh.",
-      },
+        "question": "Kann im laufenden Betrieb gedreht werden?",
+        "answer": "Drehzeiten, Aufbau und Motive werden mit den Verantwortlichen abgestimmt. Welche Aufnahmen parallel zum Betrieb möglich sind und wo Einschränkungen bestehen, wird für den konkreten Ort geprüft."
+      }
     ],
   },
 };

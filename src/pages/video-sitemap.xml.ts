@@ -6,7 +6,7 @@ export const GET: APIRoute = () => new Response(
   <url>
     <loc>https://sophiaramahi.de/showreel/</loc>
     <video:video>
-      <video:thumbnail_loc>https://sophiaramahi.de/media/electric-lights-cover.jpg</video:thumbnail_loc>
+      <video:thumbnail_loc>https://sophiaramahi.de/media/hero-poster.jpg</video:thumbnail_loc>
       <video:title>Showreel von Sophia Ramahi</video:title>
       <video:description>Arbeiten aus Videografie, Kamera, Lichtgestaltung, Events und Live Visuals.</video:description>
       <video:content_loc>https://sophiaramahi.de/media/showreel.mp4</video:content_loc>

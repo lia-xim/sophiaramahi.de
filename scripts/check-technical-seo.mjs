@@ -160,8 +160,15 @@ const showreel = pages.get("/showreel/")?.html ?? "";
 if (!showreel.includes('"@type":"VideoObject"')) failures.push("/showreel/: VideoObject schema missing");
 if (existsSync(videoSitemapPath)) {
   const videoSitemap = readFileSync(videoSitemapPath, "utf8");
-  for (const required of [`${origin}/showreel/`, `${origin}/media/showreel.mp4`, `${origin}/media/electric-lights-cover.jpg`]) {
+  for (const required of [`${origin}/showreel/`, `${origin}/media/showreel.mp4`]) {
     if (!videoSitemap.includes(required)) failures.push(`video-sitemap.xml is missing ${required}`);
+  }
+  const poster = content(showreel, /<video\b[^>]*\bposter="([^"]+)"/i);
+  const schemaThumbnail = content(showreel, /"thumbnailUrl":"([^"]+)"/);
+  const sitemapThumbnail = content(videoSitemap, /<video:thumbnail_loc>(.*?)<\/video:thumbnail_loc>/);
+  const posterUrl = poster ? new URL(poster, origin).href : null;
+  if (!posterUrl || schemaThumbnail !== posterUrl || sitemapThumbnail !== posterUrl) {
+    failures.push("/showreel/: video poster, VideoObject thumbnail and video sitemap thumbnail must match");
   }
 }
 

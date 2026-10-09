@@ -4,6 +4,8 @@ export type Service = {
   slug: string;
   parent: "videografie" | "vj-mapping" | "leistungen";
   title: string;
+  /** Suchintention im Hero; kurze Leistungsnamen bleiben in der Navigation. */
+  heroTitle?: string;
   eyebrow: string;
   summary: string;
   /** Große Haltungszeile der Landingpage; **…** markiert den Akzentteil. */
@@ -16,6 +18,8 @@ export type Service = {
   process: string[];
   suitableFor: string[];
   relatedProjects: string[];
+  /** Ordnet die gezeigten Arbeiten dem tatsächlichen Beitrag zu. */
+  projectContext?: string;
   /** Verwandte Gewerke für die „Weiter im Programm"-Navigation. */
   relatedServices: string[];
   /** Optionaler Journal-Artikel, der das Gewerk vertieft. */
@@ -34,6 +38,7 @@ export type Service = {
 export type Project = {
   slug: string;
   title: string;
+  seoTitle?: string;
   category: string;
   year?: string;
   location?: string;
@@ -77,9 +82,10 @@ export type Article = {
   title: string;
   excerpt: string;
   image: string;
-  readingTime: string;
   publishedAt: string;
-  sections: { title: string; copy: string[] }[];
+  updatedAt?: string;
+  sections: { title: string; copy: string[]; links?: LinkItem[] }[];
+  sources?: LinkItem[];
   related: LinkItem[];
 };
 
@@ -100,14 +106,16 @@ export const site = {
 
 export const services: Service[] = [
   {
+    projectContext: "Beim Spektra Festival gehörten Live Visuals, Aufbau, technische Abstimmung und Dokumentation zu Sophias Aufgaben. 24h to take zeigt ihre Arbeit im Kurzfilmwettbewerb sowie in Organisation und Technik. Die Projektseiten nennen diese Beiträge einzeln.",
+    heroTitle: "Eventfilm für Kultur und Festivals",
     slug: "eventfilm",
     parent: "videografie",
     title: "Eventfilm",
-    eyebrow: "Atmosphäre dokumentieren",
-    summary: "Filme, die nicht nur zeigen, was stattgefunden hat, sondern wie es sich angefühlt hat.",
-    claim: "Ein Abend hat hundert Momente. **Der Film entscheidet, welche bleiben.**",
-    intro: "Bei Konzerten, Festivals, Kulturveranstaltungen und Unternehmensformaten entstehen viele starke Momente gleichzeitig. Ein Eventfilm braucht deshalb eine klare Vorbereitung und eine Kamera, die nah dran ist, ohne das Geschehen zu stören.",
-    outcome: "Das Ergebnis kann als kompakter Highlightfilm, ausführlichere Dokumentation oder als Paket aus Hauptfilm und kurzen Social-Clips geplant werden.",
+    eyebrow: "Highlightfilm · Dokumentation · Aftermovie",
+    summary: "Eventfilm und Festival-Aftermovie aus Düsseldorf: Bilder, Originalton und Schnitt passend zur Veranstaltung und zur späteren Nutzung.",
+    claim: "Der Ablauf steht fest. **Die Aufnahmen werden darauf vorbereitet.**",
+    intro: "Ein Konzert, eine Ausstellungseröffnung oder ein Festival lässt sich beim Dreh selten wiederholen. Sophia plant die Aufnahmen mit Veranstaltern: Welche Programmpunkte sind wichtig, welche Stimmen sollen zu hören sein und wo kann die Kamera arbeiten? Für parallele Bühnen, Interviews oder längere Aufzeichnungen wird die nötige Besetzung vorab abgestimmt.",
+    outcome: "Ein Aftermovie fasst Höhepunkte und Atmosphäre zusammen. Eine Veranstaltungsdokumentation braucht zusätzlich nachvollziehbare Abläufe und verständliche Reden oder Interviews. Hauptfilm, Social-Clips und Untertitel werden nach dem vereinbarten Umfang geplant; Termin und Nutzungsrechte gehören ins Briefing.",
     image: "/media/spektra-buehne-03.jpg",
     alt: "Bühnenlicht und Publikum bei einer Veranstaltung",
     deliverables: ["Highlightfilm oder Event-Dokumentation", "Hoch- und Querformate", "Schnitt, Farbgestaltung und Tonmischung", "Optional: kurze Social-Clips"],
@@ -117,38 +125,67 @@ export const services: Service[] = [
     relatedServices: ["tonaufnahme", "postproduktion"],
     articleSlug: "warum-ton-beim-eventfilm-entscheidet",
     focus: {
-      label: "Formate",
-      title: "Ein Abend, drei mögliche Filme",
-      lead: "Vor dem Dreh wird entschieden, welche Form das Ergebnis braucht — denn davon hängen Kamerapositionen, Tonwege und Schnittaufwand ab.",
-      items: [
-        { title: "Highlightfilm", copy: "Verdichtet die Veranstaltung auf ihre stärksten Momente: Stimmung, Gesichter, Höhepunkte. Der Film, der geteilt wird und zur nächsten Ausgabe einlädt." },
-        { title: "Dokumentation", copy: "Folgt dem Ablauf ausführlicher — Programmpunkte, Reden, Stimmen. Für alle, die zeigen müssen, was tatsächlich stattgefunden hat: Förderer, Partner, Archiv." },
-        { title: "Hauptfilm plus Social-Clips", copy: "Ein Paket aus beidem Denken: der Film für das Ganze, dazu kurze Hoch- und Querformate für die Kanäle. Die wichtigsten Motive werden dafür schon beim Dreh mitgedacht." },
-      ],
+      "label": "Formatwahl",
+      "title": "Aftermovie oder Veranstaltungsdokumentation?",
+      "lead": "Die spätere Verwendung bestimmt, welche Aufnahmen und Tonspuren am Veranstaltungstag gebraucht werden.",
+      "items": [
+        {
+          "title": "Aftermovie und Highlightfilm",
+          "copy": "Musik, Publikum und Schlüsselmomente verdichten den Abend. Für einen Rückblick oder die nächste Ankündigung werden Bildauswahl, Länge und Musiknutzung im Konzept festgelegt."
+        },
+        {
+          "title": "Dokumentation mit Originalton",
+          "copy": "Für ein Archiv, Partner oder die Nachbereitung können Reden, Gespräche und Programmpunkte wichtiger sein als ein schneller Zusammenschnitt. Aufnahmewege und Zeitfenster werden mit der Veranstaltungstechnik geklärt."
+        },
+        {
+          "title": "Hauptfilm und kurze Fassungen",
+          "copy": "Wenn Website und Social Media unterschiedliche Fassungen brauchen, werden Bildausschnitt, Interviewaussagen und Untertitel früh mitgeplant. Die Zahl der Versionen steht im Angebot."
+        }
+      ]
     },
-    scopeTitle: "Was vom Abend bleibt",
+    scopeTitle: "Aufnahmen und Fassungen für Ihre Veranstaltung",
     processTitle: "Vom Ablaufplan bis zur Ausspielung",
     faqTitle: "Häufige Fragen zum Eventfilm",
     faq: [
-      { question: "Wie früh sollte ein Eventfilm angefragt werden?", answer: "Sobald Termin, Ort und grober Ablauf stehen. Bei kleinen Produktionen können auch kurzfristigere Anfragen funktionieren; mehrere Kameras, Tonwege oder besondere Zugänge brauchen mehr Vorlauf." },
-      { question: "Ist eine zweite Kamera möglich?", answer: "Ja. Je nach Ablauf arbeitet Sophia allein oder stellt gemeinsam mit dem Auftraggeber ein passendes Team zusammen." },
-      { question: "Entstehen auch Hochformate?", answer: "Ja. Die wichtigsten Motive werden dafür schon beim Dreh mitgedacht, statt später nur aus einem Querformat herausgeschnitten zu werden." },
-      { question: "Wann ist der fertige Film da?", answer: "Der Zeitrahmen wird vor dem Dreh festgelegt und hängt von Umfang und Korrekturrunden ab. Gibt es einen festen Termin — etwa eine Nachberichterstattung oder einen Fördernachweis — wird der Schnittplan daran ausgerichtet." },
-      { question: "Wird der Ton der Veranstaltung mit aufgenommen?", answer: "Ja, und zwar geplant: Reden und Statements brauchen andere Tonwege als die Atmosphäre im Raum. Ob ein Abgriff am Mischpult oder eine eigene Mikrofonierung sinnvoll ist, wird vor der Veranstaltung geklärt." },
-      { question: "Was sollte der Veranstalter vorbereiten?", answer: "Ein Ablaufplan, eine erreichbare Ansprechperson am Veranstaltungstag und Klarheit über Zugänge reichen meist aus. Alles Weitere — Positionen, Zeitfenster, Schlüsselmomente — wird im Vorgespräch gemeinsam festgelegt." },
+      {
+        "question": "Was unterscheidet einen Aftermovie von einer Dokumentation?",
+        "answer": "Ein Aftermovie verdichtet Höhepunkte und Atmosphäre. Eine Dokumentation hält Inhalte und Abläufe ausführlicher fest, etwa Reden oder Interviews. Das beeinflusst die Drehplanung, den Ton und den Schnittaufwand."
+      },
+      {
+        "question": "Was braucht Sophia für ein Angebot?",
+        "answer": "Termin, Veranstaltungsort, Ablaufplan, gewünschte Nutzung und Abgabetermin. Hilfreich sind außerdem Angaben zu Bühnen, Interviews, Tonanschlüssen und Zugängen für das Filmteam."
+      },
+      {
+        "question": "Kann gleichzeitig auf mehreren Bühnen gefilmt werden?",
+        "answer": "Das muss mit einer passenden Besetzung und klaren Zuständigkeiten geplant werden. Eine Kamera kann keine zeitgleichen Programmpunkte an unterschiedlichen Orten vollständig erfassen. Der Bedarf wird vor der Buchung besprochen."
+      },
+      {
+        "question": "Sind Hochformate und Untertitel möglich?",
+        "answer": "Ja, nach vereinbartem Umfang. Benötigte Hoch- und Querformate, Ausschnittvarianten und Untertitel werden vor dem Dreh benannt, damit die Aufnahmen dazu passen."
+      },
+      {
+        "question": "Wer klärt Musik und Aufnahmerechte?",
+        "answer": "Vor dem Dreh werden Zuständigkeiten für Veranstalterfreigaben, Personen, Performances und Musik festgelegt. Dass Musik auf der Veranstaltung gespielt werden darf, klärt noch nicht ihre Verwendung im später veröffentlichten Film."
+      },
+      {
+        "question": "Was kostet ein Eventfilm?",
+        "answer": "Der Aufwand hängt unter anderem von Drehzeit, parallelen Programmpunkten, Tonaufzeichnung, Materialmenge und gewünschten Fassungen ab. Nach dem Briefing wird der konkrete Umfang angeboten; ein kurzer Endfilm bedeutet nicht automatisch wenig Produktionsaufwand."
+      }
     ],
-    seoTitle: "Eventfilm Düsseldorf & NRW | Sophia Ramahi",
-    seoDescription: "Eventfilm aus Düsseldorf für Kultur, Musik, Festivals und Unternehmensformate. Planung, Kamera, Ton und Postproduktion aus einer Hand.",
+    seoTitle: "Eventfilm & Festival-Aftermovie Düsseldorf | Sophia Ramahi",
+    seoDescription: "Eventfilm und Festival-Aftermovie aus Düsseldorf für Kulturveranstaltungen und Konzerte. Kamera, Originalton, Schnitt und passende Formatvarianten.",
   },
   {
+    projectContext: "Electric Lights ist eine audiovisuelle Installation; Dark Lights eine Fotografie- und Lichtstudie. Die gezeigten Arbeiten geben Einblick in Sophias Gestaltung von Licht, Bild und Klang. Sie sind mit ihrem jeweiligen Format ausgewiesen.",
+    heroTitle: "Musikvideo-Produktion für Bands und Artists",
     slug: "musikvideo",
     parent: "videografie",
     title: "Musikvideo",
     eyebrow: "Bildsprache für Musik",
-    summary: "Konzept, Kamera und Schnitt für Musikvideos mit eigener Stimmung statt austauschbarer Performancebilder.",
-    claim: "Erst kommt der Song. **Dann die Bilder.**",
-    intro: "Ein Musikvideo beginnt nicht mit einer Shotlist, sondern mit dem Stück. Rhythmus, Text, Sound und vorhandene visuelle Ideen bestimmen, ob eine Performance, eine kleine Erzählung oder ein experimenteller Ansatz trägt.",
-    outcome: "Sophia entwickelt den visuellen Rahmen gemeinsam mit den Künstlerinnen und Künstlern und führt ihn vom Konzept über den Dreh bis zum finalen Schnitt fort.",
+    summary: "Musikvideos aus Düsseldorf für Bands und Artists: eine Bildidee entwickeln, den Dreh planen und den Schnitt mit dem Song verbinden.",
+    claim: "Der Song gibt die Richtung. **Die Produktion braucht einen passenden Rahmen.**",
+    intro: "Sophia entwickelt mit Bands und Artists ein visuelles Konzept für ihren Song. Performance, Erzählung oder ein experimenteller Ansatz werden mit Drehort, Licht und verfügbarem Produktionsrahmen zusammengebracht. Ein reduziertes Konzept kann mit wenigen Motiven auskommen, braucht aber ebenso sorgfältige Vorbereitung.",
+    outcome: "Zum Briefing gehören Song, Referenzen, Veröffentlichungstermin und geplante Nutzung. Kamera, Licht, Schnitt und Farbgestaltung werden auf die vereinbarte Idee abgestimmt. Wenn Teaser oder Hochformate gebraucht werden, fließen diese Fassungen bereits in die Drehplanung ein.",
     image: "/media/club-projektion-02.jpg",
     alt: "Musikerin im farbigen Bühnenlicht",
     deliverables: ["Visuelles Konzept und Moodboard", "Kamera und Lichtgestaltung", "Schnitt und Farblook", "Teaser oder vertikale Ausschnitte"],
@@ -158,94 +195,162 @@ export const services: Service[] = [
     relatedServices: ["postproduktion", "live-visuals"],
     articleSlug: "musikvideo-mit-kleinem-budget",
     focus: {
-      label: "Ansätze",
-      title: "Drei Wege, die ein Video nehmen kann",
-      lead: "Welcher Ansatz trägt, entscheidet das Stück — nicht der Trend. Oft liegt die Antwort in einer Mischung.",
-      items: [
-        { title: "Performance", copy: "Die Künstlerin oder der Künstler im Mittelpunkt, getragen von Ort, Licht und Kamerabewegung. Funktioniert, wenn Präsenz und Lichtkonzept präzise gebaut sind." },
-        { title: "Erzählung", copy: "Eine kleine Geschichte neben dem Text: Figuren, ein Ort, eine Spannung. Braucht ein Konzept, das mit dem Budget ehrlich umgeht — weniger Motive, mehr Wirkung." },
-        { title: "Experiment", copy: "Texturen, Projektionen, Doppelbelichtungen, Licht als Material. Der richtige Weg, wenn der Sound eine eigene visuelle Sprache verlangt statt einer Handlung." },
-      ],
+      "label": "Konzept",
+      "title": "Welche Bildidee passt zum Song?",
+      "lead": "Ein tragfähiges Konzept verbindet die musikalische Idee mit dem, was am Drehort und im Produktionsrahmen umsetzbar ist.",
+      "items": [
+        {
+          "title": "Performancevideo",
+          "copy": "Band oder Artist stehen im Mittelpunkt. Auftritt, Licht, Hintergrund und Kamerabewegung werden zusammen geplant. Ein Playback-Dreh und eine Live-Session stellen unterschiedliche Anforderungen an den Ton."
+        },
+        {
+          "title": "Erzählendes Musikvideo",
+          "copy": "Figuren, Orte und Szenen ergänzen den Song. Die Zahl der Motive, Mitwirkenden und Umbauten muss zum verfügbaren Rahmen passen; die Geschichte wird vor dem Dreh auf diese Bedingungen zugeschnitten."
+        },
+        {
+          "title": "Experimentelle Bilder",
+          "copy": "Licht, Texturen und Projektionen können das visuelle Material bilden. Welche Kombination zum Song passt und wie sie aufgenommen wird, wird im Konzept und in der technischen Vorbereitung geklärt."
+        }
+      ]
     },
     scopeTitle: "Was zum Release fertig ist",
     processTitle: "Vom Song bis zum fertigen Video",
     faqTitle: "Häufige Fragen zum Musikvideo",
     faq: [
-      { question: "Kann ein Musikvideo mit kleinem Budget funktionieren?", answer: "Ja, wenn die Idee den Rahmen ernst nimmt. Ein starker Ort, ein durchdachtes Lichtkonzept oder eine präzise Performance kann sinnvoller sein als viele Motive ohne klare Funktion." },
-      { question: "Hilft Sophia bei der Konzeptentwicklung?", answer: "Ja. Vorhandene Ideen können gemeinsam verdichtet oder von Grund auf aus dem Song entwickelt werden." },
-      { question: "Wie viel Vorlauf braucht ein Musikvideo?", answer: "Genug, um Konzept, Ort und Licht ernsthaft vorzubereiten — gerade bei kleinen Budgets liegt dort die Qualität. Steht ein Release-Termin, wird von ihm aus rückwärts geplant." },
-      { question: "Entstehen auch vertikale Versionen für Reels und TikTok?", answer: "Ja. Teaser und vertikale Ausschnitte werden beim Dreh mitgedacht, damit das zentrale Motiv im Hochformat genug Raum hat, statt später nur beschnitten zu werden." },
-      { question: "Was passiert im ersten Gespräch?", answer: "Das Stück anhören, vorhandene Ideen und Referenzen sortieren, den realistischen Rahmen abstecken. Danach gibt es eine konzeptionelle Richtung, über die entschieden werden kann." },
-      { question: "Muss die Band nach Düsseldorf kommen?", answer: "Nein. Gedreht wird dort, wo Ort und Konzept zusammenpassen — in Düsseldorf, in ganz NRW, nach Absprache auch darüber hinaus." },
+      {
+        "question": "Kann ein Musikvideo mit kleinem Budget produziert werden?",
+        "answer": "Das hängt von der Idee ab. Wenige Motive, ein klarer Lichtansatz und eine vorbereitete Performance begrenzen den Aufwand. Drehort, Mitwirkende, Technik und gewünschte Fassungen müssen trotzdem im Angebot berücksichtigt werden."
+      },
+      {
+        "question": "Kann Sophia ein vorhandenes Konzept umsetzen?",
+        "answer": "Ja. Im Vorgespräch werden die Idee, musikalische Referenzen und der Produktionsrahmen geprüft. Sophia kann das Konzept weiterentwickeln oder Kamera und Bildgestaltung als Einzelgewerk übernehmen."
+      },
+      {
+        "question": "Was unterscheidet eine Live-Session vom Playback-Dreh?",
+        "answer": "Bei einer Live-Session wird die musikalische Darbietung aufgezeichnet; dafür braucht es eine abgestimmte Tonproduktion. Beim Playback-Dreh wird zu einer vorhandenen Aufnahme performt. Diese Entscheidung muss vor der Team- und Technikplanung fallen."
+      },
+      {
+        "question": "Wann sollte ein Musikvideo angefragt werden?",
+        "answer": "Sobald Song und gewünschter Release-Termin feststehen. Konzept, Orte, Freigaben, Dreh und Schnitt brauchen abgestimmte Zeitfenster. Verfügbarkeit und ein realistischer Abgabetermin werden für die konkrete Anfrage geprüft."
+      },
+      {
+        "question": "Entstehen auch Teaser und Hochformate?",
+        "answer": "Ja, nach Absprache. Zahl, Länge, Bildformat und Nutzung der Fassungen werden vor dem Dreh festgelegt. So können zentrale Motive für das Hauptvideo und die kurzen Versionen aufgenommen werden."
+      },
+      {
+        "question": "Wer klärt Drehort, Musik und Mitwirkende?",
+        "answer": "Die Zuständigkeiten werden im Briefing festgelegt. Vor der Veröffentlichung müssen die nötigen Rechte für Song, Darbietung, Personen, Orte und zusätzliches Bildmaterial geklärt sein."
+      }
     ],
-    seoTitle: "Musikvideo in Düsseldorf produzieren | Sophia Ramahi",
-    seoDescription: "Musikvideo-Produktion in Düsseldorf und NRW: Konzept, Kamera, Licht, Schnitt und Farbgestaltung für Artists, Bands und Kulturprojekte.",
+    seoTitle: "Musikvideo-Produktion Düsseldorf | Bands & Artists",
+    seoDescription: "Musikvideo-Produktion aus Düsseldorf für Bands und Artists: Konzept, Kamera, Licht, Schnitt und Teaser. Planung passend zu Song und Produktionsrahmen.",
   },
   {
+    heroTitle: "Imagefilm mit Interviews",
     slug: "imagefilm",
     parent: "videografie",
     title: "Imagefilm & Porträt",
     eyebrow: "Arbeit verständlich machen",
-    summary: "Nahbare Filme für Organisationen, Selbstständige und ausgewählte Marken, die etwas Konkretes zu erzählen haben.",
-    claim: "Keine großen Behauptungen. **Einfach zeigen, wie gearbeitet wird.**",
-    intro: "Ein guter Imagefilm braucht keine großen Behauptungen. Er zeigt Menschen bei ihrer Arbeit, erklärt einen Ablauf oder macht eine Haltung sichtbar. Entscheidend ist, welche Geschichte Kundinnen, Bewerber oder Partner nach dem Film verstanden haben sollen.",
-    outcome: "Daraus entsteht ein konzentrierter Film, der auf der Website ebenso funktioniert wie in Präsentationen oder in angepassten Social-Versionen.",
+    summary: "Imagefilm und Unternehmensporträt aus Düsseldorf für Kultureinrichtungen, Initiativen und Unternehmen mit erklärungsbedürftiger Arbeit.",
+    claim: "Menschen erzählen. **Bilder zeigen die Arbeit dahinter.**",
+    intro: "Sophia plant Imagefilme und Interviewporträts für Organisationen, Selbstständige und ausgewählte Unternehmen. Ausgangspunkt ist die Frage, was ein Film verständlich machen soll: eine Tätigkeit, ein Angebot oder die Menschen dahinter. Daraus entstehen Interviewfragen und Motive für den Dreh vor Ort.",
+    outcome: "Interviews können mit Aufnahmen von Arbeitsabläufen und Räumen verbunden werden. Ein Unternehmensporträt für die Website braucht einen anderen Umfang als eine ausführliche Präsentation oder mehrere kurze Social-Fassungen. Zielgruppe, Protagonisten, Nutzung und Freigaben werden deshalb vor der Produktion festgelegt.",
     image: "/media/set-quer-01.jpg",
     alt: "Kamera am Set einer Videoproduktion",
     deliverables: ["Konzept und Interviewleitfaden", "Dreh vor Ort", "Schnitt, Musik und Tonmischung", "Untertitel und Formatvarianten"],
     process: ["Zielgruppe und Kernbotschaft festlegen", "Protagonisten und Drehorte vorbereiten", "Dreh mit kleinem, ruhigem Setup", "Schnitt mit nachvollziehbarer Dramaturgie"],
     suitableFor: ["Kultureinrichtungen", "Kreative Unternehmen", "Vereine und Initiativen", "Persönliche Unternehmensporträts"],
-    relatedProjects: ["24h-to-take"],
+    relatedProjects: [],
     relatedServices: ["tonaufnahme", "postproduktion"],
     focus: {
-      label: "Blickwinkel",
-      title: "Drei Wege, Arbeit sichtbar zu machen",
-      lead: "Ein Imagefilm behauptet nichts — er zeigt. Welcher Blickwinkel trägt, hängt davon ab, was Kundinnen, Bewerber oder Partner nach dem Film verstanden haben sollen.",
-      items: [
-        { title: "Menschen", copy: "Wer hier arbeitet und warum. Gespräche werden so geführt, dass keine auswendig gelernten Sätze entstehen — Nähe statt Werbesprech." },
-        { title: "Abläufe", copy: "Wie etwas entsteht, Schritt für Schritt. Stark für erklärungsbedürftige Arbeit: Nach dem Film versteht man, was vorher abstrakt war." },
-        { title: "Haltung", copy: "Wofür eine Organisation steht — sichtbar gemacht an konkreten Situationen statt an Leitbild-Sätzen. Der anspruchsvollste und wirksamste Weg." },
-      ],
+      "label": "Inhalte",
+      "title": "Was soll nach dem Film verständlich sein?",
+      "lead": "Das Konzept benennt konkrete Menschen und Situationen, die die Arbeit einer Organisation zeigen können.",
+      "items": [
+        {
+          "title": "Interviewporträt",
+          "copy": "Eine Person erklärt ihre Tätigkeit und Motivation. Fragen und Gesprächssituation werden vorbereitet; verständlicher Originalton und ergänzende Arbeitsbilder tragen den Film."
+        },
+        {
+          "title": "Abläufe erklären",
+          "copy": "Welche Schritte machen eine Leistung nachvollziehbar? Dafür werden Motive, Zugänge und Drehfenster mit dem Team vor Ort geplant. Betriebsabläufe und vertrauliche Bereiche müssen berücksichtigt werden."
+        },
+        {
+          "title": "Fassungen für die Nutzung",
+          "copy": "Website, Präsentation und Social Media können unterschiedliche Längen, Seitenverhältnisse und Untertitel brauchen. Das vereinbarte Zielset bestimmt die Aufnahmen und den Umfang der Postproduktion."
+        }
+      ]
     },
     scopeTitle: "Was am Ende erzählt ist",
     processTitle: "Von der Kernbotschaft bis zum Film",
     faqTitle: "Häufige Fragen zum Imagefilm",
     faq: [
-      { question: "Müssen Mitarbeitende vor der Kamera geübt sein?", answer: "Nein. Gespräche werden so vorbereitet und geführt, dass keine auswendig gelernten Sätze nötig sind." },
-      { question: "Kann vorhandenes Material eingebaut werden?", answer: "Ja, sofern Qualität und Nutzungsrechte passen. Vorab wird geprüft, welche Aufnahmen den Film wirklich ergänzen." },
-      { question: "Wie lang sollte ein Imagefilm sein?", answer: "So lang, wie die Geschichte trägt. Die Verwendung entscheidet mit: Auf der Website funktioniert konzentriert, in Präsentationen darf es ausführlicher sein, für Social entstehen angepasste Versionen." },
-      { question: "Wie viel Zeit kostet der Dreh das Team?", answer: "Weniger, als meist befürchtet wird. Interviews werden vorbereitet und in abgestimmte Zeitfenster gelegt, das Setup bleibt klein und ruhig — der Betrieb läuft weiter." },
-      { question: "Funktioniert ein Imagefilm auch ohne Interviews?", answer: "Ja. Gesprochene O-Töne sind ein Mittel, keine Pflicht. Manche Geschichten erzählen sich über Bilder, Geräusche und wenige eingeblendete Sätze klarer." },
-      { question: "Reicht ein Drehtag?", answer: "Das hängt von Motiven, Orten und Protagonisten ab. Der Umfang wird im Konzept ehrlich festgelegt — lieber ein konzentrierter Tag mit Plan als zwei ohne." },
+      {
+        "question": "Für wen eignet sich ein Interviewporträt?",
+        "answer": "Für Organisationen, Kultureinrichtungen, Initiativen und Selbstständige, deren Arbeit durch eine Person und konkrete Situationen verständlicher wird. Im Briefing wird geprüft, ob Interview, reine Bildfolge oder eine Kombination zum Ziel passt."
+      },
+      {
+        "question": "Müssen Mitarbeitende vor der Kamera geübt sein?",
+        "answer": "Vorerfahrung ist keine Voraussetzung. Fragen, Gesprächssituation und Zeitfenster werden vorbereitet. Wer auftreten soll und welche Aussagen gebraucht werden, wird vor dem Dreh besprochen."
+      },
+      {
+        "question": "Wie lässt sich der Dreh in den Betrieb einplanen?",
+        "answer": "Mit abgestimmten Interviewzeiten, erreichbaren Ansprechpersonen und freigegebenen Motiven. Aufbau, Umstellen von Licht und Wiederholungen brauchen Zeit; der Umfang wird mit dem Team geplant."
+      },
+      {
+        "question": "Kann vorhandenes Bildmaterial genutzt werden?",
+        "answer": "Ja, nach Sichtung und Klärung der Nutzungsrechte. Auflösung, Bildformat, Ton und Inhalt müssen zu den neuen Aufnahmen und zur vorgesehenen Veröffentlichung passen."
+      },
+      {
+        "question": "Was kostet ein Imagefilm?",
+        "answer": "Konzept, Zahl der Orte und Personen, Drehzeit, Ton, Materialmenge und Fassungen bestimmen den Aufwand. Eine belastbare Kalkulation entsteht nach dem Briefing und benennt auch Korrekturrunden und vereinbarte Auslieferungen."
+      },
+      {
+        "question": "Sind Untertitel und kurze Versionen möglich?",
+        "answer": "Ja. Sprache, Untertitel, Hoch- und Querformate sowie gewünschte Ausschnitte werden vorab vereinbart. So bleibt klar, welche Fassungen zur Freigabe vorliegen sollen."
+      }
     ],
-    seoTitle: "Imagefilm Düsseldorf | Persönlich und präzise produziert",
-    seoDescription: "Imagefilm und Unternehmensporträt aus Düsseldorf: Konzeption, Interviews, Kamera und Postproduktion für glaubwürdige Geschichten.",
+    seoTitle: "Imagefilm Düsseldorf | Unternehmens- & Interviewporträt",
+    seoDescription: "Imagefilm und Interviewporträt aus Düsseldorf für Unternehmen, Kultur und Initiativen. Konzeption, Interviews, Kamera, Ton und Postproduktion.",
   },
   {
+    projectContext: "Bei Electric Lights gehörten Kamera und Lichtgestaltung zu Sophias dokumentierten Beiträgen. Die Installation verbindet diese Arbeit mit Klang und Schnitt. Die Projektseite zeigt den Kontext und nennt die Mitwirkenden.",
+    heroTitle: "Kamerafrau für Musik und Kultur",
     slug: "kamera-bildgestaltung",
     parent: "videografie",
     title: "Kamera & Bildgestaltung",
     eyebrow: "Für Produktionsteams",
-    summary: "Buchbare Kamerafrau für Drehs, bei denen Bildsprache, Licht und zuverlässige Zusammenarbeit zusammengehören.",
-    claim: "Ein Briefing ist Papier. **Die Kamera macht Bilder daraus.**",
-    intro: "Nicht jedes Projekt braucht eine komplette Produktion. Sophia kann als Kamerafrau und Mediengestalterin in bestehende Teams einsteigen, Briefings in konkrete Bilder übersetzen und sich in vorbereitete technische Abläufe einfügen.",
-    outcome: "Vor dem Dreh werden Bildsprache, Format, Technik, Licht und Datenübergabe geklärt. So bleibt am Set mehr Raum für das Motiv.",
+    summary: "Kamerafrau aus Düsseldorf für Produktionsteams: Bildgestaltung, Licht und technische Vorbereitung für Musik-, Kultur- und dokumentarische Formate.",
+    claim: "Regie und Kamera stimmen sich ab. **Am Set wird die Bildidee umgesetzt.**",
+    intro: "Sophia ist als Kamerafrau und ausgebildete Mediengestalterin Bild und Ton für bestehende Produktionsteams buchbar. Mit Regie und Produktion klärt sie Bildsprache, Motive, Licht und den Umfang ihres Kameraauftrags. So sind Aufgaben und technische Schnittstellen vor dem Dreh benannt.",
+    outcome: "Eine Kamerabuchung kann Bildgestaltung und Lichtplanung umfassen. Welche Technik, zusätzliche Crew und Datenübergabe gebraucht werden, hängt vom Projekt ab. Kamera, Regie, Ton und Postproduktion werden im Briefing als Zuständigkeiten getrennt festgelegt.",
     image: "/media/set-hoch-02.jpg",
     alt: "Kameraarbeit an einem Filmset",
     deliverables: ["Kameraarbeit im bestehenden Team", "Bild- und Lichtkonzept", "Technische Vorbereitung", "Geordnete Datenübergabe"],
     process: ["Briefing und Referenzen prüfen", "Technik und Schnittstellen abstimmen", "Dreh im Team", "Saubere Übergabe an Postproduktion oder DIT"],
     suitableFor: ["Agenturproduktionen", "Kultur- und Musikdrehs", "Interviews und Reportage", "Kleine narrative Produktionen"],
-    relatedProjects: ["electric-lights", "spektra-festival"],
+    relatedProjects: [
+      "electric-lights"
+    ],
     relatedServices: ["tonaufnahme", "postproduktion"],
     focus: {
-      label: "Zusammenarbeit",
-      title: "Vor dem Dreh, am Set, danach",
-      lead: "Eine gebuchte Kamera ist nur so gut wie ihre Schnittstellen. Deshalb wird die Zusammenarbeit in drei Phasen gedacht.",
-      items: [
-        { title: "Vor dem Dreh", copy: "Bildsprache, Format, Optiken, Licht und Datenworkflow werden mit Regie oder Produktion geklärt — bevor die erste Klappe fällt." },
-        { title: "Am Set", copy: "Einfügen statt auffallen: Briefings werden in Bilder übersetzt, Absprachen mit Licht und Ton gehalten, Entscheidungen im Sinne des Projekts getroffen." },
-        { title: "Nach dem Dreh", copy: "Geordnete, dokumentierte Datenübergabe an DIT oder Postproduktion — benannt, gesichert, nachvollziehbar." },
-      ],
+      "label": "Kameraauftrag",
+      "title": "Zusammenarbeit mit Regie und Produktion",
+      "lead": "Eine gemeinsame Bildidee braucht klare Absprachen über den Dreh und die spätere Verwendung des Materials.",
+      "items": [
+        {
+          "title": "Bildsprache und Motive",
+          "copy": "Referenzen, Einstellungen, Kamerabewegung und Licht werden mit der Regie besprochen. Drehort und Zeitfenster bestimmen, welche Motive vorbereitet werden können."
+        },
+        {
+          "title": "Technik und Besetzung",
+          "copy": "Kamera, Objektive, Licht, Ton und gegebenenfalls weitere Crew werden für den konkreten Auftrag abgestimmt. Eine Buchung beschreibt die Rolle und den benötigten Leistungsumfang."
+        },
+        {
+          "title": "Daten für die Postproduktion",
+          "copy": "Aufnahmeformat, Bildrate, Tonzuordnung und Übergabe werden vor dem Dreh festgelegt. Verantwortlichkeit für Sicherung und weitere Archivierung gehört ebenfalls in die Absprache."
+        }
+      ]
     },
     scopeTitle: "Was das Team bekommt",
     processTitle: "Vom Briefing bis zur Datenübergabe",
@@ -258,18 +363,20 @@ export const services: Service[] = [
       { question: "Wie läuft die Datenübergabe?", answer: "Nach dem vorab abgestimmten Workflow: Karten gesichert, Material strukturiert benannt, Übergabe an DIT oder Schnitt dokumentiert — keine losen Festplatten ohne Absprache." },
       { question: "Deckt eine Kamerabuchung auch den Ton ab?", answer: "In kleinen Setups kann Sophia als Mediengestalterin Bild und Ton beides verantworten. Sobald mehrere Tonwege oder Live-Mischungen gebraucht werden, gehört ein eigener Tonposten in die Planung." },
     ],
-    seoTitle: "Kamerafrau Düsseldorf & NRW | Sophia Ramahi",
-    seoDescription: "Kamerafrau und Mediengestalterin Bild und Ton für Produktionsteams in Düsseldorf und NRW. Bildgestaltung, Licht und technische Vorbereitung.",
+    seoTitle: "Kamerafrau Düsseldorf | Musik, Kultur & Produktionsteams",
+    seoDescription: "Sophia Ramahi als Kamerafrau in Düsseldorf und NRW buchen: Kamera, Bildgestaltung und Licht für Musik, Kultur und bestehende Produktionsteams.",
   },
   {
+    projectContext: "Electric Lights zeigt Sophias Klang-Komposition und die Verbindung von Bild, Ton und Schnitt in einer audiovisuellen Installation. Das Projekt ist als gestalterische Arbeit ausgewiesen; Interview- und Eventton werden für den jeweiligen Auftrag geplant.",
+    heroTitle: "Originalton für Interviews und Drehs",
     slug: "tonaufnahme",
     parent: "videografie",
     title: "Tonaufnahme am Set",
     eyebrow: "Sprache und Atmosphäre",
-    summary: "Sauber geplanter Originalton für Interviews, dokumentarische Situationen und kleine Produktionen.",
-    claim: "Ton wird nicht im Schnitt repariert. **Er wird am Set entschieden.**",
-    intro: "Ton ist nicht die Reparaturphase nach dem Dreh. Raum, Mikrofonierung, Umgebung und Bewegungsfreiheit müssen vorher zusammen gedacht werden. Als ausgebildete Mediengestalterin Bild und Ton kann Sophia beides in kleinen Setups verbinden.",
-    outcome: "Je nach Produktion übernimmt sie den Ton selbst oder plant einen eigenen Tonposten ein, wenn Umfang und Verantwortung das erfordern.",
+    summary: "Tonaufnahme aus Düsseldorf für Interviews, Event-Statements und kompakte Videoproduktionen. Mikrofonierung und Aufnahmewege werden mit dem Dreh geplant.",
+    claim: "Die Stimme muss verständlich sein. **Der Aufnahmeort wird mitgeplant.**",
+    intro: "Bei Interviews und dokumentarischen Drehs gehören Raum, Störquellen und Mikrofonposition in die Vorbereitung. Sophia plant Originalton als Mediengestalterin Bild und Ton zusammen mit der Kamera oder als abgegrenzte Aufgabe. Ob ein kompaktes Setup genügt, wird anhand von Personen, Bewegung und Aufnahmewegen entschieden.",
+    outcome: "Zum vereinbarten Umfang können Sprachaufnahme, Atmosphäre, Kontrolle während der Aufnahme und eine dokumentierte Übergabe gehören. Mehrere parallele Tonquellen oder eine Live-Mischung brauchen eine gesonderte Planung und gegebenenfalls eine eigene Tonbesetzung.",
     image: "/media/light-void.jpg",
     alt: "Fast schwarzer Raum mit schmalem kühlem Lichtspalt",
     deliverables: ["Mikrofonierung kleiner Setups", "Interview- und Atmoaufnahme", "Synchronisierte Übergabe", "Grundlegende Tonbearbeitung"],
@@ -298,58 +405,92 @@ export const services: Service[] = [
       { question: "Was passiert an lauten Drehorten?", answer: "Erst einschätzen, dann drehen: Störquellen, Positionen und Zeitfenster werden vor Ort geprüft. Was am Set unverständlich aufgenommen wurde, rettet auch der Schnitt nicht." },
       { question: "Wird das Material bearbeitet übergeben?", answer: "Eine grundlegende Tonbearbeitung gehört dazu: gesichert, synchronisiert, dokumentiert. Aufwendige Mischungen werden als eigener Schritt in der Postproduktion geplant." },
     ],
-    seoTitle: "Tonaufnahme am Set in Düsseldorf | Sophia Ramahi",
-    seoDescription: "Tonaufnahme für Interviews, Events und kleine Videoproduktionen in Düsseldorf und NRW – geplant zusammen mit Kamera und Bildgestaltung.",
+    seoTitle: "Tonaufnahme für Interviews Düsseldorf | Sophia Ramahi",
+    seoDescription: "Originalton und Tonaufnahme für Interviews, Event-Statements und kleine Videoproduktionen in Düsseldorf und NRW. Vorbereitung mit Kamera und Produktion.",
   },
   {
+    projectContext: "Beim Spektra Festival gehörten visuelle Gestaltung, Live Visuals, Aufbau und technische Abstimmung zu Sophias Aufgaben. Die Projektbilder zeigen die Bühne und die Vorbereitung. Die ergänzende Lichtstudie Dark Lights ist als Fotografie ausgewiesen.",
+    heroTitle: "VJ und Live Visuals",
     slug: "live-visuals",
     parent: "vj-mapping",
     title: "VJ & Live Visuals",
     eyebrow: "Bilder, die live reagieren",
-    summary: "Live gemischte Visuals für Konzerte, Clubs, Festivals und performative Formate.",
-    claim: "Kein Loop in Endlosschleife. **Bilder, die auf den Raum reagieren.**",
-    intro: "Live Visuals sind kein Hintergrundvideo in Endlosschleife. Material, Rhythmus, Raum und Licht reagieren aufeinander. Dafür entwickelt Sophia visuelle Loops, kombiniert vorhandenes Material und mischt die Bildwelten live.",
-    outcome: "Der Umfang reicht von einem kompakten VJ-Set bis zu einer abgestimmten Bilddramaturgie für einen ganzen Abend.",
+    summary: "VJ und Live Visuals aus Düsseldorf für Konzerte, Clubs und Festivals. Visuelles Material, Zuspielung und Live-Mixing werden mit Musik und Bühne abgestimmt.",
+    claim: "Material wird vorbereitet. **Live entsteht der Ablauf.**",
+    intro: "Sophia gestaltet und mischt Live Visuals für Konzerte, Clubabende, Festivals und Performances. Eigene Loops, Texturen oder freigegebenes Bestandsmaterial werden zu einem Set vorbereitet. Während der Veranstaltung können Bildauswahl und Übergänge auf die Musik und den Verlauf des Abends abgestimmt werden.",
+    outcome: "Für eine VJ-Buchung werden Termin, Setdauer, Künstler, Bildflächen und vorhandene Technik geklärt. Bildschirmformat, Auflösung, Signalwege, Licht und Zugang zum Aufbau bestimmen den konkreten Umfang. Die Bereitstellung von Projektoren, Screens oder weiterer Technik wird separat vereinbart.",
     image: "/media/club-projektion-01.jpg",
     alt: "Live Visuals auf einer Bühne",
     deliverables: ["Visuelles Konzept", "Eigene Loops und Materialaufbereitung", "Live-Mixing", "Abstimmung mit Licht und Bühne"],
     process: ["Musik und Ablauf verstehen", "Flächen und Technik prüfen", "Material vorbereiten und testen", "Live spielen und auf den Raum reagieren"],
     suitableFor: ["Konzerte", "Clubnächte", "Festivals", "Performances und Installationen"],
     relatedProjects: ["spektra-festival", "dark-lights"],
-    relatedServices: ["projection-mapping", "musikvideo"],
+    relatedServices: [
+      "projection-mapping",
+      "eventfilm"
+    ],
     focus: {
-      label: "Bausteine",
-      title: "Woraus ein Set gebaut ist",
-      lead: "Ein VJ-Set ist vorbereitete Freiheit: genug Material, um zu reagieren — genug Struktur, um den Abend zu tragen.",
-      items: [
-        { title: "Material", copy: "Eigene Loops, aufbereitetes Bestandsmaterial, gestaltete Texturen — geprüft auf Format, Rechte und visuelle Anschlussfähigkeit." },
-        { title: "Raum", copy: "Flächen, Projektoren, Signalwege und das vorhandene Licht bestimmen, was funktioniert. Deshalb wird der Ort vor dem Abend geprüft, nicht währenddessen." },
-        { title: "Live", copy: "Gemischt wird in Echtzeit: auf die Musik, auf den Raum, auf den Moment. Genau das unterscheidet ein Set von einem Video in Dauerschleife." },
-      ],
+      "label": "VJ-Buchung",
+      "title": "Was vor dem Live-Set geklärt wird",
+      "lead": "Materialgestaltung und Veranstaltungstechnik müssen am Spielort zusammenpassen.",
+      "items": [
+        {
+          "title": "Musik und Bildmaterial",
+          "copy": "Line-up, musikalische Richtung und gewünschte Stimmung geben den Rahmen. Eigene Inhalte und bereitgestelltes Material werden auf Nutzungsrechte, Bildformat und gemeinsame Gestaltung geprüft."
+        },
+        {
+          "title": "Screens, Projektion und Signalweg",
+          "copy": "Die technischen Angaben der Bühne gehören ins Briefing: Flächen, Auflösung, Anschlüsse, Zuspielort und vorhandenes Licht. Technische Zuständigkeiten und Bereitstellung werden mit den Beteiligten festgelegt."
+        },
+        {
+          "title": "Aufbau und Live-Mixing",
+          "copy": "Ein Zeitfenster für Einrichtung und Prüfung wird in den Ablauf aufgenommen. Setzeiten und Übergaben zwischen Acts bestimmen, wie das Material live eingesetzt werden kann."
+        }
+      ]
     },
     scopeTitle: "Was auf die Flächen kommt",
     processTitle: "Vom Ablauf bis zum Live-Set",
     faqTitle: "Häufige Fragen zu Live Visuals",
     faq: [
-      { question: "Wird vorhandenes Videomaterial genutzt?", answer: "Das ist möglich. Es wird vorab auf Format, Rechte, Auflösung und visuelle Anschlussfähigkeit geprüft." },
-      { question: "Welche Technik muss der Veranstaltungsort stellen?", answer: "Projektionsflächen, Signalwege und Abspieltechnik werden projektbezogen geklärt. Eine pauschale Technikliste wäre unseriös." },
-      { question: "Wie früh sollte ein VJ-Set angefragt werden?", answer: "Sobald Ort und Termin stehen. Flächen, Signalwege und Materialvorbereitung brauchen Vorlauf — je besonderer der Raum, desto mehr." },
-      { question: "Kann das Set einen ganzen Abend tragen?", answer: "Ja. Vom kompakten Set bis zur Bilddramaturgie für einen ganzen Abend mit mehreren Acts — der Umfang wird am Ablauf des Abends festgemacht." },
-      { question: "Wie eng wird mit Licht und Bühne zusammengearbeitet?", answer: "Eng. Visuals, Licht und Bühnenbild teilen sich denselben Raum — die Abstimmung gehört zum Umfang, damit keine Ebene die andere überstrahlt." },
-      { question: "Entsteht das Material speziell für den Anlass?", answer: "Ein Teil meist ja: eigene Loops und Texturen, die zum Charakter des Abends passen. Kombiniert wird mit geprüftem Bestandsmaterial, wo es das Konzept stärkt." },
+      {
+        "question": "Was bedeutet VJ bei einer Veranstaltung?",
+        "answer": "Ein VJ gestaltet und mischt bewegte Bilder live. Material und Übergänge werden vorbereitet und während des Sets auf Musik und Ablauf abgestimmt. Welche Reaktionsmöglichkeiten gewünscht sind, wird vorab besprochen."
+      },
+      {
+        "question": "Kann Sophia für ein Konzert oder Festival gebucht werden?",
+        "answer": "Ja, nach Prüfung von Termin und Umfang. Für ein Angebot braucht es Spielort, Setzeiten, Line-up, Bildflächen, vorhandene Technik und eine Ansprechperson für die technische Abstimmung."
+      },
+      {
+        "question": "Sind Projektoren oder LED-Screens enthalten?",
+        "answer": "Die technische Bereitstellung wird im Angebot ausdrücklich vereinbart. Eine VJ-Buchung allein legt weder Gerätebestand noch Bildschirm- oder Projektorleistung fest. Veranstaltungs- und Zuspieltechnik müssen zusammen geplant werden."
+      },
+      {
+        "question": "Kann vorhandenes Material eingebunden werden?",
+        "answer": "Ja, sofern Bildformat, Gestaltung und Nutzungsrechte passen. Material sollte vorab prüfbar sein; kurzfristige zusätzliche Dateien können den Vorbereitungsumfang verändern."
+      },
+      {
+        "question": "Was unterscheidet Live Visuals von Projection Mapping?",
+        "answer": "Live Visuals beschreiben die Gestaltung und Mischung von Bildern während einer Veranstaltung. Projection Mapping richtet Inhalte auf bestimmte Flächen oder Objekte aus. Beide Aufgaben können in einem Projekt zusammenkommen."
+      },
+      {
+        "question": "Was kostet ein VJ-Set?",
+        "answer": "Vorbereitung und Materialgestaltung, Setdauer, technische Einrichtung, Reise und zusätzliche Besetzung bestimmen den Aufwand. Die Kalkulation erfolgt für die konkrete Veranstaltung und benennt auch die technische Bereitstellung."
+      }
     ],
-    seoTitle: "VJ & Live Visuals Düsseldorf | Sophia Ramahi",
-    seoDescription: "VJ und Live Visuals aus Düsseldorf für Konzerte, Clubs, Festivals und Performances. Konzept, Material und Live-Mixing.",
+    seoTitle: "VJ & Live Visuals Düsseldorf | Konzerte & Festivals",
+    seoDescription: "VJ und Live Visuals aus Düsseldorf für Konzerte, Clubs und Festivals: Materialgestaltung, Zuspielung und Live-Mixing mit technischer Abstimmung.",
   },
   {
+    projectContext: "Spektra Festival dokumentiert Sophias Live Visuals und die technische Vorbereitung der Bühne. Electric Lights ist eine audiovisuelle Installation mit ihren Beiträgen zu Konzept, Kamera, Licht, Klang und Schnitt. Die Arbeiten zeigen unterschiedliche Beziehungen zwischen Bild und Raum.",
+    heroTitle: "Projection Mapping für Bühnen und Räume",
     slug: "projection-mapping",
     parent: "vj-mapping",
     title: "Projection Mapping",
     eyebrow: "Bilder für reale Flächen",
-    summary: "Projektionen, die Architektur, Bühnenbild oder Objekte als Teil der Gestaltung behandeln.",
-    claim: "Die Fläche ist keine Leinwand. **Sie ist Teil des Bildes.**",
-    intro: "Beim Projection Mapping bestimmt die Fläche das Bild. Maße, Blickwinkel, Helligkeit, Projektorposition und Umgebungslicht sind Teil des Konzepts. Erst danach lohnt sich die Gestaltung des Materials.",
-    outcome: "Sophia entwickelt visuelle Inhalte, testet die Abbildung auf dem realen Objekt und stimmt die Zuspielung mit der Veranstaltungstechnik ab.",
+    summary: "Projection Mapping aus Düsseldorf für Bühnen, Objekte und Ausstellungen. Visuelle Inhalte werden mit der Projektionsfläche und Veranstaltungstechnik geplant.",
+    claim: "Die Fläche bestimmt das Bild. **Die Technik bestimmt die Machbarkeit.**",
+    intro: "Beim Projection Mapping werden bewegte Bilder auf die Geometrie einer Fläche oder eines Objekts abgestimmt. Sophia entwickelt visuelle Inhalte und plant ihre Einrichtung mit der Veranstaltungstechnik. Maße, Material, Blickwinkel und Umgebungslicht werden geklärt, bevor die Gestaltung festgelegt wird.",
+    outcome: "Für Bühnenbilder, Ausstellungen und audiovisuelle Installationen werden Projektorposition, Zuspielung, Aufbau und Probelauf zusammen geplant. Ob eine Idee am vorgesehenen Ort funktioniert, muss anhand dieser Bedingungen geprüft werden. Projektoren, weitere Technik und Zuständigkeiten werden für jedes Projekt vereinbart.",
     image: "/media/spektra-detail-03.jpg",
     alt: "Geometrische Projektion auf einer Bühnenfläche",
     deliverables: ["Flächen- und Machbarkeitsprüfung", "Mapping-Layout", "Visuelle Inhalte", "Einrichtung und Probelauf"],
@@ -359,37 +500,67 @@ export const services: Service[] = [
     relatedServices: ["live-visuals", "eventfilm"],
     articleSlug: "projection-mapping-vorbereitung",
     focus: {
-      label: "Machbarkeit",
-      title: "Erst die Fläche, dann das Bild",
-      lead: "Mapping scheitert selten an Ideen — eher an Helligkeit, Abstand und Oberfläche. Deshalb steht die Machbarkeit am Anfang, nicht am Ende.",
-      items: [
-        { title: "Die Fläche", copy: "Maße, Material, Farbe und Winkel verändern die Projektion. Eine weiße, ebene Wand verhält sich anders als Stoff, Architektur oder ein Objekt." },
-        { title: "Das Licht", copy: "Umgebungslicht ist eine reale Grenze: Projektorleistung, Abstand und Raumhelligkeit entscheiden, ob das Bild trägt — das wird vor der Gestaltung geklärt." },
-        { title: "Der Probelauf", copy: "Mindestens ein Test auf der realen Fläche gehört zum Umfang. Die letzte Korrektur passiert beim Aufbau — nicht vor Publikum." },
-      ],
+      "label": "Vorbereitung",
+      "title": "Fläche, Licht und technische Einrichtung",
+      "lead": "Fotos und Maße sind ein erster Einstieg. Für ein belastbares Konzept werden die Bedingungen am tatsächlichen Spielort geprüft.",
+      "items": [
+        {
+          "title": "Fläche und Publikum",
+          "copy": "Material, Farbe, Form und Blickwinkel verändern die sichtbare Projektion. Zum Briefing gehören Maße, Fotos und die vorgesehenen Publikumspositionen."
+        },
+        {
+          "title": "Projektor und Umgebungslicht",
+          "copy": "Abstand, mögliche Positionen und Raumhelligkeit begrenzen die Umsetzung. Bildgestaltung und Technik werden gemeinsam abgestimmt; eine pauschale Projektorleistung lässt sich daraus nicht ableiten."
+        },
+        {
+          "title": "Zuspielung und Probelauf",
+          "copy": "Signalwege, Anschlüsse, Aufbauzeit und Zugänge gehören in den Ablaufplan. Ein Test auf der realen Fläche wird vorab eingeplant, damit Inhalte und Einrichtung zusammen geprüft werden können."
+        }
+      ]
     },
     scopeTitle: "Was auf der Fläche entsteht",
     processTitle: "Von der Fläche bis zum Probelauf",
     faqTitle: "Häufige Fragen zum Mapping",
     faq: [
-      { question: "Kann Projection Mapping überall eingesetzt werden?", answer: "Nein. Helligkeit, Projektionsabstand, Oberfläche und Publikumswege setzen reale Grenzen. Eine frühe Ortsprüfung spart später Aufwand." },
-      { question: "Wird der Projektor mitgebracht?", answer: "Das hängt von Größe und Ort ab. Häufig kommt die passende Projektionstechnik über den Veranstaltungsort oder einen Verleih." },
-      { question: "Welche Angaben helfen bei der ersten Einschätzung?", answer: "Ort, Anlass, Termin und — falls vorhanden — Fotos oder Maße der Fläche. Damit lässt sich die Machbarkeit oft schon grob einschätzen, bevor jemand anreist." },
-      { question: "Funktioniert Mapping auch im Freien?", answer: "Ja, wenn das Umgebungslicht mitspielt — meist in den Abend- und Nachtstunden. Helligkeit, Wetterschutz und Stromwege werden bei der Ortsprüfung geklärt." },
-      { question: "Lässt sich Mapping mit Live Visuals kombinieren?", answer: "Ja, die Kombination ist naheliegend: gemappte Flächen als Bühne, live gemischte Inhalte darauf. Beim Spektra Festival sind beide Ebenen zusammengekommen." },
+      {
+        "question": "Für welche Flächen eignet sich Projection Mapping?",
+        "answer": "Bühnenbilder, Objekte oder Flächen in Ausstellungen können geeignete Ausgangspunkte sein. Geometrie, Material, Projektorposition, Umgebungslicht und Publikumswege müssen für die konkrete Idee geprüft werden."
+      },
+      {
+        "question": "Was braucht Sophia für die erste Einschätzung?",
+        "answer": "Termin, Ort, Innen- oder Außensituation, Fotos und Maße der Fläche sowie Angaben zu vorhandenen Projektoren, Licht und Aufbauzeit. Hilfreich sind auch eine Ansprechperson der Veranstaltungstechnik und die gewünschte Nutzung."
+      },
+      {
+        "question": "Sind Projektoren und Aufbau enthalten?",
+        "answer": "Das wird im Angebot benannt. Gestaltung, Zuspielung, technische Bereitstellung und Aufbau können unterschiedliche Zuständigkeiten haben. Eine Anfrage legt deshalb noch keinen vollständigen Technikumfang fest."
+      },
+      {
+        "question": "Ist Mapping bei Tageslicht möglich?",
+        "answer": "Die Machbarkeit hängt von Fläche, Umgebungslicht, Projektionsabstand und Technik ab. Sie muss geprüft werden, bevor eine Umsetzung zugesagt wird. Für Außenbereiche kommen Wetter und weitere technische Rahmenbedingungen hinzu."
+      },
+      {
+        "question": "Was unterscheidet Mapping von einem VJ-Set?",
+        "answer": "Mapping richtet Bilder auf bestimmte Flächen aus. Ein VJ-Set beschreibt die Live-Mischung von Bildmaterial während einer Veranstaltung. Die Kombination kann sinnvoll sein, braucht aber eine gemeinsame Inhalts- und Technikplanung."
+      },
+      {
+        "question": "Wie wird ein Mapping-Projekt kalkuliert?",
+        "answer": "Flächenzahl und Geometrie, Gestaltung, technische Einrichtung, Proben, Spielzeit und Reise beeinflussen den Aufwand. Nach der Prüfung wird ein konkreter Umfang mit Zuständigkeiten und Technikbedarf angeboten."
+      }
     ],
-    seoTitle: "Projection Mapping Düsseldorf & NRW | Sophia Ramahi",
-    seoDescription: "Projection Mapping und visuelle Installationen in Düsseldorf und NRW: Flächenkonzept, Content, Einrichtung und technische Abstimmung.",
+    seoTitle: "Projection Mapping Düsseldorf | Bühnen & Ausstellungen",
+    seoDescription: "Projection Mapping aus Düsseldorf für Bühnen, Objekte und Ausstellungen. Visuelle Inhalte, Flächenplanung, Einrichtung und technische Abstimmung.",
   },
   {
+    projectContext: "Electric Lights verbindet Sophias Schnitt und Klang-Komposition mit Kamera und Lichtgestaltung. Bei 24h to take entstanden Kurzfilme unter den Bedingungen eines Wettbewerbs. Die Projektseiten zeigen diese unterschiedlichen Produktionskontexte.",
+    heroTitle: "Videoschnitt für Musik und Kultur",
     slug: "postproduktion",
     parent: "leistungen",
     title: "Postproduktion",
     eyebrow: "Schnitt, Farbe und Ton",
-    summary: "Postproduktion, die Material ordnet, Rhythmus findet und Bild und Ton zu einem fertigen Film verbindet.",
-    claim: "Gedreht ist schnell. **Erzählt wird im Schnitt.**",
-    intro: "Im Schnitt entscheidet sich, welche Geschichte das gedrehte Material tatsächlich erzählt. Sophia übernimmt Postproduktion für eigene Drehs und ausgewählte Fremdproduktionen – von der Materialsichtung bis zu den finalen Formaten.",
-    outcome: "Der Ablauf wird vorab klar begrenzt: Materialmenge, gewünschte Länge, Ausspielungen, Korrekturrunden und Übergabeformat.",
+    summary: "Videoschnitt aus Düsseldorf für Musik, Kultur, Events und Interviews. Materialsichtung, Schnitt, Farbgestaltung und Ton werden bis zur Ausspielung abgestimmt.",
+    claim: "Das Material ist da. **Der Schnitt gibt dem Film seine Form.**",
+    intro: "Sophia übernimmt Videoschnitt und Postproduktion für eigene Drehs und ausgewählte Fremdproduktionen. Vor dem Schnitt werden Material, Ton, gewünschte Aussage und Nutzung gesichtet. Daraus ergibt sich ein Rahmen für Rohschnitt, Feinschnitt, Farbgestaltung und Tonbearbeitung.",
+    outcome: "Materialmenge, Filmfassungen, Untertitel, Korrekturrunden und Exporte stehen im Angebot. Bei Fremdmaterial müssen Dateiformate, Synchronisation und Nutzungsrechte vorab prüfbar sein. Der Aufwand lässt sich aus der Laufzeit des fertigen Films allein nicht ableiten.",
     image: "/media/journal-02.jpg",
     alt: "Postproduktion eines Videoprojekts",
     deliverables: ["Materialsichtung und Rohschnitt", "Feinschnitt und Dramaturgie", "Farbgestaltung", "Tonbearbeitung, Untertitel und Exporte"],
@@ -418,8 +589,8 @@ export const services: Service[] = [
       { question: "Wie läuft eine Korrekturrunde ab?", answer: "Es gibt einen Stand zum Ansehen, Feedback wird gesammelt und konkret zurückgespielt, dann wird gezielt überarbeitet. Einzelwünsche im Tagestakt zerreiben jede Planung — deshalb der feste Rhythmus." },
       { question: "Wie wird mit sehr viel Material umgegangen?", answer: "Mit einer strukturierten Sichtung zuerst: ordnen, markieren, reduzieren. Erst wenn das Material sortiert ist, beginnt der eigentliche Schnitt — das spart am Ende mehr Zeit, als es kostet." },
     ],
-    seoTitle: "Video-Postproduktion Düsseldorf | Schnitt, Farbe & Ton",
-    seoDescription: "Video-Postproduktion in Düsseldorf: Materialsichtung, Schnitt, Farbgestaltung, Tonbearbeitung, Untertitel und Exporte.",
+    seoTitle: "Videoschnitt & Postproduktion Düsseldorf | Sophia Ramahi",
+    seoDescription: "Videoschnitt und Postproduktion aus Düsseldorf für Musik, Kultur, Events und Interviews: Sichtung, Schnitt, Farbgestaltung, Ton und Formatvarianten.",
   },
 ];
 
@@ -427,6 +598,7 @@ export const projects: Project[] = [
   {
     slug: "electric-lights",
     title: "Electric Lights",
+    seoTitle: "Electric Lights im KIT | Audiovisuelle Installation",
     category: "Audiovisuelle Installation",
     year: "2023",
     location: "KIT – Kunst im Tunnel, Düsseldorf",
@@ -453,6 +625,7 @@ export const projects: Project[] = [
   {
     slug: "dark-lights",
     title: "Dark Lights",
+    seoTitle: "Dark Lights | Fotografie und Lichtstudie von Sophia Ramahi",
     category: "Fotografie & Lichtstudie",
     summary: "Eine dunkle Bildserie, die mit wenigen Lichtquellen, Farbe und Nähe arbeitet.",
     intro: "Dark Lights zeigt Körper, Texturen und Gesichter im grünen und violetten Licht. Die Serie arbeitet mit wenigen Lichtquellen, Farbe und Nähe – eine visuelle Studie, die bewusst bei dem bleibt, was das Material zeigt.",
@@ -474,6 +647,7 @@ export const projects: Project[] = [
   {
     slug: "24h-to-take",
     title: "24h to take",
+    seoTitle: "24h to take Düsseldorf | Sophias Rollen im Videowettbewerb",
     category: "Kurzfilmwettbewerb & Organisation",
     year: "2019–2022",
     location: "Junge Filmwerkstatt Düsseldorf",
@@ -497,6 +671,7 @@ export const projects: Project[] = [
   {
     slug: "spektra-festival",
     title: "Spektra Festival",
+    seoTitle: "Spektra Festival | Live Visuals und Projektion",
     category: "Live Visuals & Festival",
     summary: "Projektionen, Bühne und Live-Momente als zusammenhängende visuelle Fläche.",
     intro: "Das Spektra-Material dokumentiert Aufbau, Masken, Projektionen, Musiker und die fertige Bühne – den ganzen Weg vom technischen Aufbau bis zur laufenden Veranstaltung.",
@@ -524,7 +699,7 @@ export const projects: Project[] = [
 
 const locationSeed: Omit<Location, "services" | "faq" | "image" | "indexable">[] = [
   { slug: "duesseldorf", city: "Düsseldorf", region: "Basis", distance: "0 km", intro: "Sophias Basis liegt in Düsseldorf. Vorgespräche, kleine Vorproduktionen und viele Drehs lassen sich dadurch ohne lange Anfahrt planen.", localAngle: "Kulturorte, Musik, freie Szene, Agenturen und Unternehmen liegen hier eng beieinander. Für Drehs innerhalb der Stadt können Besichtigung und Produktion oft getrennt und pragmatisch organisiert werden.", logistics: "Anfahrt innerhalb Düsseldorfs wird im Angebot transparent ausgewiesen. Technik, Park- oder Ladezugang und Drehgenehmigungen werden projektbezogen geprüft." },
-  { slug: "koeln", city: "Köln", region: "Rheinland", distance: "ca. 40 km", intro: "Köln ist von Düsseldorf aus gut erreichbar und für Musik-, Kultur-, Event- und Agenturproduktionen ein regelmäßiger Produktionsraum.", localAngle: "Bei Innenstadt-Locations, Messe- oder Studioproduktionen lohnt sich eine frühe Klärung von Ladewegen, Parkmöglichkeiten, Lärm und Zeitfenstern.", logistics: "Die Anfahrt wird ab Düsseldorf kalkuliert. Bei frühen Starts oder mehrtägigen Produktionen werden Zeitplan und mögliche Übernachtung vorab vereinbart." },
+  { slug: "koeln", city: "Köln", region: "Rheinland", distance: "ca. 40 km", intro: "Musik-, Kultur- und Eventproduktionen in Köln werden von Düsseldorf aus geplant. Aufbau, Spielzeiten und Reise gehören ins Briefing.", localAngle: "Bei Innenstadt-Locations, Messe- oder Studioproduktionen lohnt sich eine frühe Klärung von Ladewegen, Parkmöglichkeiten, Lärm und Zeitfenstern.", logistics: "Die Anfahrt wird ab Düsseldorf kalkuliert. Bei frühen Starts oder mehrtägigen Produktionen werden Zeitplan und mögliche Übernachtung vorab vereinbart." },
   { slug: "neuss", city: "Neuss", region: "Rhein-Kreis Neuss", distance: "ca. 10 km", intro: "Neuss liegt direkt neben Düsseldorf und eignet sich besonders für kompakte Drehs, Unternehmensporträts und Veranstaltungen mit kurzer Anfahrt.", localAngle: "Die Nähe macht auch getrennte Termine für Besichtigung, Interviewvorbereitung und Dreh realistisch, wenn ein Projekt davon profitiert.", logistics: "Kurze Wege ab Düsseldorf; konkrete Anfahrt, Parken und Technikzugang werden mit der Location abgestimmt." },
   { slug: "ratingen", city: "Ratingen", region: "Kreis Mettmann", distance: "ca. 15 km", intro: "Für Produktionen in Ratingen verbindet die Nähe zu Düsseldorf kurze Wege mit vielen Unternehmens- und Veranstaltungsstandorten.", localAngle: "Bei Gewerbe- und Bürostandorten sind Zutritt, Sicherheitsregeln und ungestörte Interviewzeiten meist wichtiger als eine große Crew.", logistics: "Anfahrt und Technikzugang werden vorab geklärt; bei Firmengeländen sollte eine feste Ansprechperson am Drehtag erreichbar sein." },
   { slug: "meerbusch", city: "Meerbusch", region: "Rhein-Kreis Neuss", distance: "ca. 15 km", intro: "Meerbusch ist für persönliche Porträts, kleine Markenproduktionen und private oder kulturelle Veranstaltungen schnell erreichbar.", localAngle: "Ruhige Innenräume und Außenmotive brauchen unterschiedliche Ton- und Lichtkonzepte. Eine kurze Ortsprüfung kann hier besonders sinnvoll sein.", logistics: "Die Produktion startet ab Düsseldorf. Außenaufnahmen werden mit Wetteroption und zeitlichem Puffer geplant." },
@@ -554,153 +729,372 @@ export const locations: Location[] = locationSeed.map((item, index) => ({
 
 export const articles: Article[] = [
   {
+    updatedAt: "2026-10-09",
     slug: "warum-ton-beim-eventfilm-entscheidet",
-    title: "Warum der Ton beim Eventfilm zuerst geplant werden sollte",
-    excerpt: "Gute Bilder retten kein unverständliches Interview. Was vor dem Dreh geklärt werden muss.",
+    title: "Eventfilm-Ton planen: Interviews, Reden und Atmosphäre",
+    excerpt: "Welche Tonquellen braucht der Eventfilm? Ein Briefing für Veranstalter zu Interviews, Mischpultsignal, Atmosphäre und Zuständigkeiten.",
     image: "/media/journal-01.jpg",
-    readingTime: "6 Minuten",
     publishedAt: "2026-08-12",
     sections: [
-      { title: "Tonprobleme entstehen selten erst im Schnitt", copy: ["Ein lauter Lüfter, Musik aus dem Nachbarraum oder eine Bühne ohne verfügbaren Signalweg sind am Drehtag keine Kleinigkeit. Sie bestimmen, ob ein Interview verständlich bleibt und ob die Atmosphäre später glaubwürdig klingt.", "Darum gehört Ton in das Vorgespräch: Welche Aussagen müssen aufgenommen werden? Welche Musik läuft? Gibt es Zugriff auf das Mischpult? Wo kann ein kurzes Gespräch stattfinden?"] },
-      { title: "Originalton und Atmosphäre haben verschiedene Aufgaben", copy: ["Ein Statement braucht Nähe und Verständlichkeit. Atmo braucht Raum. Beides mit derselben Mikrofonposition aufzunehmen, führt oft zu einem Kompromiss, der keiner Ebene hilft.", "Bei kleinen Produktionen kann eine Person Kamera und Ton verantworten, wenn das Setup überschaubar ist. Mehrere Funkstrecken, Live-Mischungen oder bewegte Situationen brauchen eine eigene Tonposition."] },
-      { title: "Was im Briefing stehen sollte", copy: ["Hilfreich sind Ablaufplan, Ansprechpartner für die Technik, vorgesehene Interviewzeiten und eine kurze Beschreibung der Räume. So lässt sich entscheiden, welche Mikrofone, Rekorder und Backups sinnvoll sind."] },
+      {
+        "title": "Zuerst festlegen, was im Film zu hören sein soll",
+        "copy": [
+          "Ein Eventfilm kann einen Abend über Musik und Bilder verdichten. Sollen Reden, Interviews oder Gespräche verständlich vorkommen, verändert das die Aufnahmeplanung. Ein Mikrofon an der Kamera erfasst den Klang am Kamerastandort; eine Person auf der Bühne oder in einem lauten Foyer braucht einen passend geplanten Aufnahmeweg.",
+          "Benennen Sie vor dem Dreh die Aussagen, die später gebraucht werden. Soll eine Rede vollständig dokumentiert werden? Genügen kurze Statements? Muss ein Gespräch während des laufenden Programms stattfinden? Diese Entscheidungen gehören zusammen mit dem Ablaufplan ins Briefing."
+        ]
+      },
+      {
+        "title": "Mischpultsignal und Atmosphäre haben verschiedene Aufgaben",
+        "copy": [
+          "Ein vorhandenes Mischpultsignal kann ein Ausgangspunkt für Reden oder Bühneninhalte sein. Mit der Veranstaltungstechnik müssen Anschluss, Signalinhalt, Pegel, Zuständigkeit und ein Testfenster geklärt werden. Die Aussage ‚Ton kommt vom Pult‘ beschreibt noch keinen vollständigen Aufnahmeweg.",
+          "Applaus, Publikum und Raumklang geben den Bildern ihren Ort. Sie können zusätzlich zur Sprachaufnahme gebraucht werden. Welche Spuren sinnvoll sind und wie sie zusammengeführt werden, hängt vom späteren Film und der Veranstaltung ab."
+        ],
+        "links": [
+          {
+            "label": "Tonaufnahme für Interviews und Videoproduktionen",
+            "href": "/videografie/tonaufnahme/"
+          }
+        ]
+      },
+      {
+        "title": "Interviews brauchen einen Ort und ein Zeitfenster",
+        "copy": [
+          "Für kurze Statements sollte ein zugänglicher Gesprächsort vorgesehen sein. Musik, Lüftung, Durchgangsverkehr und andere Gespräche sind bei der Auswahl mitzudenken. Ein auf dem Ablaufplan freies Zeitfenster reicht nicht, wenn die gewünschte Person währenddessen an anderer Stelle gebraucht wird.",
+          "Halten Sie fest, wer Gesprächspartner koordiniert und wann Kamera und Ton aufgebaut werden können. Bei parallel laufendem Bühnenprogramm muss die Besetzung diese Aufgaben abdecken können."
+        ]
+      },
+      {
+        "title": "Verantwortung und Übergabe vor dem Event klären",
+        "copy": [
+          "Wer zeichnet welche Quelle auf, kontrolliert die Aufnahme und sichert die Dateien? Bei mehreren Kameras oder getrennten Tonaufnahmen werden außerdem Zuordnung und Synchronisation abgesprochen. Die Postproduktion braucht nachvollziehbar benanntes Material und die Angaben, mit denen die Aufnahmen zusammenpassen.",
+          "Vorhandene Aufnahmen lassen sich bearbeiten. Fehlende Aussagen oder überdeckte Sprache sind damit aber nicht automatisch wiederherstellbar. Die Vorbereitung begrenzt solche Risiken besser als ein pauschales Reparaturversprechen."
+        ]
+      },
+      {
+        "title": "Diese Angaben helfen bei der Anfrage",
+        "copy": [
+          "Nennen Sie Termin, Ort, Ablauf, wichtige Reden und geplante Interviews. Ergänzen Sie eine technische Ansprechperson, vorhandene Tonanschlüsse, mögliche Aufbauzeiten und die gewünschte Veröffentlichung. Hauptfilm, komplette Rede und Social-Clip können unterschiedliche Aufnahmen und Nutzungsfreigaben brauchen.",
+          "Mit diesen Angaben lässt sich prüfen, welche Kamera- und Tonbesetzung zur Veranstaltung passt und welche Leistungen im Angebot stehen müssen."
+        ],
+        "links": [
+          {
+            "label": "Eventfilm und Festival-Aftermovie anfragen",
+            "href": "/videografie/eventfilm/"
+          }
+        ]
+      }
     ],
     related: [{ label: "Eventfilm", href: "/videografie/eventfilm/" }, { label: "Tonaufnahme am Set", href: "/videografie/tonaufnahme/" }],
   },
   {
+    updatedAt: "2026-10-09",
     slug: "musikvideo-mit-kleinem-budget",
-    title: "Musikvideo mit kleinem Budget: Wo die Idee tragen muss",
-    excerpt: "Weniger Motive, klareres Licht, bessere Vorbereitung: ein sinnvoller Rahmen für kleine Musikproduktionen.",
+    title: "Musikvideo mit kleinem Budget: Konzept und Dreh planen",
+    excerpt: "Ein begrenzter Produktionsrahmen braucht eine passende Bildidee. So werden Motive, Performance, Licht und Release-Fassungen vor dem Dreh geklärt.",
     image: "/media/club-projektion-03.jpg",
-    readingTime: "5 Minuten",
     publishedAt: "2026-08-12",
     sections: [
-      { title: "Ein kleiner Rahmen ist kein Stil", copy: ["Wenig Budget wird nicht automatisch zu einer intimen oder rohen Ästhetik. Diese Wirkung muss gestaltet werden. Der wichtigste Schritt ist deshalb, eine Idee zu wählen, die mit einem Ort, einem Lichtkonzept und einer klaren Performance funktioniert."] },
-      { title: "Drehzeit in das sichtbare Bild investieren", copy: ["Viele Ortswechsel verbrauchen Zeit, bevor eine Kamera läuft. Ein konzentrierter Drehort schafft Raum für Licht, Wiederholungen und Details. Das sieht man dem Ergebnis eher an als einer langen Motivliste."] },
-      { title: "Formate von Anfang an mitdenken", copy: ["Wenn neben dem Hauptvideo Hochformate gebraucht werden, müssen Bildausschnitt und Performance dafür geplant sein. Reines Nachbeschneiden funktioniert nur, wenn das zentrale Motiv genug Raum hat."] },
+      {
+        "title": "Die Idee am Produktionsrahmen prüfen",
+        "copy": [
+          "Ein kleines Budget beschreibt zunächst eine Grenze, noch keinen Stil. Eine intime Performance, eine Erzählung oder experimentelle Lichtbilder können jeweils passen. Entscheidend ist, wie viele Orte, Mitwirkende, Umbauten und Aufnahmen die Idee tatsächlich braucht.",
+          "Legen Sie Song, Veröffentlichungstermin und verfügbaren Rahmen gemeinsam auf den Tisch. Wenn die Idee damit nicht umsetzbar ist, wird sie konzentriert: weniger Motive, ein klarerer Ablauf oder ein anderer gestalterischer Ansatz. Eine Kürzung sollte das Konzept vereinfachen und nicht wichtige Vorbereitung unbemerkt streichen."
+        ]
+      },
+      {
+        "title": "Performancevideo und Live-Session unterscheiden",
+        "copy": [
+          "Bei einem Playback-Dreh wird zu einer vorhandenen Aufnahme performt. Für eine Live-Session muss die Darbietung selbst aufgenommen werden. Raum, Besetzung und Tonplanung unterscheiden sich deshalb. Diese Entscheidung sollte feststehen, bevor Kamera- und Technikbedarf kalkuliert werden.",
+          "Eine Performance braucht Vorbereitung: Bewegungen, Positionen und der Zusammenhang zwischen Song und Bild werden vor dem Dreh besprochen. Auch bei wenigen Einstellungen kosten Wiederholungen, Lichtänderungen und Umbauten Zeit."
+        ]
+      },
+      {
+        "title": "Drehort und Licht gemeinsam auswählen",
+        "copy": [
+          "Ein Ort sollte zur Bildidee passen und den vorgesehenen Dreh ermöglichen. Zu prüfen sind Zugang, Aufbau, vorhandenes Licht, Platz, Strom und benötigte Freigaben. Ein scheinbar günstiger Ort kann aufwendig werden, wenn umfangreiche Veränderungen oder lange Umbauten nötig sind.",
+          "Ein nachvollziehbares Lichtkonzept hilft, mehrere Einstellungen gestalterisch zu verbinden. Welche Technik dafür sinnvoll ist, wird anhand des Ortes und der Motive geplant. Equipmentlisten ohne diese Entscheidungen ergeben noch keinen Drehplan."
+        ],
+        "links": [
+          {
+            "label": "Kamera und Bildgestaltung für Musikproduktionen",
+            "href": "/videografie/kamera-bildgestaltung/"
+          }
+        ]
+      },
+      {
+        "title": "Hochformate und Teaser in die Aufnahmeplanung aufnehmen",
+        "copy": [
+          "Für ein Musikvideo auf einer Videoplattform und kurze Clips im Hochformat können andere Ausschnitte gebraucht werden. Benennen Sie deshalb vor dem Dreh die gewünschten Fassungen, ihre Verwendung und den Abgabetermin. So lässt sich entscheiden, welche Motive in mehreren Bildformaten funktionieren sollen.",
+          "Die Zahl der Versionen und Korrekturrunden gehört in den vereinbarten Umfang. Ein zusätzliches Bildformat kann Schnitt, Gestaltung und Freigabe verändern; es ist kein automatisch kostenfreier Export."
+        ]
+      },
+      {
+        "title": "Ein Briefing, das eine Kalkulation ermöglicht",
+        "copy": [
+          "Schicken Sie den Song, wenige aussagekräftige Bildreferenzen, den Release-Termin und Ihren Produktionsrahmen. Beschreiben Sie vorhandene Orte, Mitwirkende und Ideen. Nennen Sie außerdem, welche Hauptfassung und welche kurzen Versionen veröffentlicht werden sollen.",
+          "Ein Angebot kann daraufhin Konzept, Vorbereitung, Dreh, Postproduktion und Auslieferung benennen. Preise, Crew und Drehtage werden für diese konkrete Idee bestimmt."
+        ],
+        "links": [
+          {
+            "label": "Musikvideo-Produktion mit Sophia besprechen",
+            "href": "/videografie/musikvideo/"
+          }
+        ]
+      }
     ],
     related: [{ label: "Musikvideo", href: "/videografie/musikvideo/" }, { label: "Dark Lights", href: "/projekte/dark-lights/" }],
   },
   {
+    updatedAt: "2026-10-09",
     slug: "projection-mapping-vorbereitung",
-    title: "Projection Mapping planen: Sechs Fragen vor der Gestaltung",
-    excerpt: "Fläche, Licht, Projektorposition und Publikum bestimmen, was technisch und gestalterisch möglich ist.",
+    title: "Projection Mapping planen: Checkliste für die Anfrage",
+    excerpt: "Fläche, Umgebungslicht, Projektorposition und Zuspielung: Welche Angaben für die Planung von Mapping auf Bühnen und in Ausstellungen gebraucht werden.",
     image: "/media/spektra-detail-02.jpg",
-    readingTime: "7 Minuten",
     publishedAt: "2026-08-12",
     sections: [
-      { title: "Die Fläche ist Teil des Mediums", copy: ["Maße allein reichen nicht. Material, Farbe, Struktur und Winkel verändern die Projektion. Eine weiße, ebene Wand verhält sich anders als Stoff, Architektur oder ein bewegtes Objekt."] },
-      { title: "Helligkeit ist eine reale Grenze", copy: ["Umgebungslicht lässt sich nicht im Nachhinein wegschneiden. Vor der Content-Produktion muss geklärt sein, wie hell der Raum ist, welche Leistung der Projektor hat und aus welcher Entfernung projiziert werden kann."] },
-      { title: "Zuspielung, Sicherheit und Probe", copy: ["Signalweg, Rechner, Backup, Kabelwege und Zugang zum Aufbau gehören in denselben Plan. Mindestens ein Test auf der realen Fläche verhindert, dass die letzte Korrektur erst vor Publikum passiert."] },
+      {
+        "title": "1. Welche Fläche soll bespielt werden?",
+        "copy": [
+          "Beginnen Sie mit Fotos und Maßen der Fläche oder des Objekts. Material, Farbe, Form und Winkel gehören dazu. Eine helle, ebene Wand stellt andere Bedingungen als Stoff, eine strukturierte Oberfläche oder ein räumliches Objekt.",
+          "Dokumentieren Sie auch die vorgesehenen Publikumspositionen. Das Bild muss aus den relevanten Blickwinkeln lesbar sein. Ein Gestaltungsentwurf allein beantwortet noch nicht, wie die Projektion im tatsächlichen Raum aussieht."
+        ]
+      },
+      {
+        "title": "2. Welches Licht ist während der Wiedergabe vorhanden?",
+        "copy": [
+          "Beschreiben Sie Tageslicht, Saallicht, Bühnenlicht und mögliche Veränderungen während der Veranstaltung. Für die Planung ist der Zustand zur Spielzeit wichtig. Eine dunkle Aufbauphase sagt wenig über eine später beleuchtete Bühne aus.",
+          "Raumhelligkeit, Projektionsabstand und Fläche müssen zusammen mit der verfügbaren Technik geprüft werden. Eine pauschale Aussage wie ‚draußen funktioniert das‘ oder eine feste Projektorleistung ersetzt diese Prüfung nicht."
+        ]
+      },
+      {
+        "title": "3. Wo kann Technik sicher eingerichtet werden?",
+        "copy": [
+          "Zum Briefing gehören mögliche Projektorpositionen, Platz für die Zuspielung, Anschlüsse und Zugänge. Publikum, Darstellende und Aufbauten können Sicht- und Signalwege verändern. Verantwortlichkeiten für Einrichtung und technische Bereitstellung werden mit den Beteiligten festgelegt.",
+          "Geben Sie an, welche Technik bereits vorhanden ist und wer ihre Spezifikationen bestätigen kann. Gestaltung, Projektoren, Zuspielung und Veranstaltungstechnik sind zusammenhängende Aufgaben, deren Umfang im Angebot benannt werden muss."
+        ]
+      },
+      {
+        "title": "4. Wie laufen Inhalte und Live-Einsatz zusammen?",
+        "copy": [
+          "Ist eine fest ablaufende Sequenz geplant oder werden Bilder live gemischt? Gibt es Wechsel zwischen Acts, Flächen oder anderen Bildquellen? Diese Fragen bestimmen, welches Material vorbereitet und wie es zugespielt werden soll.",
+          "Bereitgestellte Inhalte müssen auf Bildformat, Auflösung, Gestaltung und Nutzungsrechte geprüft werden. Bei einer Kombination mit Live Visuals werden Übergänge und technische Zuständigkeiten gemeinsam abgestimmt."
+        ],
+        "links": [
+          {
+            "label": "VJ und Live Visuals für Veranstaltungen",
+            "href": "/vj-mapping/live-visuals/"
+          }
+        ]
+      },
+      {
+        "title": "5. Wann sind Aufbau und ein Probelauf möglich?",
+        "copy": [
+          "Planen Sie ein Zeitfenster für Einrichtung und Prüfung auf der realen Fläche. Dabei können Geometrie, Ausschnitt, Bildwirkung und Zusammenspiel mit dem Licht beurteilt werden. Änderungen an Bühnenbild oder Projektorposition können eine erneute Abstimmung nötig machen.",
+          "Vor dem Termin müssen Zugänge, Ansprechpartner und mögliche Umbauten bekannt sein. Ein Probelauf gehört in den Ablaufplan; er sollte nicht erst während der Veranstaltung verhandelt werden."
+        ]
+      },
+      {
+        "title": "6. Was gehört in die erste Anfrage?",
+        "copy": [
+          "Termin und Ort, Fotos und Maße, Innen- oder Außensituation, Spielzeiten, vorhandene Technik und mögliche Aufbauzeiten sind ein brauchbarer Einstieg. Ergänzen Sie gewünschte Inhalte, Publikumspositionen und die technische Ansprechperson.",
+          "Damit kann Sophia die gestalterische Aufgabe und die weitere technische Prüfung eingrenzen. Machbarkeit, Technikumfang und Kosten werden anschließend für das konkrete Projekt vereinbart."
+        ],
+        "links": [
+          {
+            "label": "Projection Mapping für Bühne oder Ausstellung anfragen",
+            "href": "/vj-mapping/projection-mapping/"
+          }
+        ]
+      }
     ],
     related: [{ label: "Projection Mapping", href: "/vj-mapping/projection-mapping/" }, { label: "Spektra Festival", href: "/projekte/spektra-festival/" }],
   },
   {
+    sources: [
+      {
+        "label": "Düsseldorf: Sondernutzung im öffentlichen Straßenraum",
+        "href": "https://service.duesseldorf.de/suche/-/vr-bis-detail/dienstleistung/385/show"
+      },
+      {
+        "label": "Düsseldorf: Sondernutzung von Grünanlagen",
+        "href": "https://www.duesseldorf.de/stadtgruen/freizeit/sondernutzung-gruenanlagen"
+      },
+      {
+        "label": "Düsseldorf: Antrag und Angaben für Grünanlagen",
+        "href": "https://service.duesseldorf.de/suche/-/vr-bis-detail/dienstleistung/645/show"
+      }
+    ],
+    updatedAt: "2026-10-09",
     slug: "drehgenehmigung-nrw",
-    title: "Drehgenehmigung in NRW: Was wirklich angefragt werden muss",
-    excerpt: "Gehweg, U-Bahn, Zeche, Werksgelände: Wo kleine Drehs einfach möglich sind — und wo ohne Freigabe gar nichts geht.",
+    title: "Drehgenehmigung in NRW: Zuständigkeit vorab klären",
+    excerpt: "Drehort, Flächennutzung und Aufbau genau beschreiben: ein Planungsleitfaden mit offiziellen Düsseldorfer Anlaufstellen für Straßenraum und Grünanlagen.",
     image: "/media/set-quer-01.jpg",
-    readingTime: "7 Minuten",
     publishedAt: "2026-08-13",
     sections: [
       {
-        title: "Die wichtigste Unterscheidung: öffentlicher Raum oder Hausrecht",
-        copy: [
-          "Ein kleines Team mit Kamera auf dem Gehweg, im Park oder am Rheinufer ist in den meisten Städten unkompliziert — solange niemand behindert wird und nichts aufgebaut ist. Sobald Stative den Weg blockieren, Licht gestellt wird oder eine Fläche exklusiv gebraucht wird, verlangt die Stadt in der Regel eine Sondernutzungserlaubnis. Die Grenze verläuft also nicht zwischen privat und kommerziell, sondern zwischen mitlaufen und beanspruchen.",
-          "Ganz anders sieht es überall dort aus, wo Hausrecht gilt: Bahnhöfe, Bahnen und Stationen, Museen, Messen, Clubs, Werksgelände. Dort entscheidet der Eigentümer oder Betreiber — unabhängig davon, wie klein das Setup ist. Wer ohne Freigabe dreht, riskiert nicht nur den Rauswurf, sondern Material, das später nicht verwendet werden darf.",
-        ],
+        "title": "Der genaue Drehort ist der erste Schritt",
+        "copy": [
+          "Für einen Dreh in NRW gibt es keine einheitliche Freigabe, die alle Orte und Aufbauten abdeckt. Klären Sie für die konkret genutzte Fläche, wer über Zugang und Nutzung entscheidet. Öffentlicher Straßenraum, städtische Grünanlagen und ein privater Veranstaltungsort können unterschiedliche Ansprechstellen haben.",
+          "Beschreiben Sie den geplanten Dreh, bevor Sie eine pauschale Aussage zur Genehmigungspflicht übernehmen: Ort, Zeit, Aufbau und tatsächlich beanspruchte Fläche sind für die Anfrage wichtig. Bei Unsicherheit wird die zuständige Stelle um eine Einordnung gebeten."
+        ]
       },
       {
-        title: "Orte mit eigenen Regeln",
-        copy: [
-          "Ein paar Beispiele aus der Praxis in NRW: Die Stationen der Düsseldorfer Wehrhahn-Linie sind begehbare Kunsträume — Drehs dort laufen über die Rheinbahn. In Wuppertal gehört die Schwebebahn den WSW; die Außenperspektive vom Straßenraum aus ist dagegen meist frei. Der Landschaftspark Duisburg-Nord ist ausgesprochen drehfreundlich, größere Aufbauten gehen trotzdem über die Parkverwaltung. Und das Welterbe Zollverein in Essen vergibt Drehfreigaben über die Stiftung — mit Vorlauf.",
-          "Werksgelände sind die strengste Kategorie: Anmeldung, Sicherheitsunterweisung, teils Fotografier-Verbote für einzelne Anlagen. Das klingt nach Aufwand, ist aber verlässlich — wer die Regeln vorab kennt, bekommt am Drehtag genau die Bilder, die vereinbart wurden.",
-        ],
+        "title": "Düsseldorf: Straßenraum und Grünanlagen getrennt prüfen",
+        "copy": [
+          "Das Düsseldorfer Serviceportal führt eine eigene Anlaufstelle für Sondernutzung im öffentlichen Straßenraum. Die Stadt beschreibt außerdem Film- und Werbeaufnahmen in Grünanlagen als möglichen Fall einer grundsätzlich genehmigungspflichtigen Sondernutzung. Eine frei zugängliche Grünanlage ist deshalb keine pauschale Drehfreigabe.",
+          "Für eine Anfrage zu Grünanlagen verlangt das Serviceportal unter anderem eine genaue Beschreibung von Ort und Set sowie eine Erläuterung der Filmaufnahmen. Die Entscheidung hängt vom Einzelfall ab. Nutzen Sie für den konkreten Termin die unten verlinkten offiziellen Angaben."
+        ]
       },
       {
-        title: "Menschen im Bild",
-        copy: [
-          "Neben dem Ort braucht auch jede erkennbare Person eine Grundlage. Bei Veranstaltungen lässt sich das sauber lösen: ein Hinweis in den Teilnahmebedingungen oder am Einlass, dazu Absprachen, wer nicht gefilmt werden möchte. Bei Interviews und Porträts gehört die Einverständniserklärung zum Standard. Passanten, die zufällig durchs Bild laufen, sind meist unkritisch — Nahaufnahmen einzelner Personen ohne Absprache sind es nicht.",
-        ],
+        "title": "Die Anfrage anhand des geplanten Setups formulieren",
+        "copy": [
+          "Sammeln Sie Motivadresse, Drehdatum, Zeitfenster und eine kurze Beschreibung der Aufnahmen. Ergänzen Sie Team, Kamera- und Lichtaufbau, Wege, Techniktransport und mögliche Änderungen am normalen Betrieb. Pläne oder Fotos helfen, die Nutzung verständlich zu machen.",
+          "Die zuständige Stelle oder Location kann weitere Angaben verlangen. Fragen Sie nach dem notwendigen Verfahren, den geltenden Bedingungen und der Bearbeitungszeit für Ihren konkreten Aufbau. Eine angenommene Standardfrist ist keine Zusage."
+        ]
       },
       {
-        title: "Wie viel Vorlauf realistisch ist",
-        copy: [
-          "Städtische Erlaubnisse brauchen je nach Stadt einige Tage bis wenige Wochen; Stiftungen, Verkehrsbetriebe und Werke eher Wochen als Tage. Die praktische Regel: Genehmigungsfragen gehören in die Motivauswahl, nicht ans Ende der Planung. Ein Plan B ohne Genehmigungsweg — ein ähnliches Motiv im frei zugänglichen Raum — hält den Drehtermin, falls eine Zusage nicht rechtzeitig kommt.",
-          "Zur Einordnung: Das hier ist Produktionspraxis, keine Rechtsberatung. Was im Einzelfall gilt, wird bei der Motivplanung konkret geprüft — mit der zuständigen Stelle, nicht mit dem Bauchgefühl.",
-        ],
+        "title": "Veranstaltungsorte und fremde Betriebsflächen",
+        "copy": [
+          "An Clubs, Ausstellungsorten, Verkehrsanlagen und Unternehmensstandorten sollte die Nutzung mit den Verantwortlichen vor Ort abgestimmt werden. Zugang, Aufbau, Aufnahmepositionen und betriebliche Einschränkungen gehören in dieselbe Planung.",
+          "Eine Ortsfreigabe klärt nicht automatisch jede spätere Nutzung von Personen, Darbietungen, Musik oder fremdem Bildmaterial. Halten Sie mit den Beteiligten fest, welche Zuständigkeiten und Freigaben für Dreh und Veröffentlichung geprüft werden müssen."
+        ]
       },
+      {
+        "title": "Freigaben in den Drehplan übernehmen",
+        "copy": [
+          "Planen Sie die benötigten Klärungen bereits bei der Motivauswahl ein. Zugang, Aufbauzeit und erlaubte Nutzung müssen zur vorgesehenen Aufnahme passen. Ein Ersatzmotiv kann helfen, sollte aber ebenfalls auf seine Bedingungen geprüft sein.",
+          "Für ein Briefing an Sophia sind bereits geklärte Orte und offene Fragen gleichermaßen hilfreich. Nennen Sie, wer die Location betreut und welche schriftlichen Angaben vorliegen. So kann die Kamera- und Produktionsplanung daran anschließen."
+        ],
+        "links": [
+          {
+            "label": "Kamera und Bildgestaltung für den geplanten Dreh",
+            "href": "/videografie/kamera-bildgestaltung/"
+          },
+          {
+            "label": "Produktion und Einsatzorte in NRW",
+            "href": "/standorte/"
+          }
+        ]
+      }
     ],
     related: [{ label: "Musikvideo", href: "/videografie/musikvideo/" }, { label: "Eventfilm", href: "/videografie/eventfilm/" }],
   },
   {
+    updatedAt: "2026-10-09",
     slug: "was-einen-eventfilm-teuer-macht",
-    title: "Was einen Eventfilm günstig macht — und was ihn teuer macht",
-    excerpt: "Keine Preisliste, aber eine ehrliche Antwort: Die Kosten eines Eventfilms entstehen im Briefing, nicht im Schnitt.",
+    title: "Eventfilm-Kosten: Welche Angaben ein Angebot braucht",
+    excerpt: "Drehzeit, Kamerabesetzung, Ton, Materialmenge und Fassungen bestimmen den Aufwand. So lässt sich ein Eventfilm konkret kalkulieren und vergleichen.",
     image: "/media/spektra-buehne-02.jpg",
-    readingTime: "6 Minuten",
     publishedAt: "2026-08-13",
     sections: [
       {
-        title: "Der Preis entsteht vor dem Drehtag",
-        copy: [
-          "Die häufigste Frage zu Eventfilmen lässt sich nicht mit einer Zahl beantworten, aber mit einer Beobachtung: Zwei Filme von derselben Veranstaltung können sich im Aufwand um ein Mehrfaches unterscheiden — je nachdem, was sie leisten sollen. Ein kompakter Highlightfilm braucht andere Drehzeit und einen anderen Schnitt als eine Dokumentation mit Reden, Programmpunkten und Stimmen. Die Entscheidung zwischen beiden fällt im Briefing — und mit ihr der größte Teil des Preises.",
+        "title": "Das Filmziel vor dem Preis festlegen",
+        "copy": [
+          "Zwei Filme von derselben Veranstaltung können einen sehr unterschiedlichen Aufwand haben. Ein kurzer Rückblick auf die Atmosphäre braucht andere Aufnahmen als eine Dokumentation mit Reden, Interviews und mehreren Programmpunkten. Die Laufzeit des Endfilms allein beschreibt den Produktionsumfang nicht.",
+          "Benennen Sie deshalb zuerst Zielgruppe und Verwendung. Soll der Film eine nächste Ausgabe ankündigen, die Veranstaltung dokumentieren oder Inhalte für Partner und Archiv festhalten? Diese Aufgabe bestimmt, was am Veranstaltungstag aufgenommen werden muss."
         ],
+        "links": [
+          {
+            "label": "Eventfilm, Highlightfilm und Festival-Aftermovie",
+            "href": "/videografie/eventfilm/"
+          }
+        ]
       },
       {
-        title: "Die vier großen Kostentreiber",
-        copy: [
-          "Erstens die zweite Kamera: Sie verdoppelt nicht nur Personal, sondern auch Material und Sichtungszeit. Sie lohnt, wenn Bühne und Publikum gleichzeitig wichtig sind — und ist verzichtbar, wenn ein Abend eine klare Blickrichtung hat. Zweitens der Ton: Ein Abgriff am Mischpult ist schnell organisiert; mehrere eigene Tonwege für Reden, Interviews und Atmosphäre sind ein eigenes Gewerk.",
-          "Drittens die Formate: Ein Hauptfilm plus Hochformate für Social Media wird beim Dreh mitgedacht und im Schnitt mehrfach ausgespielt — sinnvoll, aber nicht gratis. Viertens die Korrekturrunden: Jede Runde ist Arbeitszeit. Zwei gut vorbereitete Runden mit gesammeltem Feedback sind günstiger als fünf tröpfelnde — und führen fast immer zum besseren Film.",
-        ],
+        "title": "Drehzeit und paralleles Programm",
+        "copy": [
+          "Im Aufwand stecken auch Aufbau, technische Abstimmung, Wege und Übergaben. Ein kurzes Bühnenprogramm kann längere Anwesenheit erfordern, wenn vorher Interviews aufgenommen oder danach weitere Motive gebraucht werden.",
+          "Gleichzeitige Programmpunkte an unterschiedlichen Orten brauchen eine passende Besetzung. Bei der Kalkulation helfen ein Ablaufplan, die Zahl der Bühnen und konkrete Aussagen dazu, welche Momente vollständig erfasst werden sollen."
+        ]
       },
       {
-        title: "Wo Sparen wehtut — und wo nicht",
-        copy: [
-          "Am Ton zu sparen rächt sich zuerst: Ein unverständliches Grußwort rettet kein Schnittprogramm. Auch die Vorbereitung ist der falsche Posten — eine Stunde Besichtigung erspart am Veranstaltungstag teure Improvisation. Gut sparen lässt sich dagegen an der Dauerpräsenz: Kaum ein Film braucht zwölf Stunden Drehzeit, wenn die Höhepunkte im Ablaufplan stehen. Wer die Schlüsselmomente kennt, bucht Drehzeit um sie herum.",
+        "title": "Originalton gesondert beschreiben",
+        "copy": [
+          "Reden, Statements und Atmosphäre brauchen abgestimmte Aufnahmewege. Geben Sie an, welche Personen und Inhalte verständlich zu hören sein sollen, wer die Veranstaltungstechnik betreut und wann eine Prüfung der Anschlüsse möglich ist.",
+          "Eine geplante Interviewaufnahme und eine vollständige Aufzeichnung einer Rede sind unterschiedliche Aufgaben. Der Kamera- und Tonbedarf wird gemeinsam geprüft, statt die Tonproduktion erst im Schnitt vorauszusetzen."
         ],
+        "links": [
+          {
+            "label": "Tonplanung für Eventfilme",
+            "href": "/journal/warum-ton-beim-eventfilm-entscheidet/"
+          }
+        ]
       },
       {
-        title: "Der günstigste Hebel kostet nichts",
-        copy: [
-          "Ein Ablaufplan, eine erreichbare Ansprechperson am Veranstaltungstag und geklärte Zugänge — dieses Paket senkt den Aufwand jeder Produktion spürbar, weil niemand suchen, warten oder doppelt aufbauen muss. Es ist derselbe Grundsatz wie überall im Film: Was vorher entschieden ist, muss hinterher nicht repariert werden.",
-        ],
+        "title": "Material, Schnitt und Formatvarianten",
+        "copy": [
+          "Viel Drehmaterial muss gesichtet, geordnet und geschnitten werden. Mehrere Kameras oder lange Programmpunkte erhöhen die Materialmenge, auch wenn der Endfilm kurz bleibt. Tonbearbeitung, Farbgestaltung und Freigaben gehören ebenfalls zum Aufwand.",
+          "Hauptfilm, Hochformat, Teaser, Untertitel und zusätzliche Sprachen müssen als gewünschte Fassungen benannt werden. Ein verbindlicher Abgabetermin und die Zahl der Korrekturrunden helfen, die Postproduktion zu planen."
+        ]
       },
+      {
+        "title": "Angebote anhand desselben Umfangs vergleichen",
+        "copy": [
+          "Vergleichen Sie Dreh- und Aufbauzeiten, Besetzung, Tonaufzeichnung, Technikbereitstellung, Schnitt, Fassungen, Freigaben und Nutzungsumfang. Prüfen Sie außerdem, wie Reise und zusätzliche Leistungen behandelt werden. Eine kleinere Zahl im Angebot kann einen kleineren Lieferumfang bedeuten.",
+          "Sophia kann auf Grundlage Ihres Briefings einen konkreten Rahmen anbieten. Schicken Sie Termin, Ort, Ablauf, Filmziel, geplante Nutzung und gewünschte Fassungen; offene Punkte lassen sich dann gezielt klären."
+        ],
+        "links": [
+          {
+            "label": "Projekt mit Ablauf und gewünschten Fassungen anfragen",
+            "href": "/kontakt/"
+          }
+        ]
+      }
     ],
     related: [{ label: "Eventfilm", href: "/videografie/eventfilm/" }, { label: "Postproduktion", href: "/postproduktion/" }],
   },
   {
+    updatedAt: "2026-10-09",
     slug: "drehen-nach-licht",
-    title: "Drehen nach Licht: Warum gute Drehpläne dem Himmel folgen",
-    excerpt: "Goldene Stunde, blaue Stunde, Wolken als Softbox: Der Drehplan gehört ans Licht gehängt — nicht an die Drehbuch-Reihenfolge.",
+    title: "Licht beim Videodreh planen: Ort, Uhrzeit und Ablauf",
+    excerpt: "Tageslicht verändert sich während des Drehs. Wie Motivbesichtigung, Aufnahmereihenfolge und ein Plan für Wetteränderungen die Kameraarbeit vorbereiten.",
     image: "/media/light-beams.jpg",
-    readingTime: "5 Minuten",
     publishedAt: "2026-08-13",
     sections: [
       {
-        title: "Die goldene Stunde ist ein Termin",
-        copy: [
-          "Das warme, tiefe Licht kurz nach Sonnenaufgang und vor Sonnenuntergang ist der zuverlässigste Produktionswert, den es umsonst gibt — aber nur für den, der pünktlich ist. Deshalb wird ein Außendreh nicht nach Drehbuch-Reihenfolge geplant, sondern nach Licht: Die wichtigste Außenszene bekommt das beste Fenster, alles andere ordnet sich darum. Umbau und Fahrtwege gehören in die Stunden mit hartem Mittagslicht, in denen ohnehin niemand draußen drehen will.",
-        ],
+        "title": "Den Ort zur geplanten Drehzeit beurteilen",
+        "copy": [
+          "Ein Motiv kann morgens anders aussehen als am Nachmittag. Richtung und Härte des Lichts, Schatten sowie helle und dunkle Flächen verändern das Bild. Fotos vom Ort helfen bei einer ersten Einschätzung; für die Lichtplanung ist auch wichtig, wann die Aufnahmen entstehen sollen.",
+          "Bei Innenräumen gehören Fenster, vorhandene Leuchten und abschaltbare Lichtquellen dazu. Für Interviews muss außerdem ein praktikabler Ort für Kamera und Ton vorgesehen sein. Ein gestalterisch passender Hintergrund allein reicht dafür nicht."
+        ]
       },
       {
-        title: "Blaue Stunde: kurz, planbar, unbezahlbar",
-        copy: [
-          "Zwischen Sonnenuntergang und Dunkelheit liegt ein Fenster von zwanzig bis vierzig Minuten, in dem Himmel und Kunstlicht dieselbe Helligkeit haben — die Zeit, in der Stadtmotive, beleuchtete Industrie und Skylines am stärksten wirken. Dieses Fenster verzeiht keine Verspätung: Der Aufbau steht vorher, die Einstellungen sind durchgesprochen, und wenn es losgeht, wird gedreht statt diskutiert.",
-        ],
+        "title": "Aufnahmereihenfolge und Bildkontinuität zusammen planen",
+        "copy": [
+          "Wenn mehrere Einstellungen dieselbe Situation zeigen, sollte die Veränderung des Lichts mitgedacht werden. Ein Aufbau, der lange dauert, kann die Bedingungen zwischen zwei Aufnahmen deutlich verändern. Zeit für Umstellen, Licht und Proben gehört in den Ablauf.",
+          "Ordnen Sie die Motive danach, welche Lichtbedingungen gebraucht werden und wann Personen oder Orte verfügbar sind. Ein Drehplan muss diese Anforderungen miteinander vereinbaren, statt nur eine Liste von Einstellungen abzuarbeiten."
+        ]
       },
       {
-        title: "Wetter ist Planung, kein Schicksal",
-        copy: [
-          "Ein bedeckter Himmel ist kein verlorener Drehtag — Wolken sind die größte Softbox der Welt und schmeicheln Gesichtern mehr als jede Sonne. Kritisch sind Regen auf der Technik und Wind am Mikrofon; beides wird mit Wetteroption geplant: ein Ausweichtermin oder eine umgestellte Reihenfolge, bei der die Innenmotive vorgezogen werden. Wer beides vorbereitet hat, entscheidet am Drehtag gelassen statt hektisch.",
-        ],
+        "title": "Die gewünschte Lichtstimmung konkret beschreiben",
+        "copy": [
+          "Warmes tiefes Licht, eine ruhige Interviewbeleuchtung oder eine dunkle Szene mit sichtbaren Lichtquellen sind unterschiedliche gestalterische Aufgaben. Bildreferenzen helfen, die gewünschte Stimmung zwischen Regie, Kamera und Produktion zu besprechen.",
+          "Zeitfenster um Sonnenuntergang und Dämmerung unterscheiden sich nach Ort, Datum und Bedingungen. Dafür sollte der Aufbau vorher bereitstehen. Eine feste Minutenzahl oder Uhrzeit ist ohne konkrete Planung kein belastbarer Drehtermin."
+        ]
       },
       {
-        title: "Der Winter ist besser als sein Ruf",
-        copy: [
-          "Kurze Tage klingen nach Einschränkung, sind aber ein Geschenk für alle, die Nachtstimmungen brauchen: Die blaue Stunde liegt im Dezember um halb fünf statt um halb zehn — Stadtlichter, Industriekulissen und Fensterfronten lassen sich zu normalen Arbeitszeiten drehen. Die goldene Stunde wiederum dauert im Winter länger, weil die Sonne flacher wandert. Wer das Licht als Verbündeten plant, hat in jeder Jahreszeit ein Argument.",
-        ],
+        "title": "Wetter und Ausweichmotive vorbereiten",
+        "copy": [
+          "Für Außenaufnahmen muss besprochen werden, was bei verändertem Wetter passieren soll. Ist ein anderer Look akzeptabel? Gibt es ein freigegebenes Innenmotiv oder ein anderes Zeitfenster? Welche Entscheidung kann vor Ort getroffen werden und wer verantwortet sie?"
+        ]
       },
+      {
+        "title": "Angaben für ein Kamera-Briefing",
+        "copy": [
+          "Nennen Sie Motiv, Datum, verfügbare Zeiten, Personen und gewünschte Bildsprache. Ergänzen Sie Fotos, vorhandene Lichtquellen, Aufbau- und Zugangsmöglichkeiten sowie bereits geklärte Freigaben. Daraus kann die technische Vorbereitung für den konkreten Dreh abgeleitet werden.",
+          "Sophias Kamera- und Lichtgestaltung bei Electric Lights ist auf der Projektseite im Zusammenhang mit einer audiovisuellen Installation beschrieben. Ein neuer Dreh erhält seine eigene Planung anhand von Ort, Idee und Produktionsrahmen."
+        ],
+        "links": [
+          {
+            "label": "Kamerafrau und Bildgestaltung für Ihre Produktion",
+            "href": "/videografie/kamera-bildgestaltung/"
+          },
+          {
+            "label": "Electric Lights: Kamera und Lichtgestaltung im Projekt",
+            "href": "/projekte/electric-lights/"
+          }
+        ]
+      }
     ],
     related: [{ label: "Kamera & Bildgestaltung", href: "/videografie/kamera-bildgestaltung/" }, { label: "Musikvideo", href: "/videografie/musikvideo/" }],
   },

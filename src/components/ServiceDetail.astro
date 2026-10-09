@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Breadcrumbs from "./Breadcrumbs.astro";
 import FaqList from "./FaqList.astro";
 import Pic from "./Pic.astro";
+import { articleReadingTime } from "../lib/article-reading-time";
 import "../styles/landing.css";
 import "../styles/service.css";
 import { articles, locations, projects, servicePath, services, site, type Location, type Service } from "../data/site";
@@ -138,7 +139,7 @@ const schema = [
 
 const introParagraphs = location
   ? (local?.intro ?? [location.localAngle, location.logistics, service.outcome])
-  : [service.intro, service.outcome];
+  : [service.intro, service.outcome, service.projectContext].filter((copy): copy is string => Boolean(copy));
 
 const otherCities = location ? locations.filter((item) => item.slug !== location.slug).slice(0, 8) : [];
 
@@ -191,7 +192,7 @@ const otherCityServices = location
               {service.title} <em>in {location.city}</em>
             </>
           ) : (
-            service.title
+            service.heroTitle ?? service.title
           )}
         </h1>
         <p class="sd-hero__lead">{local?.lead ?? service.summary}</p>
@@ -200,7 +201,7 @@ const otherCityServices = location
           {location ? (
             <a class="cine-ghost" href={`/standorte/${location.slug}/`}>Standort {location.city}</a>
           ) : (
-            <a class="cine-ghost" href="/arbeiten/">Projekte ansehen</a>
+            <a class="cine-ghost" href="/showreel/">Showreel ansehen</a>
           )}
         </div>
         <p class="sd-hero__meta">
@@ -359,7 +360,7 @@ const otherCityServices = location
           <div class="sd-projects__head" data-fx="rise">
             <div>
               <span class="cine-label">{location ? "Referenzarbeiten aus Düsseldorf" : "Ausgewählte Arbeiten"}</span>
-              <h2 class="cine-h2">Projekte, in denen das zusammenkam</h2>
+              <h2 class="cine-h2">Arbeiten und Sophias Beitrag</h2>
             </div>
             <a class="cine-link" href="/arbeiten/"><span>Alle Projekte</span><span aria-hidden="true">→</span></a>
           </div>
@@ -462,7 +463,7 @@ const otherCityServices = location
             <a class="sd-next__journal" href={`/journal/${journalArticle.slug}/`}>
               <span class="cine-label">Aus dem Journal</span>
               <span class="sd-next__journaltitle">{journalArticle.title}</span>
-              <span class="sd-next__journalmeta">{journalArticle.readingTime} Lesezeit</span>
+              <span class="sd-next__journalmeta">{articleReadingTime(journalArticle)} Lesezeit</span>
             </a>
           )}
         </div>
@@ -493,7 +494,7 @@ const otherCityServices = location
         <h2 class="ld-finale__title">{location ? `${service.title} in ${location.city} anfragen` : `${service.title} anfragen`}</h2>
         <p class="cine-lead">Schreiben Sie kurz, worum es geht, wo produziert werden soll und welcher Zeitraum realistisch ist.</p>
         <a class="cine-btn finale__cta" href="/kontakt/" data-magnetic>Projekt besprechen</a>
-        <p class="sd-finale__note">Düsseldorf · Antwort meist innerhalb von zwei Werktagen</p>
+        <p class="sd-finale__note">Düsseldorf · Termin und Umfang nach Absprache</p>
       </div>
     </section>
   </div>
