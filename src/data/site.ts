@@ -24,6 +24,8 @@ export type Service = {
   relatedServices: string[];
   /** Optionaler Journal-Artikel, der das Gewerk vertieft. */
   articleSlug?: string;
+  /** Ergänzende Planungshilfen mit einer eigenen Suchintention. */
+  planningLinks?: LinkItem[];
   /** Individuelle Vertiefung der Landingpage: drei Facetten des Gewerks. */
   focus: { label: string; title: string; lead: string; items: { title: string; copy: string }[] };
   /** Individuelle Sektionsüberschriften — keine Seite liest sich wie die Kopie einer anderen. */
@@ -85,7 +87,13 @@ export type Article = {
   image: string;
   publishedAt: string;
   updatedAt?: string;
-  sections: { title: string; copy: string[]; links?: LinkItem[] }[];
+  sections: {
+    title: string;
+    copy: string[];
+    links?: LinkItem[];
+    table?: { caption: string; columns: string[]; rows: string[][] };
+    example?: { label: string; code: string };
+  }[];
   sources?: LinkItem[];
   sourcesContext?: string;
   related: LinkItem[];
@@ -172,12 +180,22 @@ export const services: Service[] = [
       {
         "question": "Was kostet ein Eventfilm?",
         "answer": "Der Aufwand hängt unter anderem von Drehzeit, parallelen Programmpunkten, Tonaufzeichnung, Materialmenge und gewünschten Fassungen ab. Nach dem Briefing wird der konkrete Umfang angeboten; ein kurzer Endfilm bedeutet nicht automatisch wenig Produktionsaufwand."
+      },
+      {
+        "question": "Ist ein kompletter Konzertmitschnitt im Aftermovie enthalten?",
+        "answer": "Ein kompletter Mitschnitt braucht eine eigene Planung für durchgängige Kamerabilder und die musikalische Tonaufnahme. Ein Aftermovie zeigt ausgewählte Höhepunkte und stellt diese vollständige Aufzeichnung nicht automatisch bereit. Kameraanzahl, Tonproduktion, Besetzung, Dauer und Aufnahmerechte werden vor dem Auftrag festgelegt."
       }
     ],
     seoTitle: "Eventfilm & Festival-Aftermovie Düsseldorf | Sophia Ramahi",
     seoDescription: "Eventfilm und Festival-Aftermovie aus Düsseldorf für Kulturveranstaltungen und Konzerte. Kamera, Originalton, Schnitt und passende Formatvarianten.",
   },
   {
+    planningLinks: [
+      {
+        "label": "Storyboard, Shotlist und Drehplan für ein Musikvideo vorbereiten",
+        "href": "/journal/musikvideo-storyboard-drehplan/"
+      }
+    ],
     projectContext: "Electric Lights ist eine audiovisuelle Installation; Dark Lights eine Fotografie- und Lichtstudie. Die gezeigten Arbeiten geben Einblick in Sophias Gestaltung von Licht, Bild und Klang. Sie sind mit ihrem jeweiligen Format ausgewiesen.",
     heroTitle: "Musikvideo-Produktion für Bands und Artists",
     slug: "musikvideo",
@@ -248,6 +266,12 @@ export const services: Service[] = [
     seoDescription: "Musikvideo-Produktion aus Düsseldorf für Bands und Artists: Konzept, Kamera, Licht, Schnitt und Teaser. Planung passend zu Song und Produktionsrahmen.",
   },
   {
+    planningLinks: [
+      {
+        "label": "Untertitel für Interview- und Imagefilme planen",
+        "href": "/journal/video-untertitel-srt-einbrennen/"
+      }
+    ],
     articleSlug: "imagefilm-interview-vorbereiten",
     heroTitle: "Imagefilm mit Interviews",
     slug: "imagefilm",
@@ -556,6 +580,12 @@ export const services: Service[] = [
     seoDescription: "Projection Mapping aus Düsseldorf für Bühnen, Objekte und Ausstellungen. Visuelle Inhalte, Flächenplanung, Einrichtung und technische Abstimmung.",
   },
   {
+    planningLinks: [
+      {
+        "label": "SRT, WebVTT und eingebrannte Untertitel vergleichen",
+        "href": "/journal/video-untertitel-srt-einbrennen/"
+      }
+    ],
     articleSlug: "videoschnitt-material-vorbereiten",
     projectContext: "Electric Lights verbindet Sophias Schnitt und Klang-Komposition mit Kamera und Lichtgestaltung. Bei 24h to take entstanden Kurzfilme unter den Bedingungen eines Wettbewerbs. Die Projektseiten zeigen diese unterschiedlichen Produktionskontexte.",
     heroTitle: "Videoschnitt für Musik und Kultur",
@@ -877,11 +907,59 @@ export const articles: Article[] = [
   {
     updatedAt: "2026-10-09",
     slug: "musikvideo-mit-kleinem-budget",
-    title: "Musikvideo mit kleinem Budget: Konzept und Dreh planen",
-    excerpt: "Ein begrenzter Produktionsrahmen braucht eine passende Bildidee. So werden Motive, Performance, Licht und Release-Fassungen vor dem Dreh geklärt.",
+    title: "Musikvideo-Kosten: Budget, Konzept und Dreh planen",
+    excerpt: "Was ein Musikvideo kostet, hängt von Konzept, Orten, Crew, Dreh und Schnitt ab. Kostenblöcke benennen, Angebote vergleichen und das Budget gezielt einsetzen.",
     image: "/media/club-projektion-03.jpg",
     publishedAt: "2026-08-12",
     sections: [
+      {
+        "title": "Was bestimmt die Kosten eines Musikvideos?",
+        "copy": [
+          "Der Produktionsumfang bestimmt den Preis: Konzept und Vorbereitung, Drehorte und Mitwirkende, Kamera und Licht, Drehtage, Schnitt und gewünschte Fassungen. Die Länge des fertigen Videos allein genügt dafür nicht. Ein kurzer Film mit mehreren Motiven kann mehr Vorbereitung und Umbauten benötigen als eine konzentrierte Performance an einem Ort.",
+          "Für die Kalkulation werden diese Aufgaben einzeln beschrieben. Benennen Sie vorhandene Ressourcen und offene Entscheidungen, damit ein Angebot denselben Umfang abbildet. Die Tabelle ist eine Planungsstruktur ohne pauschale Marktpreise; verbindliche Beträge entstehen aus dem konkreten Angebot."
+        ],
+        "table": {
+          "caption": "Kostenblöcke für eine Musikvideo-Kalkulation",
+          "columns": [
+            "Kostenblock",
+            "Angaben für das Angebot",
+            "Typische offene Entscheidung"
+          ],
+          "rows": [
+            [
+              "Konzept und Vorbereitung",
+              "Songfassung, Bildidee, Referenzen, Abstimmungen",
+              "Konzeptentwicklung oder bereits ausgearbeiteter Entwurf?"
+            ],
+            [
+              "Orte und Mitwirkende",
+              "Motive, Zugänge, Personen, Freigaben, Reise",
+              "Welche Kosten und Zuständigkeiten sind bereits geklärt?"
+            ],
+            [
+              "Dreh und Technik",
+              "Setups, Licht, Kamerabesetzung, Zeitfenster, Tonart",
+              "Playback-Dreh oder Live-Session mit Tonproduktion?"
+            ],
+            [
+              "Postproduktion",
+              "Materialumfang, Schnitt, Farbgestaltung, Ton, Korrekturen",
+              "Welche Hauptfassung und welche zusätzlichen Versionen?"
+            ],
+            [
+              "Auslieferung",
+              "Formate, Untertitel, Abgabetermine, Archivumfang",
+              "Welche Dateien und Nutzungsorte gehören zum Auftrag?"
+            ]
+          ]
+        },
+        "links": [
+          {
+            "label": "Leere Vorlage für die Musikvideo-Kalkulation herunterladen (CSV)",
+            "href": "/downloads/musikvideo-kalkulation.csv"
+          }
+        ]
+      },
       {
         "title": "Die Idee am Produktionsrahmen prüfen",
         "copy": [
@@ -930,7 +1008,20 @@ export const articles: Article[] = [
         ]
       }
     ],
-    related: [{ label: "Musikvideo", href: "/videografie/musikvideo/" }, { label: "Dark Lights", href: "/projekte/dark-lights/" }],
+    related: [
+      {
+        "label": "Musikvideo",
+        "href": "/videografie/musikvideo/"
+      },
+      {
+        "label": "Dark Lights",
+        "href": "/projekte/dark-lights/"
+      },
+      {
+        "label": "Storyboard, Shotlist und Drehplan mit Vorlage",
+        "href": "/journal/musikvideo-storyboard-drehplan/"
+      }
+    ],
   },
   {
     sourcesContext: "Die Dokumentation erläutert das technische Prinzip an einem Softwarebeispiel. Software, Flächen und Zuständigkeiten werden für die tatsächliche Installation geprüft.",
@@ -1376,6 +1467,10 @@ export const articles: Article[] = [
       {
         "label": "Eventfilm-Kosten und Produktionsumfang",
         "href": "/journal/was-einen-eventfilm-teuer-macht/"
+      },
+      {
+        "label": "Untertiteldatei oder eingebrannte Texte für die Veröffentlichung?",
+        "href": "/journal/video-untertitel-srt-einbrennen/"
       }
     ]
   },
@@ -1461,6 +1556,312 @@ export const articles: Article[] = [
       {
         "label": "Material und Feedback für den Videoschnitt vorbereiten",
         "href": "/journal/videoschnitt-material-vorbereiten/"
+      },
+      {
+        "label": "Untertiteldatei oder eingebrannte Texte für die Veröffentlichung?",
+        "href": "/journal/video-untertitel-srt-einbrennen/"
+      }
+    ]
+  },
+  {
+    "slug": "musikvideo-storyboard-drehplan",
+    "title": "Musikvideo planen: Storyboard, Shotlist und Drehplan",
+    "excerpt": "Vom Song zum drehbaren Konzept: Storyboard und Shotlist unterscheiden, Performance und Motive planen und eine leere Drehplan-Vorlage als CSV nutzen.",
+    "image": "/media/club-projektion-03.jpg",
+    "publishedAt": "2026-10-09",
+    "sections": [
+      {
+        "title": "Drei Pläne mit unterschiedlichen Aufgaben",
+        "copy": [
+          "Ein Musikvideo braucht Entscheidungen darüber, was zum Song zu sehen ist und wie diese Bilder aufgenommen werden. Ein Storyboard zeigt die geplanten Bilder in einer Folge. Eine Shotlist nennt die benötigten Einstellungen. Ein Drehplan ordnet die Arbeit am Set nach Ort, Licht, Mitwirkenden und verfügbaren Zeitfenstern.",
+          "Für eine Band oder einen Artist ist zunächst wichtig, welche Aufgabe die Bilder übernehmen: die Performance zeigen, eine Geschichte erzählen oder mit Licht und Formen arbeiten. Aus dieser Entscheidung entsteht der Plan. Einfache Skizzen und präzise Notizen können dafür reichen; der Umfang richtet sich nach dem Konzept."
+        ],
+        "table": {
+          "caption": "Storyboard, Shotlist und Drehplan im Musikvideo",
+          "columns": [
+            "Plan",
+            "Beantwortet",
+            "Enthält"
+          ],
+          "rows": [
+            [
+              "Storyboard",
+              "Wie folgt ein Bild auf das nächste?",
+              "Bildidee, Songabschnitt, Blickrichtung, Handlung und Übergang"
+            ],
+            [
+              "Shotlist",
+              "Welche Aufnahmen müssen entstehen?",
+              "Shot-ID, Motiv, Einstellungsgröße, Bewegung, Tonart und Priorität"
+            ],
+            [
+              "Drehplan",
+              "Wann und mit welchem Setup wird aufgenommen?",
+              "Ort, Aufbau, Licht, Personen, Reihenfolge und abgestimmte Zeitfenster"
+            ]
+          ]
+        },
+        "links": [
+          {
+            "label": "Musikvideo-Produktion für Bands und Artists",
+            "href": "/videografie/musikvideo/"
+          }
+        ]
+      },
+      {
+        "title": "Den Song in Abschnitte gliedern",
+        "copy": [
+          "Arbeiten Sie mit der für den Dreh vorgesehenen Songfassung. Benennen Sie Intro, Strophen, Refrains, Bridge und Ende mit ihren Timecodes. Notieren Sie, wo eine bestimmte Handlung, ein Bildwechsel oder eine Performance wichtig ist. Änderungen an der Songfassung müssen vor dem Dreh mit der Bildplanung abgeglichen werden.",
+          "Eine erste Übersicht kann für jeden Abschnitt eine Bildidee und eine offene Entscheidung enthalten. Bei einem Refrain könnte die Performance im Mittelpunkt stehen, während eine Strophe eine Handlung weiterführt. Diese Zuordnung ist ein Entwurf für die Abstimmung mit Kamera, Regie und Mitwirkenden; sie muss zum tatsächlichen Song und Produktionsrahmen passen."
+        ]
+      },
+      {
+        "title": "Das Storyboard verständlich machen",
+        "copy": [
+          "Zeigen Sie pro geplantem Bild, wer oder was im Ausschnitt zu sehen ist. Ergänzen Sie Handlung, Blickrichtung und gewünschte Kamerabewegung. Bei einer erzählenden Szene muss verständlich sein, wie Figuren und Orte zusammenhängen. Für eine Performance zählen Position, Hintergrund und die Beziehung zwischen Artist und Kamera.",
+          "Schreiben Sie offene Punkte direkt an das Bild: fehlender Drehort, noch ungeklärte Projektion, gewünschter Lichtwechsel oder notwendige Requisite. So wird sichtbar, welche Idee vor der Aufnahme geprüft werden muss. Die Adobe-Anleitung zur Musikvideo-Produktion empfiehlt, das Storyboard mit den Musikern abzustimmen und daraus eine Shotlist abzuleiten."
+        ],
+        "links": [
+          {
+            "label": "Licht, Tageszeit und Aufnahmeort vorbereiten",
+            "href": "/journal/drehen-nach-licht/"
+          }
+        ]
+      },
+      {
+        "title": "Aus Bildern wird eine Shotlist",
+        "copy": [
+          "Geben Sie jeder Einstellung eine eindeutige ID. Die Shotlist beschreibt Motiv, Handlung, Einstellungsgröße und Bewegung sowie die benötigte Performance oder Tonaufnahme. Markieren Sie, welche Bilder für das Konzept notwendig sind und welche bei zusätzlicher Zeit entstehen können. Eine Priorität hilft bei Entscheidungen am Set.",
+          "Das folgende Beispiel ist frei erfunden und zeigt nur die Struktur. Die Angaben legen weder Sophias Equipment noch die Besetzung oder Dauer Ihres Drehs fest. Eine leere CSV-Vorlage mit zusätzlichen Feldern für Licht, Format, Freigaben und Verantwortliche steht darunter zum Herunterladen."
+        ],
+        "table": {
+          "caption": "Fiktives Beispiel einer Musikvideo-Shotlist",
+          "columns": [
+            "ID / Songabschnitt",
+            "Motiv und Aktion",
+            "Aufnahme / Ton",
+            "Vorbereitung"
+          ],
+          "rows": [
+            [
+              "P01 / Refrain",
+              "Artist performt am vereinbarten Motiv",
+              "Totale; Playback zur freigegebenen Songfassung",
+              "Positionen, Hintergrund und Licht prüfen"
+            ],
+            [
+              "P02 / Refrain",
+              "Detail der Performance",
+              "Nahe Einstellung; Anschluss an P01",
+              "Bewegung, Kleidung und Blickrichtung abgleichen"
+            ],
+            [
+              "N01 / Strophe",
+              "Figur betritt einen Raum",
+              "Erzählendes Bild; Handlung ohne Live-Musikaufnahme",
+              "Zugang, Requisite, Anschluss und Freigabe klären"
+            ]
+          ]
+        },
+        "links": [
+          {
+            "label": "Leere Musikvideo-Shotlist und Drehplan-Vorlage herunterladen (CSV)",
+            "href": "/downloads/musikvideo-shotlist-drehplan.csv"
+          }
+        ]
+      },
+      {
+        "title": "Playback und Live-Session vorab festlegen",
+        "copy": [
+          "Ein Playback-Dreh verwendet die vereinbarte Musikaufnahme zur Performance. Die Aufnahmen müssen später zur richtigen Fassung passen. Legen Sie fest, wie der Song am Set zugespielt wird und wie sich die einzelnen Takes im Schnitt zuordnen lassen. Eine nachvollziehbare Take-Benennung gehört zur Übergabe.",
+          "Bei einer Live-Session entsteht die musikalische Aufnahme am Drehort. Kamera, Ton und Musiker brauchen dafür einen gemeinsam vorbereiteten Ablauf. Mikrofone, Aufnahmespuren, Raum, Proben und Zuständigkeiten werden mit den beteiligten Gewerken geklärt. Ein Kameraauftrag allein beschreibt noch keine vollständige Musikaufnahme."
+        ],
+        "links": [
+          {
+            "label": "Originalton und Tonaufnahme als Produktionsaufgabe",
+            "href": "/videografie/tonaufnahme/"
+          }
+        ]
+      },
+      {
+        "title": "Den Dreh nach Setups organisieren",
+        "copy": [
+          "Die Reihenfolge am Set kann von der späteren Bildfolge abweichen. Einstellungen mit demselben Ort, Licht und Aufbau lassen sich gemeinsam vorbereiten. Prüfen Sie dabei, ob Tageszeit, Zugang, Kleidung, Requisiten oder die Anwesenheit einzelner Personen die Reihenfolge bestimmen.",
+          "Der Drehplan enthält Aufbau, Probe, Aufnahme, Umbau und Pause als vereinbarte Zeitfenster. Notieren Sie einen Ausweichweg für wetterabhängige Motive. Halten Sie die gewünschte Bildkontinuität fest, damit ein geänderter Ablauf keine unbemerkten Anschlüsse erzeugt. Verbindliche Zeiten ergeben sich erst aus Motivbesichtigung und Produktionsplanung."
+        ]
+      },
+      {
+        "title": "Release-Fassungen und Freigaben mitplanen",
+        "copy": [
+          "Nennen Sie Hauptvideo, Teaser und gewünschte Bildformate bereits im Briefing. Ein Ausschnitt für Hochformat braucht passende Motive; Namen, Texte und Logos sollen in der vorgesehenen Fassung lesbar bleiben. Die Shotlist kann deshalb vermerken, für welche Ausspielung eine Einstellung gebraucht wird.",
+          "Song, Darstellung, Personen, Drehorte und fremdes Material werden mit ihrem Freigabestand erfasst. Zuständigkeiten und offene Entscheidungen gehören in den Plan. Für eine erste Anfrage helfen Songfassung, Release-Termin, Referenzen, Produktionsrahmen und die bisherige Planung. Sophia kann daraus Konzept, Kamera, Licht und Postproduktion als Aufgaben eingrenzen."
+        ],
+        "links": [
+          {
+            "label": "Budget und Kostenblöcke eines Musikvideos planen",
+            "href": "/journal/musikvideo-mit-kleinem-budget/"
+          },
+          {
+            "label": "Ein Musikvideo mit Sophia besprechen",
+            "href": "/kontakt/"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "label": "Adobe: Musikvideo-Produktion, Storyboard und Shotlist",
+        "href": "https://www.adobe.com/uk/creativecloud/video/discover/how-to-make-a-music-video.html"
+      }
+    ],
+    "sourcesContext": "Die Dokumentation ergänzt die Begriffs- und Ablaufklärung. Tabellen und CSV sind redaktionelle Planungshilfen; das ausgefüllte Beispiel zeigt keine reale Produktion.",
+    "related": [
+      {
+        "label": "Musikvideo-Kosten und Produktionsrahmen",
+        "href": "/journal/musikvideo-mit-kleinem-budget/"
+      },
+      {
+        "label": "Videoschnitt und Materialübergabe",
+        "href": "/journal/videoschnitt-material-vorbereiten/"
+      },
+      {
+        "label": "Musikvideo-Produktion",
+        "href": "/videografie/musikvideo/"
+      }
+    ]
+  },
+  {
+    "slug": "video-untertitel-srt-einbrennen",
+    "title": "Untertitel für Videos: SRT-Datei oder eingebrannt?",
+    "excerpt": "Untertitel für Interview-, Image- und Eventfilme: SRT, WebVTT und eingebrannte Texte vergleichen, automatische Fassungen prüfen und die Übergabe planen.",
+    "image": "/media/journal-01.jpg",
+    "publishedAt": "2026-10-09",
+    "sections": [
+      {
+        "title": "Die Veröffentlichung bestimmt die Untertitel-Fassung",
+        "copy": [
+          "Eine separate Untertiteldatei enthält Text und Zeitangaben, die ein unterstützender Player mit dem Video wiedergibt. Eingebrannte Untertitel werden beim Export Teil des Bildes. Welche Fassung passt, hängt vom Veröffentlichungsort, den Sprachversionen und den Möglichkeiten des Players ab.",
+          "Für ein Interviewporträt auf der Website kann eine zuschaltbare Textspur sinnvoll sein. Ein kurzer Film, der als Datei weitergegeben oder in wechselnden Umgebungen gezeigt wird, kann eine Fassung mit sichtbaren Untertiteln brauchen. Fragen Sie deshalb zuerst nach Website-Player, Videoplattform und weiteren Nutzungsorten. Eine zusätzliche Fassung wird als eigener Bestandteil des Auftrags vereinbart."
+        ],
+        "table": {
+          "caption": "Untertitel und Transkript für verschiedene Ausspielungen",
+          "columns": [
+            "Ausgabe",
+            "Was geliefert wird",
+            "Was vorher geprüft wird"
+          ],
+          "rows": [
+            [
+              "SRT-Datei",
+              "Textblöcke mit Start- und Endzeit; getrennt vom Video",
+              "Unterstützung der Zielplattform, Zeichenkodierung und richtige Filmfassung"
+            ],
+            [
+              "WebVTT-Datei",
+              "Textspur für einen passenden Web-Player",
+              "Einbindung, Sprachkennung, Wiedergabe und Player-Einstellungen"
+            ],
+            [
+              "Eingebrannte Untertitel",
+              "Ein Videofilm, dessen Bild den Text bereits enthält",
+              "Lesbarkeit, Position, Bildformat und gewünschte Sprachfassung"
+            ],
+            [
+              "Transkript",
+              "Ein lesbarer Text des gesprochenen Inhalts",
+              "Zweck und Darstellung; ohne passende Zeitangaben keine synchronisierte Textspur"
+            ]
+          ]
+        },
+        "links": [
+          {
+            "label": "Videoschnitt, Untertitel und Ausspielung besprechen",
+            "href": "/postproduktion/"
+          }
+        ]
+      },
+      {
+        "title": "SRT und WebVTT sind keine Gestaltungsvorlage",
+        "copy": [
+          "SRT verwendet nummerierte Textblöcke mit Start- und Endzeiten. YouTube unterstützt grundlegende SRT-Dateien in UTF-8 und übernimmt darin keine Formatierungs-Markups. Eine gewünschte Schrift oder Textposition lässt sich dort deshalb nicht durch beliebige SRT-Formatierung festlegen.",
+          "Für Web-Video wird unter anderem WebVTT verwendet. Die W3C-Dokumentation beschreibt Textspuren mit Zeitangaben; ob Einstellungen zur Darstellung übernommen werden, hängt vom Player ab. Vor der Auslieferung wird daher das unterstützte Dateiformat geprüft. Eine Dateiendung allein sagt noch nichts darüber aus, wie die Untertitel im Ziel-Player erscheinen."
+        ],
+        "example": {
+          "label": "Frei erfundenes SRT-Beispiel mit zwei Textblöcken",
+          "code": "1\n00:00:01,000 --> 00:00:04,000\nWir zeigen den Aufbau der Bühne.\n\n2\n00:00:04,500 --> 00:00:07,000\nDanach beginnt die Lichtprobe."
+        }
+      },
+      {
+        "title": "Untertitel zum Verständnis des Films schreiben",
+        "copy": [
+          "Untertitel in derselben Sprache können neben den gesprochenen Worten auch relevante Geräusche und Sprecherwechsel erfassen. Die W3C unterscheidet diese für das Verständnis nötigen Informationen von einer reinen Übersetzung der Dialoge. Ein Name oder ein Geräuschhinweis sollte dem Publikum helfen, die Szene einzuordnen.",
+          "Bei einem Interviewfilm werden Namen, Fachbegriffe und organisationsinterne Begriffe vor der Freigabe geprüft. Bei mehreren Stimmen muss nachvollziehbar bleiben, wer spricht. Stimmen Sie dafür eine Schreibweise und den gewünschten Umgang mit Sprecherangaben ab. Wie umfassend ein Film zugänglich gemacht wird, ist eine weitere Produktionsentscheidung; Untertitel allein beschreiben nicht die gesamte Barrierefreiheit."
+        ],
+        "links": [
+          {
+            "label": "Interview und Imagefilm vor dem Dreh vorbereiten",
+            "href": "/journal/imagefilm-interview-vorbereiten/"
+          }
+        ]
+      },
+      {
+        "title": "Automatische Untertitel am Bild und Ton kontrollieren",
+        "copy": [
+          "Automatische Erkennung kann eine erste Textfassung liefern. Die W3C weist darauf hin, dass solche Fassungen häufig Korrekturen benötigen. Kontrolliert werden Wortlaut, Sinn, Namen und das zeitliche Zusammenspiel mit dem Ton.",
+          "Prüfen Sie den ganzen Film in seiner tatsächlichen Exportfassung. Ein Textblock soll dann erscheinen, wenn die zugehörige Aussage zu hören ist; Wechsel und Pausen werden daran angepasst. Lesen Sie die Fassung auch ohne Ton, um fehlende Zusammenhänge zu erkennen. Fremdsprachige Texte benötigen eine sprachkundige Freigabe, die im Auftrag benannt wird.",
+          "Wenn der Schnitt nachträglich verändert wird, müssen die Zeitangaben erneut geprüft werden. Ein gekürzter Interviewbeginn oder ein neuer Zwischenschnitt kann eine bislang passende Textspur verschieben. Untertiteldatei und Film erhalten deshalb eine gemeinsame Versionszuordnung."
+        ],
+        "links": [
+          {
+            "label": "Material, Fassungen und Feedback für den Schnitt vorbereiten",
+            "href": "/journal/videoschnitt-material-vorbereiten/"
+          }
+        ]
+      },
+      {
+        "title": "Eingebrannte Texte im Zielbild prüfen",
+        "copy": [
+          "Ein im Bild liegender Text muss in der vorgesehenen Darstellung lesbar sein. Kontrollieren Sie Kontrast, Größe und Position an ruhigen wie bewegten Bildern. Gesichter, Namenseinblendungen und wichtige Bilddetails sollten dabei nicht unbeabsichtigt überdeckt werden.",
+          "Eine Querformat-Fassung und eine vertikale Fassung werden getrennt kontrolliert. Der Bildausschnitt und die Bedienelemente der jeweiligen Plattform können sich unterscheiden. Pauschale Positionswerte ersetzen diese Prüfung nicht. Nach dem Einbrennen lässt sich der Text nicht mehr als separate Spur abschalten oder wechseln; eine Korrektur benötigt einen neuen Videoexport."
+        ]
+      },
+      {
+        "title": "Eine eindeutige Übergabe vereinbaren",
+        "copy": [
+          "Halten Sie Filmversion, Sprache und Veröffentlichungsorte fest. Vereinbaren Sie, ob separate Textdateien, ein Transkript, eingebrannte Fassungen oder eine Kombination ausgeliefert werden sollen. Benennen Sie auch, wer Schreibweisen, Übersetzungen und den Inhalt freigibt.",
+          "Zum Paket können ein freigegebener Masterfilm, die zugehörige SRT- oder WebVTT-Datei und zusätzliche Videoexporte gehören. Welche davon technisch sinnvoll sind und zum Umfang zählen, wird anhand der Zielplattform geklärt. Für eine Anfrage an Sophia helfen Filmziel, vorhandenes Material, gewünschte Sprache, Nutzungsorte und Abgabetermin."
+        ],
+        "links": [
+          {
+            "label": "Untertitel als Teil der Postproduktion anfragen",
+            "href": "/kontakt/"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "label": "YouTube-Hilfe: unterstützte Untertiteldateien und SRT",
+        "href": "https://support.google.com/youtube/answer/2734698?hl=de"
+      },
+      {
+        "label": "W3C WAI: Captions und Subtitles für Audio und Video",
+        "href": "https://www.w3.org/WAI/media/av/captions/"
+      }
+    ],
+    "sourcesContext": "Die Quellen erläutern technische Formate und Zugänglichkeit. Plattformvorgaben werden für die konkrete Veröffentlichung erneut geprüft.",
+    "related": [
+      {
+        "label": "Videoschnitt und Postproduktion",
+        "href": "/postproduktion/"
+      },
+      {
+        "label": "Imagefilm und Interviewporträt",
+        "href": "/videografie/imagefilm/"
+      },
+      {
+        "label": "Originalton für Eventfilme vorbereiten",
+        "href": "/journal/warum-ton-beim-eventfilm-entscheidet/"
       }
     ]
   },

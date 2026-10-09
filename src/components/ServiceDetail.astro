@@ -238,6 +238,7 @@ const otherCityServices = location
             <p data-fx="rise">{paragraph}</p>
           ))}
           {journalArticle && <p data-fx="rise">Zur Vorbereitung: <a href={`/journal/${journalArticle.slug}/`}>{journalArticle.title}</a>.</p>}
+          {!location && service.planningLinks?.map((item) => <p data-fx="rise"><a href={item.href}>{item.label}</a></p>)}
         </div>
       </div>
     </section>

@@ -4,7 +4,12 @@ export function articleReadingTime(article: Pick<Article, "title" | "excerpt" | 
   const text = [
     article.title,
     article.excerpt,
-    ...article.sections.flatMap((section) => [section.title, ...section.copy]),
+    ...article.sections.flatMap((section) => [
+      section.title,
+      ...section.copy,
+      ...(section.table ? [section.table.caption, ...section.table.columns, ...section.table.rows.flat()] : []),
+      ...(section.example ? [section.example.label, section.example.code] : []),
+    ]),
   ].join(" ");
   const minutes = Math.max(1, Math.ceil(text.trim().split(/\s+/u).length / 200));
   return `ca. ${minutes} ${minutes === 1 ? "Minute" : "Minuten"}`;
