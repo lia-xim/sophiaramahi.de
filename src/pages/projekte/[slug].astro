@@ -31,10 +31,12 @@ const stillNumber = (offset: number) => String(offset + 1).padStart(2, "0");
 const schema = {
   "@context": "https://schema.org",
   "@type": "CreativeWork",
+  "@id": `https://sophiaramahi.de/projekte/${project.slug}/#work`,
+  url: `https://sophiaramahi.de/projekte/${project.slug}/`,
   name: project.title,
   description: project.seoDescription,
   image: project.gallery.map((item) => `https://sophiaramahi.de${item.src}`),
-  creator: { "@id": "https://sophiaramahi.de/#person" },
+  [project.schemaRole]: { "@id": "https://sophiaramahi.de/#person" },
   dateCreated: project.year,
   inLanguage: "de",
   genre: project.category,
@@ -135,6 +137,7 @@ const schema = {
             </div>
             <div class="pd-scene__copy" data-fx="rise">
               {section.copy.map((paragraph) => <p>{paragraph}</p>)}
+              {section.links?.map((item) => <p><a href={item.href}>{item.label}</a></p>)}
             </div>
           </div>
         </section>

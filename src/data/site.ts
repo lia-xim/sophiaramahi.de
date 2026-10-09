@@ -37,6 +37,7 @@ export type Service = {
 
 export type Project = {
   slug: string;
+  schemaRole: "creator" | "contributor";
   title: string;
   seoTitle?: string;
   category: string;
@@ -49,7 +50,7 @@ export type Project = {
   gallery: { src: string; alt: string }[];
   roles: string[];
   services: string[];
-  sections: { title: string; copy: string[] }[];
+  sections: { title: string; copy: string[]; links?: LinkItem[] }[];
   seoDescription: string;
   /* Optionale Ausbaustufen der Projektseite — alles darf fehlen:
      logline ersetzt die summary im Hero, heroPosition richtet das
@@ -86,6 +87,7 @@ export type Article = {
   updatedAt?: string;
   sections: { title: string; copy: string[]; links?: LinkItem[] }[];
   sources?: LinkItem[];
+  sourcesContext?: string;
   related: LinkItem[];
 };
 
@@ -246,6 +248,7 @@ export const services: Service[] = [
     seoDescription: "Musikvideo-Produktion aus Düsseldorf für Bands und Artists: Konzept, Kamera, Licht, Schnitt und Teaser. Planung passend zu Song und Produktionsrahmen.",
   },
   {
+    articleSlug: "imagefilm-interview-vorbereiten",
     heroTitle: "Imagefilm mit Interviews",
     slug: "imagefilm",
     parent: "videografie",
@@ -314,6 +317,7 @@ export const services: Service[] = [
     seoDescription: "Imagefilm und Interviewporträt aus Düsseldorf für Unternehmen, Kultur und Initiativen. Konzeption, Interviews, Kamera, Ton und Postproduktion.",
   },
   {
+    articleSlug: "drehen-nach-licht",
     projectContext: "Bei Electric Lights gehörten Kamera und Lichtgestaltung zu Sophias dokumentierten Beiträgen. Die Installation verbindet diese Arbeit mit Klang und Schnitt. Die Projektseite zeigt den Kontext und nennt die Mitwirkenden.",
     heroTitle: "Kamerafrau für Musik und Kultur",
     slug: "kamera-bildgestaltung",
@@ -409,6 +413,7 @@ export const services: Service[] = [
     seoDescription: "Originalton und Tonaufnahme für Interviews, Event-Statements und kleine Videoproduktionen in Düsseldorf und NRW. Vorbereitung mit Kamera und Produktion.",
   },
   {
+    articleSlug: "live-visuals-vj-briefing",
     projectContext: "Beim Spektra Festival gehörten visuelle Gestaltung, Live Visuals, Aufbau und technische Abstimmung zu Sophias Aufgaben. Die Projektbilder zeigen die Bühne und die Vorbereitung. Die ergänzende Lichtstudie Dark Lights ist als Fotografie ausgewiesen.",
     heroTitle: "VJ und Live Visuals",
     slug: "live-visuals",
@@ -551,6 +556,7 @@ export const services: Service[] = [
     seoDescription: "Projection Mapping aus Düsseldorf für Bühnen, Objekte und Ausstellungen. Visuelle Inhalte, Flächenplanung, Einrichtung und technische Abstimmung.",
   },
   {
+    articleSlug: "videoschnitt-material-vorbereiten",
     projectContext: "Electric Lights verbindet Sophias Schnitt und Klang-Komposition mit Kamera und Lichtgestaltung. Bei 24h to take entstanden Kurzfilme unter den Bedingungen eines Wettbewerbs. Die Projektseiten zeigen diese unterschiedlichen Produktionskontexte.",
     heroTitle: "Videoschnitt für Musik und Kultur",
     slug: "postproduktion",
@@ -596,6 +602,7 @@ export const services: Service[] = [
 
 export const projects: Project[] = [
   {
+    schemaRole: "creator",
     slug: "electric-lights",
     title: "Electric Lights",
     seoTitle: "Electric Lights im KIT | Audiovisuelle Installation",
@@ -617,12 +624,41 @@ export const projects: Project[] = [
     roles: ["Konzept", "Kamera und Lichtgestaltung", "Klang-Komposition", "Schnitt", "Ausstellung"],
     services: ["kamera-bildgestaltung", "tonaufnahme", "postproduktion", "projection-mapping"],
     sections: [
-      { title: "Die Idee", copy: ["Ausgangspunkt war die Frage, wie Licht emotional wirken kann, ohne nur dekorativ zu sein. Daraus entwickelte sich die Geschichte einer jungen Frau auf dem Heimweg. Die Eindrücke des Tages kehren als Farben, Klänge und Lichtspiele zurück.", "Die visuelle Richtung verbindet dunkle Science-Fiction-Stimmungen mit vertrauten, beinahe privaten Momenten. Der Film bleibt bewusst zwischen äußerer Realität und innerem Bild."] },
-      { title: "Bild und Klang als Einheit", copy: ["Lichtpulse, Farben und Übergänge wurden gemeinsam mit dem Sound entwickelt. So entstand kein Film mit nachträglicher Musik, sondern eine audiovisuelle Arbeit, bei der beide Ebenen voneinander abhängen.", "An dem Projekt wirkten Edda Mia Löhr, Thomas Klein und Konstantin Myrokis mit."] },
+      {
+        "title": "Die Idee",
+        "copy": [
+          "Ausgangspunkt war die Frage, wie Licht emotional wirken kann, ohne nur dekorativ zu sein. Daraus entwickelte sich die Geschichte einer jungen Frau auf dem Heimweg. Die Eindrücke des Tages kehren als Farben, Klänge und Lichtspiele zurück.",
+          "Die visuelle Richtung verbindet dunkle Science-Fiction-Stimmungen mit vertrauten, beinahe privaten Momenten. Der Film bleibt bewusst zwischen äußerer Realität und innerem Bild."
+        ],
+        "links": [
+          {
+            "label": "Kamera und Bildgestaltung für Musik- und Kulturproduktionen",
+            "href": "/videografie/kamera-bildgestaltung/"
+          },
+          {
+            "label": "Licht beim Videodreh vorbereiten",
+            "href": "/journal/drehen-nach-licht/"
+          }
+        ]
+      },
+      {
+        "title": "Bild und Klang als Einheit",
+        "copy": [
+          "Lichtpulse, Farben und Übergänge wurden gemeinsam mit dem Sound entwickelt. So entstand kein Film mit nachträglicher Musik, sondern eine audiovisuelle Arbeit, bei der beide Ebenen voneinander abhängen.",
+          "An dem Projekt wirkten Edda Mia Löhr, Thomas Klein und Konstantin Myrokis mit."
+        ],
+        "links": [
+          {
+            "label": "Videoschnitt und Postproduktion als eigenes Gewerk",
+            "href": "/postproduktion/"
+          }
+        ]
+      }
     ],
     seoDescription: "Electric Lights: audiovisuelle Installation von Sophia Ramahi über Licht, Klang und Emotion, gezeigt im KIT – Kunst im Tunnel Düsseldorf.",
   },
   {
+    schemaRole: "creator",
     slug: "dark-lights",
     title: "Dark Lights",
     seoTitle: "Dark Lights | Fotografie und Lichtstudie von Sophia Ramahi",
@@ -640,11 +676,24 @@ export const projects: Project[] = [
     roles: ["Bildidee", "Lichtgestaltung", "Fotografie"],
     services: ["kamera-bildgestaltung", "live-visuals"],
     sections: [
-      { title: "Reduktion statt Kulisse", copy: ["Die Bilder gewinnen ihre Wirkung nicht aus einem großen Set. Entscheidend sind Richtung und Farbe des Lichts, der Ausschnitt und die Nähe zur Person.", "Dark Lights bleibt deshalb als kurze, konzentrierte Serie lesbar – jedes Bild trägt allein, ohne Erklärung und ohne Kulisse."] },
+      {
+        "title": "Reduktion statt Kulisse",
+        "copy": [
+          "Die Bilder gewinnen ihre Wirkung nicht aus einem großen Set. Entscheidend sind Richtung und Farbe des Lichts, der Ausschnitt und die Nähe zur Person.",
+          "Dark Lights bleibt deshalb als kurze, konzentrierte Serie lesbar – jedes Bild trägt allein, ohne Erklärung und ohne Kulisse."
+        ],
+        "links": [
+          {
+            "label": "Licht, Aufnahmeort und Tageszeit beim Videodreh planen",
+            "href": "/journal/drehen-nach-licht/"
+          }
+        ]
+      }
     ],
     seoDescription: "Dark Lights ist eine fotografische Lichtstudie von Sophia Ramahi mit Farbe, Projektion und reduzierter Bildgestaltung.",
   },
   {
+    schemaRole: "contributor",
     slug: "24h-to-take",
     title: "24h to take",
     seoTitle: "24h to take Düsseldorf | Sophias Rollen im Videowettbewerb",
@@ -663,12 +712,35 @@ export const projects: Project[] = [
     roles: ["Teilnahme am Wettbewerb", "Design und Social Media", "Technikaufbau und -verleih", "Livestream-Support", "Jury"],
     services: ["eventfilm", "kamera-bildgestaltung", "postproduktion"],
     sections: [
-      { title: "Arbeiten unter Zeitdruck", copy: ["Als Teilnehmerin plante, filmte und schnitt Sophia gemeinsam mit einem Team bis zur letzten Minute. Wetter, Technik und knappe Entscheidungen gehörten zum Format – und mussten innerhalb des gesetzten Rahmens gelöst werden."] },
-      { title: "Mehr als der eigene Film", copy: ["In der Organisation arbeitete Sophia zunächst an Design und Social-Media-Kommunikation. Später kamen Technikaufbau, Verleih, Livestream-Bedienung und die Mitarbeit in der Jury hinzu. Dadurch verbindet das Projekt praktische Produktion mit Veranstaltungsorganisation."] },
+      {
+        "title": "Arbeiten unter Zeitdruck",
+        "copy": [
+          "Als Teilnehmerin plante, filmte und schnitt Sophia gemeinsam mit einem Team bis zur letzten Minute. Wetter, Technik und knappe Entscheidungen gehörten zum Format – und mussten innerhalb des gesetzten Rahmens gelöst werden."
+        ],
+        "links": [
+          {
+            "label": "Material und Feedback für einen Schnittauftrag vorbereiten",
+            "href": "/journal/videoschnitt-material-vorbereiten/"
+          }
+        ]
+      },
+      {
+        "title": "Mehr als der eigene Film",
+        "copy": [
+          "In der Organisation arbeitete Sophia zunächst an Design und Social-Media-Kommunikation. Später kamen Technikaufbau, Verleih, Livestream-Bedienung und die Mitarbeit in der Jury hinzu. Dadurch verbindet das Projekt praktische Produktion mit Veranstaltungsorganisation."
+        ],
+        "links": [
+          {
+            "label": "Eventfilm und Dokumentation für Veranstaltungen",
+            "href": "/videografie/eventfilm/"
+          }
+        ]
+      }
     ],
     seoDescription: "24h to take: Sophias Arbeit als Teilnehmerin, Organisatorin, Technik-Support und Jurymitglied beim Kurzfilmwettbewerb der Jungen Filmwerkstatt Düsseldorf.",
   },
   {
+    schemaRole: "contributor",
     slug: "spektra-festival",
     title: "Spektra Festival",
     seoTitle: "Spektra Festival | Live Visuals und Projektion",
@@ -691,7 +763,23 @@ export const projects: Project[] = [
     roles: ["Visuelle Gestaltung", "Live Visuals", "Aufbau und technische Abstimmung", "Dokumentation"],
     services: ["eventfilm", "live-visuals", "projection-mapping"],
     sections: [
-      { title: "Die Fläche gehört zur Gestaltung", copy: ["Die Projektionen reagieren auf Bühnenbild, Musiker und vorhandenes Licht. Dadurch entsteht kein isolierter Screen, sondern eine gemeinsame visuelle Umgebung.", "Aufbauaufnahmen und fertige Bühnenbilder stehen bewusst nebeneinander. Sie zeigen, dass Live Visuals ebenso viel technische Vorbereitung wie spontane Reaktion während der Veranstaltung brauchen."] },
+      {
+        "title": "Die Fläche gehört zur Gestaltung",
+        "copy": [
+          "Die Projektionen reagieren auf Bühnenbild, Musiker und vorhandenes Licht. Dadurch entsteht kein isolierter Screen, sondern eine gemeinsame visuelle Umgebung.",
+          "Aufbauaufnahmen und fertige Bühnenbilder stehen bewusst nebeneinander. Sie zeigen, dass Live Visuals ebenso viel technische Vorbereitung wie spontane Reaktion während der Veranstaltung brauchen."
+        ],
+        "links": [
+          {
+            "label": "Live Visuals für eine Veranstaltung vorbereiten",
+            "href": "/journal/live-visuals-vj-briefing/"
+          },
+          {
+            "label": "Die konkrete Fläche für Projection Mapping prüfen",
+            "href": "/journal/projection-mapping-vorbereitung/"
+          }
+        ]
+      }
     ],
     seoDescription: "Spektra Festival: Live Visuals, Projektion, Aufbau und Festivaldokumentation von Sophia Ramahi.",
   },
@@ -845,6 +933,13 @@ export const articles: Article[] = [
     related: [{ label: "Musikvideo", href: "/videografie/musikvideo/" }, { label: "Dark Lights", href: "/projekte/dark-lights/" }],
   },
   {
+    sourcesContext: "Die Dokumentation erläutert das technische Prinzip an einem Softwarebeispiel. Software, Flächen und Zuständigkeiten werden für die tatsächliche Installation geprüft.",
+    sources: [
+      {
+        "label": "Resolume: Ausgangstransformation für Projection Mapping",
+        "href": "https://www.resolume.com/support/de/output-transformation"
+      }
+    ],
     updatedAt: "2026-10-09",
     slug: "projection-mapping-vorbereitung",
     title: "Projection Mapping planen: Checkliste für die Anfrage",
@@ -852,6 +947,19 @@ export const articles: Article[] = [
     image: "/media/spektra-detail-02.jpg",
     publishedAt: "2026-08-12",
     sections: [
+      {
+        "title": "Was ist Projection Mapping?",
+        "copy": [
+          "Bei Projection Mapping wird ein projiziertes Bild an eine konkrete Fläche oder Form angepasst. Ausschnitte, Kanten und Perspektive werden so eingerichtet, dass die Gestaltung zum Objekt oder Bühnenbild passt. Die Fläche ist damit Teil der Bildidee; ein Video einfach auf eine freie Wand zu zeigen ist noch kein ausgearbeitetes Mapping-Konzept.",
+          "Die Gestaltung von Clips, die Anpassung ihrer Ausgabe und die Bereitstellung der Veranstaltungstechnik sind unterschiedliche Aufgaben. Auch live gemischte Bilder können auf eine vorbereitete Fläche ausgegeben werden. Für die Planung müssen Inhalt, Oberfläche, Projektorposition und Zuspielung zusammen betrachtet werden. Die folgenden sechs Fragen helfen, die Angaben dafür zu sammeln."
+        ],
+        "links": [
+          {
+            "label": "Live Visuals und Mapping im Auftrag unterscheiden",
+            "href": "/vj-mapping/"
+          }
+        ]
+      },
       {
         "title": "1. Welche Fläche soll bespielt werden?",
         "copy": [
@@ -910,6 +1018,7 @@ export const articles: Article[] = [
     related: [{ label: "Projection Mapping", href: "/vj-mapping/projection-mapping/" }, { label: "Spektra Festival", href: "/projekte/spektra-festival/" }],
   },
   {
+    sourcesContext: "Für den konkreten Dreh gelten die Angaben und Entscheidungen der zuständigen Stelle.",
     sources: [
       {
         "label": "Düsseldorf: Sondernutzung im öffentlichen Straßenraum",
@@ -1097,6 +1206,263 @@ export const articles: Article[] = [
       }
     ],
     related: [{ label: "Kamera & Bildgestaltung", href: "/videografie/kamera-bildgestaltung/" }, { label: "Musikvideo", href: "/videografie/musikvideo/" }],
+  },
+  {
+    "slug": "live-visuals-vj-briefing",
+    "title": "Live Visuals planen: VJ-Briefing für Konzerte und Festivals",
+    "excerpt": "Welche Angaben ein VJ-Briefing braucht: Musik, Setzeiten, Bildmaterial, Screens und Zuständigkeiten für Live Visuals bei Konzerten und Festivals.",
+    "image": "/media/spektra-buehne-01.jpg",
+    "publishedAt": "2026-10-09",
+    "sections": [
+      {
+        "title": "Was macht ein VJ bei einem Konzert?",
+        "copy": [
+          "Ein VJ wählt und mischt visuelles Material während einer Veranstaltung. Clips, Loops, Texturen oder Live-Bilder können auf Musik, Stimmung und Ablauf abgestimmt werden. Ob Bilder frei gemischt werden oder feste Sequenzen vorgesehen sind, gehört bereits ins Briefing.",
+          "Live Visuals beschreiben den Bildinhalt und seinen Live-Einsatz. Projection Mapping beschreibt die Anpassung einer Projektion an eine konkrete Fläche oder Form. Beides kann zusammenkommen: Ein Set wird live gespielt, während seine Ausgabe auf Teile eines Bühnenbilds verteilt ist. Dafür braucht es eine gemeinsame Planung von Material, Bildflächen und Technik."
+        ],
+        "links": [
+          {
+            "label": "Live Visuals und Projection Mapping als unterschiedliche Leistungen",
+            "href": "/vj-mapping/"
+          }
+        ]
+      },
+      {
+        "title": "Musik, Setzeiten und Bildsprache beschreiben",
+        "copy": [
+          "Nennen Sie Veranstaltung, Spielort, Line-up und geplante Setzeiten. Musikbeispiele helfen, die Richtung einzugrenzen. Ergänzen Sie, ob ein Act durchgehend begleitet wird, mehrere Sets wechseln oder Bilder auch in Umbaupausen laufen sollen. Künstlerische Wünsche werden an konkreten Referenzen besprochen.",
+          "Ein nützliches Briefing unterscheidet Stimmung von Materialbedarf. ‚Dunkel und rhythmisch‘ beschreibt eine Richtung; ein bestimmtes Logo, eine feste Textfolge oder Bildmaterial für jeden Song beschreibt zusätzliche Arbeit. Auch ruhige Passagen, Gesprächsteile und gewünschte Pausen sind relevant."
+        ]
+      },
+      {
+        "title": "Screens und Signalwege mit der Location klären",
+        "copy": [
+          "Fragen Sie nach einem Plan der Bildflächen, deren Auflösung und Seitenverhältnis sowie dem vorgesehenen Anschluss für die Zuspielung. Ein Foto der Bühne ist hilfreich, ersetzt aber keine technischen Angaben. Für mehrere Screens muss klar sein, ob alle dasselbe Bild erhalten oder unterschiedliche Ausschnitte zeigen sollen.",
+          "Benennen Sie die technische Ansprechperson und den Platz für die Zuspielung. Projektoren, LED-Screens, Signalverteilung und deren Einrichtung werden als Zuständigkeiten festgelegt. Eine VJ-Buchung enthält diese Technik nicht automatisch. Die Dokumentation von Resolume zeigt beispielhaft, wie Bildausschnitte unterschiedlichen Ausgaben zugeordnet werden können; daraus folgt keine Festlegung auf eine Software für Ihren Auftrag."
+        ]
+      },
+      {
+        "title": "Vorhandenes Material vor der Buchung sichten",
+        "copy": [
+          "Legen Sie bereitgestellte Clips, Logos und Texte in einer geordneten Materialliste ab. Geben Sie an, welche Inhalte verwendet werden müssen und welche nur als Referenz dienen. Format, Auflösung und Länge werden mit den geplanten Ausgaben abgeglichen. Materialanpassung oder neue Gestaltung wird im Umfang berücksichtigt.",
+          "Klären Sie, wer Inhalte zur Nutzung freigeben kann und für welche Veranstaltung sie vorgesehen sind. Fragen zu Musik, Bildern, Personen oder Marken werden vor dem Einsatz mit den jeweiligen Rechteinhabern geklärt. Die Freigabe für die Projektion beantwortet außerdem nicht automatisch, ob eine Veranstaltungsaufzeichnung später veröffentlicht werden darf."
+        ]
+      },
+      {
+        "title": "Aufbau, Probelauf und Änderungen einplanen",
+        "copy": [
+          "Der Ablauf enthält Ladezugang, Aufbau, technische Prüfung, Setbeginn und Abbau. Ein Probelauf sollte das tatsächliche Zusammenspiel von Bildern, Bühne und Licht zeigen. Benennen Sie auch, wann Künstler oder Veranstaltungstechnik für eine Abstimmung erreichbar sind.",
+          "Halten Sie Änderungen nachvollziehbar fest. Ein zusätzlicher Screen, neue Setzeiten oder Material kurz vor der Veranstaltung kann die Vorbereitung verändern. Ansprechpartner und ein Zeitpunkt für die Materialübergabe helfen, den Auftrag planbar zu halten. Bei Spektra sind visuelle Gestaltung, Live Visuals, Aufbau und technische Abstimmung als Sophias Aufgaben dokumentiert."
+        ],
+        "links": [
+          {
+            "label": "Spektra Festival: Bilder und Sophias Beitrag",
+            "href": "/projekte/spektra-festival/"
+          }
+        ]
+      },
+      {
+        "title": "Welche Angaben bestimmen die Kosten?",
+        "copy": [
+          "Vorbereitung, neu zu gestaltendes Material, Zahl und Anordnung der Bildflächen, Setdauer, Reise und technische Aufgaben beeinflussen den Aufwand. Ein kurzes Set kann viel eigene Materialgestaltung benötigen. Ein länger laufendes Set aus passendem, freigegebenem Material stellt andere Anforderungen.",
+          "Für eine erste Anfrage reichen Termin, Ort, Musikrichtung, Spielzeiten, Fotos oder ein Bühnenplan und Angaben zur vorhandenen Technik. Sagen Sie dazu, ob Inhalte bereits vorliegen. Auf dieser Grundlage lassen sich Gestaltung, Live-Einsatz und technische Bereitstellung getrennt besprechen; einen festen Preis ersetzt das Briefing nicht."
+        ],
+        "links": [
+          {
+            "label": "VJ und Live Visuals aus Düsseldorf anfragen",
+            "href": "/vj-mapping/live-visuals/"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "label": "Resolume: Advanced Output und Zuordnung von Bildausgaben",
+        "href": "https://www.resolume.com/support/advanced-output"
+      }
+    ],
+    "sourcesContext": "Die Software-Dokumentation dient als technisches Beispiel. Die passende Zuspielung wird mit der vorhandenen Veranstaltungstechnik abgestimmt.",
+    "related": [
+      {
+        "label": "Projection Mapping vorbereiten",
+        "href": "/journal/projection-mapping-vorbereitung/"
+      },
+      {
+        "label": "VJ und Live Visuals",
+        "href": "/vj-mapping/live-visuals/"
+      }
+    ]
+  },
+  {
+    "slug": "videoschnitt-material-vorbereiten",
+    "title": "Videoschnitt beauftragen: Material und Feedback vorbereiten",
+    "excerpt": "Videoschnitt mit vorhandenem Material planen: Dateien, Ton, Briefing, Korrekturrunden und Exporte vorbereiten, bevor die Postproduktion beginnt.",
+    "image": "/media/journal-02.jpg",
+    "publishedAt": "2026-10-09",
+    "sections": [
+      {
+        "title": "Zuerst Ziel und Fassungen festlegen",
+        "copy": [
+          "Wer Videoschnitt beauftragt, braucht neben dem Material eine Aussage: Was soll das Publikum nach dem Film verstehen oder tun? Nennen Sie Zielgruppe, geplante Nutzung und gewünschten Abgabetermin. Ein Beispielvideo kann Tempo oder Stimmung erklären, sollte aber nicht als kopierbare Vorlage verstanden werden.",
+          "Legen Sie fest, welche Fassungen gebraucht werden. Ein Hauptfilm für die Website, ein kurzer Ausschnitt für Social Media und eine Version mit Untertiteln sind unterschiedliche Auslieferungen. Anzahl, Seitenverhältnis, Länge und Sprache beeinflussen den Schnitt. Diese Angaben sollten vor der Materialsichtung zusammenstehen."
+        ],
+        "links": [
+          {
+            "label": "Videoschnitt und Postproduktion als eigenen Auftrag besprechen",
+            "href": "/postproduktion/"
+          }
+        ]
+      },
+      {
+        "title": "Originaldateien und Ton geordnet übergeben",
+        "copy": [
+          "Erstellen Sie eine Übersicht der Drehtage, Kameras und Tonaufnahmen. Bewahren Sie Dateinamen und zusammengehörige Ordner auf; eine zusätzliche Übersicht ist hilfreicher als ein nachträgliches, uneinheitliches Umbenennen. Sagen Sie dazu, ob Bild und Ton getrennt aufgenommen wurden und ob es Hinweise zur Zuordnung gibt.",
+          "Eine bereits exportierte Vorschau ersetzt das Ausgangsmaterial nicht. Benötigte Originaldateien, vorhandene Projektdateien und Austauschformate werden mit der Postproduktion abgestimmt. Übergeben Sie Material über einen vereinbarten Weg und behalten Sie eine Sicherung. Ein repräsentativer Ausschnitt kann vor der Beauftragung helfen, Format, Bild und Ton einzuschätzen."
+        ]
+      },
+      {
+        "title": "Was bei vorhandenen Schnittprojekten zusätzlich nötig ist",
+        "copy": [
+          "Soll ein begonnener Schnitt weiterbearbeitet werden, nennen Sie Software und Version sowie externe Schriften, Grafiken, Effekte und verknüpfte Dateien. Eine Projektdatei allein enthält nicht automatisch alle Medien. Fehlende Abhängigkeiten sollten vor einer Übergabe geklärt werden.",
+          "Premiere bietet beispielsweise einen Projektmanager, der verwendete Dateien an einen neuen Speicherort kopieren kann. Bei verknüpften Kompositionen, Schriften oder Effekten wird vor der Übergabe geprüft, welche Dateien und Abhängigkeiten zusätzlich benötigt werden. Das ist ein Softwarebeispiel und keine Zusage, dass jedes bestehende Projekt unverändert übernommen werden kann."
+        ]
+      },
+      {
+        "title": "Rechte und inhaltliche Entscheidungen mitliefern",
+        "copy": [
+          "Markieren Sie freigegebene Aussagen, Pflichtinhalte, gesperrte Aufnahmen und bekannte Einschränkungen. Bei Interviews helfen Sprecherzuordnung und Hinweise zu besonders wichtigen Stellen. Bei einem Eventfilm sind ein Ablaufplan und die Namen der Programmpunkte nützlich.",
+          "Musik, Grafiken und fremde Aufnahmen benötigen eine zur geplanten Nutzung passende Freigabe. Halten Sie fest, wer diese Angaben bestätigt und wer den fertigen Film inhaltlich abnimmt. Diese Entscheidungen kann ein Schnittplatz nicht aus den Dateien ableiten. Noch offene Rechtefragen gehören in die Planung, bevor eine Fassung zur Veröffentlichung vorbereitet wird."
+        ],
+        "links": [
+          {
+            "label": "Aufnahmen und Originalton beim Eventfilm vorbereiten",
+            "href": "/journal/warum-ton-beim-eventfilm-entscheidet/"
+          }
+        ]
+      },
+      {
+        "title": "Feedback an einer konkreten Fassung sammeln",
+        "copy": [
+          "Benennen Sie eine Person, die Rückmeldungen des Teams zusammenführt. Feedback sollte die betrachtete Fassung und die betreffende Stelle eindeutig nennen. Ein Zeitcode mit einer konkreten Anmerkung ist besser umsetzbar als mehrere widersprüchliche Nachrichten ohne Bezug zum gleichen Stand.",
+          "Trennen Sie sachliche Korrekturen von einer veränderten Zielsetzung. Ein falsch geschriebener Name ist eine andere Aufgabe als ein neuer Aufbau des Films oder eine zusätzliche Sprachfassung. Anzahl der Korrekturrunden und Umgang mit erweitertem Umfang werden im Angebot vereinbart. So bleiben Entscheidungen und Änderungen nachvollziehbar."
+        ]
+      },
+      {
+        "title": "Was Videoschnitt kostet und was ausgeliefert wird",
+        "copy": [
+          "Der Aufwand hängt von Materialmenge und Sichtung, Erzählstruktur, Tonzustand, Grafik, Farbgestaltung, Untertiteln und Fassungen ab. Die Länge des fertigen Videos allein ist deshalb keine belastbare Kalkulationsgrundlage. Notwendige Aufbereitung von Fremdmaterial wird nach Sichtung eingegrenzt.",
+          "Zur Auslieferung werden Masterdateien, Plattformfassungen, Untertitel und gegebenenfalls Projekt- oder Archivmaterial ausdrücklich benannt. Technische Vorgaben der Zielplattform werden vor dem Export geprüft. Für die Anfrage braucht Sophia Ziel, Nutzungsorte, Frist, eine Materialübersicht und Beispielmaterial. Welche Bestandteile des Auftrags sie übernimmt, wird daran anschließend festgelegt."
+        ],
+        "links": [
+          {
+            "label": "Vorhandenes Material für einen Schnittauftrag anfragen",
+            "href": "/kontakt/"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "label": "Adobe Premiere: Projekte und verwendete Medien kopieren",
+        "href": "https://helpx.adobe.com/premiere/desktop/organize-media/create-projects/copy-project.html"
+      }
+    ],
+    "sourcesContext": "Das Premiere-Beispiel erläutert eine mögliche Projektübergabe. Software, Abhängigkeiten und Austauschformate werden für das konkrete Material vereinbart.",
+    "related": [
+      {
+        "label": "Videoschnitt und Postproduktion",
+        "href": "/postproduktion/"
+      },
+      {
+        "label": "Eventfilm-Kosten und Produktionsumfang",
+        "href": "/journal/was-einen-eventfilm-teuer-macht/"
+      }
+    ]
+  },
+  {
+    "slug": "imagefilm-interview-vorbereiten",
+    "title": "Imagefilm mit Interviews: Fragen und Dreh vorbereiten",
+    "excerpt": "Ein Interviewporträt für Unternehmen, Kultur oder Initiativen vorbereiten: Aussagen, Fragen, Drehorte, Originalton und ergänzende Bilder planen.",
+    "image": "/media/journal-01.jpg",
+    "publishedAt": "2026-10-09",
+    "sections": [
+      {
+        "title": "Was soll der Film erklären?",
+        "copy": [
+          "Ein Imagefilm mit Interviews kann eine Organisation durch Menschen und ihre konkrete Arbeit verständlich machen. Dafür braucht es eine klare Frage: Was soll jemand erfahren, der Ihren Betrieb, Ihre Initiative oder Ihre kulturelle Einrichtung noch nicht kennt? Eine Liste aller Leistungen beantwortet das oft weniger gut als eine ausgewählte Aufgabe mit nachvollziehbarem Ablauf.",
+          "Beschreiben Sie Zielgruppe und Nutzung, bevor Gesprächspartner ausgewählt werden. Ein Film für die Website braucht nicht dieselben Informationen wie eine interne Einführung oder eine kurze Fassung für eine Veranstaltung. Für ein Interviewporträt werden Gespräch, Arbeitsbilder und spätere Fassungen als gemeinsames Konzept geplant."
+        ],
+        "links": [
+          {
+            "label": "Imagefilm und Interviewporträt aus Düsseldorf",
+            "href": "/videografie/imagefilm/"
+          }
+        ]
+      },
+      {
+        "title": "Fragen, die zu konkreten Antworten führen",
+        "copy": [
+          "Fragen Sie nach einer Tätigkeit, einer Entscheidung oder einem Beispiel. ‚Was passiert als Erstes, wenn eine neue Anfrage eingeht?‘ ist konkreter als ‚Was macht Sie besonders?‘ Eine Person kann so ihre Arbeit erklären, statt allgemeine Werbesätze zu wiederholen. Auch Begriffe, die nur intern bekannt sind, brauchen eine Erklärung.",
+          "Ein Fragenplan kann drei Aufgaben verbinden: die Person vorstellen, ihre Arbeit nachvollziehbar machen und die Bedeutung für das Publikum erklären. Fragen wie ‚Woran merken Sie, dass dieser Schritt gelungen ist?‘ oder ‚Was muss vorher vorbereitet werden?‘ geben Gesprächspartnern eine Richtung. Welche Fragen zum Projekt passen, wird im Briefing besprochen; auswendig gelernte Antworten sind keine Voraussetzung."
+        ]
+      },
+      {
+        "title": "Gesprächspartner und Aufnahmeort auswählen",
+        "copy": [
+          "Wählen Sie Personen, die die vorgesehenen Themen aus ihrer tatsächlichen Arbeit erklären können und auftreten möchten. Klären Sie Termin, verfügbare Zeit, Namensschreibweise und Funktionsbezeichnung. Wer die Aussagen später freigibt, sollte bereits vor dem Drehtag feststehen.",
+          "Ein geeigneter Ort muss Bild und Ton ermöglichen. Prüfen Sie störende Gespräche, Maschinen, Verkehr und Lüftung sowie mögliche Veränderungen des Tageslichts. Ein Raum, der im Alltag ruhig wirkt, kann während des Betriebs anders klingen. Aufbau und Probeaufnahme gehören deshalb ins Drehfenster; ein Gespräch wird nicht erst beim Eintreffen der Kamera eingeplant."
+        ],
+        "links": [
+          {
+            "label": "Originalton für Interviews und Drehs planen",
+            "href": "/videografie/tonaufnahme/"
+          }
+        ]
+      },
+      {
+        "title": "Ergänzende Arbeitsbilder vorbereiten",
+        "copy": [
+          "Das Interview liefert Aussagen; ergänzende Bilder können zeigen, wovon gesprochen wird. Notieren Sie Tätigkeiten, Orte und Details, die zum Gespräch passen. Prüfen Sie, wann diese Vorgänge tatsächlich stattfinden und welche Bereiche für einen Dreh zugänglich sind.",
+          "Planen Sie nicht nur eine Sammlung beliebiger Motive. Wenn eine Person einen Ablauf erklärt, sollten passende Schritte und Details dafür erreichbar sein. Kundendaten, vertrauliche Unterlagen und nicht freigegebene Bereiche werden vorab benannt. Ein kurzer Motivplan verbindet Interviewthemen und Arbeitsbilder, ohne eine komplette Produktion vorwegzunehmen."
+        ],
+        "links": [
+          {
+            "label": "Licht, Tageszeit und Aufnahmeort vorbereiten",
+            "href": "/journal/drehen-nach-licht/"
+          }
+        ]
+      },
+      {
+        "title": "Freigaben und Fassungen im Briefing festhalten",
+        "copy": [
+          "Klären Sie mit den Beteiligten, wer auftreten darf, welche Bereiche gezeigt werden und wo der Film veröffentlicht werden soll. Musik, Fotos oder zusätzliches Material werden mit ihren Nutzungsrechten erfasst. Bei offenen Fragen werden die zuständigen Personen oder Rechteinhaber einbezogen; eine Drehzusage allein klärt nicht jede spätere Verwendung.",
+          "Benennen Sie gewünschte Sprachen, Untertitel, Hoch- und Querformate und kurze Auszüge. Eine zusätzliche Version kann andere Aussagen oder Bildausschnitte benötigen. Für die Korrekturphase werden eine verantwortliche Ansprechperson und ein gemeinsamer Freigabeweg festgelegt."
+        ]
+      },
+      {
+        "title": "Was für eine erste Anfrage genügt",
+        "copy": [
+          "Nennen Sie Organisation, Ziel des Films, vorgesehenen Drehort und Zeitraum. Ergänzen Sie mögliche Gesprächspartner, Themen, Arbeitsmotive, geplante Nutzung und Abgabetermin. Falls Material vorhanden ist, geben Sie eine Übersicht und den Stand seiner Freigabe an.",
+          "Sophia kann damit Konzept, Interviews, Kamera, Ton und Postproduktion als Aufgaben eingrenzen. Zahl der Personen und Orte, Drehfenster, Materialmenge und Fassungen bestimmen den weiteren Umfang. Verbindliche Kosten und Termine ergeben sich aus dem konkreten Angebot; dieser Fragenplan ist eine Vorbereitung dafür."
+        ],
+        "links": [
+          {
+            "label": "Ein Interviewporträt oder einen Imagefilm besprechen",
+            "href": "/kontakt/"
+          }
+        ]
+      }
+    ],
+    "related": [
+      {
+        "label": "Imagefilm und Interviewporträt",
+        "href": "/videografie/imagefilm/"
+      },
+      {
+        "label": "Material und Feedback für den Videoschnitt vorbereiten",
+        "href": "/journal/videoschnitt-material-vorbereiten/"
+      }
+    ]
   },
 ];
 

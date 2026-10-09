@@ -118,6 +118,7 @@ const schema = [
   {
     "@context": "https://schema.org",
     "@type": "Service",
+    "@id": `https://sophiaramahi.de${location ? localPath(location) : basePath}#service`,
     name: location ? `${service.title} in ${location.city}` : service.title,
     description,
     provider: { "@id": "https://sophiaramahi.de/#business" },
@@ -236,6 +237,7 @@ const otherCityServices = location
           {introParagraphs.map((paragraph) => (
             <p data-fx="rise">{paragraph}</p>
           ))}
+          {journalArticle && <p data-fx="rise">Zur Vorbereitung: <a href={`/journal/${journalArticle.slug}/`}>{journalArticle.title}</a>.</p>}
         </div>
       </div>
     </section>

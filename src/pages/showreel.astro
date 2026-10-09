@@ -19,7 +19,6 @@ const schema = {
   uploadDate: "2024-11-19T16:43:21+00:00",
   duration: "PT48S",
   contentUrl: "https://sophiaramahi.de/media/showreel.mp4",
-  embedUrl: "https://sophiaramahi.de/showreel/",
   creator: { "@id": "https://sophiaramahi.de/#person" },
 };
 
@@ -28,7 +27,7 @@ const instagram = site.social.find((item) => item.label === "Instagram")!;
 const linkedin = site.social.find((item) => item.label === "LinkedIn")!;
 ---
 
-<BaseLayout title={title} description={description} image="/media/electric-lights-cover.jpg" imageAlt="Showreel von Sophia Ramahi" schema={schema}>
+<BaseLayout title={title} description={description} image="/media/hero-poster.jpg" imageAlt="Showreel von Sophia Ramahi" schema={schema}>
   <div data-landing>
     <!-- 1 · Kinosaal -->
     <section class="sr-player">
@@ -78,7 +77,7 @@ const linkedin = site.social.find((item) => item.label === "LinkedIn")!;
         <h2>Bewegte Bilder zwischen Set und Bühne</h2>
       </div>
       <div class="ld-split__prose" data-fx="rise">
-        <p>Das Showreel bündelt Ausschnitte aus Kameraarbeit, Lichtgestaltung, Event- und Kulturproduktionen sowie Live Visuals. Die einzelnen Projekte und Sophias konkrete Aufgaben sind im Portfolio nachvollziehbar dokumentiert.</p>
+        <p>Das Showreel bündelt Ausschnitte aus Kameraarbeit, Lichtgestaltung, Event- und Kulturproduktionen sowie Live Visuals. Die <a href="/arbeiten/">einzelnen Projekte und Sophias konkrete Aufgaben</a> sind im Portfolio nachvollziehbar dokumentiert.</p>
         <p>Für ein Angebot sind Anlass, Ort, Zeitraum und gewünschte Ausspielung die wichtigsten ersten Angaben.</p>
       </div>
     </section>

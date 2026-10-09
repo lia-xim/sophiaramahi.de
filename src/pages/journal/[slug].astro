@@ -15,16 +15,16 @@ const ordered=[...articles].sort((a,b)=>b.publishedAt.localeCompare(a.publishedA
 const position=ordered.findIndex((item)=>item.slug===article.slug);
 const previousArticle=position>0?ordered[position-1]:null;
 const nextArticle=position<ordered.length-1?ordered[position+1]:null;
-const schema={"@context":"https://schema.org","@type":"BlogPosting",headline:article.title,description:article.excerpt,image:`https://sophiaramahi.de${article.image}`,datePublished:article.publishedAt,dateModified:article.updatedAt??article.publishedAt,author:{"@id":"https://sophiaramahi.de/#person"},mainEntityOfPage:`https://sophiaramahi.de/journal/${article.slug}/`};
+const schema={"@context":"https://schema.org","@type":"BlogPosting","@id":`https://sophiaramahi.de/journal/${article.slug}/#article`,headline:article.title,description:article.excerpt,image:`https://sophiaramahi.de${article.image}`,datePublished:article.publishedAt,dateModified:article.updatedAt??article.publishedAt,author:{"@id":"https://sophiaramahi.de/#person"},mainEntityOfPage:`https://sophiaramahi.de/journal/${article.slug}/`};
 ---
-<BaseLayout title={article.title} description={article.excerpt} image={article.image} imageAlt={article.title} article publishedAt={article.publishedAt} schema={schema}>
+<BaseLayout title={article.title} description={article.excerpt} image={article.image} imageAlt={article.title} article publishedAt={article.publishedAt} modifiedAt={article.updatedAt??article.publishedAt} schema={schema}>
   <span class="article-progress" aria-hidden="true"><i data-article-progress></i></span>
   <article data-article>
     <header class="article-hero cine-wrap"><Breadcrumbs items={[{label:"Start",href:"/"},{label:"Journal",href:"/journal/"},{label:article.title}]} /><span class="cine-label">{date} · {articleReadingTime(article)}</span><h1 class="cine-display">{article.title}</h1><p class="cine-lead">{article.excerpt}</p><Pic src={article.image} sizes="(min-width: 1240px) 1160px, 94vw" alt={article.title} width="1400" height="850" loading="eager" fetchpriority="high" /></header>
     <div class="article-body cine-wrap">
       {updatedDate && <p class="u-meta">Inhaltlich aktualisiert am {updatedDate}</p>}
       {article.sections.map((section)=><section data-reveal><h2>{section.title}</h2>{section.copy.map((paragraph)=><p>{paragraph}</p>)}{section.links?.map((item)=><p><a href={item.href}>{item.label}</a></p>)}</section>)}
-      {article.sources && <section data-reveal><h2>Offizielle Anlaufstellen</h2><p>Geprüft am {updatedDate??date}. Für den konkreten Dreh gelten die Angaben und Entscheidungen der zuständigen Stelle.</p>{article.sources.map((item)=><p><a href={item.href}>{item.label}</a></p>)}</section>}
+      {article.sources && <section data-reveal><h2>Quellen und Dokumentation</h2><p>Quellenstand: {updatedDate??date}. {article.sourcesContext}</p>{article.sources.map((item)=><p><a href={item.href}>{item.label}</a></p>)}</section>}
       <aside><span class="cine-label">Weiterlesen</span>{article.related.map((item)=><ArrowLink href={item.href} label={item.label} />)}</aside>
     </div>
     <nav class="article-turn cine-wrap" aria-label="Weitere Beiträge">

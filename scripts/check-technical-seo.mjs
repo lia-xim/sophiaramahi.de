@@ -140,7 +140,18 @@ for (const [route, page] of pages) {
   const jsonBlocks = [...html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi)];
   if (jsonBlocks.length === 0) failures.push(`${route}: JSON-LD missing`);
   for (const [, json] of jsonBlocks) {
-    try { JSON.parse(json); } catch { failures.push(`${route}: invalid JSON-LD`); }
+    try {
+      const parsed = JSON.parse(json);
+      const nodes = parsed["@graph"] ?? [parsed];
+      const article = nodes.find((node) => node["@type"] === "BlogPosting");
+      if (article) {
+        const published = content(html, /<meta property="article:published_time" content="([^"]+)"/i);
+        const modified = content(html, /<meta property="article:modified_time" content="([^"]+)"/i);
+        if (published !== article.datePublished || modified !== article.dateModified) {
+          failures.push(`${route}: article dates disagree between JSON-LD and Open Graph`);
+        }
+      }
+    } catch { failures.push(`${route}: invalid JSON-LD`); }
   }
   if (!html.includes('"@type":"WebPage"') && !html.includes('"@type":"ContactPage"')) failures.push(`${route}: WebPage-compatible schema missing`);
   if (!noindex && route !== "/" && route !== "/404/" && !html.includes('"@type":"BreadcrumbList"')) warnings.push(`${route}: breadcrumb schema missing`);

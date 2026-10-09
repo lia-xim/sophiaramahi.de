@@ -42,6 +42,9 @@ const pathname = Astro.url.pathname;
 const customSchema = (schema ? (Array.isArray(schema) ? schema : [schema]) : []).map(
   ({ "@context": _context, ...node }) => node,
 );
+const mainEntity = customSchema.find((node) =>
+  ["Service", "BlogPosting", "VideoObject", "CreativeWork"].includes(String(node["@type"])) && typeof node["@id"] === "string",
+);
 const graph = [
   {
     "@type": "WebSite",
@@ -110,6 +113,7 @@ const graph = [
     inLanguage: "de-DE",
     isPartOf: { "@id": `${site.url}/#website` },
     about: { "@id": `${site.url}/#business` },
+    ...(mainEntity ? { mainEntity: { "@id": mainEntity["@id"] } } : {}),
     primaryImageOfPage: {
       "@type": "ImageObject",
       contentUrl: imageUrl.toString(),
