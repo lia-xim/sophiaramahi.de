@@ -8,9 +8,19 @@ import Pic from "../../components/Pic.astro";
 
 // Neueste Notizen zuerst — das Array in site.ts bleibt chronologisch gewachsen.
 const sorted = [...articles].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+const topics = [
+  { id: "filmplanung", title: "Filmkonzept, Budget und Drehplanung", lead: "Vom ersten Briefing bis zum Drehtag: Musikvideo, Interviewfilm, Kosten, Licht und Freigaben vorbereiten.", slugs: ["drehgenehmigung-nrw", "was-einen-eventfilm-teuer-macht", "drehen-nach-licht", "musikvideo-mit-kleinem-budget", "imagefilm-interview-vorbereiten", "musikvideo-storyboard-drehplan"], services: [{ label: "Musikvideo-Produktion", href: "/videografie/musikvideo/" }, { label: "Imagefilm und Interviewporträt", href: "/videografie/imagefilm/" }, { label: "Eventfilm", href: "/videografie/eventfilm/" }] },
+  { id: "ton-schnitt", title: "Originalton, Videoschnitt und Untertitel", lead: "Tonaufnahmen, Materialübergabe und Fassungen so abstimmen, dass Bild, Ton und Texte zusammenpassen.", slugs: ["warum-ton-beim-eventfilm-entscheidet", "videoschnitt-material-vorbereiten", "video-untertitel-srt-einbrennen"], services: [{ label: "Tonaufnahme", href: "/videografie/tonaufnahme/" }, { label: "Videoschnitt und Postproduktion", href: "/postproduktion/" }] },
+  { id: "live-visuals", title: "Live Visuals und Projection Mapping", lead: "Bildflächen, Inhalte, Signalwege und Zuständigkeiten für Bühnen, Events und Ausstellungen klären.", slugs: ["live-visuals-vj-briefing", "projection-mapping-vorbereitung"], services: [{ label: "VJ und Live Visuals", href: "/vj-mapping/live-visuals/" }, { label: "Projection Mapping", href: "/vj-mapping/projection-mapping/" }] },
+];
+const grouped = topics.flatMap((topic) => topic.slugs);
+if (grouped.length !== articles.length || new Set(grouped).size !== articles.length || articles.some((article) => !grouped.includes(article.slug))) throw new Error("Journal-Themen müssen jeden Beitrag genau einmal enthalten.");
 ---
-<BaseLayout title="Journal | Videoproduktion, Ton & Visuals aus der Praxis" description="Praxiswissen von Sophia Ramahi zu Videoproduktion, Ton, Musikvideo, Live Visuals und Projection Mapping.">
-  <PageHero title="Journal" lead="Konkrete Notizen zu Kamera, Ton, Vorbereitung und visuellen Räumen – ohne Universalrezepte." image="/media/journal-01.jpg" alt="Detail einer Videoproduktion" crumbs={[{label:"Start",href:"/"},{label:"Journal"}]} />
-  <section class="section cine-wrap"><div class="article-grid">{sorted.map((article)=><a class="article-card" href={`/journal/${article.slug}/`} data-reveal><Pic src={article.image} sizes="(min-width: 861px) 31vw, 94vw" width="900" height="600" /><span>{articleReadingTime(article)}</span><h2>{article.title}</h2><p>{article.excerpt}</p></a>)}</div></section>
+<BaseLayout title="Videoproduktion planen: Konzept, Ton & Visuals | Journal" description="Ratgeber zur Videoproduktion: Musikvideo- und Imagefilm-Konzept, Budget, Dreh, Ton, Videoschnitt, Untertitel, Live Visuals und Projection Mapping planen.">
+  <PageHero title="Videoproduktion planen" lead="Planungshilfen für Musik- und Kulturprojekte, Veranstalter und Unternehmen: vom Filmkonzept über Kamera und Ton bis zu Schnitt, Untertiteln und Live Visuals." image="/media/journal-01.jpg" alt="Detail einer Videoproduktion" crumbs={[{label:"Start",href:"/"},{label:"Journal"}]} />
+  {topics.map((topic) => <section class="section cine-wrap" id={topic.id}>
+    <header class="section-heading"><h2>{topic.title}</h2><p class="cine-lead">{topic.lead}</p><p>Passende Leistungen: {topic.services.map((service, index) => <>{index > 0 && " · "}<a href={service.href}>{service.label}</a></>)}.</p></header>
+    <div class="article-grid">{sorted.filter((article) => topic.slugs.includes(article.slug)).map((article)=><a class="article-card" href={`/journal/${article.slug}/`} data-reveal><Pic src={article.image} sizes="(min-width: 861px) 31vw, 94vw" width="900" height="600" /><span>{articleReadingTime(article)}</span><h3>{article.title}</h3><p>{article.excerpt}</p></a>)}</div>
+  </section>)}
   <ContactCta />
 </BaseLayout>

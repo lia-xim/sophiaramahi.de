@@ -22,8 +22,10 @@ const schema={"@context":"https://schema.org","@type":"BlogPosting","@id":`https
   <article data-article>
     <header class="article-hero cine-wrap"><Breadcrumbs items={[{label:"Start",href:"/"},{label:"Journal",href:"/journal/"},{label:article.title}]} /><span class="cine-label">{date} · {articleReadingTime(article)}</span><h1 class="cine-display">{article.title}</h1><p class="cine-lead">{article.excerpt}</p><Pic src={article.image} sizes="(min-width: 1240px) 1160px, 94vw" alt={article.title} width="1400" height="850" loading="eager" fetchpriority="high" /></header>
     <div class="article-body cine-wrap">
+      <p class="u-meta">Journal von <a href="/ueber-sophia/">Sophia Ramahi</a></p>
       {updatedDate && <p class="u-meta">Inhaltlich aktualisiert am {updatedDate}</p>}
-      {article.sections.map((section)=><section data-reveal>
+      <nav class="article-toc" aria-label="Abschnitte dieses Beitrags"><p class="u-meta">In diesem Beitrag</p><ol>{article.sections.map((section, index) => <li><a href={`#abschnitt-${index + 1}`}>{section.title}</a></li>)}{article.sources && <li><a href="#quellen">Quellen und Dokumentation</a></li>}</ol></nav>
+      {article.sections.map((section, index)=><section id={`abschnitt-${index + 1}`} data-reveal>
         <h2>{section.title}</h2>
         {section.copy.map((paragraph)=><p>{paragraph}</p>)}
         {section.table && <div class="article-table-scroll" tabindex="0" role="region" aria-label={section.table.caption}>
@@ -36,7 +38,7 @@ const schema={"@context":"https://schema.org","@type":"BlogPosting","@id":`https
         {section.example && <figure class="article-code"><figcaption>{section.example.label}</figcaption><pre><code>{section.example.code}</code></pre></figure>}
         {section.links?.map((item)=><p><a href={item.href}>{item.label}</a></p>)}
       </section>)}
-      {article.sources && <section data-reveal><h2>Quellen und Dokumentation</h2><p>Quellenstand: {updatedDate??date}. {article.sourcesContext}</p>{article.sources.map((item)=><p><a href={item.href}>{item.label}</a></p>)}</section>}
+      {article.sources && <section id="quellen" data-reveal><h2>Quellen und Dokumentation</h2><p>Quellenstand: {updatedDate??date}. {article.sourcesContext}</p>{article.sources.map((item)=><p><a href={item.href}>{item.label}</a></p>)}</section>}
       <aside><span class="cine-label">Weiterlesen</span>{article.related.map((item)=><ArrowLink href={item.href} label={item.label} />)}</aside>
     </div>
     <nav class="article-turn cine-wrap" aria-label="Weitere Beiträge">
@@ -61,6 +63,9 @@ const schema={"@context":"https://schema.org","@type":"BlogPosting","@id":`https
 </BaseLayout>
 
 <style>
+  .article-toc { margin-block: 1rem 3rem; }
+  .article-toc ol { display: grid; gap: 0.65rem; padding-left: 1.25rem; line-height: 1.65; }
+  .article-body section[id] { scroll-margin-top: 110px; }
   .article-table-scroll { max-width: 100%; overflow-x: auto; margin-block: 1.5rem; border: 1px solid var(--line); border-radius: 8px; }
   .article-table-scroll:focus-visible { outline: 2px solid var(--violet); outline-offset: 4px; }
   table { width: 100%; min-width: 640px; border-collapse: collapse; text-align: left; font-size: 0.95rem; line-height: 1.65; }

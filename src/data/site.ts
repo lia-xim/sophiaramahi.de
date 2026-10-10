@@ -1476,10 +1476,11 @@ export const articles: Article[] = [
   },
   {
     "slug": "imagefilm-interview-vorbereiten",
-    "title": "Imagefilm mit Interviews: Fragen und Dreh vorbereiten",
-    "excerpt": "Ein Interviewporträt für Unternehmen, Kultur oder Initiativen vorbereiten: Aussagen, Fragen, Drehorte, Originalton und ergänzende Bilder planen.",
+    "title": "Imagefilm-Konzept: Interviews, Fragen und Dreh planen",
+    "excerpt": "Ein Imagefilm-Konzept mit Interviews vorbereiten: Zielgruppe, Aussagen, Fragen und Arbeitsbilder festlegen. Mit einer leeren Konzept-Vorlage als CSV.",
     "image": "/media/journal-01.jpg",
     "publishedAt": "2026-10-09",
+    "updatedAt": "2026-10-10",
     "sections": [
       {
         "title": "Was soll der Film erklären?",
@@ -1493,6 +1494,26 @@ export const articles: Article[] = [
             "href": "/videografie/imagefilm/"
           }
         ]
+      },
+      {
+        "title": "Eine Imagefilm-Konzept-Vorlage ausfüllen",
+        "copy": [
+          "Ein erstes Konzept verbindet die Aussage des Films mit den Menschen und Bildern, die sie nachvollziehbar machen. Schreiben Sie auf, wen der Film erreichen soll, welche Frage er beantwortet und welche konkrete Arbeit dafür gezeigt werden kann. Daraus entstehen Interviewthemen und ein Motivplan.",
+          "Die Vorlage ist ein leeres Briefing für diese Abstimmung. Sie enthält weder eine fertige Geschichte noch einen festen Produktionsumfang. Tragen Sie nur Angaben ein, die Sie für Ihr Projekt kennen, und markieren Sie offene Entscheidungen. Personen, Aufnahmeorte, Nutzungsorte und Freigaben werden vor dem Dreh gemeinsam geklärt."
+        ],
+        "table": {
+          "caption": "Bausteine für ein Imagefilm-Konzept mit Interviews",
+          "columns": ["Baustein", "Frage für das Briefing", "Was daraus geplant wird"],
+          "rows": [
+            ["Zielgruppe und Filmziel", "Wer soll nach dem Film was verstanden haben?", "Themenauswahl und Schwerpunkt"],
+            ["Kernaussage", "Welche konkrete Arbeit oder Aufgabe macht das Thema verständlich?", "Nachvollziehbare Aussage statt allgemeiner Werbesätze"],
+            ["Gesprächspartner", "Wer kann die ausgewählte Aufgabe aus eigener Arbeit erklären?", "Interviewthemen und verfügbare Personen"],
+            ["Arbeitsbilder", "Welche Abläufe, Orte und Details passen zu den Aussagen?", "Motivliste und erreichbare Drehfenster"],
+            ["Ausspielung", "Wo wird der Film genutzt und welche Fassungen werden gebraucht?", "Bildformate, Sprachen und Untertitel"],
+            ["Rahmen und Freigaben", "Welche Termine, Ressourcen und Zuständigkeiten sind geklärt?", "Angebotsumfang und gemeinsamer Freigabeweg"]
+          ]
+        },
+        "links": [{ "label": "Leere Imagefilm-Konzept-Vorlage herunterladen (CSV)", "href": "/downloads/imagefilm-konzept-briefing.csv" }]
       },
       {
         "title": "Fragen, die zu konkreten Antworten führen",
