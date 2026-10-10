@@ -21,6 +21,14 @@ main {
   min-height: 70vh;
 }
 
+/* Lange deutsche Überschriften müssen innerhalb ihrer Textspalte bleiben. */
+:where(h1, h2, h3, h4, h5, h6) {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
 /* AVIF-Auslieferung über <picture> (Pic.astro): layoutneutral —
    Grids und Positionierung greifen weiter direkt auf das img. */
 picture {
@@ -62,6 +70,10 @@ picture {
   align-items: start;
   width: 100%;
   text-align: left;
+}
+
+.content-grid > * {
+  min-width: 0;
 }
 
 .content-grid__aside {

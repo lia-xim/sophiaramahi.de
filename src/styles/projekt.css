@@ -345,12 +345,17 @@ html.motion .pd-hero__cue i {
   align-items: start;
 }
 
+.pd-scene__inner > * {
+  min-width: 0;
+}
+
 .pd-scene--flip .pd-scene__inner > :first-child {
   order: 1;
 }
 
 .pd-scene__head {
   display: grid;
+  container-type: inline-size;
   gap: 12px;
   justify-items: start;
 }
@@ -359,6 +364,7 @@ html.motion .pd-hero__cue i {
   margin: 0;
   font-family: var(--font-display);
   font-size: clamp(1.9rem, 3.8vw, 3.4rem);
+  font-size: clamp(1.7rem, 10cqi, 3.4rem);
   font-weight: 600;
   font-stretch: 108%;
   line-height: 1.05;
@@ -373,6 +379,7 @@ html.motion .pd-hero__cue i {
   display: grid;
   gap: 1em;
   max-width: 58ch;
+  overflow-wrap: anywhere;
 }
 
 .pd-scene__copy p {
@@ -908,7 +915,7 @@ html.motion .pd-finale__portal {
     gap: 20px;
   }
 
-  .pd-scene:nth-of-type(even) .pd-scene__inner > :first-child {
+  .pd-scene--flip .pd-scene__inner > :first-child {
     order: 0;
   }
 
