@@ -30,7 +30,7 @@ const turnstileSiteKey = process.env.PUBLIC_TURNSTILE_SITE_KEY ?? import.meta.en
         <div class="kn-intro">
           <Breadcrumbs items={[{ label: "Start", href: "/" }, { label: "Kontakt" }]} />
           <h1 class="kn-title">Der nächste Film beginnt mit einem <em>Gespräch</em>.</h1>
-          <p class="kn-lead">Vier Angaben reichen für den Anfang: Was soll entstehen, wo, ungefähr wann und wofür? Alles Weitere klärt sich im Gespräch.</p>
+          <p class="kn-lead">Was soll entstehen, wo, wann und wofür? Nennen Sie außerdem, ob Sie einen fertigen Film, ein einzelnes Gewerk oder Visuals für eine Veranstaltung brauchen. Offene Punkte klärt Sophia im Gespräch.</p>
 
           <div class="kn-direct">
             <span class="cine-label">Direkter Draht</span>
@@ -93,6 +93,7 @@ const turnstileSiteKey = process.env.PUBLIC_TURNSTILE_SITE_KEY ?? import.meta.en
           </div>
           <noscript><p class="kn-status">Für den sicheren Formularversand aktivieren Sie bitte JavaScript oder schreiben Sie direkt an <a href={`mailto:${site.email}`}>{site.email}</a>.</p></noscript>
           <p class="kn-note"><span aria-hidden="true">*</span> Pflichtfeld. Die Angaben werden verschlüsselt übertragen, nicht auf dieser Website gespeichert und nur zur Beantwortung der Anfrage verwendet. Details in der <a href="/datenschutz/">Datenschutzerklärung</a>.</p>
+          <p class="kn-note">Für Filmprojekte helfen gewünschte Fassungen und vorhandenes Material. Für Visuals helfen Screen- oder Flächenangaben und der Kontakt zur Veranstaltungstechnik. Als Vorbereitung können Sie die <a href="/journal/">Briefing-Hilfen und Vorlagen</a> nutzen.</p>
         </form>
       </div>
     </section>

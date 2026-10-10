@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 340" role="img" aria-labelledby="title desc">
+  <title id="title">Schematischer Vergleich von Querformat und Hochformat</title>
+  <desc id="desc">Im Querformat liegen eine zentrale Figur und seitliche Motive im Bild. Der mittige Hochformat-Ausschnitt erhält die Figur und schneidet die seitlichen Motive ab.</desc>
+  <defs><clipPath id="crop"><rect x="665" y="60" width="121.5" height="216"/></clipPath></defs>
+  <rect width="900" height="340" fill="#15111e"/>
+  <rect x="40" y="60" width="384" height="216" fill="#312243" stroke="#cdbbe8" stroke-width="3"/>
+  <g fill="#cdbbe8"><circle cx="232" cy="123" r="22"/><path d="M185 238v-70q47-38 94 0v70z"/><circle cx="100" cy="186" r="24"/><rect x="341" y="158" width="46" height="70"/></g>
+  <g clip-path="url(#crop)"><rect x="533.75" y="60" width="384" height="216" fill="#312243"/><g fill="#cdbbe8" transform="translate(493.75 0)"><circle cx="232" cy="123" r="22"/><path d="M185 238v-70q47-38 94 0v70z"/><circle cx="100" cy="186" r="24"/><rect x="341" y="158" width="46" height="70"/></g></g>
+  <rect x="665" y="60" width="121.5" height="216" fill="none" stroke="#cdbbe8" stroke-width="3"/>
+  <g fill="#eee6f8" font-family="sans-serif" font-size="18"><text x="40" y="32">16:9 · Querformat</text><text x="613" y="32">9:16 · mittiger Ausschnitt</text><text x="40" y="317" font-size="16">Eigene schematische Zeichnung. Neue Ausschnitte müssen am tatsächlichen Film geprüft werden.</text></g>
+</svg>

@@ -8,6 +8,7 @@ import { articleReadingTime } from "../../lib/article-reading-time";
 import Pic from "../../components/Pic.astro";
 export function getStaticPaths(){return articles.map((article)=>({params:{slug:article.slug},props:{article}}));}
 const {article}=Astro.props as {article:Article};
+const imageAlt = article.imageAlt ?? article.title;
 const date=new Intl.DateTimeFormat("de-DE",{dateStyle:"long"}).format(new Date(article.publishedAt));
 const updatedDate=article.updatedAt?new Intl.DateTimeFormat("de-DE",{dateStyle:"long"}).format(new Date(article.updatedAt)):null;
 // Blättern in Lesereihenfolge: neueste zuerst, wie auf der Übersicht.
@@ -17,10 +18,10 @@ const previousArticle=position>0?ordered[position-1]:null;
 const nextArticle=position<ordered.length-1?ordered[position+1]:null;
 const schema={"@context":"https://schema.org","@type":"BlogPosting","@id":`https://sophiaramahi.de/journal/${article.slug}/#article`,headline:article.title,description:article.excerpt,image:`https://sophiaramahi.de${article.image}`,datePublished:article.publishedAt,dateModified:article.updatedAt??article.publishedAt,author:{"@id":"https://sophiaramahi.de/#person"},mainEntityOfPage:`https://sophiaramahi.de/journal/${article.slug}/`};
 ---
-<BaseLayout title={article.title} description={article.excerpt} image={article.image} imageAlt={article.title} article publishedAt={article.publishedAt} modifiedAt={article.updatedAt??article.publishedAt} schema={schema}>
+<BaseLayout title={article.title} description={article.excerpt} image={article.image} imageAlt={imageAlt} article publishedAt={article.publishedAt} modifiedAt={article.updatedAt??article.publishedAt} schema={schema}>
   <span class="article-progress" aria-hidden="true"><i data-article-progress></i></span>
   <article data-article>
-    <header class="article-hero cine-wrap"><Breadcrumbs items={[{label:"Start",href:"/"},{label:"Journal",href:"/journal/"},{label:article.title}]} /><span class="cine-label">{date} · {articleReadingTime(article)}</span><h1 class="cine-display">{article.title}</h1><p class="cine-lead">{article.excerpt}</p><Pic src={article.image} sizes="(min-width: 1240px) 1160px, 94vw" alt={article.title} width="1400" height="850" loading="eager" fetchpriority="high" /></header>
+    <header class="article-hero cine-wrap"><Breadcrumbs items={[{label:"Start",href:"/"},{label:"Journal",href:"/journal/"},{label:article.title}]} /><span class="cine-label">{date} · {articleReadingTime(article)}</span><h1 class="cine-display">{article.title}</h1><p class="cine-lead">{article.excerpt}</p><Pic src={article.image} sizes="(min-width: 1240px) 1160px, 94vw" alt={imageAlt} width="1400" height="850" loading="eager" fetchpriority="high" /></header>
     <div class="article-body cine-wrap">
       <p class="u-meta">Journal von <a href="/ueber-sophia/">Sophia Ramahi</a></p>
       {updatedDate && <p class="u-meta">Inhaltlich aktualisiert am {updatedDate}</p>}
@@ -36,6 +37,7 @@ const schema={"@context":"https://schema.org","@type":"BlogPosting","@id":`https
           </table>
         </div>}
         {section.example && <figure class="article-code"><figcaption>{section.example.label}</figcaption><pre><code>{section.example.code}</code></pre></figure>}
+        {section.figure && <figure class="article-diagram"><img src={section.figure.src} alt={section.figure.alt} width="900" height="340" loading="lazy" /><figcaption>{section.figure.caption}</figcaption></figure>}
         {section.links?.map((item)=><p><a href={item.href}>{item.label}</a></p>)}
       </section>)}
       {article.sources && <section id="quellen" data-reveal><h2>Quellen und Dokumentation</h2><p>Quellenstand: {updatedDate??date}. {article.sourcesContext}</p>{article.sources.map((item)=><p><a href={item.href}>{item.label}</a></p>)}</section>}
@@ -44,13 +46,13 @@ const schema={"@context":"https://schema.org","@type":"BlogPosting","@id":`https
     <nav class="article-turn cine-wrap" aria-label="Weitere Beiträge">
       {previousArticle ? (
         <a class="article-turn__card" href={`/journal/${previousArticle.slug}/`} rel="prev">
-          <span class="u-meta">← Neuerer Beitrag</span>
+          <span class="u-meta">← Vorheriger Beitrag</span>
           <span class="article-turn__title">{previousArticle.title}</span>
         </a>
       ) : <span class="article-turn__card article-turn__card--empty" aria-hidden="true"></span>}
       {nextArticle ? (
         <a class="article-turn__card article-turn__card--next" href={`/journal/${nextArticle.slug}/`} rel="next">
-          <span class="u-meta">Älterer Beitrag →</span>
+          <span class="u-meta">Nächster Beitrag →</span>
           <span class="article-turn__title">{nextArticle.title}</span>
         </a>
       ) : <span class="article-turn__card article-turn__card--empty" aria-hidden="true"></span>}
@@ -63,6 +65,7 @@ const schema={"@context":"https://schema.org","@type":"BlogPosting","@id":`https
 </BaseLayout>
 
 <style>
+  .article-hero h1 { overflow-wrap: anywhere; hyphens: auto; }
   .article-toc { margin-block: 1rem 3rem; }
   .article-toc ol { display: grid; gap: 0.65rem; padding-left: 1.25rem; line-height: 1.65; }
   .article-body section[id] { scroll-margin-top: 110px; }
@@ -76,4 +79,7 @@ const schema={"@context":"https://schema.org","@type":"BlogPosting","@id":`https
   .article-code { margin: 1.5rem 0; min-width: 0; }
   .article-code figcaption { color: #c2bdca; margin-bottom: 0.75rem; }
   .article-code pre { max-width: 100%; overflow-x: auto; padding: 1rem; border: 1px solid var(--line); border-radius: 8px; font-size: 0.9rem; line-height: 1.7; }
+  .article-diagram { margin: 1.5rem 0; }
+  .article-diagram img { display: block; width: 100%; height: auto; }
+  .article-diagram figcaption { margin-top: 0.75rem; color: #c2bdca; }
 </style>

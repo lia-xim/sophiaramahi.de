@@ -6,6 +6,7 @@ import PageHero from "../../components/PageHero.astro";
 import { locations, services, servicePath, type Location } from "../../data/site";
 import { localCopy } from "../../data/local";
 import { cityProfiles } from "../../data/local/profiles";
+import { regionalPlanning } from "../../data/regional-planning";
 
 // Standortseite = einziger geografischer Hub der Stadt. Die Karten ordnen
 // das regionale Profil den zentralen Leistungsseiten zu; eigene
@@ -14,6 +15,8 @@ export function getStaticPaths() {
   return locations.map((location) => ({ params: { slug: location.slug }, props: { location } }));
 }
 const { location } = Astro.props as { location: Location };
+const planning = regionalPlanning[location.slug];
+if (!planning) throw new Error(`Regionale Planung fehlt für ${location.slug}`);
 
 const profile = cityProfiles[location.slug];
 const cityCopy = localCopy[location.slug];
@@ -90,6 +93,10 @@ const schema = [
       <h2 class="cine-h2">Häufige Fragen zu {location.city}</h2>
     </div>
     <FaqList items={faq} />
+  </section>
+  <section class="section cine-wrap section--split">
+    <div data-reveal><span class="cine-label">Das Briefing vorbereiten</span><h2 class="cine-h2">{planning.title}</h2></div>
+    <div class="prose" data-reveal><p>{planning.copy}</p>{planning.links.map((item) => <p><a href={item.href}>{item.label}</a></p>)}</div>
   </section>
   <ContactCta title={`Produktion in ${location.city} anfragen`} />
 </BaseLayout>

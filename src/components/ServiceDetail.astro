@@ -332,6 +332,19 @@ const otherCityServices = location
       </div>
     </section>
 
+    {!location && service.planning && (
+      <section class="cine-wrap sd-faq" aria-label="Briefing und Auftragsumfang">
+        <div class="sd-head" data-fx="rise"><span class="cine-label">Vor der Buchung</span><h2 class="cine-h2">Briefing und Auftragsumfang</h2></div>
+        <div class="prose">
+          {service.planning.map((item) => <section>
+            <h3>{item.title}</h3>
+            {item.copy.map((paragraph) => <p>{paragraph}</p>)}
+            {item.links?.map((link) => <p><a href={link.href}>{link.label}</a></p>)}
+          </section>)}
+        </div>
+      </section>
+    )}
+
     <!-- Ablauf als Filmstreifen -->
     <section class="sd-process">
       <div class="cine-wrap">

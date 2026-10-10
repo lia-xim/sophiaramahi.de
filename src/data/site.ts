@@ -1,3 +1,6 @@
+import { extendArticle, extendProject, extendService } from "./content-expansion";
+import { productionGuides } from "./production-guides";
+
 export type LinkItem = { label: string; href: string };
 
 export type Service = {
@@ -26,6 +29,8 @@ export type Service = {
   articleSlug?: string;
   /** Ergänzende Planungshilfen mit einer eigenen Suchintention. */
   planningLinks?: LinkItem[];
+  /** Konkrete Buchungs- und Briefingfragen auf der zentralen Leistungsseite. */
+  planning?: { title: string; copy: string[]; links?: LinkItem[] }[];
   /** Individuelle Vertiefung der Landingpage: drei Facetten des Gewerks. */
   focus: { label: string; title: string; lead: string; items: { title: string; copy: string }[] };
   /** Individuelle Sektionsüberschriften — keine Seite liest sich wie die Kopie einer anderen. */
@@ -85,6 +90,7 @@ export type Article = {
   title: string;
   excerpt: string;
   image: string;
+  imageAlt?: string;
   publishedAt: string;
   updatedAt?: string;
   sections: {
@@ -93,6 +99,7 @@ export type Article = {
     links?: LinkItem[];
     table?: { caption: string; columns: string[]; rows: string[][] };
     example?: { label: string; code: string };
+    figure?: { src: string; alt: string; caption: string };
   }[];
   sources?: LinkItem[];
   sourcesContext?: string;
@@ -114,7 +121,7 @@ export const site = {
   ] satisfies LinkItem[],
 };
 
-export const services: Service[] = [
+const servicesBase: Service[] = [
   {
     projectContext: "Beim Spektra Festival gehörten Live Visuals, Aufbau, technische Abstimmung und Dokumentation zu Sophias Aufgaben. 24h to take zeigt ihre Arbeit im Kurzfilmwettbewerb sowie in Organisation und Technik. Die Projektseiten nennen diese Beiträge einzeln.",
     heroTitle: "Eventfilm für Kultur und Festivals",
@@ -630,7 +637,9 @@ export const services: Service[] = [
   },
 ];
 
-export const projects: Project[] = [
+export const services: Service[] = servicesBase.map(extendService);
+
+const projectsBase: Project[] = [
   {
     schemaRole: "creator",
     slug: "electric-lights",
@@ -815,6 +824,8 @@ export const projects: Project[] = [
   },
 ];
 
+export const projects: Project[] = projectsBase.map(extendProject);
+
 const locationSeed: Omit<Location, "services" | "faq" | "image" | "indexable">[] = [
   { slug: "duesseldorf", city: "Düsseldorf", region: "Basis", distance: "0 km", intro: "Sophias Basis liegt in Düsseldorf. Vorgespräche, kleine Vorproduktionen und viele Drehs lassen sich dadurch ohne lange Anfahrt planen.", localAngle: "Kulturorte, Musik, freie Szene, Agenturen und Unternehmen liegen hier eng beieinander. Für Drehs innerhalb der Stadt können Besichtigung und Produktion oft getrennt und pragmatisch organisiert werden.", logistics: "Anfahrt innerhalb Düsseldorfs wird im Angebot transparent ausgewiesen. Technik, Park- oder Ladezugang und Drehgenehmigungen werden projektbezogen geprüft." },
   { slug: "koeln", city: "Köln", region: "Rheinland", distance: "ca. 40 km", intro: "Musik-, Kultur- und Eventproduktionen in Köln werden von Düsseldorf aus geplant. Aufbau, Spielzeiten und Reise gehören ins Briefing.", localAngle: "Bei Innenstadt-Locations, Messe- oder Studioproduktionen lohnt sich eine frühe Klärung von Ladewegen, Parkmöglichkeiten, Lärm und Zeitfenstern.", logistics: "Die Anfahrt wird ab Düsseldorf kalkuliert. Bei frühen Starts oder mehrtägigen Produktionen werden Zeitplan und mögliche Übernachtung vorab vereinbart." },
@@ -845,7 +856,7 @@ export const locations: Location[] = locationSeed.map((item, index) => ({
   indexable: ["duesseldorf", "koeln"].includes(item.slug),
 }));
 
-export const articles: Article[] = [
+const articlesBase: Article[] = [
   {
     updatedAt: "2026-10-09",
     slug: "warum-ton-beim-eventfilm-entscheidet",
@@ -1887,6 +1898,8 @@ export const articles: Article[] = [
     ]
   },
 ];
+
+export const articles: Article[] = [...articlesBase.map(extendArticle), ...productionGuides];
 
 export const servicePath = (service: Service) => {
   if (service.slug === "postproduktion") return "/postproduktion/";
